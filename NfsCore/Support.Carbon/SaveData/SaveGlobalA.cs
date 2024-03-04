@@ -12,7 +12,7 @@ namespace NfsCore.Support.Carbon
         /// <param name="GlobalA_dir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalA(string GlobalA_dir, Database.Carbon db)
+        public static bool SaveGlobalA(string GlobalA_dir, Database.CarbonDb db)
         {
             GlobalA_dir += @"\GLOBAL\GlobalA.bun";
 

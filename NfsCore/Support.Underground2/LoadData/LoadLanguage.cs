@@ -13,7 +13,7 @@ namespace NfsCore.Support.Underground2
         /// <param name="languageDir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadLanguage(string languageDir, Database.Underground2 db)
+        public static unsafe bool LoadLanguage(string languageDir, Database.Underground2Db db)
         {
             languageDir += @"\LANGUAGES\";
 

@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Class
         public CarTypeInfo() { }
 
         // Default constructor: create new cartypeinfo
-        public CarTypeInfo(string CName, Database.Underground2 db)
+        public CarTypeInfo(string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -27,7 +27,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: disassemble cartypeinfo
-        public unsafe CarTypeInfo(IntPtr byteptr_t, string CName, Database.Underground2 db)
+        public unsafe CarTypeInfo(IntPtr byteptr_t, string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this._collection_name = CName;

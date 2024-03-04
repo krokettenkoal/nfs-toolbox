@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2
 {
 	public static partial class LoadData
 	{
-		private static unsafe void E_CarSkins(byte* byteptr_t, uint length, Database.Underground2 db)
+		private static unsafe void E_CarSkins(byte* byteptr_t, uint length, Database.Underground2Db db)
 		{
 			const uint size = 0x40;
 			var map = new Dictionary<int, string>();

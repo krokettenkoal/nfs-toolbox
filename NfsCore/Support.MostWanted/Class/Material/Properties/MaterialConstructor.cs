@@ -9,7 +9,7 @@ namespace NfsCore.Support.MostWanted.Class
         public Material() { }
 
         // Default constructor: create new material
-        public Material(string CName, Database.MostWanted db)
+        public Material(string CName, Database.MostWantedDb db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -17,7 +17,7 @@ namespace NfsCore.Support.MostWanted.Class
         }
 
         // Default constructor: disassemble material
-        public unsafe Material(System.IntPtr byteptr_t, string CName, Database.MostWanted db)
+        public unsafe Material(System.IntPtr byteptr_t, string CName, Database.MostWantedDb db)
         {
             this.Database = db;
             this._collection_name = CName;

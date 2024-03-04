@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe void ReadGCarUnlocks(byte* byteptr_t, int[] PartOffsets, Database.Underground2 db)
+		private static unsafe void ReadGCarUnlocks(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
 		{
 			if (PartOffsets[13] == -1) return; // if car unlocks block does not exist
 			if (*(uint*)(byteptr_t + PartOffsets[13]) != CareerInfo.CAR_UNLOCKS_BLOCK)

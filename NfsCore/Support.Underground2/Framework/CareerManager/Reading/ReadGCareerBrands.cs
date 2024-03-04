@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe void ReadGCareerBrands(byte* byteptr_t, int[] PartOffsets, Database.Underground2 db)
+		private static unsafe void ReadGCareerBrands(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
 		{
 			if (PartOffsets[3] == -1) return; // if career brands block does not exist
 			if (*(uint*)(byteptr_t + PartOffsets[3]) != CareerInfo.BRAND_BLOCK)

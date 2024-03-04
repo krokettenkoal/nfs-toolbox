@@ -11,7 +11,7 @@ namespace NfsCore.Support.Carbon.Class
         public CarTypeInfo() { }
 
         // Default constructor: create new cartypeinfo
-        public CarTypeInfo(string CName, Database.Carbon db)
+        public CarTypeInfo(string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -29,7 +29,7 @@ namespace NfsCore.Support.Carbon.Class
         }
 
         // Default constructor: disassemble cartypeinfo
-        public unsafe CarTypeInfo(IntPtr byteptr_t, string CName, Database.Carbon db)
+        public unsafe CarTypeInfo(IntPtr byteptr_t, string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this._collection_name = CName;

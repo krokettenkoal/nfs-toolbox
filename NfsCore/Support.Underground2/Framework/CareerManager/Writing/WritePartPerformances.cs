@@ -6,7 +6,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe byte[] WritePartPerformances(Database.Underground2 db)
+		private static unsafe byte[] WritePartPerformances(Database.Underground2Db db)
 		{
 			var result = new byte[0x2C90]; // max size of perf part block
 			int offset = 8; // for calculating offsets

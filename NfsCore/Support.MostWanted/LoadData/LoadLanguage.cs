@@ -13,7 +13,7 @@ namespace NfsCore.Support.MostWanted
         /// <param name="languageDir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadLanguage(string languageDir, Database.MostWanted db)
+        public static unsafe bool LoadLanguage(string languageDir, Database.MostWantedDb db)
         {
             languageDir += @"\LANGUAGES\";
 

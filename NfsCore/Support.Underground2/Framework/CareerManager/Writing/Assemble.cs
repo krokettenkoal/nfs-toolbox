@@ -8,7 +8,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		public static unsafe void Assemble(BinaryWriter bw, Database.Underground2 db)
+		public static unsafe void Assemble(BinaryWriter bw, Database.Underground2Db db)
 		{
 			// Initialize MemoryWriter for string block to its maximum size
 			var mw = new MemoryWriter(0xFFFF);

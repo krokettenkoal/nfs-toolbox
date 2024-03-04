@@ -18,6 +18,6 @@ namespace NfsCore.Support.Underground2.Gameplay
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public Database.Underground2 Database { get; set; }
+        public Database.Underground2Db Database { get; set; }
     }
 }

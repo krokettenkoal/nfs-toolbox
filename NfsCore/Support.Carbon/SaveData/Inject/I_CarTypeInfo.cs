@@ -10,7 +10,7 @@ namespace NfsCore.Support.Carbon
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static void I_CarTypeInfo(Database.Carbon db, BinaryWriter bw)
+        private static void I_CarTypeInfo(Database.CarbonDb db, BinaryWriter bw)
         {
             int index = 0;
             bw.Write(GlobalId.CarTypeInfo);

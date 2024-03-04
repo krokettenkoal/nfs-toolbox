@@ -8,7 +8,7 @@ namespace NfsCore.Support.MostWanted
 {
     public static partial class LoadData
     {
-        private static unsafe void E_Collisions(byte* byteptr_t, uint length, Database.MostWanted db)
+        private static unsafe void E_Collisions(byte* byteptr_t, uint length, Database.MostWantedDb db)
         {
             db.SlotTypes.Collisions = new Dictionary<uint, Collision>();
 

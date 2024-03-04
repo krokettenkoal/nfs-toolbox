@@ -6,7 +6,7 @@ namespace NfsCore.Support.Underground2
 	public static partial class SaveData
 	{
 		// Thanks to nlgzrgn for helping with this part!)))
-		private static byte[] CPI_Part2(Database.Underground2 db)
+		private static byte[] CPI_Part2(Database.Underground2Db db)
 		{
 			int part2size = db.SlotTypes.Part2.Data.Length;
 			int part3entries = (db.SlotTypes.Part3.Data.Length - 8) / 8;

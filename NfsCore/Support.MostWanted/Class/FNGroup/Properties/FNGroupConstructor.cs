@@ -6,7 +6,7 @@
         public FNGroup() { }
 
         // Default constructor: disassemble frontend group
-        public FNGroup(byte[] data, Database.MostWanted db)
+        public FNGroup(byte[] data, Database.MostWantedDb db)
         {
             this.Database = db;
             this.Disassemble(data);

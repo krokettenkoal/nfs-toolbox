@@ -14,7 +14,7 @@ namespace NfsCore.Support.Underground2
         /// <param name="globalADir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalA(string globalADir, Database.Underground2 db)
+        public static unsafe bool LoadGlobalA(string globalADir, Database.Underground2Db db)
         {
             globalADir += @"\GLOBAL\GlobalA.bun";
 

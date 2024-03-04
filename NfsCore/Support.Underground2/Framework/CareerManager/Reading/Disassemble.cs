@@ -2,7 +2,7 @@
 {
 	public static partial class CareerManager
 	{
-		public static unsafe void Disassemble(byte* byteptr_t, Database.Underground2 db)
+		public static unsafe void Disassemble(byte* byteptr_t, Database.Underground2Db db)
 		{
 			var PartOffsets = FindOffsets(byteptr_t);
 

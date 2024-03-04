@@ -16,7 +16,7 @@ namespace NfsCore.Support.MostWanted
         /// <param name="globalBDir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalB(string globalBDir, Database.MostWanted db)
+        public static unsafe bool LoadGlobalB(string globalBDir, Database.MostWantedDb db)
         {
             _libColBlockExists = false;
             globalBDir += @"\GLOBAL\GlobalB.lzc";

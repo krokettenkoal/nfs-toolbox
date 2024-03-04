@@ -12,7 +12,7 @@ namespace NfsCore.Support.Underground2
         /// <param name="Language_dir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveLanguage(string Language_dir, Database.Underground2 db)
+        public static bool SaveLanguage(string Language_dir, Database.Underground2Db db)
         {
             Language_dir += @"\LANGUAGES\";
 

@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Class
         public PresetRide() { }
 
         // Default constructor: create new preset
-        public PresetRide(string CName, Database.Underground2 db)
+        public PresetRide(string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -22,7 +22,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: disassemble preset
-        public unsafe PresetRide(IntPtr byteptr_t, string CName, Database.Underground2 db)
+        public unsafe PresetRide(IntPtr byteptr_t, string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this._collection_name = CName;

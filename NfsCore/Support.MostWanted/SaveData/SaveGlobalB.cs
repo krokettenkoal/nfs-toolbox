@@ -11,7 +11,7 @@ namespace NfsCore.Support.MostWanted
         /// <param name="globalBDir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalB(string globalBDir, Database.MostWanted db)
+        public static bool SaveGlobalB(string globalBDir, Database.MostWantedDb db)
         {
             globalBDir += @"\GLOBAL\GlobalB.lzc";
 

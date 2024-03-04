@@ -12,32 +12,32 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Collection name of the variable.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public override string CollectionName
         {
-            get => this._collection_name;
+            get => _collection_name;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                if (value.Contains(" "))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (value.Contains(' '))
                     throw new Exception("CollectionName cannot contain whitespace.");
                 if (value.Length > MaxCNameLength)
                     throw new ArgumentLengthException("Length of the value passed should not exceed 27 characters.");
-                if (this.Database.Materials.FindCollection(value) != null)
+                if (Database.Materials.FindCollection(value) != null)
                     throw new CollectionExistenceException();
-                this._collection_name = value;
+                _collection_name = value;
             }
         }
 
         /// <summary>
         /// Binary memory hash of the collection name.
         /// </summary>
-        public override uint BinKey { get => Bin.Hash(this._collection_name); }
+        public override uint BinKey { get => Bin.Hash(_collection_name); }
 
         /// <summary>
         /// Vault memory hash of the collection name.
         /// </summary>
-        public override uint VltKey { get => Vlt.Hash(this._collection_name); }
+        public override uint VltKey { get => Vlt.Hash(_collection_name); }
     }
 }

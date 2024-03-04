@@ -14,7 +14,7 @@ namespace NfsCore.Support.MostWanted
         /// <param name="globalADir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalA(string globalADir, Database.MostWanted db)
+        public static unsafe bool LoadGlobalA(string globalADir, Database.MostWantedDb db)
         {
             globalADir += @"\GLOBAL\GlobalA.bun";
 

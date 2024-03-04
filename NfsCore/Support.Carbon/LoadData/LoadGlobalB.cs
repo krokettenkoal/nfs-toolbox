@@ -16,7 +16,7 @@ namespace NfsCore.Support.Carbon
         /// <param name="globalBDir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalB(string globalBDir, Database.Carbon db)
+        public static unsafe bool LoadGlobalB(string globalBDir, Database.CarbonDb db)
         {
             _libColBlockExists = false;
             globalBDir += @"\GLOBAL\GlobalB.lzc";

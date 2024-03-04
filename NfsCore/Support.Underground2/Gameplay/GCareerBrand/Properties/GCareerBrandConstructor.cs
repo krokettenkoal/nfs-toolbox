@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public GCareerBrand() { }
 
 		// Default constructor: create new career brand
-		public GCareerBrand(string CName, Database.Underground2 db)
+		public GCareerBrand(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble career brand
-		public unsafe GCareerBrand(byte* byteptr_t, Database.Underground2 db)
+		public unsafe GCareerBrand(byte* byteptr_t, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(byteptr_t);

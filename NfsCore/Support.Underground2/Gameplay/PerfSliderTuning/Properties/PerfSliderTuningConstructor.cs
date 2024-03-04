@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public PerfSliderTuning() { }
 
 		// Default constructor: create new perfslidertuning
-		public PerfSliderTuning(string CName, Database.Underground2 db)
+		public PerfSliderTuning(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this._collection_name = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble perfslidertuning
-		public unsafe PerfSliderTuning(byte* byteptr_t, Database.Underground2 db)
+		public unsafe PerfSliderTuning(byte* byteptr_t, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(byteptr_t);

@@ -5,7 +5,7 @@ namespace NfsCore.Support.Carbon
 {
     public static partial class LoadData
     {
-        private static unsafe void CPE_Part56(byte* part5ptr_t, byte* part6ptr_t, Database.Carbon db)
+        private static unsafe void CPE_Part56(byte* part5ptr_t, byte* part6ptr_t, Database.CarbonDb db)
         {
             var len5 = *(int*)(part5ptr_t + 4) + 8; // size of part5
             var len6 = *(int*)(part6ptr_t + 4) + 8; // size of part6

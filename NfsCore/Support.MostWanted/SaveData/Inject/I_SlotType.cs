@@ -12,7 +12,7 @@ namespace NfsCore.Support.MostWanted
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static void I_SlotType(Database.MostWanted db, BinaryWriter bw)
+        private static void I_SlotType(Database.MostWantedDb db, BinaryWriter bw)
         {
             var SetList = new List<CarSpoilerType>();
 

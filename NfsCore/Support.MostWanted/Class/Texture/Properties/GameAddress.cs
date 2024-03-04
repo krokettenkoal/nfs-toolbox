@@ -12,6 +12,6 @@ namespace NfsCore.Support.MostWanted.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public override Database.MostWanted Database { get; }
+        public override Database.MostWantedDb Database { get; }
     }
 }

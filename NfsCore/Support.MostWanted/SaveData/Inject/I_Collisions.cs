@@ -12,7 +12,7 @@ namespace NfsCore.Support.MostWanted
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static unsafe void I_Collisions(Database.MostWanted db, BinaryWriter bw)
+        private static unsafe void I_Collisions(Database.MostWantedDb db, BinaryWriter bw)
         {
             bw.Write(GlobalId.Collisions);
             bw.Write(0xFFFFFFFF); // write temp size

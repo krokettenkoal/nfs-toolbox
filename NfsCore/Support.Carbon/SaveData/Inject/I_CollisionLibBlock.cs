@@ -8,7 +8,7 @@ namespace NfsCore.Support.Carbon
 {
     public static partial class SaveData
     {
-        private static unsafe void I_CollisionLibBlock(Database.Carbon db, BinaryWriter bw)
+        private static unsafe void I_CollisionLibBlock(Database.CarbonDb db, BinaryWriter bw)
         {
             int colsize = 0;
             int padding = 0;

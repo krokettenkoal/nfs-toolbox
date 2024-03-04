@@ -11,7 +11,7 @@ namespace NfsCore.Support.MostWanted.Class
         public PresetRide() { }
 
         // Default constructor: create new preset
-        public PresetRide(string CName, Database.MostWanted db)
+        public PresetRide(string CName, Database.MostWantedDb db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -30,7 +30,7 @@ namespace NfsCore.Support.MostWanted.Class
         }
 
         // Default constructor: disassemble preset
-        public unsafe PresetRide(IntPtr byteptr_t, string CName, Database.MostWanted db)
+        public unsafe PresetRide(IntPtr byteptr_t, string CName, Database.MostWantedDb db)
         {
             this.Database = db;
             this.data = new byte[0x290];

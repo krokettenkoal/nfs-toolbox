@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2
 {
 	public static partial class SaveData
 	{
-		private static void I_CarSkins(Database.Underground2 db, BinaryWriter bw)
+		private static void I_CarSkins(Database.Underground2Db db, BinaryWriter bw)
 		{
 			bw.Write(GlobalId.CarSkins);
 			bw.Write(-1);

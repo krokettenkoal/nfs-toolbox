@@ -18,7 +18,7 @@ namespace NfsCore.Support.MostWanted.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public Database.MostWanted Database { get; set; }
+        public Database.MostWantedDb Database { get; set; }
 
         public const int MaxCNameLength = 0xD;
         public const int CNameOffsetAt = 0;

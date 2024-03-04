@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public BankTrigger() { }
 
 		// Default constructor: create new bank trigger
-		public BankTrigger(string CName, Database.Underground2 db)
+		public BankTrigger(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -22,7 +22,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble bank trigger
-		public unsafe BankTrigger(byte* byteptr_t, Database.Underground2 db)
+		public unsafe BankTrigger(byte* byteptr_t, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(byteptr_t);

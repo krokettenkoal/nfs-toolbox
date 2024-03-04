@@ -10,19 +10,19 @@ namespace NfsCore.Support.Carbon.Class
         public Material() { }
 
         // Default constructor: create new material
-        public Material(string CName, Database.Carbon db)
+        public Material(string CName, Database.CarbonDb db)
         {
-            this.Database = db;
-            this.CollectionName = CName;
+            Database = db;
+            CollectionName = CName;
             Map.BinKeys[Bin.Hash(CName)] = CName;
         }
 
         // Default constructor: disassemble material
-        public unsafe Material(IntPtr byteptr_t, string CName, Database.Carbon db)
+        public unsafe Material(IntPtr byteptr_t, string CName, Database.CarbonDb db)
         {
-            this.Database = db;
-            this.CollectionName = CName;
-            this.Disassemble((byte*)byteptr_t);
+            Database = db;
+            CollectionName = CName;
+            Disassemble((byte*)byteptr_t);
         }
 
         ~Material() { }

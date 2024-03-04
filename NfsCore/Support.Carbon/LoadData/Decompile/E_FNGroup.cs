@@ -12,7 +12,7 @@ namespace NfsCore.Support.Carbon
         /// <param name="byteptr_t">Pointer to the beginning of frontend group in Global data.</param>
         /// <param name="length">Length of the block to be read.</param>
         /// <param name="db">Database to which add classes.</param>
-        private static unsafe void E_FNGroup(byte* byteptr_t, uint length, Database.Carbon db)
+        private static unsafe void E_FNGroup(byte* byteptr_t, uint length, Database.CarbonDb db)
         {
             // Copy data and decompress
             var data = new byte[length];

@@ -11,7 +11,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public Track() { }
 
 		// Default constructor: create new track
-		public Track(string CName, Database.Underground2 db)
+		public Track(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -20,7 +20,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble track
-		public unsafe Track(IntPtr byteptr_t, string CName, Database.Underground2 db)
+		public unsafe Track(IntPtr byteptr_t, string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this._collection_name = CName;

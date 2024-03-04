@@ -9,7 +9,7 @@ namespace NfsCore.Support.Carbon.Class
         public PresetRide() { }
 
         // Default constructor: create new preset
-        public PresetRide(string CName, Database.Carbon db)
+        public PresetRide(string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -23,7 +23,7 @@ namespace NfsCore.Support.Carbon.Class
         }
 
         // Default constructor: disassemble preset
-        public unsafe PresetRide(System.IntPtr byteptr_t, string CName, Database.Carbon db)
+        public unsafe PresetRide(System.IntPtr byteptr_t, string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this._collection_name = CName;

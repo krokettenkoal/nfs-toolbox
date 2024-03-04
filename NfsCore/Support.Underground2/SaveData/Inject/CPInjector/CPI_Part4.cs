@@ -8,7 +8,7 @@ namespace NfsCore.Support.Underground2
 	public static partial class SaveData
 	{
 		// Thanks to nlgzrgn for helping with this part!)))
-		private static byte[] CPI_Part4(Database.Underground2 db)
+		private static byte[] CPI_Part4(Database.Underground2Db db)
 		{
 			int part4size = db.SlotTypes.Part4.Data.Length;
 			var carlist = new List<string>();

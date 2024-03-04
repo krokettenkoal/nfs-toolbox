@@ -12,7 +12,7 @@ namespace NfsCore.Support.Underground1.Gameplay
 		public SunInfo() { }
 
 		// Default constructor: create new suninfo
-		public SunInfo(string CName, Database.Underground1 db)
+		public SunInfo(string CName, Database.Underground1Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -26,7 +26,7 @@ namespace NfsCore.Support.Underground1.Gameplay
 		}
 
 		// Default constructor: disassemble suninfo
-		public unsafe SunInfo(IntPtr byteptr_t, string CName, Database.Underground1 db)
+		public unsafe SunInfo(IntPtr byteptr_t, string CName, Database.Underground1Db db)
 		{
 			this.Database = db;
 			this._collection_name = CName;

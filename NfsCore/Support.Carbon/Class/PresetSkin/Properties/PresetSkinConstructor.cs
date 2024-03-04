@@ -10,7 +10,7 @@ namespace NfsCore.Support.Carbon.Class
         public PresetSkin() { }
 
         // Default constructor: create new skin
-        public PresetSkin(string CName, Database.Carbon db)
+        public PresetSkin(string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Carbon.Class
         }
 
         // Default constructor: disassemble skin
-        public unsafe PresetSkin(IntPtr byteptr_t, string CName, Database.Carbon db)
+        public unsafe PresetSkin(IntPtr byteptr_t, string CName, Database.CarbonDb db)
         {
             this.Database = db;
             this._collection_name = CName;

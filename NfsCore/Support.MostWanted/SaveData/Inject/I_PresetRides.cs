@@ -10,7 +10,7 @@ namespace NfsCore.Support.MostWanted
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static void I_PresetRides(Database.MostWanted db, BinaryWriter bw)
+        private static void I_PresetRides(Database.MostWantedDb db, BinaryWriter bw)
         {
             bw.Write(GlobalId.PresetRides);
             bw.Write(db.PresetRides.Length * 0x290);

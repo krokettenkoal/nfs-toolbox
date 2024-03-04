@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Class
         public AcidEffect() { }
 
         // Default constructor: create new acid effect
-        public AcidEffect(string CName, Database.Underground2 db)
+        public AcidEffect(string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: disassemble acid effect
-        public unsafe AcidEffect(IntPtr byteptr_t, string CName, Database.Underground2 db)
+        public unsafe AcidEffect(IntPtr byteptr_t, string CName, Database.Underground2Db db)
         {
             this.Database = db;
             this._collection_name = CName;

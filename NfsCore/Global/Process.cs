@@ -34,26 +34,26 @@ namespace NfsCore.Global
                 case GameINT.Carbon:
                     Initialize.Init();
                     done &= Support.Carbon.LoadData.LoadVaults(dir);
-                    done &= Support.Carbon.LoadData.LoadLanguage(dir, (Database.Carbon)db);
-                    done &= Support.Carbon.LoadData.LoadGlobalA(dir, (Database.Carbon)db);
-                    done &= Support.Carbon.LoadData.LoadGlobalB(dir, (Database.Carbon)db);
+                    done &= Support.Carbon.LoadData.LoadLanguage(dir, (Database.CarbonDb)db);
+                    done &= Support.Carbon.LoadData.LoadGlobalA(dir, (Database.CarbonDb)db);
+                    done &= Support.Carbon.LoadData.LoadGlobalB(dir, (Database.CarbonDb)db);
                     return done;
 
                 case GameINT.MostWanted:
                     Initialize.Init();
                     done &= Support.MostWanted.LoadData.LoadVaults(dir);
-                    done &= Support.MostWanted.LoadData.LoadLanguage(dir, (Database.MostWanted)db);
-                    done &= Support.MostWanted.LoadData.LoadGlobalA(dir, (Database.MostWanted)db);
-                    done &= Support.MostWanted.LoadData.LoadGlobalB(dir, (Database.MostWanted)db);
+                    done &= Support.MostWanted.LoadData.LoadLanguage(dir, (Database.MostWantedDb)db);
+                    done &= Support.MostWanted.LoadData.LoadGlobalA(dir, (Database.MostWantedDb)db);
+                    done &= Support.MostWanted.LoadData.LoadGlobalB(dir, (Database.MostWantedDb)db);
                     return done;
 
                 case GameINT.Underground2:
                     Initialize.InitUG2();
-                    done &= Support.Underground2.LoadData.LoadLanguage(dir, (Database.Underground2)db);
+                    done &= Support.Underground2.LoadData.LoadLanguage(dir, (Database.Underground2Db)db);
                     done &= Support.Underground2.LoadData.LoadAudios(dir);
                     done &= Support.Underground2.LoadData.LoadWheels(dir);
-                    done &= Support.Underground2.LoadData.LoadGlobalA(dir, (Database.Underground2)db);
-                    done &= Support.Underground2.LoadData.LoadGlobalB(dir, (Database.Underground2)db);
+                    done &= Support.Underground2.LoadData.LoadGlobalA(dir, (Database.Underground2Db)db);
+                    done &= Support.Underground2.LoadData.LoadGlobalB(dir, (Database.Underground2Db)db);
                     return done;
 
                 case GameINT.None:
@@ -77,23 +77,23 @@ namespace NfsCore.Global
             switch (db.GameINT)
             {
                 case GameINT.Carbon:
-                    done &= Support.Carbon.SaveData.SaveGlobalA(dir, (Database.Carbon)db);
-                    done &= Support.Carbon.SaveData.SaveGlobalB(dir, (Database.Carbon)db);
-                    done &= Support.Carbon.SaveData.SaveLanguage(dir, (Database.Carbon)db);
+                    done &= Support.Carbon.SaveData.SaveGlobalA(dir, (Database.CarbonDb)db);
+                    done &= Support.Carbon.SaveData.SaveGlobalB(dir, (Database.CarbonDb)db);
+                    done &= Support.Carbon.SaveData.SaveLanguage(dir, (Database.CarbonDb)db);
                     if (done && compressed) CompressFiles(dir);
                     return done;
 
                 case GameINT.MostWanted:
-                    done &= Support.MostWanted.SaveData.SaveGlobalA(dir, (Database.MostWanted)db);
-                    done &= Support.MostWanted.SaveData.SaveGlobalB(dir, (Database.MostWanted)db);
-                    done &= Support.MostWanted.SaveData.SaveLanguage(dir, (Database.MostWanted)db);
+                    done &= Support.MostWanted.SaveData.SaveGlobalA(dir, (Database.MostWantedDb)db);
+                    done &= Support.MostWanted.SaveData.SaveGlobalB(dir, (Database.MostWantedDb)db);
+                    done &= Support.MostWanted.SaveData.SaveLanguage(dir, (Database.MostWantedDb)db);
                     if (done && compressed) CompressFiles(dir);
                     return done;
 
                 case GameINT.Underground2:
-                    done &= Support.Underground2.SaveData.SaveGlobalA(dir, (Database.Underground2)db);
-                    done &= Support.Underground2.SaveData.SaveGlobalB(dir, (Database.Underground2)db);
-                    done &= Support.Underground2.SaveData.SaveLanguage(dir, (Database.Underground2)db);
+                    done &= Support.Underground2.SaveData.SaveGlobalA(dir, (Database.Underground2Db)db);
+                    done &= Support.Underground2.SaveData.SaveGlobalB(dir, (Database.Underground2Db)db);
+                    done &= Support.Underground2.SaveData.SaveLanguage(dir, (Database.Underground2Db)db);
                     if (done && compressed) CompressFiles(dir);
                     return done;
 

@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground1.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public Database.Underground1 Database { get; set; }
+        public Database.Underground1Db Database { get; set; }
 
         public const int MaxCNameLength = 0x1B;
         public const int CNameOffsetAt = 0x1C;

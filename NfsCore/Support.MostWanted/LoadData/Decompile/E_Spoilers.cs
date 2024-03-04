@@ -8,7 +8,7 @@ namespace NfsCore.Support.MostWanted
         /// Gets spoilers from slottype block and sets to cartypeinfo.
         /// </summary>
         /// <param name="db">Database of classes.</param>
-        private static void E_Spoilers(Database.MostWanted db)
+        private static void E_Spoilers(Database.MostWantedDb db)
         {
             if (db.SlotTypes.Spoilers == null) return;
             var CNameList = new List<string>();

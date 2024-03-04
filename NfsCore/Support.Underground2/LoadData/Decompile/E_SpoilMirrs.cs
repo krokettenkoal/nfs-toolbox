@@ -8,7 +8,7 @@ namespace NfsCore.Support.Underground2
         /// Gets spoilers from slottype block and sets to cartypeinfo.
         /// </summary>
         /// <param name="db">Database of classes.</param>
-        private static void E_SpoilMirrs(Database.Underground2 db)
+        private static void E_SpoilMirrs(Database.Underground2Db db)
         {
             if (db.SlotTypes.SpoilMirrs == null) return;
             var CNameList = new List<string>(db.CarTypeInfos.Length);

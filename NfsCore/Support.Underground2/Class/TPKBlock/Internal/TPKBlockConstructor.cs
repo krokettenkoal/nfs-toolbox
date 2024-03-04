@@ -12,7 +12,7 @@ namespace NfsCore.Support.Underground2.Class
 
         public TPKBlock() { this._use_current_cname = true; this.Version = 5; }
 
-        public unsafe TPKBlock(byte* byteptr_t, int index, Database.Underground2 db)
+        public unsafe TPKBlock(byte* byteptr_t, int index, Database.Underground2Db db)
         {
             if (index < 0) this._use_current_cname = true;
             this.Database = db;

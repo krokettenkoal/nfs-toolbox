@@ -8,7 +8,7 @@ namespace NfsCore.Support.Underground2
 {
 	public static partial class SaveData
 	{
-		private static byte[] CPI_Part56(Database.Underground2 db)
+		private static byte[] CPI_Part56(Database.Underground2Db db)
 		{
             // Part56 list that is used for intermediate calculations
             var Intermid56 = new List<Part56>();

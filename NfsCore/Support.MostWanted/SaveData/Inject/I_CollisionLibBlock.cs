@@ -8,7 +8,7 @@ namespace NfsCore.Support.MostWanted
 {
     public static partial class SaveData
     {
-        private static unsafe void I_CollisionLibBlock(Database.MostWanted db, BinaryWriter bw)
+        private static unsafe void I_CollisionLibBlock(Database.MostWantedDb db, BinaryWriter bw)
         {
             int colsize = 0;
             int padding = 0;

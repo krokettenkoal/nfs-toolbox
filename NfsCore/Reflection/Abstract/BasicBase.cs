@@ -9,10 +9,10 @@ namespace NfsCore.Reflection.Abstract
 {
 	public abstract class BasicBase : IOperative
 	{
-		public virtual byte[] _GlobalABUN { get; set; }
-		public virtual byte[] _GlobalBLZC { get; set; }
-		public virtual byte[] _LngGlobal { get; set; }
-		public virtual byte[] _LngLabels { get; set; }
+		internal byte[] _GlobalABUN { get; set; }
+		internal byte[] _GlobalBLZC { get; set; }
+		internal byte[] _LngGlobal { get; set; }
+		internal byte[] _LngLabels { get; set; }
 
         /// <summary>
         /// Game to which the class belongs to.
@@ -467,5 +467,7 @@ namespace NfsCore.Reflection.Abstract
         /// </summary>
         /// <returns></returns>
         public abstract string GetDatabaseInfo();
+
+        public override string ToString() => $"Database ({GameSTR})";
     }
 }

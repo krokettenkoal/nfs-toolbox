@@ -13,7 +13,7 @@ namespace NfsCore.Support.Carbon
         /// <param name="Language_dir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveLanguage(string Language_dir, Database.Carbon db)
+        public static bool SaveLanguage(string Language_dir, Database.CarbonDb db)
         {
             Language_dir += @"\LANGUAGES\";
 

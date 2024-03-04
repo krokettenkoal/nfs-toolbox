@@ -18,6 +18,6 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public Database.Carbon Database { get; set; }
+        public Database.CarbonDb Database { get; set; }
     }
 }

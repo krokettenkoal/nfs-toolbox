@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe byte[] WriteGShowcases(MemoryWriter mw, Database.Underground2 db)
+		private static unsafe byte[] WriteGShowcases(MemoryWriter mw, Database.Underground2Db db)
 		{
 			var result = new byte[8 + db.GShowcases.Length * 0x40];
 			int offset = 8; // for calculating offsets

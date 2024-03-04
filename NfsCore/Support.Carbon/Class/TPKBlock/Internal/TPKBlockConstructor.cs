@@ -1,24 +1,23 @@
 ﻿using System.Collections.Generic;
 using NfsCore.Support.Shared.Parts.TPKParts;
 
-
 namespace NfsCore.Support.Carbon.Class
 {
     public partial class TPKBlock : Shared.Class.TPKBlock
     {
-        private bool _use_current_cname = false;
-        private List<uint> keys = new List<uint>(); // Part2
-        private List<OffSlot> offslots = new List<OffSlot>(); // Part3
-        private List<uint> compressions = new List<uint>(); // Part5
+        private bool _use_current_cname;
+        private List<uint> keys = []; // Part2
+        private List<OffSlot> offslots = []; // Part3
+        private List<uint> compressions = []; // Part5
 
-        public TPKBlock() { this._use_current_cname = true; this.Version = 8; }
+        public TPKBlock() { _use_current_cname = true; Version = 8; }
 
-        public unsafe TPKBlock(byte* byteptr_t, int index, Database.Carbon db)
+        public unsafe TPKBlock(byte* byteptr_t, int index, Database.CarbonDb db)
         {
-            if (index < 0) this._use_current_cname = true;
-            this.Database = db;
-            this.Index = index;
-            this.Disassemble(byteptr_t);
+            if (index < 0) _use_current_cname = true;
+            Database = db;
+            Index = index;
+            Disassemble(byteptr_t);
         }
     }
 }

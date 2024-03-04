@@ -13,7 +13,7 @@ namespace NfsCore.Support.Underground2
         /// <param name="GlobalB_dir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalB(string GlobalB_dir, Database.Underground2 db)
+        public static bool SaveGlobalB(string GlobalB_dir, Database.Underground2Db db)
         {
             GlobalB_dir += @"\GLOBAL\GlobalB.lzc";
 

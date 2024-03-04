@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static void I_CarParts(Database.Underground2 db, BinaryWriter bw)
+        private static void I_CarParts(Database.Underground2Db db, BinaryWriter bw)
         {
             var _part1 = CPI_Part1(db);
             var _part2 = CPI_Part2(db);

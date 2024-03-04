@@ -12,6 +12,6 @@ namespace NfsCore.Support.Underground2.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public override Database.Underground2 Database { get; }
+        public override Database.Underground2Db Database { get; }
     }
 }

@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public WorldShop() { }
 
 		// Default constructor: create new world shop
-		public WorldShop(string CName, Database.Underground2 db)
+		public WorldShop(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble world shop
-		public unsafe WorldShop(byte* byteptr_t, Database.Underground2 db)
+		public unsafe WorldShop(byte* byteptr_t, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(byteptr_t);

@@ -8,7 +8,7 @@ namespace NfsCore.Support.Carbon
         /// Gets spoilers from slottype block and sets to cartypeinfo.
         /// </summary>
         /// <param name="db">Database of classes.</param>
-        private static void E_Spoilers(Database.Carbon db)
+        private static void E_Spoilers(Database.CarbonDb db)
         {
             if (db.SlotTypes.Spoilers == null) return;
             var CNameList = new List<string>();

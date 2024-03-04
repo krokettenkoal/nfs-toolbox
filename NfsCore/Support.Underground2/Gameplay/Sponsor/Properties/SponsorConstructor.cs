@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public Sponsor() { }
 
 		// Default constructor: create new sponsor
-		public Sponsor(string CName, Database.Underground2 db)
+		public Sponsor(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble sponsor
-		public unsafe Sponsor(byte* ptr_header, byte* ptr_string, Database.Underground2 db)
+		public unsafe Sponsor(byte* ptr_header, byte* ptr_string, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(ptr_header, ptr_string);

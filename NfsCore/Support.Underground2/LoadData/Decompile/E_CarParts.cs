@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2
         /// <param name="byteptr_t">Pointer to the beginning of carparts block in Global data.</param>
         /// <param name="length">Length of the block to be read.</param>
         /// <param name="db">Database to which add classes.</param>
-        private static unsafe void E_CarParts(byte* byteptr_t, uint length, Database.Underground2 db)
+        private static unsafe void E_CarParts(byte* byteptr_t, uint length, Database.Underground2Db db)
         {
             uint offset = 0;
             uint ID = 0;

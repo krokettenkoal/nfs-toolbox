@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe byte[] WriteSMSMessages(MemoryWriter mw, Database.Underground2 db)
+		private static unsafe byte[] WriteSMSMessages(MemoryWriter mw, Database.Underground2Db db)
 		{
 			var result = new byte[8 + db.SMSMessages.Length * 0x14];
 			int offset = 8; // for calculating offsets

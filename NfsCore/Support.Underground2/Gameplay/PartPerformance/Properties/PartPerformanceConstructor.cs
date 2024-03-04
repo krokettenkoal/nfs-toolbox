@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public PartPerformance() { }
 
 		// Default constructor: create new part performance
-		public PartPerformance(string CName, Database.Underground2 db)
+		public PartPerformance(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -26,7 +26,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble part performance
-		public unsafe PartPerformance(byte* byteptr_t, Database.Underground2 db, params int[] args)
+		public unsafe PartPerformance(byte* byteptr_t, Database.Underground2Db db, params int[] args)
 		{
 			this.Database = db;
 			this._part_perf_type = (ePerformanceType)args[0];

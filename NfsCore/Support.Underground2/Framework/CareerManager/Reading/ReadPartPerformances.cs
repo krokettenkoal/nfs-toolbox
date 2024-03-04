@@ -5,7 +5,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe void ReadPartPerformances(byte* byteptr_t, int[] PartOffsets, Database.Underground2 db)
+		private static unsafe void ReadPartPerformances(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
 		{
 			if (PartOffsets[4] == -1) return; // if part perf block does not exist
 			if (*(uint*)(byteptr_t + PartOffsets[4]) != CareerInfo.PERF_PACK_BLOCK)

@@ -7,7 +7,6 @@ using NfsCore.Reflection.Enum;
 using NfsCore.Reflection.Interface;
 using NfsCore.Utils;
 
-
 namespace NfsCore.Reflection.Abstract
 {
     /// <summary>

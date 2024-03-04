@@ -1,6 +1,6 @@
 ﻿namespace NfsCore.Reflection.Interface
 {
-    interface IOperative
+    internal interface IOperative
     {
         bool TryAddCollection(string CName, string root);
         bool TryAddCollection(string CName, string root, out string error);

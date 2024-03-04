@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public GShowcase() { }
 
 		// Default constructor: create new showcase
-		public GShowcase(string CName, Database.Underground2 db)
+		public GShowcase(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble showcase
-		public unsafe GShowcase(byte* byteptr_t, Database.Underground2 db)
+		public unsafe GShowcase(byte* byteptr_t, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.Disassemble(byteptr_t);

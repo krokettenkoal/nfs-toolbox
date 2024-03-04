@@ -12,7 +12,7 @@ namespace NfsCore.Support.MostWanted
         /// <param name="GlobalA_dir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalA(string GlobalA_dir, Database.MostWanted db)
+        public static bool SaveGlobalA(string GlobalA_dir, Database.MostWantedDb db)
         {
             GlobalA_dir += @"\GLOBAL\GlobalA.bun";
 

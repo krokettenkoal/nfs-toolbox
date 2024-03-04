@@ -11,7 +11,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		public GCareerRace() { }
 
 		// Default constructor: create new career race
-		public GCareerRace(string CName, Database.Underground2 db)
+		public GCareerRace(string CName, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.CollectionName = CName;
@@ -24,7 +24,7 @@ namespace NfsCore.Support.Underground2.Gameplay
 		}
 
 		// Default constructor: disassemble career race
-		public unsafe GCareerRace(byte* ptr_header, byte* ptr_string, Database.Underground2 db)
+		public unsafe GCareerRace(byte* ptr_header, byte* ptr_string, Database.Underground2Db db)
 		{
 			this.Database = db;
 			this.OPPONENT1 = new Opponent();

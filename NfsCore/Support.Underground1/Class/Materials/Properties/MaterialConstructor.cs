@@ -10,7 +10,7 @@ namespace NfsCore.Support.Underground1.Class
         public Material() { }
 
         // Default constructor: create new material
-        public Material(string CName, Database.Underground1 db)
+        public Material(string CName, Database.Underground1Db db)
         {
             this.Database = db;
             this.CollectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground1.Class
         }
 
         // Default constructor: disassemble material
-        public unsafe Material(IntPtr byteptr_t, string CName, Database.Underground1 db)
+        public unsafe Material(IntPtr byteptr_t, string CName, Database.Underground1Db db)
         {
             this.Database = db;
             this._collection_name = CName;

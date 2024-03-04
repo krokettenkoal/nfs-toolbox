@@ -2,7 +2,7 @@
 {
 	public static partial class SaveData
 	{
-		private static byte[] CPI_Part1(Database.Underground2 db)
+		private static byte[] CPI_Part1(Database.Underground2Db db)
 		{
 			return db.SlotTypes.Part1.Data;
 		}

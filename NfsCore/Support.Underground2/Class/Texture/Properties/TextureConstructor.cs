@@ -7,7 +7,7 @@ namespace NfsCore.Support.Underground2.Class
         public Texture() { }
 
         // Default constructor: create new texture for memory cast
-        public Texture(string CName, string _TPK, Database.Underground2 db)
+        public Texture(string CName, string _TPK, Database.Underground2Db db)
         {
             Database = db;
             _collectionName = CName;
@@ -18,7 +18,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: create new texture from file.
-        public Texture(string CName, string _TPK, string filename, Database.Underground2 db)
+        public Texture(string CName, string _TPK, string filename, Database.Underground2Db db)
         {
             Database = db;
             _collectionName = CName;
@@ -30,7 +30,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: disassemble texture
-        public unsafe Texture(byte* byteptr_t, int offset, int size, string _TPK, Database.Underground2 db)
+        public unsafe Texture(byte* byteptr_t, int offset, int size, string _TPK, Database.Underground2Db db)
         {
             Database = db;
             _located_at = offset;
@@ -42,7 +42,7 @@ namespace NfsCore.Support.Underground2.Class
         }
 
         // Default constructor: disassemble texture
-        public unsafe Texture(byte* byteptr_t, uint offset, uint size, string _TPK, Database.Underground2 db)
+        public unsafe Texture(byte* byteptr_t, uint offset, uint size, string _TPK, Database.Underground2Db db)
         {
             Database = db;
             _located_at = (int)offset;

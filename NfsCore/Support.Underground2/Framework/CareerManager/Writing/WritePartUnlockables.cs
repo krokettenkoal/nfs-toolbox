@@ -4,7 +4,7 @@ namespace NfsCore.Support.Underground2.Framework
 {
 	public static partial class CareerManager
 	{
-		private static unsafe byte[] WritePartUnlockables(Database.Underground2 db)
+		private static unsafe byte[] WritePartUnlockables(Database.Underground2Db db)
 		{
 			var result = new byte[8 + db.PartUnlockables.Length * 0x28];
 			int offset = 8; // for calculating offsets
