@@ -20,14 +20,14 @@ namespace GlobalLib.Support.MostWanted
 
             for (uint loop = 0; loop < length / size; ++loop)
             {
-                uint offset = 8 + loop * size; // current offset of the cartypeinfo (padding included)
+                var offset = 8 + loop * size; // current offset of the cartypeinfo (padding included)
 
                 // Get CollectionName
-                string CName = ScriptX.NullTerminatedString(byteptr_t + offset, 0x10);
+                var CName = ScriptX.NullTerminatedString(byteptr_t + offset, 0x10);
 
                 CName = Resolve.GetPathFromCollection(CName);
                 Map.BinKeys[Bin.Hash(CName)] = CName;
-                if (!LibColBlockExists)
+                if (!_libColBlockExists)
                     Map.CollisionMap[Vlt.Hash(CName)] = CName;
 
                 var Class = new CarTypeInfo((IntPtr)(byteptr_t + offset), CName, db);

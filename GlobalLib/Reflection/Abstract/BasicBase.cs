@@ -3,8 +3,7 @@ using System.IO;
 using GlobalLib.Core;
 using GlobalLib.Database.Collection;
 using GlobalLib.Reflection.Interface;
-
-
+using GlobalLib.Support.Shared.Class;
 
 namespace GlobalLib.Reflection.Abstract
 {
@@ -18,12 +17,52 @@ namespace GlobalLib.Reflection.Abstract
         /// <summary>
         /// Game to which the class belongs to.
         /// </summary>
-        public abstract GameINT GameINT { get; }
+        public virtual GameINT GameINT => GameINT.None;
 
         /// <summary>
         /// Game string to which the class belongs to.
         /// </summary>
-        public abstract string GameSTR { get; }
+        public string GameSTR => GameINT.ToString();
+        
+        public Root<FNGroup> FNGroups { get; protected set; }
+        public Root<TPKBlock> TPKBlocks { get; protected set; }
+        public Root<STRBlock> STRBlocks { get; protected set; }
+
+        protected BasicBase()
+        {
+            FNGroups = new Root<FNGroup>
+            (
+                "FNGroups",
+                -1,
+                -1,
+                -1,
+                false,
+                false,
+                this
+            );
+
+            TPKBlocks = new Root<TPKBlock>
+            (
+                "TPKBlocks",
+                -1,
+                -1,
+                -1,
+                false,
+                false,
+                this
+            );
+
+            STRBlocks = new Root<STRBlock>
+            (
+                "STRBlocks",
+                -1,
+                -1,
+                -1,
+                false,
+                false,
+                this
+            );
+        }
 
         /// <summary>
         /// Gets a <see cref="Collectable"/> class from CollectionName and root provided.
@@ -418,25 +457,10 @@ namespace GlobalLib.Reflection.Abstract
         /// Adds collision block to the database memory.
         /// </summary>
         /// <param name="CName">Collection Name of the collision block.</param>
-        /// <param name="filepath">Filepath of the collision block to be imported.</param>
+        /// <param name="filename">Filepath of the collision block to be imported.</param>
         /// <param name="error">Error occured when trying to add collision.</param>
         /// <returns>True if adding was successful; false otherwise.</returns>
         public abstract unsafe bool TryAddCollision(string CName, string filename, out string error);
-
-        /// <summary>
-        /// Exports all textures to the directory specified as .dds files.
-        /// </summary>
-        /// <param name="dir">Directory where all textures should be extracted.</param>
-        /// <returns>True if export was successful.</returns>
-        public abstract bool ExportTextures(string dir);
-
-        /// <summary>
-        /// Exports all textures to the directory specified.
-        /// </summary>
-        /// <param name="dir">Directory where all textures should be extracted.</param>
-        /// <param name="mode">Mode of extraction. Range: ".dds", ".png", ".jpg", ".tiff", ".bmp".</param>
-        /// <returns>True if export was successful.</returns>
-        public abstract bool ExportTextures(string dir, string mode);
 
         /// <summary>
         /// Gets information about <see cref="BasicBase"/> database.

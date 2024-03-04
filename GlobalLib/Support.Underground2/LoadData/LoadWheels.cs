@@ -2,7 +2,6 @@
 using GlobalLib.Utils;
 using System;
 using System.IO;
-using System.Windows.Forms;
 
 namespace GlobalLib.Support.Underground2
 {
@@ -11,76 +10,63 @@ namespace GlobalLib.Support.Underground2
         /// <summary>
         /// Loads Wheels files and reads its rim brand strings
         /// </summary>
-        /// <param name="Wheels_dir">Directory of the game.</param>
-        /// <param name="db">Database of classes.</param>
+        /// <param name="wheelsDir">Directory of the game.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadWheels(string Wheels_dir)
+        public static bool LoadWheels(string wheelsDir)
         {
-            Wheels_dir += @"\CARS\WHEELS";
-            if (!Directory.Exists(Wheels_dir))
+            wheelsDir += @"\CARS\WHEELS";
+            if (!Directory.Exists(wheelsDir))
 			{
-				if (Process.MessageShow)
-					MessageBox.Show(@"Directory CARS\WHEELS does not exist.", "Failure");
-				else
-					Console.WriteLine(@"Directory CARS\WHEELS does not exist.");
+				//Console.WriteLine(@"Directory CARS\WHEELS does not exist.");
 				return false;
 			}
 
-			var files = Directory.GetFiles(Wheels_dir);
-			if (files == null || files.Length == 0)
+			var files = Directory.GetFiles(wheelsDir);
+			if (files.Length == 0)
 			{
-				if (Process.MessageShow)
-					MessageBox.Show(@"Directory CARS\WHEELS is empty.", "Failure");
-				else
-					Console.WriteLine(@"Directory CARS\WHEELS is empty.");
+				//Console.WriteLine(@"Directory CARS\WHEELS is empty.");
 				return false;
 			}
 
 			foreach (var file in files)
 			{
-				string ext = Path.GetExtension(file).ToUpper();
-				if (!Path.GetFileName(file).StartsWith("GEOMETRY_") || (Path.GetExtension(file).ToUpper() != ".BIN"))
+				if (!Path.GetFileName(file).StartsWith("GEOMETRY_") || !Path.GetExtension(file).Equals(".BIN", StringComparison.CurrentCultureIgnoreCase))
 					continue;
 				try
 				{
-					using (var br = new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read)))
+					using var br = new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read));
+					if (br.ReadUInt32() != 0x80134000) continue; // if not a wheels file
+					br.BaseStream.Position += 4; // skip size
+					while (br.BaseStream.Position < br.BaseStream.Length)
 					{
-						if (br.ReadUInt32() != 0x80134000) continue; // if not a wheels file
-						br.BaseStream.Position += 4; // skip size
-						while (br.BaseStream.Position < br.BaseStream.Length)
+						var id = br.ReadUInt32();
+						var size = br.ReadInt32();
+						var off = (int)br.BaseStream.Position;
+						if (id != 0x80134010)
 						{
-							uint ID = br.ReadUInt32();
-							int size = br.ReadInt32();
-							int off = (int)br.BaseStream.Position;
-							if (ID != 0x80134010)
-							{
-								br.ReadBytes(size);
-								continue;
-							}
-							while ((int)br.BaseStream.Position < off + size)
-							{
-								ID = br.ReadUInt32();
-								size = br.ReadInt32();
-								if (ID == 0x00134011) break;
-							}
-							if (ID != 0x00134011) continue;
-							br.BaseStream.Position += 0xA4;
-							string rim = ScriptX.NullTerminatedString(br);
-							br.BaseStream.Position -= 0xB0 + rim.Length + 1;
-							rim = FormatX.GetString(rim, "{X}_X");
-							if (!Map.RimBrands.Contains(rim))
-								Map.RimBrands.Add(rim);
-							br.ReadBytes(br.ReadInt32());
+							br.ReadBytes(size);
+							continue;
 						}
+						while ((int)br.BaseStream.Position < off + size)
+						{
+							id = br.ReadUInt32();
+							size = br.ReadInt32();
+							if (id == 0x00134011) break;
+						}
+						if (id != 0x00134011) continue;
+						br.BaseStream.Position += 0xA4;
+						var rim = ScriptX.NullTerminatedString(br);
+						br.BaseStream.Position -= 0xB0 + rim.Length + 1;
+						rim = FormatX.GetString(rim, "{X}_X");
+						if (!Map.RimBrands.Contains(rim))
+							Map.RimBrands.Add(rim);
+						br.ReadBytes(br.ReadInt32());
 					}
 				}
 				catch (Exception e)
 				{
 					while (e.InnerException != null) e = e.InnerException;
-					if (Process.MessageShow)
-						MessageBox.Show(e.Message, "Failure");
-					else
-						Console.WriteLine(e.Message);
+					//Console.WriteLine(e.Message);
 					return false;
 				}
 			}

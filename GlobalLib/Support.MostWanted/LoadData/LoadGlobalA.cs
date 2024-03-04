@@ -1,12 +1,8 @@
-﻿using GlobalLib.Core;
-using GlobalLib.Reflection.ID;
+﻿using GlobalLib.Reflection.ID;
 using GlobalLib.Support.MostWanted.Class;
 using GlobalLib.Utils;
 using System;
 using System.IO;
-using System.Windows.Forms;
-
-
 
 namespace GlobalLib.Support.MostWanted
 {
@@ -15,26 +11,23 @@ namespace GlobalLib.Support.MostWanted
         /// <summary>
         /// Loads GlobalA file and disassembles its blocks
         /// </summary>
-        /// <param name="GlobalA_dir">Directory of the game.</param>
+        /// <param name="globalADir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalA(string GlobalA_dir, Database.MostWanted db)
+        public static unsafe bool LoadGlobalA(string globalADir, Database.MostWanted db)
         {
-            GlobalA_dir += @"\GLOBAL\GlobalA.bun";
+            globalADir += @"\GLOBAL\GlobalA.bun";
 
             // Get everything from GlobalA.bun
             try
             {
-                db._GlobalABUN = File.ReadAllBytes(GlobalA_dir);
+                db._GlobalABUN = File.ReadAllBytes(globalADir);
                 Log.Write("Reading data from GlobalA.bun...");
             }
             catch (Exception e)
             {
                 while (e.InnerException != null) e = e.InnerException;
-                if (Process.MessageShow)
-                    MessageBox.Show($"Error occured: {e.Message}", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    Console.WriteLine(e.Message);
+                //Console.WriteLine(e.Message);
                 return false;
             }
 
@@ -42,39 +35,30 @@ namespace GlobalLib.Support.MostWanted
             db._GlobalABUN = JDLZ.Decompress(db._GlobalABUN);
 
             // Use pointers to speed up process
-            fixed (byte* byteptr_t = &db._GlobalABUN[0])
+            fixed (byte* bytePtrT = &db._GlobalABUN[0])
             {
                 uint offset = 0; // to calculate current offset
-                uint ID = 0; // to get the ID of the block being read
-                uint size = 0; // to get the size of the block being read
-
                 while (offset < db._GlobalABUN.Length)
                 {
-                    ID = *(uint*)(byteptr_t + offset); // read ID
-                    size = *(uint*)(byteptr_t + offset + 4); // read size
+                    var id = *(uint*)(bytePtrT + offset); // to get the ID of the block being read
+                    var size = *(uint*)(bytePtrT + offset + 4); // to get the size of the block being read
                     if (offset + size > db._GlobalABUN.Length)
                     {
-                        if (Process.MessageShow)
-                            MessageBox.Show("GlobalA: unable to read beyond the stream.", "Failure");
-                        else
-                            Console.WriteLine("GlobalA: unable to read beyond the stream.");
+                        //Console.WriteLine("GlobalA: unable to read beyond the stream.");
                         return false;
                     }
 
-                    switch (ID)
+                    switch (id)
                     {
                         case Global.TPKBlocks:
-                            int count = db.TPKBlocks.Length;
-                            db.TPKBlocks.Collections.Add(new TPKBlock(byteptr_t + offset, count, db));
+                            var count = db.TPKBlocks.Length;
+                            db.TPKBlocks.Collections.Add(new TPKBlock(bytePtrT + offset, count, db));
                             db.TPKBlocks[count].InGlobalA = true;
                             break;
 
                         case Global.FEngFiles:
                         case Global.FNGCompress:
-                            E_FNGroup(byteptr_t + offset, size + 8, db);
-                            break;
-
-                        default:
+                            E_FNGroup(bytePtrT + offset, size + 8, db);
                             break;
                     }
                     offset += 8 + size; // advance in offset

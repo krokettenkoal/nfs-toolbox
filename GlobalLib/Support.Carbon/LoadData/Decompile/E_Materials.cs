@@ -16,7 +16,7 @@ namespace GlobalLib.Support.Carbon
         private static unsafe void E_Material(byte* byteptr_t, Database.Carbon db)
         {
             // Get collection name of the material, starts at 0x14
-            string CName = ScriptX.NullTerminatedString(byteptr_t + 0x1C, 0x1C);
+            var CName = ScriptX.NullTerminatedString(byteptr_t + 0x1C, 0x1C);
             CName = Resolve.GetPathFromCollection(CName);
             Resolve.GetWindowTintString(CName);
             Map.BinKeys[Bin.Hash(CName)] = CName;

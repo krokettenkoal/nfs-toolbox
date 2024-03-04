@@ -164,10 +164,7 @@
             catch (System.Exception e)
             {
                 while (e.InnerException != null) e = e.InnerException;
-                if (Core.Process.MessageShow)
-                    System.Windows.Forms.MessageBox.Show(e.Message);
-                else
-                    System.Console.WriteLine($"{e.Message}");
+                //System.Console.WriteLine($"{e.Message}");
                 return false;
             }
         }

@@ -7,12 +7,12 @@ namespace GlobalLib.Support.MostWanted
     {
         private static unsafe void E_GlobalLibBlock(byte* byteptr_t, uint length)
         {
-            int off = 0x50; // offset in data
-            int num = 0; // number of strings
-            int len = 0; // length of strings
+            var off = 0x50; // offset in data
+            var num = 0; // number of strings
+            var len = 0; // length of strings
 
-            string blocktype = "";
-            for (int a1 = 0x30; *(byteptr_t + a1) != 0; ++a1)
+            var blocktype = "";
+            for (var a1 = 0x30; *(byteptr_t + a1) != 0; ++a1)
                 blocktype += ((char)*(byteptr_t + a1)).ToString();
 
             switch (blocktype)
@@ -27,16 +27,16 @@ namespace GlobalLib.Support.MostWanted
                     Map.CollisionMap.Clear(); // clear collision map
                     while (len > 0 && num > 0)
                     {
-                        string CName = "";
+                        var CName = "";
                         int numbytes = *(byteptr_t + off); // length of the string
-                        for (int a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
+                        for (var a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
                             CName += ((char)*(byteptr_t + a1)).ToString();
                         Map.CollisionMap[Vlt.Hash(CName)] = CName;
                         --num;
                         len -= numbytes + 1;
                         off += numbytes + 1;
                     }
-                    LibColBlockExists = true;
+                    _libColBlockExists = true;
                     break;
 
                 case "Raider Block": // suspended, no longer in use
@@ -45,9 +45,9 @@ namespace GlobalLib.Support.MostWanted
                     off += 8; // move last time
                     while (len > 0 && num > 0)
                     {
-                        string CName = "";
+                        var CName = "";
                         int numbytes = *(byteptr_t + off); // length of the string
-                        for (int a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
+                        for (var a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
                             CName += ((char)*(byteptr_t + a1)).ToString();
                         Map.BinKeys[Bin.Hash(CName)] = CName;
                         --num;

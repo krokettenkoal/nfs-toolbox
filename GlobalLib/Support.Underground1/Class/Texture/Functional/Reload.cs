@@ -19,42 +19,42 @@ namespace GlobalLib.Support.Underground1.Class
             byte[] cdata;
             fixed (byte* byteptr_t = &data[0])
             {
-                this.Height = (short)*(uint*)(byteptr_t + 0xC);
-                this.Width = (short)*(uint*)(byteptr_t + 0x10);
-                this.Mipmaps = (byte)*(uint*)(byteptr_t + 0x1C);
+                Height = (short)*(uint*)(byteptr_t + 0xC);
+                Width = (short)*(uint*)(byteptr_t + 0x10);
+                Mipmaps = (byte)*(uint*)(byteptr_t + 0x1C);
                 if (*(uint*)(byteptr_t + 0x50) == DDS_TYPE.RGBA)
                 {
                     cdata = Palette.RGBAtoP8(data);
                     if (cdata == null)
                     {
-                        this._compression = EAComp.RGBA_08;
-                        this._area = this.Width * this.Height * 4;
-                        this.Size = data.Length - 0x80;
-                        this.PaletteSize = 0;
-                        this.Data = new byte[this.Size];
-                        Buffer.BlockCopy(data, 0, this.Data, 0, this.Size);
+                        CompressionId = EAComp.RGBA_08;
+                        _area = Width * Height * 4;
+                        Size = data.Length - 0x80;
+                        PaletteSize = 0;
+                        Data = new byte[Size];
+                        Buffer.BlockCopy(data, 0, Data, 0, Size);
                     }
                     else
                     {
-                        this._compression = EAComp.P8_08;
-                        this._area = this.Width * this.Height * 4;
-                        this.Size = (data.Length - 0x80) / 4;
-                        this.PaletteSize = 0x400;
-                        this.Data = new byte[cdata.Length];
-                        Buffer.BlockCopy(cdata, 0, this.Data, 0, this.Size + this.PaletteSize);
+                        CompressionId = EAComp.P8_08;
+                        _area = Width * Height * 4;
+                        Size = (data.Length - 0x80) / 4;
+                        PaletteSize = 0x400;
+                        Data = new byte[cdata.Length];
+                        Buffer.BlockCopy(cdata, 0, Data, 0, Size + PaletteSize);
                     }
                 }
                 else
                 {
-                    this._compression = Comp.GetByte(*(uint*)(byteptr_t + 0x54));
-                    this.Size = data.Length - 0x80;
-                    this._area = Comp.FlipToBase(this.Size);
-                    this.Data = new byte[this.Size];
-                    Buffer.BlockCopy(data, 0x80, this.Data, 0, this.Size);
+                    CompressionId = Comp.GetByte(*(uint*)(byteptr_t + 0x54));
+                    Size = data.Length - 0x80;
+                    _area = Comp.FlipToBase(Size);
+                    Data = new byte[Size];
+                    Buffer.BlockCopy(data, 0x80, Data, 0, Size);
                 }
 
                 // Default palette
-                this._num_palettes = (short)(this.PaletteSize / 4);
+                _num_palettes = (short)(PaletteSize / 4);
             }
         }
     }

@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using GlobalLib.Core;
 using GlobalLib.Utils;
 using GlobalLib.Reflection.Enum;
 using GlobalLib.Reflection.Abstract;
 using GlobalLib.Support.Shared.Parts.TPKParts;
-
-
 
 namespace GlobalLib.Support.Shared.Class
 {
@@ -65,6 +64,15 @@ namespace GlobalLib.Support.Shared.Class
 
         #endregion
 
+        #region Internal properties
+
+        /// <summary>
+        /// The list of all <see cref="Texture"/>s in the <see cref="TPKBlock"/>.
+        /// </summary>
+        public List<Texture> Textures { get; } = [];
+
+        #endregion
+        
         #region Internal Methods
 
         /// <summary>
@@ -76,12 +84,6 @@ namespace GlobalLib.Support.Shared.Class
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Gets all textures of this <see cref="TPKBlock"/>.
-        /// </summary>
-        /// <returns>Textures as an object.</returns>
-        public virtual object GetTextures() => null;
 
         /// <summary>
         /// Sorts <see cref="Texture"/> by their CollectionNames or BinKeys.
@@ -200,31 +202,6 @@ namespace GlobalLib.Support.Shared.Class
         /// <param name="error">Error occured when trying to replace a texture.</param>
         /// <returns>True if texture replacing was successful, false otherwise.</returns>
         public virtual bool TryReplaceTexture(uint key, eKeyType type, string filename, out string error)
-        {
-            error = null;
-            return false;
-        }
-
-        /// <summary>
-        /// Attemps to export <see cref="Texture"/> specified to the path and mode provided.
-        /// </summary>
-        /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to be exported.</param>
-        /// <param name="type">Type of the key passed.</param>
-        /// <param name="path">Path where the texture should be exported.</param>
-        /// <param name="mode">Mode in which export the texture. Range: ".dds", ".png", ".jpg", ".tiff", ".bmp".</param>
-        /// <returns>True if texture export was successful, false otherwise.</returns>
-        public virtual bool TryExportTexture(uint key, eKeyType type, string path, string mode) { return false; }
-
-        /// <summary>
-        /// Attemps to export <see cref="Texture"/> specified to the path and mode provided.
-        /// </summary>
-        /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to be exported.</param>
-        /// <param name="type">Type of the key passed.</param>
-        /// <param name="path">Path where the texture should be exported.</param>
-        /// <param name="mode">Mode in which export the texture. Range: ".dds", ".png", ".jpg", ".tiff", ".bmp".</param>
-        /// <param name="error">Error occured when trying to clone a texture.</param>
-        /// <returns>True if texture export was successful, false otherwise.</returns>
-        public virtual bool TryExportTexture(uint key, eKeyType type, string path, string mode, out string error)
         {
             error = null;
             return false;

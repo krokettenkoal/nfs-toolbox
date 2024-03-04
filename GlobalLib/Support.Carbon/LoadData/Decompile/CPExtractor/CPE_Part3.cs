@@ -10,10 +10,10 @@
         /// <returns>Part3 data as a byte array.</returns>
         private static unsafe byte[] CPE_Part3(byte* byteptr_t, uint length)
         {
-            byte[] data = new byte[length];
+            var data = new byte[length];
             fixed (byte* dataptr_t = &data[0])
             {
-                for (int a1 = 0; a1 < length; ++a1)
+                for (var a1 = 0; a1 < length; ++a1)
                     *(dataptr_t + a1) = *(byteptr_t + a1);
             }
             return data;

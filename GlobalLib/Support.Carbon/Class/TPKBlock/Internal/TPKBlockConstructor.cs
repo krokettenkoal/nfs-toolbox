@@ -9,7 +9,6 @@ namespace GlobalLib.Support.Carbon.Class
         private bool _use_current_cname = false;
         private List<uint> keys = new List<uint>(); // Part2
         private List<OffSlot> offslots = new List<OffSlot>(); // Part3
-        public List<Texture> Textures { get; set; } = new List<Texture>(); // Part4
         private List<uint> compressions = new List<uint>(); // Part5
 
         public TPKBlock() { this._use_current_cname = true; this.Version = 8; }

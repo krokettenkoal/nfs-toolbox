@@ -1,16 +1,12 @@
 ﻿using GlobalLib.Reflection.Enum;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GlobalLib.Support.MostWanted.Class
 {
     public partial class TPKBlock
     {
-        /// <summary>
-        /// Gets all textures of this <see cref="TPKBlock"/>.
-        /// </summary>
-        /// <returns>Textures as an object.</returns>
-        public override object GetTextures() => this.Textures;
-
         /// <summary>
         /// Gets index of the <see cref="Texture"/> in the <see cref="TPKBlock"/>.
         /// </summary>
@@ -37,9 +33,6 @@ namespace GlobalLib.Support.MostWanted.Class
 
                 case eKeyType.CUSTOM:
                     throw new NotImplementedException();
-
-                default:
-                    break;
             }
             return -1;
         }

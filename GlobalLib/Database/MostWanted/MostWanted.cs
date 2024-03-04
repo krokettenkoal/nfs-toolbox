@@ -3,8 +3,6 @@ using GlobalLib.Database.Collection;
 using GlobalLib.Reflection.Abstract;
 using GlobalLib.Support.MostWanted.Class;
 
-
-
 namespace GlobalLib.Database
 {
     public partial class MostWanted : BasicBase
@@ -12,39 +10,64 @@ namespace GlobalLib.Database
         /// <summary>
         /// Game to which the class belongs to.
         /// </summary>
-        public override GameINT GameINT { get => GameINT.MostWanted; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.MostWanted.ToString(); }
+        public override GameINT GameINT => GameINT.MostWanted;
 
         public Root<Material> Materials { get; set; }
         public Root<CarTypeInfo> CarTypeInfos { get; set; }
         public Root<PresetRide> PresetRides { get; set; }
-        public Root<FNGroup> FNGroups { get; set; }
-        public Root<TPKBlock> TPKBlocks { get; set; }
-        public Root<STRBlock> STRBlocks { get; set; }
         public SlotType SlotTypes { get; set; }
 
         public MostWanted()
         {
-            this.Initialize();
+            Materials = new Root<Material>
+            (
+                "Materials",
+                Material.MaxCNameLength,
+                Material.CNameOffsetAt,
+                Material.BaseClassSize,
+                true,
+                true,
+                this
+            );
+
+            CarTypeInfos = new Root<CarTypeInfo>
+            (
+                "CarTypeInfos",
+                CarTypeInfo.MaxCNameLength,
+                CarTypeInfo.CNameOffsetAt,
+                CarTypeInfo.BaseClassSize,
+                true,
+                true,
+                this
+            );
+
+            PresetRides = new Root<PresetRide>
+            (
+                "PresetRides",
+                PresetRide.MaxCNameLength,
+                PresetRide.CNameOffsetAt,
+                PresetRide.BaseClassSize,
+                true,
+                true,
+                this
+            );
+
+            SlotTypes = new SlotType();
         }
 
         ~MostWanted()
         {
-            this._GlobalABUN = null;
-            this._GlobalBLZC = null;
-            this._LngGlobal = null;
-            this._LngLabels = null;
-            this.CarTypeInfos = null;
-            this.FNGroups = null;
-            this.Materials = null;
-            this.PresetRides = null;
-            this.TPKBlocks = null;
-            this.SlotTypes = null;
-            this.STRBlocks = null;
+            _GlobalABUN = null;
+            _GlobalBLZC = null;
+            _LngGlobal = null;
+            _LngLabels = null;
+            CarTypeInfos = null;
+            FNGroups = null;
+            Materials = null;
+            PresetRides = null;
+            TPKBlocks = null;
+            SlotTypes = null;
+            STRBlocks = null;
         }
     }
 }

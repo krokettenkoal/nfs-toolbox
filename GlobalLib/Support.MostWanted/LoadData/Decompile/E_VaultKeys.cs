@@ -7,16 +7,16 @@ namespace GlobalLib.Support.MostWanted
 	{
 		private static unsafe void E_VaultKeys(byte* byteptr_t)
 		{
-			uint ID = *(uint*)byteptr_t;
-			int size = *(int*)(byteptr_t + 4) + 8;
+			var ID = *(uint*)byteptr_t;
+			var size = *(int*)(byteptr_t + 4) + 8;
 			if (ID != 0x53747245) return;
 
-			int offset = 8;
+			var offset = 8;
 			while (offset < size)
 			{
-				string CName = ScriptX.NullTerminatedString(byteptr_t + offset, size - offset);
+				var CName = ScriptX.NullTerminatedString(byteptr_t + offset, size - offset);
 				if (CName == null) { offset += 1; continue; }
-				uint key = Vlt.Hash(CName);
+				var key = Vlt.Hash(CName);
 				Map.VltKeys[key] = CName;
 				offset += CName.Length + 1;
 			}

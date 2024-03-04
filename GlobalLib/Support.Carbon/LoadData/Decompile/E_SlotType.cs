@@ -15,7 +15,7 @@ namespace GlobalLib.Support.Carbon
             var Data = new byte[length];
             fixed (byte* dataptr_t = &Data[0])
             {
-                for (int a1 = 0; a1 < length; ++a1)
+                for (var a1 = 0; a1 < length; ++a1)
                     *(dataptr_t + a1) = *(byteptr_t + a1);
             }
             db.SlotTypes.Spoilers = new Spoilers(Data);

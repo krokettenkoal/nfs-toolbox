@@ -1,43 +1,36 @@
-﻿using GlobalLib.Core;
-using GlobalLib.Reflection.ID;
+﻿using GlobalLib.Reflection.ID;
 using GlobalLib.Support.MostWanted.Class;
 using GlobalLib.Utils;
 using System;
 using System.IO;
-using System.Windows.Forms;
-
-
 
 namespace GlobalLib.Support.MostWanted
 {
     public static partial class LoadData
     {
-        private static bool LibColBlockExists = false;
+        private static bool _libColBlockExists;
 
         /// <summary>
         /// Loads GlobalB file and disassembles its blocks
         /// </summary>
-        /// <param name="GlobalB_dir">Directory of the game.</param>
+        /// <param name="globalBDir">Directory of the game.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static unsafe bool LoadGlobalB(string GlobalB_dir, Database.MostWanted db)
+        public static unsafe bool LoadGlobalB(string globalBDir, Database.MostWanted db)
         {
-            LibColBlockExists = false;
-            GlobalB_dir += @"\GLOBAL\GlobalB.lzc";
+            _libColBlockExists = false;
+            globalBDir += @"\GLOBAL\GlobalB.lzc";
 
             // Get everything from GlobalB.lzc
             try
             {
-                db._GlobalBLZC = File.ReadAllBytes(GlobalB_dir);
+                db._GlobalBLZC = File.ReadAllBytes(globalBDir);
                 Log.Write("Reading data from GlobalB.lzc...");
             }
             catch (Exception e)
             {
                 while (e.InnerException != null) e = e.InnerException;
-                if (Process.MessageShow)
-                    MessageBox.Show($"Error occured: {e.Message}", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                else
-                    Console.WriteLine(e.Message);
+                //Console.WriteLine(e.Message);
                 return false;
             }
 
@@ -45,88 +38,77 @@ namespace GlobalLib.Support.MostWanted
             db._GlobalBLZC = JDLZ.Decompress(db._GlobalBLZC);
 
             // Use pointers to speed up process
-            fixed (byte* byteptr_t = &db._GlobalBLZC[0])
+            fixed (byte* bytePtrT = &db._GlobalBLZC[0])
             {
                 uint offset = 0; // to calculate current offset
-                uint ID = 0; // to get the ID of the block being read
-                uint size = 0; // to get the size of the block being read
-
-                uint proff = 0; // offset of the preset rides block
-                uint prsize = 0; // size of the preset rides block
-
-                uint cpoff = 0; // offset of the carparts block
-                uint cpsize = 0; // size of the carparts block
-
-                uint cooff = 0; // offset of the collision block
-                uint cosize = 0; // size of the collision block
+                uint prOff = 0; // offset of the preset rides block
+                uint prSize = 0; // size of the preset rides block
+                uint cpOff = 0; // offset of the carparts block
+                uint cpSize = 0; // size of the carparts block
+                uint coOff = 0; // offset of the collision block
+                uint coSize = 0; // size of the collision block
 
                 while (offset < db._GlobalBLZC.Length)
                 {
-                    ID = *(uint*)(byteptr_t + offset); // read ID
-                    size = *(uint*)(byteptr_t + offset + 4); // read size
+                    var id = *(uint*)(bytePtrT + offset); // to get the ID of the block being read
+                    var size = *(uint*)(bytePtrT + offset + 4); // to get the size of the block being read
                     if (offset + size > db._GlobalBLZC.Length)
                     {
-                        if (Process.MessageShow)
-                            MessageBox.Show("GlobalB: unable to read beyond the stream.", "Failure");
-                        else
-                            Console.WriteLine("GlobalB: unable to read beyond the stream.");
+                        //Console.WriteLine("GlobalB: unable to read beyond the stream.");
                         return false;
                     }
 
-                    switch (ID)
+                    switch (id)
                     {
                         case 0:
-                            if (*(uint*)(byteptr_t + offset + 8) == Global.GlobalLib)
-                                E_GlobalLibBlock(byteptr_t + offset, size + 8);
+                            if (*(uint*)(bytePtrT + offset + 8) == Global.GlobalLib)
+                                E_GlobalLibBlock(bytePtrT + offset, size + 8);
                             break;
 
                         case Global.Materials:
-                            E_Material(byteptr_t + offset, db);
+                            E_Material(bytePtrT + offset, db);
                             break;
 
                         case Global.TPKBlocks:
-                            int count = db.TPKBlocks.Length;
-                            db.TPKBlocks.Collections.Add(new TPKBlock(byteptr_t + offset, count, db));
+                            var count = db.TPKBlocks.Length;
+                            db.TPKBlocks.Collections.Add(new TPKBlock(bytePtrT + offset, count, db));
                             break;
 
                         case Global.CarTypeInfo:
-                            E_CarTypeInfo(byteptr_t + offset + 8, size, db);
+                            E_CarTypeInfo(bytePtrT + offset + 8, size, db);
                             break;
 
                         case Global.PresetRides:
-                            proff = offset + 8;
-                            prsize = size;
+                            prOff = offset + 8;
+                            prSize = size;
                             break;
 
                         case Global.CarParts:
-                            cpoff = offset + 8;
-                            cpsize = size;
+                            cpOff = offset + 8;
+                            cpSize = size;
                             break;
 
                         case Global.SlotTypes:
-                            E_SlotType(byteptr_t + offset, size + 8, db);
+                            E_SlotType(bytePtrT + offset, size + 8, db);
                             break;
 
                         case Global.Collisions:
-                            cooff = offset + 8;
-                            cosize = size;
+                            coOff = offset + 8;
+                            coSize = size;
                             break;
 
                         case Global.FEngFiles:
                         case Global.FNGCompress:
-                            E_FNGroup(byteptr_t + offset, size + 8, db);
-                            break;
-
-                        default:
+                            E_FNGroup(bytePtrT + offset, size + 8, db);
                             break;
                     }
                     offset += 8 + size; // advance in offset
                 }
 
                 // CarParts and Collisions blocks are the last ones to disassemble
-                E_CarParts(byteptr_t + cpoff, cpsize, db);
-                E_Collisions(byteptr_t + cooff, cosize, db);
-                E_PresetRides(byteptr_t + proff, prsize, db);
+                E_CarParts(bytePtrT + cpOff, cpSize, db);
+                E_Collisions(bytePtrT + coOff, coSize, db);
+                E_PresetRides(bytePtrT + prOff, prSize, db);
             }
 
             // Disperse spoilers across cartypeinfo

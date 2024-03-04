@@ -21,15 +21,15 @@ namespace GlobalLib.Support.MostWanted
             uint offset = 0;
             while (offset < length)
             {
-                uint ID = *(uint*)(byteptr_t + offset);
-                int size = *(int*)(byteptr_t + offset + 4);
+                var ID = *(uint*)(byteptr_t + offset);
+                var size = *(int*)(byteptr_t + offset + 4);
                 if (ID == CarParts.Collision)
                 {
-                    uint intkey = *(uint*)(byteptr_t + offset + 8);
-                    uint extkey = *(uint*)(byteptr_t + offset + 16);
+                    var intkey = *(uint*)(byteptr_t + offset + 8);
+                    var extkey = *(uint*)(byteptr_t + offset + 16);
 
                     // If internal key exists and map shows a string for it
-                    if (intkey != 0x11111111 && intkey != 0 && Map.CollisionMap.TryGetValue(intkey, out string CName))
+                    if (intkey != 0x11111111 && intkey != 0 && Map.CollisionMap.TryGetValue(intkey, out var CName))
                     {
                         // If collision is not in the map, plug it in
                         if (!db.SlotTypes.Collisions.ContainsKey(intkey))
@@ -38,7 +38,7 @@ namespace GlobalLib.Support.MostWanted
                             var data = new byte[size + 8];
                             fixed (byte* dataptr_t = &data[0])
                             {
-                                for (int a1 = 0; a1 < size + 8; ++a1)
+                                for (var a1 = 0; a1 < size + 8; ++a1)
                                     *(dataptr_t + a1) = *(byteptr_t + offset + a1);
                                 *(uint*)(dataptr_t + 16) = 0xFFFFFFFF;
                             }
@@ -60,14 +60,14 @@ namespace GlobalLib.Support.MostWanted
                         var data = new byte[size + 8];
                         fixed (byte* dataptr_t = &data[0])
                         {
-                            for (int a1 = 0; a1 < size + 8; ++a1)
+                            for (var a1 = 0; a1 < size + 8; ++a1)
                                 *(dataptr_t + a1) = *(byteptr_t + offset + a1);
                             *(uint*)(dataptr_t + 8) = extkey;
                             *(uint*)(dataptr_t + 16) = 0xFFFFFFFF;
                         }
 
                         // If collision map has value for external key
-                        if (Map.CollisionMap.TryGetValue(extkey, out string ExName))
+                        if (Map.CollisionMap.TryGetValue(extkey, out var ExName))
                         {
                             var Class = new Collision(data, ExName);
                             db.SlotTypes.Collisions[extkey] = Class;

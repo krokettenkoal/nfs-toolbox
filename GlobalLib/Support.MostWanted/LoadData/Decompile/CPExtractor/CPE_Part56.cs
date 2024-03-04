@@ -7,8 +7,8 @@ namespace GlobalLib.Support.MostWanted
     {
         private static unsafe void CPE_Part56(byte* part5ptr_t, byte* part6ptr_t, Database.MostWanted db)
         {
-            int len5 = *(int*)(part5ptr_t + 4) + 8; // size of part5
-            int len6 = *(int*)(part6ptr_t + 4); // size of part6
+            var len5 = *(int*)(part5ptr_t + 4) + 8; // size of part5
+            var len6 = *(int*)(part6ptr_t + 4); // size of part6
 
             // Exclude padding
             while (*(int*)(part5ptr_t + len5 - 4) == 0)
@@ -17,13 +17,13 @@ namespace GlobalLib.Support.MostWanted
                 len6 -= 4;
             len6 = len6 / 0xE * 0xE + 8;
 
-            int off5 = 8; // offset in part5
-            int off6 = 8; // offset in part6
-            int size = 0; // size of one part in part6
+            var off5 = 8; // offset in part5
+            var off6 = 8; // offset in part6
+            var size = 0; // size of one part in part6
 
             // Validation check
-            int check = *(part6ptr_t + len6 - 7) + 1;
-            int total = (len5 - 8) / 4;
+            var check = *(part6ptr_t + len6 - 7) + 1;
+            var total = (len5 - 8) / 4;
             if (check < total) len5 = check * 4 + 8;
 
             db.SlotTypes.Part56 = new List<Part56>();
@@ -34,11 +34,11 @@ namespace GlobalLib.Support.MostWanted
 
             while (off5 < len5)
             {
-                uint ckey = *(uint*)(part5ptr_t + off5);
+                var ckey = *(uint*)(part5ptr_t + off5);
                 if (ckey == 0) break; // padding means end
-                bool IsCar = false;
+                var IsCar = false;
                 byte current = 0;
-                byte index = *(part6ptr_t + off6 + 7);
+                var index = *(part6ptr_t + off6 + 7);
                 while (true)
                 {
                     if (off6 + size + 7 >= len6) break;

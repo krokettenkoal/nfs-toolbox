@@ -13,18 +13,18 @@ namespace GlobalLib.Support.MostWanted
         /// <returns>Part1 data as a byte array.</returns>
         private static unsafe byte[] CPE_Part1(byte* byteptr_t, uint length)
         {
-            byte[] data = new byte[length];
+            var data = new byte[length];
             uint offset = 8;
             while (offset < length)
             {
-                string debug = ScriptX.NullTerminatedString(byteptr_t + offset);
+                var debug = ScriptX.NullTerminatedString(byteptr_t + offset);
                 if (debug == null) offset += 1;
                 else offset += (uint)debug.Length + 1;
                 Map.BinKeys[Bin.Hash(debug)] = debug;
             }
             fixed (byte* dataptr_t = &data[0])
             {
-                for (int a1 = 0; a1 < length; ++a1)
+                for (var a1 = 0; a1 < length; ++a1)
                     *(dataptr_t + a1) = *(byteptr_t + a1);
             }
             return data;

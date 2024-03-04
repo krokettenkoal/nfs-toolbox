@@ -1,10 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Linq;
 using GlobalLib.Core;
-
-
 
 namespace GlobalLib.Utils.EA
 {
@@ -20,12 +17,12 @@ namespace GlobalLib.Utils.EA
         /// <returns>String value of swatch number passed.</returns>
         public static string GetSwatchString(byte swatch)
         {
-            if (swatch >= 1 && swatch <= 9)
-                return "SWATCH_COLOR0" + swatch.ToString();
-            else if (swatch >= 10 && swatch <= 90)
-                return "SWATCH_COLOR" + swatch.ToString();
-            else
-                return "SWATCH_COLOR01";
+            return swatch switch
+            {
+                >= 1 and <= 9 => "SWATCH_COLOR0" + swatch,
+                <= 90 => "SWATCH_COLOR" + swatch,
+                _ => "SWATCH_COLOR01"
+            };
         }
 
         /// <summary>
@@ -35,14 +32,13 @@ namespace GlobalLib.Utils.EA
         /// <returns>String value of vinyl number passed.</returns>
         public static string GetVinylString(byte swatch)
         {
-            if (swatch == 0)
-                return null;
-            else if (swatch >= 1 && swatch <= 9)
-                return "VINYL_L1_COLOR0" + swatch.ToString();
-            else if (swatch >= 10 && swatch <= 90)
-                return "VINYL_L1_COLOR" + swatch.ToString();
-            else
-                return null;
+            return swatch switch
+            {
+                0 => null,
+                <= 9 => "VINYL_L1_COLOR0" + swatch,
+                <= 90 => "VINYL_L1_COLOR" + swatch,
+                _ => null
+            };
         }
 
         /// <summary>
@@ -53,7 +49,7 @@ namespace GlobalLib.Utils.EA
         public static byte GetSwatchIndex(string swatch)
         {
             if (string.IsNullOrWhiteSpace(swatch)) return 0;
-            if (!byte.TryParse(swatch.Substring(swatch.Length - 2, 2), out byte result))
+            if (!byte.TryParse(swatch.AsSpan(swatch.Length - 2, 2), out var result))
                 result = 0;
             return result;
         }
@@ -68,23 +64,26 @@ namespace GlobalLib.Utils.EA
             try
             {
                 if (!tint.StartsWith("WINDSHIELD_TINT")) return;
-                if (!int.TryParse(tint.Substring(17, 1), out int level)) return;
+                if (!int.TryParse(tint.AsSpan(17, 1), out var level)) return;
                 if (level == 3)
                 {
-                    string color = FormatX.GetString(tint, "WINDSHIELD_TINT_L3_{X}");
-                    string var1 = "WINDSHIELD_TINT_L3_PEARL_" + color;
-                    string var2 = "WINDSHIELD_TINT_L3_PEARL " + color;
+                    var color = FormatX.GetString(tint, "WINDSHIELD_TINT_L3_{X}");
+                    var var1 = "WINDSHIELD_TINT_L3_PEARL_" + color;
+                    var var2 = "WINDSHIELD_TINT_L3_PEARL " + color;
                     Map.WindowTintMap.Add(var1);
                     Map.WindowTintMap.Add(var2);
                     Bin.Hash(var1);
                     Bin.Hash(var2);
                     return;
                 }
-                else
-                    if (!Map.WindowTintMap.Contains(tint))
-                        Map.WindowTintMap.Add(tint);
+                
+                if (!Map.WindowTintMap.Contains(tint))
+                    Map.WindowTintMap.Add(tint);
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         /// <summary>
@@ -94,11 +93,9 @@ namespace GlobalLib.Utils.EA
         /// <returns>String without any special characters.</returns>
         public static string GetPathFromCollection(string name)
         {
-            string result = name;
-            string illegal = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
-            foreach (char letter in illegal)
-                result = result.Replace(letter.ToString(), ".");
-            return result;
+            var result = name;
+            var illegal = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            return illegal.Aggregate(result, (current, letter) => current.Replace(letter.ToString(), "."));
         }
 
         /// <summary>
@@ -123,21 +120,21 @@ namespace GlobalLib.Utils.EA
         /// Returns byte array of padding bytes required to start at offset % start_at = 0
         /// </summary>
         /// <param name="length">Length of the current stream to be added to.</param>
-        /// <param name="start_at">Offset at which padding ends.</param>
+        /// <param name="startAt">Offset at which padding ends.</param>
         /// <returns>Byte array of padding bytes.</returns>
-        public static byte[] GetPaddingArray(int length, byte start_at)
+        public static byte[] GetPaddingArray(int length, byte startAt)
         {
             byte[] result;
-            int difference = start_at - (length % start_at);
-            if (difference == start_at) difference = -1;
+            var difference = startAt - (length % startAt);
+            if (difference == startAt) difference = -1;
             switch (difference)
             {
                 case -1:
-                    result = new byte[0];
+                    result = Array.Empty<byte>();
                     return result;
                 case 4:
-                    result = new byte[4 + start_at];
-                    result[4] = (byte)(start_at - 4);
+                    result = new byte[4 + startAt];
+                    result[4] = (byte)(startAt - 4);
                     return result;
                 case 8:
                     result = new byte[8];
@@ -146,38 +143,6 @@ namespace GlobalLib.Utils.EA
                     result = new byte[difference];
                     result[4] = (byte)(difference - 8);
                     return result;
-            }
-        }
-
-        /// <summary>
-        /// Compares two font styles and returns true if they are equal.
-        /// </summary>
-        /// <param name="font1">Font style 1 to be compared.</param>
-        /// <param name="font2">Font style 2 to be compared.</param>
-        /// <returns>True if two fonts passed are equal.</returns>
-        public static bool EqualFonts(Font font1, Font font2)
-        {
-            return font1.Unit == font2.Unit && font1.Bold == font2.Bold && font1.Italic == font2.Italic &&
-                font1.Underline == font2.Underline && font1.Strikeout == font2.Strikeout &&
-                font1.Name == font2.Name && font1.Style == font2.Style;
-        }
-
-        /// <summary>
-        /// Checks if the string passed is an HTML color type, if yes, returns color based on it.
-        /// </summary>
-        /// <param name="value">String to be checked.</param>
-        /// <returns>True if string is of HTML color type, false otherwise.</returns>
-        public static bool TryParseHTMLColor(string value, out Color color)
-        {
-            try
-            {
-                color = ColorTranslator.FromHtml(value);
-                return true;
-            }
-            catch (Exception)
-            {
-                color = Control.DefaultBackColor;
-                return false;
             }
         }
     
@@ -192,7 +157,7 @@ namespace GlobalLib.Utils.EA
                 return false;
             if (!File.Exists(filepath))
                 return false;
-            string ext = Path.GetExtension(filepath);
+            var ext = Path.GetExtension(filepath);
             switch (ext)
             {
                 case ".png":

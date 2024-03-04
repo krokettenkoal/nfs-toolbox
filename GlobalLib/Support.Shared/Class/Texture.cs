@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Drawing;
 using GlobalLib.Core;
 using GlobalLib.Utils;
 using GlobalLib.Reflection.Enum;
 using GlobalLib.Reflection.Abstract;
 using GlobalLib.Reflection.Attributes;
+using GlobalLib.Reflection.Exception;
+using GlobalLib.Reflection.ID;
+using GlobalLib.Utils.EA;
 
 namespace GlobalLib.Support.Shared.Class
 {
@@ -12,42 +14,47 @@ namespace GlobalLib.Support.Shared.Class
     {
         #region Private Fields
 
-        private short _width = 0;
-        private short _height = 0;
-        private byte _log_2_width = 0;
-        private byte _log_2_height = 0;
-        private byte _mipmaps = 0;
-        private byte _mipmap_bias_type = 0;
-        private byte _tileableuv = 0;
+        private short _width;
+        private short _height;
+        private byte _log_2_width;
+        private byte _log_2_height;
+        private byte _mipmaps;
+        private byte _mipmap_bias_type;
+        private byte _tileableuv;
+        protected string _collectionName;
+        protected byte _pal_comp = 0;
+        protected bool _secretp8 = false; // true of _compression = 0x81 at disassembly
+        
+        /// <summary>
+        /// Parent TPK of the texture.
+        /// </summary>
+        protected string _parent_TPK;
+        
+        /// <summary>
+        /// Header location offset in the Global data.
+        /// </summary>
+        protected int _located_at = 0;
+
+        /// <summary>
+        /// Size of the header in the Global data.
+        /// </summary>
+        protected int _size_of_block = 0;
+        
+        protected virtual byte CompressionId { get; set; } = EAComp.DXT5_08;
 
         #endregion
 
         #region Main Properties
 
         /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get; set; }
-
-        /// <summary>
-        /// Game to which the class belongs to.
-        /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
         /// Binary memory hash of the collection name.
         /// </summary>
-        public virtual uint BinKey { get; set; }
+        public uint BinKey { get; internal set; }
 
         /// <summary>
         /// Vault memory hash of the collection name.
         /// </summary>
-        public virtual uint VltKey { get => Vlt.Hash(this.CollectionName); }
+        public virtual uint VltKey => Vlt.Hash(CollectionName);
 
         /// <summary>
         /// Represents data offset of the block in Global data.
@@ -72,28 +79,40 @@ namespace GlobalLib.Support.Shared.Class
         #endregion
 
         #region Public Properties
+        
+        /// <summary>
+        /// Database to which the class belongs to.
+        /// </summary>
+        public virtual BasicBase Database { get; }
+        
+        /// <summary>
+        /// DDS data of the texture.
+        /// </summary>
+        public byte[] Data { get; protected set; }
 
         /// <summary>
         /// Gets compression type of the texture.
         /// </summary>
         /// <returns>Compression type as a string.</returns>
-        public virtual string GetCompression() => null;
+        public string Compression
+        {
+            get => Comp.GetString(CompressionId);
+            internal set => CompressionId = Comp.GetByte(value);
+        }
 
         /// <summary>
         /// Represents height in pixels of the texture.
         /// </summary>
         public short Width
         {
-            get => this._width;
+            get => _width;
             set
             {
                 if (value <= 0)
-                    throw new ArgumentOutOfRangeException("Value passed should be a positive value.");
-                else
-                {
-                    this._width = value;
-                    this._log_2_width = (byte)Math.Log(value, 2);
-                }
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be a positive value.");
+                
+                _width = value;
+                _log_2_width = (byte)Math.Log(value, 2);
             }
         }
 
@@ -102,16 +121,14 @@ namespace GlobalLib.Support.Shared.Class
         /// </summary>
         public short Height
         {
-            get => this._height;
+            get => _height;
             set
             {
                 if (value <= 0)
-                    throw new ArgumentOutOfRangeException("Value passed should be a positive value.");
-                else
-                {
-                    this._height = value;
-                    this._log_2_height = (byte)Math.Log(value, 2);
-                }
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be a positive value.");
+                
+                _height = value;
+                _log_2_height = (byte)Math.Log(value, 2);
             }
         }
 
@@ -122,17 +139,15 @@ namespace GlobalLib.Support.Shared.Class
         {
             get
             {
-                byte b1 = this._log_2_width;
-                byte b2 = (byte)Math.Log(this._width, 2);
+                var b1 = _log_2_width;
+                var b2 = (byte)Math.Log(_width, 2);
                 if (b1 == b2)
                     return b1;
-                else
-                {
-                    this._log_2_width = b2;
-                    return b2;
-                }
+                
+                _log_2_width = b2;
+                return b2;
             }
-            protected set => this._log_2_width = value;
+            protected set => _log_2_width = value;
         }
 
         /// <summary>
@@ -142,17 +157,15 @@ namespace GlobalLib.Support.Shared.Class
         {
             get
             {
-                byte b1 = this._log_2_height;
-                byte b2 = (byte)Math.Log(this._height, 2);
+                var b1 = _log_2_height;
+                var b2 = (byte)Math.Log(_height, 2);
                 if (b1 == b2)
                     return b1;
-                else
-                {
-                    this._log_2_height = b2;
-                    return b2;
-                }
+                
+                _log_2_height = b2;
+                return b2;
             }
-            protected set => this._log_2_height = value;
+            protected set => _log_2_height = value;
         }
 
         /// <summary>
@@ -160,13 +173,13 @@ namespace GlobalLib.Support.Shared.Class
         /// </summary>
         public byte Mipmaps
         {
-            get => this._mipmaps;
+            get => _mipmaps;
             set
             {
                 if (value > 15)
-                    throw new ArgumentOutOfRangeException("Value passed should be in range 0 to 15.");
-                else
-                    this._mipmaps = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be in range 0 to 15.");
+                
+                _mipmaps = value;
             }
         }
 
@@ -175,19 +188,57 @@ namespace GlobalLib.Support.Shared.Class
         /// </summary>
         public byte MipmapBiasType
         {
-            get => this._mipmap_bias_type;
+            get => _mipmap_bias_type;
             set
             {
                 if (Enum.IsDefined(typeof(eTextureMipmapBiasType), (int)value))
-                    this._mipmap_bias_type = value;
+                    _mipmap_bias_type = value;
                 else
-                    throw new ArgumentOutOfRangeException("Value passed falls out of range of possible values.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed falls out of range of possible values.");
             }
         }
+
+        /// <summary>
+        /// Used in TPK compression blocks.
+        /// </summary>
+        public int CompVal1 { get; internal set; } = 1;
+
+        /// <summary>
+        /// Used in TPK compression blocks.
+        /// </summary>
+        public int CompVal2 { get; internal set; } = 5;
+
+        /// <summary>
+        /// Used in TPK compression blocks.
+        /// </summary>
+        public int CompVal3 { get; internal set; } = 6;
 
         #endregion
 
         #region AccessModifiable Properties
+        
+        /// <summary>
+        /// Collection name of the texture
+        /// </summary>
+        [AccessModifiable]
+        public override string CollectionName
+        {
+            get => _collectionName;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (value.Contains(' '))
+                    throw new Exception("CollectionName cannot contain whitespace.");
+                var tpk = Database.TPKBlocks.FindCollection(_parent_TPK);
+                var key = Bin.Hash(value);
+                const eKeyType type = eKeyType.BINKEY;
+                if (tpk.GetTextureIndex(key, type) != -1)
+                    throw new CollectionExistenceException();
+                _collectionName = value;
+                BinKey = Bin.Hash(value);
+            }
+        }
 
         /// <summary>
         /// Represents tileable level of the texture.
@@ -195,13 +246,13 @@ namespace GlobalLib.Support.Shared.Class
         [AccessModifiable()]
         public byte TileableUV
         {
-            get => this._tileableuv;
+            get => _tileableuv;
             set
             {
                 if (value > 3)
                     throw new ArgumentOutOfRangeException("Value passed should be in range 0 to 3.");
                 else
-                    this._tileableuv = value;
+                    _tileableuv = value;
             }
         }
 
@@ -230,12 +281,6 @@ namespace GlobalLib.Support.Shared.Class
         public virtual unsafe byte[] GetDDSArray() { return null; }
 
         /// <summary>
-        /// Gets .png format image of the .dds texture.
-        /// </summary>
-        /// <returns>.png format image of the .dds texture.</returns>
-        public virtual unsafe Image GetImage() { return null; }
-
-        /// <summary>
         /// Initializes all properties of the new texture.
         /// </summary>
         /// <param name="filename">Filename of the .dds texture passed.</param>
@@ -256,7 +301,7 @@ namespace GlobalLib.Support.Shared.Class
         /// <param name="filename">Filename of .dds texture passed.</param>
         public virtual unsafe void Reload(string filename)
         {
-            this.Initialize(filename);
+            Initialize(filename);
         }
 
         /// <summary>

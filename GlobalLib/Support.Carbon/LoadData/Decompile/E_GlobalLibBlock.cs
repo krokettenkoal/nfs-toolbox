@@ -7,11 +7,11 @@ namespace GlobalLib.Support.Carbon
     {
         private static unsafe void E_GlobalLibBlock(byte* byteptr_t, uint length)
         {
-            int off = 0x50; // offset in data
-            int num = 0; // number of strings
-            int len = 0; // length of strings
+            var off = 0x50; // offset in data
+            var num = 0; // number of strings
+            var len = 0; // length of strings
 
-            string blocktype = ScriptX.NullTerminatedString(byteptr_t + 0x30, 0x20);
+            var blocktype = ScriptX.NullTerminatedString(byteptr_t + 0x30, 0x20);
 
             switch (blocktype)
             {
@@ -25,16 +25,16 @@ namespace GlobalLib.Support.Carbon
                     Map.CollisionMap.Clear(); // clear collision map
                     while (len > 0 && num > 0)
                     {
-                        string CName = "";
+                        var CName = "";
                         int numbytes = *(byteptr_t + off); // length of the string
-                        for (int a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
+                        for (var a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
                             CName += ((char)*(byteptr_t + a1)).ToString();
                         Map.CollisionMap[Vlt.Hash(CName)] = CName;
                         --num;
                         len -= numbytes + 1;
                         off += numbytes + 1;
                     }
-                    LibColBlockExists = true;
+                    _libColBlockExists = true;
                     break;
 
                 case "Raider Block": // suspended, no longer supported
@@ -43,9 +43,9 @@ namespace GlobalLib.Support.Carbon
                     off += 8; // move last time
                     while (len > 0 && num > 0)
                     {
-                        string CName = "";
+                        var CName = "";
                         int numbytes = *(byteptr_t + off); // length of the string
-                        for (int a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
+                        for (var a1 = off + 1; a1 < off + 1 + numbytes; ++a1)
                             CName += ((char)*(byteptr_t + a1)).ToString();
                         Map.BinKeys[Bin.Hash(CName)] = CName;
                         --num;

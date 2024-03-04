@@ -7,8 +7,6 @@ using GlobalLib.Reflection.Enum;
 using GlobalLib.Reflection.Abstract;
 using GlobalLib.Reflection.Attributes;
 
-
-
 namespace GlobalLib.Database.Collection
 {
 	public class Root<TypeID> where TypeID : Collectable, new()

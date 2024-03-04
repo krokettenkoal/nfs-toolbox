@@ -12,45 +12,46 @@ namespace GlobalLib.Support.Carbon.Class
         /// <returns>Memory casted copy of the object.</returns>
         public override Collectable MemoryCast(string CName)
         {
-            var result = new Texture(CName, this._parent_TPK, this.Database);
+            var result = new Texture(CName, _parent_TPK, Database)
+            {
+                _offsetS = _offsetS,
+                _offsetT = _offsetT,
+                _scaleS = _scaleS,
+                _scaleT = _scaleT,
+                _scroll_type = _scroll_type,
+                _scroll_timestep = _scroll_timestep,
+                _scroll_speedS = _scroll_speedS,
+                _scroll_speedT = _scroll_speedT,
+                _area = _area,
+                _num_palettes = _num_palettes,
+                _apply_alpha_sort = _apply_alpha_sort,
+                _alpha_usage_type = _alpha_usage_type,
+                _alpha_blend_type = _alpha_blend_type,
+                _cube_environment = _cube_environment,
+                _bias_level = _bias_level,
+                _rendering_order = _rendering_order,
+                _used_flag = _used_flag,
+                _flags = _flags,
+                _padding = _padding,
+                _unknown1 = _unknown1,
+                _unknown2 = _unknown2,
+                _unknown3 = _unknown3,
+                _class = _class,
+                CompressionId = CompressionId,
+                _pal_comp = _pal_comp,
+                Mipmaps = Mipmaps,
+                MipmapBiasType = MipmapBiasType,
+                Height = Height,
+                Width = Width,
+                TileableUV = TileableUV,
+                Offset = Offset,
+                Size = Size,
+                PaletteOffset = PaletteOffset,
+                PaletteSize = PaletteSize,
+                Data = new byte[Data.Length]
+            };
 
-            result._offsetS = this._offsetS;
-            result._offsetT = this._offsetT;
-            result._scaleS = this._scaleS;
-            result._scaleT = this._scaleT;
-            result._scroll_type = this._scroll_type;
-            result._scroll_timestep = this._scroll_timestep;
-            result._scroll_speedS = this._scroll_speedS;
-            result._scroll_speedT = this._scroll_speedT;
-            result._area = this._area;
-            result._num_palettes = this._num_palettes;
-            result._apply_alpha_sort = this._apply_alpha_sort;
-            result._alpha_usage_type = this._alpha_usage_type;
-            result._alpha_blend_type = this._alpha_blend_type;
-            result._cube_environment = this._cube_environment;
-            result._bias_level = this._bias_level;
-            result._rendering_order = this._rendering_order;
-            result._used_flag = this._used_flag;
-            result._flags = this._flags;
-            result._padding = this._padding;
-            result._unknown1 = this._unknown1;
-            result._unknown2 = this._unknown2;
-            result._unknown3 = this._unknown3;
-            result._class = this._class;
-            result._compression = this._compression;
-            result._pal_comp = this._pal_comp;
-            result.Mipmaps = this.Mipmaps;
-            result.MipmapBiasType = this.MipmapBiasType;
-            result.Height = this.Height;
-            result.Width = this.Width;
-            result.TileableUV = this.TileableUV;
-            result.Offset = this.Offset;
-            result.Size = this.Size;
-            result.PaletteOffset = this.PaletteOffset;
-            result.PaletteSize = this.PaletteSize;
-
-            result.Data = new byte[this.Data.Length];
-            Buffer.BlockCopy(this.Data, 0, result.Data, 0, this.Data.Length);
+            Buffer.BlockCopy(Data, 0, result.Data, 0, Data.Length);
             return result;
         }
     }

@@ -16,47 +16,47 @@ namespace GlobalLib.Support.Carbon.Class
         protected override unsafe void Initialize(string filename)
         {
             var data = File.ReadAllBytes(filename);
-            fixed (byte* byteptr_t = &data[0])
+            fixed (byte* bytePtrT = &data[0])
             {
-                this.Size = data.Length - 0x80;
-                this.Height = (short)*(uint*)(byteptr_t + 0xC);
-                this.Width = (short)*(uint*)(byteptr_t + 0x10);
-                this.Mipmaps = (byte)*(uint*)(byteptr_t + 0x1C);
-                if (*(uint*)(byteptr_t + 0x50) == DDS_TYPE.RGBA)
+                Size = data.Length - 0x80;
+                Height = (short)*(uint*)(bytePtrT + 0xC);
+                Width = (short)*(uint*)(bytePtrT + 0x10);
+                Mipmaps = (byte)*(uint*)(bytePtrT + 0x1C);
+                if (*(uint*)(bytePtrT + 0x50) == DDS_TYPE.RGBA)
                 {
-                    this._compression = EAComp.RGBA_08;
-                    this._area = this.Width * this.Height * 4;
+                    CompressionId = EAComp.RGBA_08;
+                    _area = Width * Height * 4;
                 }
                 else
                 {
-                    this._compression = Comp.GetByte(*(uint*)(byteptr_t + 0x54));
-                    this._area = Comp.FlipToBase(this.Size);
+                    CompressionId = Comp.GetByte(*(uint*)(bytePtrT + 0x54));
+                    _area = Comp.FlipToBase(Size);
                 }
 
                 // Default all other values
-                this._num_palettes = 0;
-                this.TileableUV = 0;
-                this._bias_level = 0;
-                this._rendering_order = 5;
-                this._scroll_type = 0;
-                this._used_flag = 0;
-                this._apply_alpha_sort = 0;
-                this._alpha_usage_type = (byte)eAlphaUsageType.TEXUSAGE_MODULATED;
-                this._alpha_blend_type = (byte)eTextureAlphaBlendType.TEXBLEND_BLEND;
-                this._flags = 0;
-                this.MipmapBiasType = (byte)eTextureMipmapBiasType.TEXBIAS_DEFAULT;
-                this._scroll_timestep = 0;
-                this._scroll_speedS = 0;
-                this._scroll_speedT = 0;
-                this._offsetS = 0;
-                this._offsetT = 0x100;
-                this._scaleS = 0x100;
-                this._scaleT = 0;
+                _num_palettes = 0;
+                TileableUV = 0;
+                _bias_level = 0;
+                _rendering_order = 5;
+                _scroll_type = 0;
+                _used_flag = 0;
+                _apply_alpha_sort = 0;
+                _alpha_usage_type = (byte)eAlphaUsageType.TEXUSAGE_MODULATED;
+                _alpha_blend_type = (byte)eTextureAlphaBlendType.TEXBLEND_BLEND;
+                _flags = 0;
+                MipmapBiasType = (byte)eTextureMipmapBiasType.TEXBIAS_DEFAULT;
+                _scroll_timestep = 0;
+                _scroll_speedS = 0;
+                _scroll_speedT = 0;
+                _offsetS = 0;
+                _offsetT = 0x100;
+                _scaleS = 0x100;
+                _scaleT = 0;
             }
 
             // Copy data to the memory
-            this.Data = new byte[this.Size];
-            Buffer.BlockCopy(data, 0x80, this.Data, 0, this.Size);
+            Data = new byte[Size];
+            Buffer.BlockCopy(data, 0x80, Data, 0, Size);
         }
     }
 }

@@ -20,10 +20,10 @@ namespace GlobalLib.Support.Carbon
 
             for (uint loop = 0; loop < length / size; ++loop)
             {
-                uint offset = loop * size; // current offset of the preset skin
+                var offset = loop * size; // current offset of the preset skin
 
                 // Get CollectionName
-                string CName = ScriptX.NullTerminatedString(byteptr_t + offset + 0x8, 0x20);
+                var CName = ScriptX.NullTerminatedString(byteptr_t + offset + 0x8, 0x20);
 
                 CName = Resolve.GetPathFromCollection(CName);
                 Map.BinKeys[Bin.Hash(CName)] = CName;

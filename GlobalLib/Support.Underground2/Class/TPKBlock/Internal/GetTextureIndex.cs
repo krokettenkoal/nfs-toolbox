@@ -6,12 +6,6 @@ namespace GlobalLib.Support.Underground2.Class
     public partial class TPKBlock
     {
         /// <summary>
-        /// Gets all textures of this <see cref="TPKBlock"/>.
-        /// </summary>
-        /// <returns>Textures as an object.</returns>
-        public override object GetTextures() => this.Textures;
-
-        /// <summary>
         /// Gets index of the <see cref="Texture"/> in the <see cref="TPKBlock"/>.
         /// </summary>
         /// <param name="key">Key of the Collection Name of the <see cref="Texture"/>.</param>
@@ -22,24 +16,21 @@ namespace GlobalLib.Support.Underground2.Class
             switch (type)
             {
                 case eKeyType.BINKEY:
-                    for (int a1 = 0; a1 < this.Textures.Count; ++a1)
+                    for (int a1 = 0; a1 < Textures.Count; ++a1)
                     {
-                        if (this.Textures[a1].BinKey == key) return a1;
+                        if (Textures[a1].BinKey == key) return a1;
                     }
                     break;
 
                 case eKeyType.VLTKEY:
-                    for (int a1 = 0; a1 < this.Textures.Count; ++a1)
+                    for (int a1 = 0; a1 < Textures.Count; ++a1)
                     {
-                        if (this.Textures[a1].VltKey == key) return a1;
+                        if (Textures[a1].VltKey == key) return a1;
                     }
                     break;
 
                 case eKeyType.CUSTOM:
                     throw new NotImplementedException();
-
-                default:
-                    break;
             }
             return -1;
         }

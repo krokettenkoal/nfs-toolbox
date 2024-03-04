@@ -18,7 +18,7 @@ namespace GlobalLib.Support.Carbon
             var data = new byte[length];
             fixed (byte* dataptr_t = &data[0])
             {
-                for (int a1 = 0; a1 < data.Length; ++a1)
+                for (var a1 = 0; a1 < data.Length; ++a1)
                     *(dataptr_t + a1) = *(byteptr_t + a1);
             }
             data = SAT.Decompress(data);

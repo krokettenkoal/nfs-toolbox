@@ -15,8 +15,8 @@ namespace GlobalLib.Support.MostWanted
             uint offset = 0;
             uint ID = 0;
             uint size = 0;
-            byte* part5ptr_t = byteptr_t; // pointer to the part5 of the block
-            byte* part6ptr_t = byteptr_t; // pointer to the part6 of the block
+            var part5ptr_t = byteptr_t; // pointer to the part5 of the block
+            var part6ptr_t = byteptr_t; // pointer to the part6 of the block
 
             while (offset < length)
             {

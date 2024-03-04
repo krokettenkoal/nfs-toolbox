@@ -24,8 +24,8 @@ namespace GlobalLib.Reflection.Abstract
         /// </summary>
         public abstract string CollectionName { get; set; }
         public virtual bool Deletable { get; set; } = true;
-        public abstract GameINT GameINT { get; }
-        public abstract string GameSTR { get; }
+        public virtual GameINT GameINT { get; protected set; } = GameINT.None;
+        public virtual string GameSTR => GameINT.ToString();
 
         /// <summary>
         /// Returns array of all accessible and modifiable properties and fields.
