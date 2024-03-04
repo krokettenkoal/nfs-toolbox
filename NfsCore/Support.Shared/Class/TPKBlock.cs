@@ -69,7 +69,7 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// The list of all <see cref="Texture"/>s in the <see cref="TPKBlock"/>.
         /// </summary>
-        public List<Texture> Textures { get; } = [];
+        public List<Texture> Textures { get; } = new();
 
         #endregion
         

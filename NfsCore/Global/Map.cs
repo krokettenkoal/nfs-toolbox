@@ -23,37 +23,37 @@ namespace NfsCore.Global
         /// <summary>
         /// Represents list of all possible window tints that can be used.
         /// </summary>
-        public static List<string> WindowTintMap { get; set; } = [];
+        public static List<string> WindowTintMap { get; set; } = new();
 
         /// <summary>
         /// Represents array of all possible rim brands that can be used.
         /// </summary>
-        public static List<string> RimBrands { get; set; } = [];
+        public static List<string> RimBrands { get; set; } = new();
 
         /// <summary>
         /// Represents array of all possible audio types that can be used.
         /// </summary>
-        public static List<string> AudioTypes { get; set; } = [];
+        public static List<string> AudioTypes { get; set; } = new();
 
         /// <summary>
         /// Represents list of all possible paint type that can be used in UG2 support.
         /// </summary>
-        public static List<string> UG2PaintTypes { get; set; } = [];
+        public static List<string> UG2PaintTypes { get; set; } = new();
 
         /// <summary>
         /// Represents list of all possible caliper paints that can be used in UG2 support.
         /// </summary>
-        public static List<string> UG2CaliperPaints { get; set; } = [];
+        public static List<string> UG2CaliperPaints { get; set; } = new();
 
         /// <summary>
         /// Represents list of all possible rim paints that can be used in UG2 support.
         /// </summary>
-        public static List<string> UG2RimPaints { get; set; } = [];
+        public static List<string> UG2RimPaints { get; set; } = new();
 
         /// <summary>
         /// Represents list of all possible vinyl paints that can be used in UG2 support.
         /// </summary>
-        public static List<string> UG2VinylPaints { get; set; } = [];
+        public static List<string> UG2VinylPaints { get; set; } = new();
 
         /// <summary>
         /// Index table of all performance parts.

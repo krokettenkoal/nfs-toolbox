@@ -10,28 +10,35 @@ using NfsCore.Utils;
 
 namespace NfsCore.Database.Collection
 {
-    public class Root<TypeID>(
-        string name,
-        int maxlength,
-        int offsetat,
-        int basesize,
-        bool resizable,
-        bool importable,
-        BasicBase data)
-        where TypeID : Collectable, new()
+    public class Root<T> where T : Collectable, new()
     {
-        public List<TypeID> Collections { get; set; } = [];
-        public string ThisName { get; set; } = name;
+        public List<T> Collections { get; } = new();
+        public string ThisName { get; }
         public int Length => Collections.Count;
-        public int MaxCNameLength { get; } = maxlength;
-        public int CNameOffsetAt { get; } = offsetat;
-        public int BaseClassSize { get; } = basesize;
-        public bool Resizable { get; } = resizable;
-        public BasicBase Database { get; set; } = data;
+        internal int MaxCNameLength { get; }
+        internal int CNameOffsetAt { get; }
+        internal int BaseClassSize { get; }
+        public bool Resizable { get; }
+        public BasicBase Database { get; }
+
+        private readonly bool _importable;
+
+        public Root(string name, int maxlength, int offsetAt, int baseSize, bool resizable, bool importable,
+            BasicBase data)
+        {
+            ThisName = name;
+            MaxCNameLength = maxlength;
+            CNameOffsetAt = offsetAt;
+            BaseClassSize = baseSize;
+            Resizable = resizable;
+            _importable = importable;
+            Database = data;
+        }
 
         #region Collection Access
 
-        public TypeID this[int index] => index < Length ? Collections[index] : null;
+        public T this[string collectionName] => FindCollection(collectionName);
+        public T this[int index] => index < Length ? Collections[index] : null;
 
         public bool TryGetCollectionIndex(string collectionName, out int index)
         {
@@ -45,12 +52,12 @@ namespace NfsCore.Database.Collection
             return false;
         }
 
-        public TypeID FindCollection(string collectionName)
+        public T FindCollection(string collectionName)
         {
             return Collections.Find(c => c.CollectionName == (collectionName ?? string.Empty));
         }
 
-        public TypeID FindCollection(uint key, eKeyType type)
+        public T FindCollection(uint key, eKeyType type)
         {
             switch (type)
             {
@@ -72,12 +79,19 @@ namespace NfsCore.Database.Collection
             }
         }
 
-        public TypeID FindClassWithValue(string field, object value)
+        public T FindClassWithValue(string field, object value)
         {
-            return Collections.FirstOrDefault(obj => obj.GetType().GetProperty(field)?.GetValue(obj) == value);
+            try
+            {
+                return Collections.FirstOrDefault(obj => obj.GetType().GetProperty(field)?.GetValue(obj) == value);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public bool TryGetCollection(string collectionName, out TypeID collection)
+        public bool TryGetCollection(string collectionName, out T collection)
         {
             collection = FindCollection(collectionName);
             return collection != null;
@@ -115,7 +129,7 @@ namespace NfsCore.Database.Collection
         public bool TrySetStaticValue(string field, string value)
         {
             // Works only for Collectable and StaticModifiable properties
-            var property = typeof(TypeID).GetProperty(field);
+            var property = typeof(T).GetProperty(field);
             if (property == null) return false;
             return Attribute.IsDefined(property, typeof(StaticModifiableAttribute)) &&
                    Collections.Select(collection => collection.SetValue(field, value)).All(pass => pass);
@@ -124,7 +138,7 @@ namespace NfsCore.Database.Collection
         public bool TrySetStaticValue(string field, string value, out string error)
         {
             error = null;
-            var property = typeof(TypeID).GetProperty(field);
+            var property = typeof(T).GetProperty(field);
             if (property == null)
             {
                 error = $"Field named {field} does not exist.";
@@ -158,9 +172,9 @@ namespace NfsCore.Database.Collection
                 if (string.IsNullOrWhiteSpace(value)) return false;
                 if (MaxCNameLength != -1 && value.Length > MaxCNameLength) return false;
                 if (FindCollection(value) != null) return false;
-                var ctor = typeof(TypeID).GetConstructor([typeof(string), Database.GetType()]);
+                var ctor = typeof(T).GetConstructor(new[] {typeof(string), Database.GetType()});
                 if (ctor == null) return false;
-                var instance = (TypeID) ctor.Invoke([value, Database]);
+                var instance = (T) ctor.Invoke(new object[] {value, Database});
                 Collections.Add(instance);
                 return true;
             }
@@ -172,7 +186,6 @@ namespace NfsCore.Database.Collection
 
         public bool TryAddCollection(string value, out string error)
         {
-            TypeID instance = null;
             error = null;
 
             try
@@ -201,8 +214,14 @@ namespace NfsCore.Database.Collection
                     return false;
                 }
 
-                var ctor = typeof(TypeID).GetConstructor(new Type[] {typeof(string), Database.GetType()});
-                instance = (TypeID) ctor.Invoke(new object[] {value, Database});
+                var ctor = typeof(T).GetConstructor(new[] {typeof(string), Database.GetType()});
+                if (ctor == null)
+                {
+                    error = $"Class with CollectionName {value} does not have a constructor.";
+                    return false;
+                }
+
+                var instance = (T) ctor.Invoke(new object[] {value, Database});
                 Collections.Add(instance);
                 return true;
             }
@@ -210,7 +229,6 @@ namespace NfsCore.Database.Collection
             {
                 while (e.InnerException != null) e = e.InnerException;
                 error = e.Message;
-                instance = null;
                 return false;
             }
         }
@@ -220,8 +238,7 @@ namespace NfsCore.Database.Collection
             if (!Resizable) return false;
             if (string.IsNullOrWhiteSpace(value)) return false;
             if (!TryGetCollection(value, out var cla)) return false;
-            if (!cla.Deletable) return false;
-            return Collections.Remove(cla);
+            return cla.Deletable && Collections.Remove(cla);
         }
 
         public bool TryRemoveCollection(string value, out string error)
@@ -258,8 +275,6 @@ namespace NfsCore.Database.Collection
 
         public bool TryCloneCollection(string value, string copyfrom)
         {
-            TypeID instance = null;
-
             try
             {
                 if (!Resizable) return false;
@@ -268,20 +283,18 @@ namespace NfsCore.Database.Collection
                 if (FindCollection(value) != null) return false;
                 if (!TryGetCollection(copyfrom, out var cla)) return false;
 
-                instance = (TypeID) cla.MemoryCast(value);
+                var instance = (T) cla.MemoryCast(value);
                 Collections.Add(instance);
                 return true;
             }
             catch (Exception)
             {
-                instance = null;
                 return false;
             }
         }
 
         public bool TryCloneCollection(string value, string copyfrom, out string error)
         {
-            TypeID instance = null;
             error = null;
 
             try
@@ -316,7 +329,7 @@ namespace NfsCore.Database.Collection
                     return false;
                 }
 
-                instance = (TypeID) cla.MemoryCast(value);
+                var instance = (T) cla.MemoryCast(value);
                 Collections.Add(instance);
                 return true;
             }
@@ -324,25 +337,23 @@ namespace NfsCore.Database.Collection
             {
                 while (e.InnerException != null) e = e.InnerException;
                 error = e.Message;
-                instance = null;
                 return false;
             }
         }
 
         public unsafe bool TryImportCollection(byte[] data)
         {
-            if (!importable) return false;
+            if (!_importable) return false;
             if (data.Length != BaseClassSize) return false;
 
-            var CName = string.Empty;
-            fixed (byte* dataptr_t = &data[0])
+            fixed (byte* dataPtrT = &data[0])
             {
-                CName = ScriptX.NullTerminatedString(dataptr_t);
-                if (FindCollection(CName) != null) return false;
+                var collectionName = ScriptX.NullTerminatedString(dataPtrT);
+                if (FindCollection(collectionName) != null) return false;
 
-                var ctor = typeof(TypeID).GetConstructor(
-                    new Type[] {typeof(IntPtr), typeof(string), Database.GetType()});
-                var instance = (TypeID) ctor.Invoke(new object[] {(IntPtr) dataptr_t, CName, Database});
+                var ctor = typeof(T).GetConstructor(new[]{typeof(IntPtr), typeof(string), Database.GetType()});
+                if (ctor == null) return false;
+                var instance = (T) ctor.Invoke(new object[]{(IntPtr) dataPtrT, collectionName, Database});
                 Collections.Add(instance);
             }
 
@@ -352,7 +363,7 @@ namespace NfsCore.Database.Collection
         public unsafe bool TryImportCollection(byte[] data, out string error)
         {
             error = null;
-            if (!importable)
+            if (!_importable)
             {
                 error = "Class collection specified is not importable.";
                 return false;
@@ -364,19 +375,23 @@ namespace NfsCore.Database.Collection
                 return false;
             }
 
-            var CName = string.Empty;
-            fixed (byte* dataptr_t = &data[0])
+            fixed (byte* dataPtrT = &data[0])
             {
-                CName = ScriptX.NullTerminatedString(dataptr_t);
-                if (FindCollection(CName) != null)
+                var collectionName = ScriptX.NullTerminatedString(dataPtrT);
+                if (FindCollection(collectionName) != null)
                 {
-                    error = $"Class with CollectionName {CName} already exists.";
+                    error = $"Class with CollectionName {collectionName} already exists.";
                     return false;
                 }
 
-                var ctor = typeof(TypeID).GetConstructor(
-                    new Type[] {typeof(IntPtr), typeof(string), Database.GetType()});
-                var instance = (TypeID) ctor.Invoke(new object[] {(IntPtr) dataptr_t, CName, Database});
+                var ctor = typeof(T).GetConstructor(new[]{typeof(IntPtr), typeof(string), Database.GetType()});
+                if (ctor == null)
+                {
+                    error = $"Class with CollectionName {collectionName} does not have a constructor.";
+                    return false;
+                }
+
+                var instance = (T) ctor.Invoke(new object[]{(IntPtr) dataPtrT, collectionName, Database});
                 Collections.Add(instance);
             }
 
@@ -385,26 +400,25 @@ namespace NfsCore.Database.Collection
 
         public bool TryExportCollection(string value, string filepath)
         {
-            if (!importable) return false;
+            if (!_importable) return false;
             if (string.IsNullOrWhiteSpace(value)) return false;
             if (!TryGetCollection(value, out var cla)) return false;
             if (!Directory.Exists(Path.GetDirectoryName(filepath))) return false;
 
             var arr = (byte[]) cla.GetType()
-                .GetMethod("Assemble").Invoke(cla, new object[0] { });
+                .GetMethod("Assemble")
+                ?.Invoke(cla, Array.Empty<object>());
 
-            using (var bw = new BinaryWriter(File.Open(filepath, FileMode.Create)))
-            {
-                bw.Write(arr);
-            }
-
+            if (arr == null) return false;
+            using var bw = new BinaryWriter(File.Open(filepath, FileMode.Create));
+            bw.Write(arr);
             return true;
         }
 
         public bool TryExportCollection(string value, string filepath, out string error)
         {
             error = null;
-            if (!importable)
+            if (!_importable)
             {
                 error = "Class collection specified is not exportable.";
                 return false;
@@ -428,13 +442,15 @@ namespace NfsCore.Database.Collection
                 return false;
             }
 
-            var arr = (byte[]) cla.GetType().GetMethod("Assemble").Invoke(cla, new object[0] { });
-
-            using (var bw = new BinaryWriter(File.Open(filepath, FileMode.Create)))
+            var arr = (byte[]) cla.GetType().GetMethod("Assemble")?.Invoke(cla, Array.Empty<object>());
+            if (arr == null)
             {
-                bw.Write(arr);
+                error = $"Unable to assemble class with CollectionName {value}.";
+                return false;
             }
 
+            using var bw = new BinaryWriter(File.Open(filepath, FileMode.Create));
+            bw.Write(arr);
             return true;
         }
 
@@ -442,42 +458,43 @@ namespace NfsCore.Database.Collection
 
         #region Collection Reflection
 
-        public object[] GetAccessibleProperties(string CName)
+        public object[] GetAccessibleProperties(string collectionName)
         {
-            if (!TryGetCollection(CName, out var cla)) return null;
-            else return cla.GetAccessibles(eGetInfoType.PROPERTY_NAMES);
+            return !TryGetCollection(collectionName, out var cla)
+                ? null
+                : cla.GetAccessibles(eGetInfoType.PROPERTY_NAMES);
         }
 
         public Dictionary<string, CollectionAttrib> GetAttributeMap()
         {
             var map = new Dictionary<string, CollectionAttrib>();
-            foreach (var Class in Collections)
+            foreach (var coll in Collections)
             {
-                var path = $"{ThisName}\\{Class.CollectionName}";
-                var properties = Class.GetAccessibles(eGetInfoType.PROPERTY_INFOS);
+                var path = $"{ThisName}\\{coll.CollectionName}";
+                var properties = coll.GetAccessibles(eGetInfoType.PROPERTY_INFOS);
                 foreach (var property in properties)
                 {
-                    var attrib = new CollectionAttrib((PropertyInfo) property, Class);
+                    var attrib = new CollectionAttrib((PropertyInfo) property, coll);
                     var subpath = $"{path}\\{attrib.PropertyName}";
                     attrib.FullPath = subpath;
                     attrib.Directory = path;
                     map[subpath] = attrib;
                 }
 
-                var nodes = Class.GetAllNodes();
+                var nodes = coll.GetAllNodes();
                 foreach (var node in nodes)
                 {
                     if (node.SubNodes == null) continue;
-                    foreach (var subnode in node.SubNodes)
+                    foreach (var subNode in node.SubNodes)
                     {
-                        var name = Class.GetType().GetProperty(subnode.NodeName).GetValue(Class);
-                        var attribs = Class.GetSubnodeAttribs(subnode.NodeName, eGetInfoType.PROPERTY_INFOS);
+                        var name = coll.GetType().GetProperty(subNode.NodeName)?.GetValue(coll);
+                        var attribs = coll.GetSubnodeAttribs(subNode.NodeName, eGetInfoType.PROPERTY_INFOS);
                         foreach (var attrib in attribs)
                         {
                             var field = new CollectionAttrib((PropertyInfo) attrib, name);
-                            var subpath = $"{path}\\{node.NodeName}\\{subnode.NodeName}\\{field.PropertyName}";
-                            field.FullPath = subpath;
-                            map[subpath] = field;
+                            var subPath = $@"{path}\{node.NodeName}\{subNode.NodeName}\{field.PropertyName}";
+                            field.FullPath = subPath;
+                            map[subPath] = field;
                         }
                     }
                 }
@@ -486,17 +503,9 @@ namespace NfsCore.Database.Collection
             return map;
         }
 
-        public List<VirtualNode> GetAllNodes()
+        public IEnumerable<VirtualNode> GetAllNodes()
         {
-            var list = new List<VirtualNode>(Length);
-            foreach (var cla in Collections)
-            {
-                var node = new VirtualNode(cla.CollectionName);
-                node.SubNodes = cla.GetAllNodes();
-                list.Add(node);
-            }
-
-            return list;
+            return Collections.Select(cla => new VirtualNode(cla.CollectionName) {SubNodes = cla.GetAllNodes()});
         }
 
         #endregion

@@ -5,10 +5,10 @@ using NfsCore.Reflection.Abstract;
 using NfsCore.Support.Underground1.Class;
 using NfsCore.Support.Underground1.Gameplay;
 
-namespace NfsCore.Database;
-
-public class Underground1Db : BasicBase
+namespace NfsCore.Database
 {
+    public class Underground1Db : BasicBase
+    {
         /// <summary>
         /// Game to which the class belongs to.
         /// </summary>
@@ -78,4 +78,5 @@ public class Underground1Db : BasicBase
             //info += $"{this.Tracks.ThisName} = {this.Tracks.Length} collections.{nl}";
             return info;
         }
+    }
 }

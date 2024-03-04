@@ -6,9 +6,9 @@ namespace NfsCore.Support.Carbon.Class
     public partial class TPKBlock : Shared.Class.TPKBlock
     {
         private bool _use_current_cname;
-        private List<uint> keys = []; // Part2
-        private List<OffSlot> offslots = []; // Part3
-        private List<uint> compressions = []; // Part5
+        private List<uint> keys = new(); // Part2
+        private List<OffSlot> offslots = new(); // Part3
+        private List<uint> compressions = new(); // Part5
 
         public TPKBlock() { _use_current_cname = true; Version = 8; }
 
