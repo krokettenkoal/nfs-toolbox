@@ -5,40 +5,38 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class Material
     {
-        private float _shadow_outer_radius = 0;
-        private float _optimal_light_reflection = 0;
+        private float _shadowOuterRadius = 0;
+        private float _optimalLightReflection = 0;
 
         /// <summary>
         /// Outer radius of the shadow fading.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float ShadowOuterRadius
         {
-            get => this._shadow_outer_radius;
+            get => _shadowOuterRadius;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._shadow_outer_radius = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _shadowOuterRadius = value;
             }
         }
 
         /// <summary>
         /// Value of the optimal light reflection on the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float OptimalLightReflection
         {
-            get => this._optimal_light_reflection;
+            get => _optimalLightReflection;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._optimal_light_reflection = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _optimalLightReflection = value;
             }
         }
     }

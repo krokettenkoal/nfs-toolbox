@@ -3,20 +3,22 @@ using NfsCore.Reflection.Interface;
 
 namespace NfsCore.Support.Underground2.Parts.InfoParts
 {
-	public class Tires : SubPart, ICopyable<Tires>
-	{
-		public float StaticGripScale { get; set; }
-		public float YawSpeedScale { get; set; } 
-		public float SteeringAmplifier { get; set; }
-		public float DynamicGripScale { get; set; }
-		public float SteeringResponse { get; set; }
+    public class Tires : SubPart, ICopyable<Tires>
+    {
+        public float StaticGripScale { get; set; }
+        public float YawSpeedScale { get; set; }
+        public float SteeringAmplifier { get; set; }
+        public float DynamicGripScale { get; set; }
+        public float SteeringResponse { get; set; }
         public float DriftYawControl { get; set; }
         public float DriftCounterSteerBuildUp { get; set; }
         public float DriftCounterSteerReduction { get; set; }
         public float PowerSlideBreakThru1 { get; set; }
         public float PowerSlideBreakThru2 { get; set; }
 
-        public Tires() { }
+        public Tires()
+        {
+        }
 
         /// <summary>
         /// Creates a plain copy of the objects that contains same values.
@@ -25,13 +27,14 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public Tires PlainCopy()
         {
             var result = new Tires();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

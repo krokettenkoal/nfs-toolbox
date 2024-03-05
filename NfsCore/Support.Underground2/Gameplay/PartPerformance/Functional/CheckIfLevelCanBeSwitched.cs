@@ -6,8 +6,8 @@ namespace NfsCore.Support.Underground2.Gameplay
 	{
 		private bool CheckIfLevelCanBeSwitched(int level)
 		{
-			int index = (int)this._part_perf_type;
-			for (int a1 = 0; a1 < 4; ++a1)
+			var index = (int)_partPerfType;
+			for (var a1 = 0; a1 < 4; ++a1)
 			{
 				if (Map.PerfPartTable[index, level, a1] == 0)
 					return true;

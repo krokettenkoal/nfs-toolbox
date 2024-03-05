@@ -5,40 +5,38 @@ namespace NfsCore.Support.Underground2.Class
 {
     public partial class Material
     {
-        private float _transparency1 = 0;
-        private float _transparency2 = 0;
+        private float _transparency1;
+        private float _transparency2;
 
         /// <summary>
         /// First alpha value of the material colors.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float AlphaValue1
         {
-            get => this._transparency1;
+            get => _transparency1;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._transparency1 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _transparency1 = value;
             }
         }
 
         /// <summary>
         /// Second alpha value of the material colors.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float AlphaValue2
         {
-            get => this._transparency2;
+            get => _transparency2;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._transparency2 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _transparency2 = value;
             }
         }
     }

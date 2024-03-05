@@ -1,29 +1,33 @@
 ﻿using NfsCore.Global;
-using NfsCore.Reflection.Abstract;
+using NfsCore.Support.Underground2.Class;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCareerBrand : Collectable
-	{
-		// Default constructor
-		public GCareerBrand() { }
+    public partial class GCareerBrand : NfsUnderground2Collectable
+    {
+        // Default constructor
+        public GCareerBrand()
+        {
+        }
 
-		// Default constructor: create new career brand
-		public GCareerBrand(string CName, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.CollectionName = CName;
-			Map.BinKeys[Bin.Hash(CName)] = CName;
-		}
+        // Default constructor: create new career brand
+        public GCareerBrand(string collectionName, Database.Underground2Db db)
+        {
+            Database = db;
+            CollectionName = collectionName;
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
+        }
 
-		// Default constructor: disassemble career brand
-		public unsafe GCareerBrand(byte* byteptr_t, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.Disassemble(byteptr_t);
-		}
+        // Default constructor: disassemble career brand
+        public unsafe GCareerBrand(byte* bytePtrT, Database.Underground2Db db)
+        {
+            Database = db;
+            Disassemble(bytePtrT);
+        }
 
-		~GCareerBrand() { }
-	}
+        ~GCareerBrand()
+        {
+        }
+    }
 }

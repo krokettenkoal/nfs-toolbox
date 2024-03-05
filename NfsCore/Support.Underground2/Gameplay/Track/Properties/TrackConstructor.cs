@@ -1,32 +1,36 @@
 ﻿using System;
 using NfsCore.Global;
-using NfsCore.Reflection.Abstract;
+using NfsCore.Support.Underground2.Class;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class Track : Collectable
-	{
-		// Default constructor
-		public Track() { }
+    public partial class Track : NfsUnderground2Collectable
+    {
+        // Default constructor
+        public Track()
+        {
+        }
 
-		// Default constructor: create new track
-		public Track(string CName, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.CollectionName = CName;
-			this.RegionName = "L4RA";
-			Map.BinKeys[Bin.Hash(CName)] = CName;
-		}
+        // Default constructor: create new track
+        public Track(string collectionName, Database.Underground2Db db)
+        {
+            Database = db;
+            CollName = collectionName;
+            RegionName = "L4RA";
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
+        }
 
-		// Default constructor: disassemble track
-		public unsafe Track(IntPtr byteptr_t, string CName, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this._collection_name = CName;
-			this.Disassemble((byte*)byteptr_t);
-		}
+        // Default constructor: disassemble track
+        public unsafe Track(IntPtr bytePtrT, string collectionName, Database.Underground2Db db)
+        {
+            Database = db;
+            CollName = collectionName;
+            Disassemble((byte*) bytePtrT);
+        }
 
-		~Track() { }
-	}
+        ~Track()
+        {
+        }
+    }
 }

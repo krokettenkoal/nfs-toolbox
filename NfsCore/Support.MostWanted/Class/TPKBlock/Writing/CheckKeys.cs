@@ -7,9 +7,9 @@
         /// </summary>
         protected override void CheckKeys()
         {
-            this.keys.Clear();
-            for (int a1 = 0; a1 < this.Textures.Count; ++a1)
-                this.keys.Add(this.Textures[a1].BinKey);
+            _keys.Clear();
+            foreach (var t in Textures)
+                _keys.Add(t.BinKey);
         }
     }
 }

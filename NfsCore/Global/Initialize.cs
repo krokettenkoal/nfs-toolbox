@@ -19,7 +19,7 @@ namespace NfsCore.Global
             HashImportantStrings();
         }
 
-        public static void InitUG2()
+        public static void InitUg2()
         {
             Map.RimBrands.Clear();
             Map.AudioTypes.Clear();
@@ -29,11 +29,11 @@ namespace NfsCore.Global
             Map.UG2CaliperPaints.Clear();
             Map.UG2RimPaints.Clear();
             Map.UG2VinylPaints.Clear();
-            UG2PaintTypes();
-            UG2CaliperPaints();
-            UG2RimPaints();
-            UG2VinylPaints();
-            UG2BankTriggers();
+            Ug2PaintTypes();
+            Ug2CaliperPaints();
+            Ug2RimPaints();
+            Ug2VinylPaints();
+            Ug2BankTriggers();
             Windshields();
             HashImportantStrings();
             Map.PerfPartTable = new uint[10, 3, 4];
@@ -45,51 +45,46 @@ namespace NfsCore.Global
         private static void PaintTypes()
         {
             // Paint types
-            var GLOSS = "GLOSS";
-            var METAL = "METAL";
-            var PEARL = "PEARL";
-            var MATTE = "MATTE";
-            var CHROME = "CHROME";
+            const string gloss = "GLOSS";
+            const string metal = "METAL";
+            const string pearl = "PEARL";
+            const string matte = "MATTE";
+            const string chrome = "CHROME";
 
             // Extra strings
-            var COLOR = "_L1_COLOR";
+            const string color = "_L1_COLOR";
 
             // Main strings
-            string _paint_1;
-            string _paint_2;
+            string paint1;
 
             // GLOSS/METAL + _L1_COLOR + 00-80
             for (var a1 = 0; a1 < 81; ++a1)
             {
                 var a1Padding = a1.ToString("D2");
 
-                _paint_1 = $"{GLOSS}{COLOR}{a1Padding}";
-                Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
+                paint1 = $"{gloss}{color}{a1Padding}";
+                Map.BinKeys[Bin.Hash(paint1)] = paint1;
 
-                _paint_1 = $"{METAL}{COLOR}{a1Padding}";
-                Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
+                paint1 = $"{metal}{color}{a1Padding}";
+                Map.BinKeys[Bin.Hash(paint1)] = paint1;
 
-                if (a1 < 21)
-                {
-                    _paint_1 = $"{PEARL}{a1Padding}";
-                    Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
+                if (a1 >= 21) continue;
+                paint1 = $"{pearl}{a1Padding}";
+                Map.BinKeys[Bin.Hash(paint1)] = paint1;
 
-                    if (a1 < 11)
-                    {
-                        _paint_1 = $"{MATTE}{a1Padding}";
-                        Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
+                if (a1 >= 11) continue;
+                paint1 = $"{matte}{a1Padding}";
+                Map.BinKeys[Bin.Hash(paint1)] = paint1;
 
-                        _paint_1 = $"{CHROME}{a1Padding}";
-                        Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
-                    }
-                }
+                paint1 = $"{chrome}{a1Padding}";
+                Map.BinKeys[Bin.Hash(paint1)] = paint1;
             }
 
             // Cop and Traffic paint types
-            _paint_1 = "COP_L1_COLOR01";
-            _paint_2 = "TRAFFIC_L1_COLOR01";
-            Map.BinKeys[Bin.Hash(_paint_1)] = _paint_1;
-            Map.BinKeys[Bin.Hash(_paint_2)] = _paint_2;
+            paint1 = "COP_L1_COLOR01";
+            const string paint2 = "TRAFFIC_L1_COLOR01";
+            Map.BinKeys[Bin.Hash(paint1)] = paint1;
+            Map.BinKeys[Bin.Hash(paint2)] = paint2;
         }
 
         /// <summary>
@@ -97,7 +92,7 @@ namespace NfsCore.Global
         /// </summary>
         private static void Windshields()
         {
-            Map.WindowTintMap.AddRange(new string[]
+            Map.WindowTintMap.AddRange(new[]
             {
                 "WINDSHIELD_TINT_L1_BLACK",
                 "WINDSHIELD_TINT_L1_GREEN",
@@ -107,8 +102,8 @@ namespace NfsCore.Global
                 "WINDSHIELD_TINT_L1_MED_GREEN",
             });
 
-            for (var a1 = 0; a1 < Map.WindowTintMap.Count; ++a1)
-                Bin.Hash(Map.WindowTintMap[a1]);
+            foreach (var wtm in Map.WindowTintMap)
+                Bin.Hash(wtm);
         }
 
         /// <summary>
@@ -126,7 +121,7 @@ namespace NfsCore.Global
         /// </summary>
         private static void RimBrandArray()
         {
-            Map.RimBrands.AddRange(new string[] 
+            Map.RimBrands.AddRange(new[]
             {
                 "AUTOSCLPT",
                 "5ZIGEN",
@@ -153,66 +148,69 @@ namespace NfsCore.Global
         /// <summary>
         /// Initializes all UG2 paint type strings into its paint memory map.
         /// </summary>
-        private static void UG2PaintTypes()
+        private static void Ug2PaintTypes()
         {
             // Paint types
-            var GLOSS = "GLOSS";
-            var METAL = "METAL";
-            var PEARL = "PEARL";
-            var HOSES = "HOSES";
-            var MUFFLERS = "MUFFLERS";
-            var CUSTOMPAINT = "CUSTOMPAINT_";
+            const string gloss = "GLOSS";
+            const string metal = "METAL";
+            const string pearl = "PEARL";
+            const string hoses = "HOSES";
+            const string mufflers = "MUFFLERS";
+            const string customPaint = "CUSTOMPAINT_";
 
             // Extra strings
-            var COLOR = "_COLOR";
-            var NEW = "_NEW_";
-            var TEST = "_TEST";
-            var _PAINT = "_PAINT";
-            var _1 = "1";
-            var _2 = "2";
-            var _3 = "3";
-            var _L = "_L";
+            const string colorSuffix = "_COLOR";
+            const string newInfix = "_NEW_";
+            const string testSuffix = "_TEST";
+            const string paintSuffix = "_PAINT";
+            const string _1 = "1";
+            const string _2 = "2";
+            const string _3 = "3";
+            const string lSuffix = "_L";
 
             for (var a1 = 1; a1 < 31; ++a1)
             {
                 var a1Padding = a1.ToString("D2");
 
-                if (a1 < 21)
+                switch (a1)
                 {
-                    Map.UG2PaintTypes.AddRange(new string[]
+                    case < 21:
                     {
-                          $"{GLOSS}{_L}{_2}{COLOR}{a1Padding}",
-                          $"{METAL}{_L}{_2}{NEW}{a1Padding}",
-                          $"{METAL}{_L}{_3}{TEST}{a1Padding}",
-                          $"{HOSES}{_L}{_2}{COLOR}{a1Padding}",
-                          $"{MUFFLERS}{_L}{_2}{COLOR}{a1Padding}",
-                          $"{CUSTOMPAINT}{a1}",
-                    });
-
-                    if (a1 < 11)
-                    {
-                        Map.UG2PaintTypes.AddRange(new string[]
+                        Map.UG2PaintTypes.AddRange(new[]
                         {
-                        $"{GLOSS}{_L}{_1}{COLOR}{a1Padding}",
-                        $"{METAL}{_L}{_2}{COLOR}{a1Padding}",
-                        $"{HOSES}{_L}{_1}{COLOR}{a1Padding}",
-                        $"{MUFFLERS}{_L}{_1}{COLOR}{a1Padding}",
-                        $"{PEARL}{a1}{_PAINT}",
+                            $"{gloss}{lSuffix}{_2}{colorSuffix}{a1Padding}",
+                            $"{metal}{lSuffix}{_2}{newInfix}{a1Padding}",
+                            $"{metal}{lSuffix}{_3}{testSuffix}{a1Padding}",
+                            $"{hoses}{lSuffix}{_2}{colorSuffix}{a1Padding}",
+                            $"{mufflers}{lSuffix}{_2}{colorSuffix}{a1Padding}",
+                            $"{customPaint}{a1}",
                         });
+
+                        if (a1 < 11)
+                        {
+                            Map.UG2PaintTypes.AddRange(new[]
+                            {
+                                $"{gloss}{lSuffix}{_1}{colorSuffix}{a1Padding}",
+                                $"{metal}{lSuffix}{_2}{colorSuffix}{a1Padding}",
+                                $"{hoses}{lSuffix}{_1}{colorSuffix}{a1Padding}",
+                                $"{mufflers}{lSuffix}{_1}{colorSuffix}{a1Padding}",
+                                $"{pearl}{a1}{paintSuffix}",
+                            });
+                        }
+
+                        break;
                     }
+                    default:
+                        Map.UG2PaintTypes.Add($"{metal}{lSuffix}{_3}{newInfix}{a1Padding}");
+                        break;
                 }
 
-                if (a1 > 20)
+                Map.UG2PaintTypes.AddRange(new[]
                 {
-                    Map.UG2PaintTypes.Add($"{METAL}{_L}{_3}{NEW}{a1Padding}");
-                }
-
-                Map.UG2PaintTypes.AddRange(new string[]
-                {
-                    $"{GLOSS}{_L}{_3}{TEST}{a1Padding}",
-                    $"{METAL}{_L}{_3}{COLOR}{a1Padding}",
-                    $"{HOSES}{_L}{_3}{COLOR}{a1Padding}",
-                    $"{MUFFLERS}{_L}{_3}{COLOR}{a1Padding}",
+                    $"{gloss}{lSuffix}{_3}{testSuffix}{a1Padding}",
+                    $"{metal}{lSuffix}{_3}{colorSuffix}{a1Padding}",
+                    $"{hoses}{lSuffix}{_3}{colorSuffix}{a1Padding}",
+                    $"{mufflers}{lSuffix}{_3}{colorSuffix}{a1Padding}",
                 });
             }
 
@@ -225,45 +223,45 @@ namespace NfsCore.Global
                 Bin.Hash(paint);
         }
 
-        private static void UG2CaliperPaints()
+        private static void Ug2CaliperPaints()
         {
-            var CALIPERS_L = "CALIPERS_L";
-            var _COLOR = "_COLOR";
+            const string calipersL = "CALIPERS_L";
+            const string colorSuffix = "_COLOR";
 
             for (var a1 = 1; a1 < 4; ++a1)
             {
                 for (var a2 = 1; a2 <= 10 * a1; ++a2)
-                    Map.UG2CaliperPaints.Add($"{CALIPERS_L}{a1}{_COLOR}{a2:00}");
+                    Map.UG2CaliperPaints.Add($"{calipersL}{a1}{colorSuffix}{a2:00}");
             }
 
             foreach (var paint in Map.UG2CaliperPaints)
                 Bin.Hash(paint);
         }
 
-        private static void UG2RimPaints()
+        private static void Ug2RimPaints()
         {
-            var RIMS_L = "RIMS_L";
-            var _COLOR = "_COLOR";
+            const string rimsL = "RIMS_L";
+            const string colorSuffix = "_COLOR";
 
             for (var a1 = 1; a1 < 4; ++a1)
             {
                 for (var a2 = 1; a2 <= 10 * a1; ++a2)
-                    Map.UG2RimPaints.Add($"{RIMS_L}{a1}{_COLOR}{a2:00}");
+                    Map.UG2RimPaints.Add($"{rimsL}{a1}{colorSuffix}{a2:00}");
             }
 
             foreach (var paint in Map.UG2RimPaints)
                 Bin.Hash(paint);
         }
 
-        private static void UG2VinylPaints()
+        private static void Ug2VinylPaints()
         {
-            var VINYL_L = "VINYL_L";
-            var _COLOR = "_COLOR";
+            const string vinylL = "VINYL_L";
+            const string colorSuffix = "_COLOR";
 
             for (var a1 = 1; a1 < 4; ++a1)
             {
                 for (var a2 = 1; a2 <= 10 * a1; ++a2)
-                    Map.UG2VinylPaints.Add($"{VINYL_L}{a1}{_COLOR}{a2:00}");
+                    Map.UG2VinylPaints.Add($"{vinylL}{a1}{colorSuffix}{a2:00}");
             }
 
             foreach (var paint in Map.UG2VinylPaints)
@@ -283,7 +281,7 @@ namespace NfsCore.Global
         /// <summary>
         /// Hashes all labels for bank triggers.
         /// </summary>
-        private static void UG2BankTriggers()
+        private static void Ug2BankTriggers()
         {
             for (var a1 = 0; a1 < 100; ++a1)
                 Bin.Hash($"BANK_TRIGGER_{a1:00}");

@@ -7,25 +7,29 @@ namespace NfsCore.Support.Carbon.Class
     public partial class PresetSkin : Shared.Class.PresetSkin
     {
         // Default constructor
-        public PresetSkin() { }
+        public PresetSkin()
+        {
+        }
 
         // Default constructor: create new skin
-        public PresetSkin(string CName, Database.CarbonDb db)
+        public PresetSkin(string collectionName, Database.CarbonDb db)
         {
-            this.Database = db;
-            this.CollectionName = CName;
-            Map.BinKeys[Bin.Hash(CName)] = CName;
+            Database = db;
+            CollName = collectionName;
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
         }
 
         // Default constructor: disassemble skin
-        public unsafe PresetSkin(IntPtr byteptr_t, string CName, Database.CarbonDb db)
+        public unsafe PresetSkin(IntPtr bytePtrT, string collectionName, Database.CarbonDb db)
         {
-            this.Database = db;
-            this._collection_name = CName;
-            this.Disassemble((byte*)byteptr_t);
+            Database = db;
+            CollName = collectionName;
+            Disassemble((byte*) bytePtrT);
         }
 
         // Default destructor
-        ~PresetSkin() { }
+        ~PresetSkin()
+        {
+        }
     }
 }

@@ -5,8 +5,8 @@
         /// <summary>
         /// Size of one material block.
         /// </summary>
-        public int Size { get; } = 0xA0;
+        internal int Size { get; } = 0xA0;
 
-        private const uint _class_key = 0x0041440F;
+        private const uint ClassKey = 0x0041440F;
     }
 }

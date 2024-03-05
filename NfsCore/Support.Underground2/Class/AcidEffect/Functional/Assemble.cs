@@ -10,48 +10,49 @@ namespace NfsCore.Support.Underground2.Class
         /// <returns>Byte array of the xenon effect.</returns>
         public override unsafe byte[] Assemble()
         {
-            byte[] result = new byte[0xD0];
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[0xD0];
+            fixed (byte* bytePtrT = &result[0])
             {
                 // Write all settings
-                *(int*)byteptr_t = _Localizer;
-                *(int*)(byteptr_t + 0x04) = _Localizer;
-                *(uint*)(byteptr_t + 0x08) = this.BinKey;
-                *(uint*)(byteptr_t + 0x0C) = this.BinKey;
-                *(uint*)(byteptr_t + 0x10) = this.ClassKey;
-                *(uint*)(byteptr_t + 0x18) = this.Flags;
-                *(ushort*)(byteptr_t + 0x1C) = this.NumEmitters;
-                *(ushort*)(byteptr_t + 0x1E) = this.SectionNumber;
-                *(float*)(byteptr_t + 0x20) = this.LocalWorld_Vec1_X;
-                *(float*)(byteptr_t + 0x24) = this.LocalWorld_Vec1_Y;
-                *(float*)(byteptr_t + 0x28) = this.LocalWorld_Vec1_Z;
-                *(float*)(byteptr_t + 0x2C) = this.LocalWorld_Vec1_W;
-                *(float*)(byteptr_t + 0x30) = this.LocalWorld_Vec2_X;
-                *(float*)(byteptr_t + 0x34) = this.LocalWorld_Vec2_Y;
-                *(float*)(byteptr_t + 0x38) = this.LocalWorld_Vec2_Z;
-                *(float*)(byteptr_t + 0x3C) = this.LocalWorld_Vec2_W;
-                *(float*)(byteptr_t + 0x40) = this.LocalWorld_Vec3_X;
-                *(float*)(byteptr_t + 0x44) = this.LocalWorld_Vec3_Y;
-                *(float*)(byteptr_t + 0x48) = this.LocalWorld_Vec3_Z;
-                *(float*)(byteptr_t + 0x4C) = this.LocalWorld_Vec3_W;
-                *(float*)(byteptr_t + 0x50) = this.LocalWorld_Vec4_X;
-                *(float*)(byteptr_t + 0x54) = this.LocalWorld_Vec4_Y;
-                *(float*)(byteptr_t + 0x58) = this.LocalWorld_Vec4_Z;
-                *(float*)(byteptr_t + 0x5C) = this.LocalWorld_Vec4_W;
-                *(uint*)(byteptr_t + 0x60) = Bin.SmartHash(this._inheritance_key);
-                *(float*)(byteptr_t + 0x64) = this.FarClip;
-                *(float*)(byteptr_t + 0x68) = this.Intensity;
-                *(float*)(byteptr_t + 0x70) = this.LastPositionX;
-                *(float*)(byteptr_t + 0x74) = this.LastPositionY;
-                *(float*)(byteptr_t + 0x78) = this.LastPositionZ;
-                *(float*)(byteptr_t + 0x7C) = this.LastPositionW;
-                *(uint*)(byteptr_t + 0x84) = this.NumZeroParticleFrames;
-                *(uint*)(byteptr_t + 0x88) = this.CreationTimeStamp;
+                *(int*) bytePtrT = Localizer;
+                *(int*) (bytePtrT + 0x04) = Localizer;
+                *(uint*) (bytePtrT + 0x08) = BinKey;
+                *(uint*) (bytePtrT + 0x0C) = BinKey;
+                *(uint*) (bytePtrT + 0x10) = ClassKey;
+                *(uint*) (bytePtrT + 0x18) = Flags;
+                *(ushort*) (bytePtrT + 0x1C) = NumEmitters;
+                *(ushort*) (bytePtrT + 0x1E) = SectionNumber;
+                *(float*) (bytePtrT + 0x20) = LocalWorldVec1X;
+                *(float*) (bytePtrT + 0x24) = LocalWorldVec1Y;
+                *(float*) (bytePtrT + 0x28) = LocalWorldVec1Z;
+                *(float*) (bytePtrT + 0x2C) = LocalWorldVec1W;
+                *(float*) (bytePtrT + 0x30) = LocalWorldVec2X;
+                *(float*) (bytePtrT + 0x34) = LocalWorldVec2Y;
+                *(float*) (bytePtrT + 0x38) = LocalWorldVec2Z;
+                *(float*) (bytePtrT + 0x3C) = LocalWorldVec2W;
+                *(float*) (bytePtrT + 0x40) = LocalWorldVec3X;
+                *(float*) (bytePtrT + 0x44) = LocalWorldVec3Y;
+                *(float*) (bytePtrT + 0x48) = LocalWorldVec3Z;
+                *(float*) (bytePtrT + 0x4C) = LocalWorldVec3W;
+                *(float*) (bytePtrT + 0x50) = LocalWorldVec4X;
+                *(float*) (bytePtrT + 0x54) = LocalWorldVec4Y;
+                *(float*) (bytePtrT + 0x58) = LocalWorldVec4Z;
+                *(float*) (bytePtrT + 0x5C) = LocalWorldVec4W;
+                *(uint*) (bytePtrT + 0x60) = Bin.SmartHash(_inheritanceKey);
+                *(float*) (bytePtrT + 0x64) = FarClip;
+                *(float*) (bytePtrT + 0x68) = Intensity;
+                *(float*) (bytePtrT + 0x70) = LastPositionX;
+                *(float*) (bytePtrT + 0x74) = LastPositionY;
+                *(float*) (bytePtrT + 0x78) = LastPositionZ;
+                *(float*) (bytePtrT + 0x7C) = LastPositionW;
+                *(uint*) (bytePtrT + 0x84) = NumZeroParticleFrames;
+                *(uint*) (bytePtrT + 0x88) = CreationTimeStamp;
 
                 // Write CollectionName
-                for (int a1 = 0; a1 < this._collection_name.Length; ++a1)
-                    *(byteptr_t + 0x90 + a1) = (byte)this._collection_name[a1];
+                for (var a1 = 0; a1 < CollName.Length; ++a1)
+                    *(bytePtrT + 0x90 + a1) = (byte) CollName[a1];
             }
+
             return result;
         }
     }

@@ -3,9 +3,9 @@ using NfsCore.Reflection.Interface;
 
 namespace NfsCore.Support.Underground2.Parts.InfoParts
 {
-	public class Pvehicle : SubPart, ICopyable<Pvehicle>
-	{
-		public float Massx1000Multiplier { get; set; } = 1;
+    public class Pvehicle : SubPart, ICopyable<Pvehicle>
+    {
+        public float Massx1000Multiplier { get; set; } = 1;
         public float TensorScaleX { get; set; } = 4;
         public float TensorScaleY { get; set; } = 3;
         public float TensorScaleZ { get; set; } = 2;
@@ -14,7 +14,9 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public float TopSpeedUnderflow { get; set; }
         public float StockTopSpeedLimiter { get; set; }
 
-        public Pvehicle() { }
+        public Pvehicle()
+        {
+        }
 
         /// <summary>
         /// Creates a plain copy of the objects that contains same values.
@@ -23,13 +25,14 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public Pvehicle PlainCopy()
         {
             var result = new Pvehicle();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

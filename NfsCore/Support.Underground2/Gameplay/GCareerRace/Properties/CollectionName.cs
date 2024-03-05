@@ -1,35 +1,21 @@
 ﻿using System;
-using NfsCore.Reflection.Attributes;
 using NfsCore.Reflection.Exception;
-using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCareerRace
-	{
-		private string _collection_name;
-
-		/// <summary>
-		/// Collection name of the variable.
-		/// </summary>
-		[AccessModifiable()]
-		public override string CollectionName
-		{
-			get => this._collection_name;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left left empty.");
-				if (value.Contains(" "))
-					throw new Exception("CollectionName cannot contain whitespace.");
-				if (this.Database.GCareerRaces.FindCollection(value) != null)
-					throw new CollectionExistenceException();
-				this._collection_name = value;
-			}
-		}
-
-		public uint BinKey { get => Bin.Hash(this._collection_name); }
-
-		public uint VltKey { get => Vlt.Hash(this._collection_name); }
-	}
+    public partial class GCareerRace
+    {
+        /// <summary>
+        /// Validates the collection name for the GCareerBrand item
+        /// </summary>
+        protected override void ValidateCollectionName(string collectionName)
+        {
+            if (string.IsNullOrWhiteSpace(collectionName))
+                throw new ArgumentNullException(nameof(collectionName), "This value cannot be left left empty.");
+            if (collectionName.Contains(' '))
+                throw new Exception("CollectionName cannot contain whitespace.");
+            if (Database.GCareerRaces.FindCollection(collectionName) != null)
+                throw new CollectionExistenceException();
+        }
+    }
 }

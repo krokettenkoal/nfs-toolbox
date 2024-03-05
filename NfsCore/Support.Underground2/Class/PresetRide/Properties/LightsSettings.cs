@@ -3,44 +3,42 @@ using NfsCore.Reflection.Attributes;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-		private byte _headlight_style = 0;
-		private byte _brakelight_style = 0;
+    public partial class PresetRide
+    {
+        private byte _headlightStyle = 0;
+        private byte _brakeLightStyle = 0;
 
         /// <summary>
         /// Headlight style value of the preset ride. Range: 0-14.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte HeadlightStyle
         {
-            get => this._headlight_style;
+            get => _headlightStyle;
             set
             {
                 if (value > 14)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 14.");
-                else
-                    this._headlight_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 14.");
+                _headlightStyle = value;
+                Modified = true;
             }
         }
 
         /// <summary>
         /// RoofScoop style value of the preset ride. Range: 0-14.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte BrakelightStyle
         {
-            get => this._brakelight_style;
+            get => _brakeLightStyle;
             set
             {
                 if (value > 14)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 14.");
-                else
-                    this._brakelight_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 14.");
+                _brakeLightStyle = value;
+                Modified = true;
             }
         }
     }

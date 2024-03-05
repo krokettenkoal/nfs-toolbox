@@ -39,8 +39,10 @@ namespace NfsCore.Support.Underground2
             // Use pointers to speed up process
             fixed (byte* strPtr = &db._LngGlobal[0], labPtr = &db._LngLabels[0])
             {
-                db.STRBlocks.Collections.Add(new STRBlock(strPtr, labPtr, db._LngGlobal.Length, db._LngLabels.Length, db));
+                db.STRBlocks.Collections.Add(new STRBlock(strPtr, labPtr, db._LngGlobal.Length, db._LngLabels.Length,
+                    db));
             }
+
             return true;
         }
     }

@@ -18,90 +18,97 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
 
     public class SpoilMirr
     {
-        private byte[] data;
+        private byte[] _data;
 
         /// <summary>
         /// Game index to which the class belongs to.
         /// </summary>
-        public int GameINT { get => (int)Global.GameINT.Underground2; }
+        public int GameINT => (int) Global.GameINT.Underground2;
 
         /// <summary>
         /// Game string to which the class belongs to.
         /// </summary>
-        public string GameSTR { get => Global.GameSTR.Underground2; }
+        public string GameSTR => Global.GameSTR.Underground2;
 
         // Default constructor: initialize slottype data
         public SpoilMirr(byte[] data)
         {
-            this.data = data;
+            _data = data;
         }
 
         /// <summary>
         /// Gets all spoilers from the slottype block.
         /// </summary>
         /// <returns>List of all spoilers in the slottype block.</returns>
-        public unsafe List<CarSpoilMirrType> GetSpoilMirrs(List<string> CNames)
+        public unsafe List<CarSpoilMirrType> GetSpoilMirrs(List<string> collectionName)
         {
-            if (CNames == null || CNames.Count == 0) return null;
+            if (collectionName == null || collectionName.Count == 0) return null;
             var result = new List<CarSpoilMirrType>();
-            var NewData = new byte[this.data.Length];
-            fixed (byte* byteptr_t = &this.data[0], dataptr_t = &NewData[0])
+            var newData = new byte[_data.Length];
+            fixed (byte* bytePtrT = &_data[0], dataPtrT = &newData[0])
             {
-                int newoff = 8;
-                int offset = 8;
-                bool reached = false; // to remove padding
+                var newOff = 8;
+                var offset = 8;
+                var reached = false; // to remove padding
 
-                *(uint*)dataptr_t = *(uint*)byteptr_t;
+                *(uint*) dataPtrT = *(uint*) bytePtrT;
 
-                while (offset < this.data.Length)
+                while (offset < _data.Length)
                 {
-                    uint key = *(uint*)(byteptr_t + offset);
-                    string CName = Map.Lookup(key, false) ?? string.Empty;
+                    var key = *(uint*) (bytePtrT + offset);
+                    var collName = Map.Lookup(key, false) ?? string.Empty;
 
                     // Write to new array if not a spoiler or if not a padding
-                    if (!reached && !CNames.Contains(CName))
+                    if (!reached && !collectionName.Contains(collName))
                     {
-                        *(uint*)(dataptr_t + newoff) = key;
+                        *(uint*) (dataPtrT + newOff) = key;
                         offset += 4;
-                        newoff += 4;
+                        newOff += 4;
                         continue;
                     }
 
                     // Else find collection name and extract
                     reached = true;
-                    var CarSlot = new CarSpoilMirrType();
-                    CarSlot.CarTypeInfo = CName;
-
-                    uint definer = *(uint*)(byteptr_t + offset + 0x4);
-                    uint hash = *(uint*)(byteptr_t + offset + 0xC);
-
-                    if (definer == 0xC)
+                    var carSlot = new CarSpoilMirrType
                     {
-                        if (Enum.IsDefined(typeof(eSpoiler), hash))
-                            CarSlot.Spoiler = (eSpoiler)hash;
-                        else
-                            CarSlot.Spoiler = eSpoiler.SPOILER_NONE;
-                        CarSlot.SpoilerNoMirror = true;
-                    }
-                    else if (definer == 0x20)
+                        CarTypeInfo = collName
+                    };
+
+                    var definer = *(uint*) (bytePtrT + offset + 0x4);
+                    var hash = *(uint*) (bytePtrT + offset + 0xC);
+
+                    switch (definer)
                     {
-                        if (Enum.IsDefined(typeof(eMirrorTypes), hash))
-                            CarSlot.Mirrors = (eMirrorTypes)hash;
-                        else
-                            CarSlot.Mirrors = eMirrorTypes.MIRRORS_NONE;
-                        CarSlot.SpoilerNoMirror = false;
+                        case 0xC:
+                        {
+                            if (Enum.IsDefined(typeof(eSpoiler), hash))
+                                carSlot.Spoiler = (eSpoiler) hash;
+                            else
+                                carSlot.Spoiler = eSpoiler.SPOILER_NONE;
+                            carSlot.SpoilerNoMirror = true;
+                            break;
+                        }
+                        case 0x20:
+                        {
+                            if (Enum.IsDefined(typeof(eMirrorTypes), hash))
+                                carSlot.Mirrors = (eMirrorTypes) hash;
+                            else
+                                carSlot.Mirrors = eMirrorTypes.MIRRORS_NONE;
+                            carSlot.SpoilerNoMirror = false;
+                            break;
+                        }
                     }
 
-                    result.Add(CarSlot);
+                    result.Add(carSlot);
                     offset += 0x10;
                 }
 
-                *(int*)(dataptr_t + 4) = newoff - 8;
-                Array.Resize(ref NewData, newoff);
+                *(int*) (dataPtrT + 4) = newOff - 8;
+                Array.Resize(ref newData, newOff);
             }
 
             // Set new array
-            this.data = NewData;
+            _data = newData;
             return result;
         }
 
@@ -112,40 +119,41 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
         /// <returns>Slottype block as a byte array.</returns>
         public unsafe byte[] SetSpoilMirrs(List<CarSpoilMirrType> list)
         {
-            int newsize = list.Count * 0x10 + this.data.Length;
-            int padding = 0x10 - ((newsize + 8) % 0x10);
+            var newSize = list.Count * 0x10 + _data.Length;
+            var padding = 0x10 - ((newSize + 8) % 0x10);
             if (padding != 0x10)
-                newsize += padding;
-            int offset = this.data.Length;
+                newSize += padding;
+            var offset = _data.Length;
 
-            var result = new byte[newsize];
-            Buffer.BlockCopy(this.data, 0, result, 0, this.data.Length);
+            var result = new byte[newSize];
+            Buffer.BlockCopy(_data, 0, result, 0, _data.Length);
 
-            fixed (byte* byteptr_t = &result[0])
+            fixed (byte* bytePtrT = &result[0])
             {
-                foreach (var CarSlot in list)
+                foreach (var carSlot in list)
                 {
-                    if (CarSlot.SpoilerNoMirror)
+                    if (carSlot.SpoilerNoMirror)
                     {
-                        uint key = Bin.Hash(CarSlot.CarTypeInfo);
-                        *(uint*)(byteptr_t + offset) = key;
-                        *(uint*)(byteptr_t + offset + 4) = 0x0C;
-                        *(uint*)(byteptr_t + offset + 8) = key;
-                        *(uint*)(byteptr_t + offset + 0xC) = (uint)CarSlot.Spoiler;
+                        var key = Bin.Hash(carSlot.CarTypeInfo);
+                        *(uint*) (bytePtrT + offset) = key;
+                        *(uint*) (bytePtrT + offset + 4) = 0x0C;
+                        *(uint*) (bytePtrT + offset + 8) = key;
+                        *(uint*) (bytePtrT + offset + 0xC) = (uint) carSlot.Spoiler;
                         offset += 0x10;
                     }
                     else
                     {
-                        uint key = Bin.Hash(CarSlot.CarTypeInfo);
-                        *(uint*)(byteptr_t + offset) = key;
-                        *(uint*)(byteptr_t + offset + 4) = 0x20;
-                        *(uint*)(byteptr_t + offset + 8) = key;
-                        *(uint*)(byteptr_t + offset + 0xC) = (uint)CarSlot.Mirrors;
+                        var key = Bin.Hash(carSlot.CarTypeInfo);
+                        *(uint*) (bytePtrT + offset) = key;
+                        *(uint*) (bytePtrT + offset + 4) = 0x20;
+                        *(uint*) (bytePtrT + offset + 8) = key;
+                        *(uint*) (bytePtrT + offset + 0xC) = (uint) carSlot.Mirrors;
                         offset += 0x10;
                     }
                 }
-                *(uint*)byteptr_t = GlobalId.SlotTypes;
-                *(int*)(byteptr_t + 4) = newsize - 8;
+
+                *(uint*) bytePtrT = GlobalId.SlotTypes;
+                *(int*) (bytePtrT + 4) = newSize - 8;
             }
 
             return result;

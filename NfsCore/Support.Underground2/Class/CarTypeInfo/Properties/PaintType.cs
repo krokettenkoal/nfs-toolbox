@@ -7,21 +7,21 @@ namespace NfsCore.Support.Underground2.Class
 {
     public partial class CarTypeInfo
     {
-        private string _defaultbasepaint = BaseArguments.UGPAINT;
-        private string _defaultbasepaint2 = BaseArguments.UGPAINT;
+        private string _defaultBasePaint = BaseArguments.UGPAINT;
+        private string _defaultBasePaint2 = BaseArguments.UGPAINT;
 
         /// <summary>
         /// Represents first paint type of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public override string DefaultBasePaint
         {
-            get => this._defaultbasepaint;
+            get => _defaultBasePaint;
             set
             {
                 if (Map.UG2PaintTypes.Contains(value))
-                    this._defaultbasepaint = value;
+                    _defaultBasePaint = value;
                 else
                     throw new MappingFailException();
             }
@@ -30,15 +30,15 @@ namespace NfsCore.Support.Underground2.Class
         /// <summary>
         /// Represents second paint type of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string DefaultBasePaint2
         {
-            get => this._defaultbasepaint2;
+            get => _defaultBasePaint2;
             set
             {
                 if (Map.UG2PaintTypes.Contains(value))
-                    this._defaultbasepaint2 = value;
+                    _defaultBasePaint2 = value;
                 else
                     throw new MappingFailException();
             }

@@ -1,8 +1,6 @@
 ﻿using System;
-using NfsCore.Global;
 using NfsCore.Reflection.Abstract;
 using NfsCore.Reflection.ID;
-using NfsCore.Utils;
 
 namespace NfsCore.Support.Shared.Class
 {
@@ -10,9 +8,9 @@ namespace NfsCore.Support.Shared.Class
     {
         #region Private Fields
 
-        protected const int _Unknown0 = 0;
-        protected const int _Unknown1 = 1;
-        protected const int _Localizer = 3;
+        protected const int UnknownMaterialProp0 = 0;
+        protected const int UnknownMaterialProp1 = 1;
+        protected const int MaterialLocalizer = 3;
 
         #endregion
 
@@ -21,32 +19,7 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// ID of the material block
         /// </summary>
-        public uint ID { get => GlobalId.Materials; }
-
-        /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get; set; }
-
-        /// <summary>
-        /// Game to which the class belongs to.
-        /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
-        /// Binary memory hash of the collection name.
-        /// </summary>
-        public virtual uint BinKey { get => Bin.Hash(this.CollectionName); }
-
-        /// <summary>
-        /// Vault memory hash of the collection name.
-        /// </summary>
-        public virtual uint VltKey { get => Vlt.Hash(this.CollectionName); }
+        public static uint Id => GlobalId.Materials;
 
         #endregion
 
@@ -56,20 +29,20 @@ namespace NfsCore.Support.Shared.Class
         /// Assembles material into a byte array.
         /// </summary>
         /// <returns>Byte array of the material.</returns>
-        public virtual unsafe byte[] Assemble() { return null; }
+        public virtual byte[] Assemble() { return null; }
 
         /// <summary>
         /// Disassembles material array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the material array.</param>
-        protected virtual unsafe void Disassemble(byte* byteptr_t) { }
+        /// <param name="bytePtrT">Pointer to the material array.</param>
+        protected virtual unsafe void Disassemble(byte* bytePtrT) { }
 
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
             throw new NotImplementedException();
         }

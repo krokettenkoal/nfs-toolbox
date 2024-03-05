@@ -8,25 +8,25 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private string _window_tint_type = BaseArguments.STOCK;
+        private string _windowTintType = BaseArguments.STOCK;
 
         /// <summary>
         /// Window tint type value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string WindowTintType
         {
-            get => this._window_tint_type;
+            get => _windowTintType;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
                 if (value == BaseArguments.STOCK || Map.WindowTintMap.Contains(value))
-                    this._window_tint_type = value;
+                    _windowTintType = value;
                 else
                     throw new MappingFailException("This value should be either a valid windshield type, or STOCK.");
-                this.Modified = true;
+                Modified = true;
             }
         }
     }

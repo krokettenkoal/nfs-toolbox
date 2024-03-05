@@ -7,32 +7,32 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class GShowcase
 	{
-		private eTakePhotoMethod _take_photo = eTakePhotoMethod.MAGAZINE_YOURSELF;
+		private eTakePhotoMethod _takePhoto = eTakePhotoMethod.MAGAZINE_YOURSELF;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public eTakePhotoMethod TakePhotoMethod
 		{
-			get => this._take_photo;
+			get => _takePhoto;
 			set
 			{
 				if (Enum.IsDefined(typeof(eTakePhotoMethod), value))
-					this._take_photo = value;
+					_takePhoto = value;
 				else
 					throw new MappingFailException();
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte BelongsToStage { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short CashValue { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public float RequiredVisualRating { get; set; }
 	}
 }

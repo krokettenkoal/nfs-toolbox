@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
 
 namespace NfsCore.Support.MostWanted
 {
@@ -11,16 +11,14 @@ namespace NfsCore.Support.MostWanted
         private static void E_Spoilers(Database.MostWantedDb db)
         {
             if (db.SlotTypes.Spoilers == null) return;
-            var CNameList = new List<string>();
-            foreach (var car in db.CarTypeInfos.Collections)
-                CNameList.Add(car.CollectionName);
-            var AllSlots = db.SlotTypes.Spoilers.GetSpoilers(CNameList);
-            if (AllSlots == null || AllSlots.Count == 0) return;
-            foreach (var Slot in AllSlots)
+            var collectionNames = db.CarTypeInfos.Collections.Select(car => car.CollectionName).ToList();
+            var allSlots = db.SlotTypes.Spoilers.GetSpoilers(collectionNames);
+            if (allSlots == null || allSlots.Count == 0) return;
+            foreach (var slot in allSlots)
             {
-                var car = db.CarTypeInfos.FindCollection(Slot.CarTypeInfo);
+                var car = db.CarTypeInfos.FindCollection(slot.CarTypeInfo);
                 if (car == null) continue;
-                car.Spoiler = Slot.Spoiler;
+                car.Spoiler = slot.Spoiler;
             }
         }
     }

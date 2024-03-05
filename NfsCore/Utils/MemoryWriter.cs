@@ -12,23 +12,23 @@ namespace NfsCore.Utils
 	{
 		private byte[] stream;
 		public int Position { get; set; }
-		public int Length { get => this.stream.Length; }
-		public byte[] Data { get => this.stream; }
+		public int Length { get => stream.Length; }
+		public byte[] Data { get => stream; }
 
 		public MemoryWriter()
 		{
-			this.stream = new byte[0];
-			this.Position = 0;
+			stream = new byte[0];
+			Position = 0;
 		}
 		public MemoryWriter(int count)
 		{
-			this.stream = new byte[count];
-			this.Position = 0;
+			stream = new byte[count];
+			Position = 0;
 		}
 		public MemoryWriter(byte[] array)
 		{
-			this.stream = array;
-			this.Position = 0;
+			stream = array;
+			Position = 0;
 		}
 
 		private bool IsEnumerableType(PropertyInfo property)
@@ -43,43 +43,43 @@ namespace NfsCore.Utils
 		}
 		private unsafe void CheckLength(int length)
 		{
-			if (this.Position + length > this.Length)
+			if (Position + length > Length)
 			{
-				var result = new byte[this.Position + length]; // add capacity
-				Buffer.BlockCopy(this.stream, 0, result, 0, this.Length);
-				this.stream = result;
+				var result = new byte[Position + length]; // add capacity
+				Buffer.BlockCopy(stream, 0, result, 0, Length);
+				stream = result;
 			}
 		}
 		private unsafe void WriteObject(object value, bool propertyonly)
 		{
 			if (value is string)
-				this.WriteNullTerminated((string)value);
+				WriteNullTerminated((string)value);
 			else if (value is bool)
-				this.Write((bool)value);
+				Write((bool)value);
 			else if (value is byte)
-				this.Write((byte)value);
+				Write((byte)value);
 			else if (value is sbyte)
-				this.Write((sbyte)value);
+				Write((sbyte)value);
 			else if (value is char)
-				this.Write((char)value);
+				Write((char)value);
 			else if (value is short)
-				this.Write((short)value);
+				Write((short)value);
 			else if (value is ushort)
-				this.Write((ushort)value);
+				Write((ushort)value);
 			else if (value is int)
-				this.Write((int)value);
+				Write((int)value);
 			else if (value is uint)
-				this.Write((uint)value);
+				Write((uint)value);
 			else if (value is long)
-				this.Write((long)value);
+				Write((long)value);
 			else if (value is ulong)
-				this.Write((ulong)value);
+				Write((ulong)value);
 			else if (value is float)
-				this.Write((float)value);
+				Write((float)value);
 			else if (value is double)
-				this.Write((double)value);
+				Write((double)value);
 			else if (value is decimal)
-				this.Write((decimal)value);
+				Write((decimal)value);
 			else
 			{
 				var memtype = typeof(MemoryWriter);
@@ -98,12 +98,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The Boolean value to write (0 or 1).</param>
 		public unsafe void Write(bool value)
 		{
-			this.CheckLength(sizeof(bool));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(bool));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*dataptr_t = value ? (byte)1 : (byte)0;
 			}
-			this.Position += sizeof(bool);
+			Position += sizeof(bool);
 		}
 		/// <summary>
 		/// Writes an unsigned byte to the current stream and advances the stream position 
@@ -112,12 +112,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The unsigned byte to write.</param>
 		public unsafe void Write(byte value)
 		{
-			this.CheckLength(sizeof(byte));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(byte));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*dataptr_t = value;
 			}
-			this.Position += sizeof(byte);
+			Position += sizeof(byte);
 		}
 		/// <summary>
 		/// Writes a signed byte to the current stream and advances the stream position by 
@@ -126,12 +126,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The signed byte to write.</param>
 		public unsafe void Write(sbyte value)
 		{
-			this.CheckLength(sizeof(sbyte));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(sbyte));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(sbyte*)dataptr_t = value;
 			}
-			this.Position += sizeof(sbyte);
+			Position += sizeof(sbyte);
 		}
 		/// <summary>
 		/// Writes a Unicode character to the to the current stream and advances the stream 
@@ -140,12 +140,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The character to write.</param>
 		public unsafe void Write(char value)
 		{
-			this.CheckLength(sizeof(char));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(char));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(char*)dataptr_t = value;
 			}
-			this.Position += sizeof(char);
+			Position += sizeof(char);
 		}
 		/// <summary>
 		/// Writes a byte array to the underlying stream.
@@ -154,10 +154,10 @@ namespace NfsCore.Utils
 		public unsafe void Write(byte[] array)
 		{
 			if (array == null) return;
-			this.CheckLength(sizeof(byte) * array.Length);
+			CheckLength(sizeof(byte) * array.Length);
 			for (int a1 = 0; a1 < array.Length; ++a1)
-				this.stream[this.Position + a1] = array[a1];
-			this.Position += array.Length;
+				stream[Position + a1] = array[a1];
+			Position += array.Length;
 		}
 		/// <summary>
 		/// Writes a character array to the current stream and advances the current position
@@ -167,13 +167,13 @@ namespace NfsCore.Utils
 		public unsafe void Write(char[] array)
 		{
 			if (array == null) return;
-			this.CheckLength(sizeof(char) * array.Length);
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(char) * array.Length);
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				for (int a1 = 0; a1 < array.Length; ++a1)
 					*(char*)(dataptr_t + a1 * sizeof(char)) = array[a1];
 			}
-			this.Position += array.Length * sizeof(char);
+			Position += array.Length * sizeof(char);
 		}
 		/// <summary>
 		/// Writes a region of a byte array to the current stream.
@@ -185,10 +185,10 @@ namespace NfsCore.Utils
 		{
 			if (array == null || offset < 0 || count <= 0 || offset + count > array.Length)
 				return;
-			this.CheckLength(count * sizeof(byte));
+			CheckLength(count * sizeof(byte));
 			for (int a1 = 0; a1 < count; ++a1)
-				this.stream[this.Position + a1] = array[offset + a1];
-			this.Position += count;
+				stream[Position + a1] = array[offset + a1];
+			Position += count;
 		}
 		/// <summary>
 		/// Writes a region of a character array to the current stream.
@@ -200,13 +200,13 @@ namespace NfsCore.Utils
 		{
 			if (array == null || offset < 0 || count <= 0 || offset + count > array.Length)
 				return;
-			this.CheckLength(count * sizeof(char));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(count * sizeof(char));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				for (int a1 = 0; a1 < count; ++a1)
 					*(char*)(dataptr_t + a1 * sizeof(char)) = array[offset + a1];
 			}
-			this.Position += count * sizeof(char);
+			Position += count * sizeof(char);
 		}
 		/// <summary>
 		/// Writes a two-byte signed integer to the current stream and advances the stream 
@@ -215,12 +215,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The two-byte signed integer to write.</param>
 		public unsafe void Write(short value)
 		{
-			this.CheckLength(sizeof(short));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(short));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(short*)dataptr_t = value;
 			}
-			this.Position += sizeof(short);
+			Position += sizeof(short);
 		}
 		/// <summary>
 		/// Writes a two-byte unsigned integer to the current stream and advances the stream 
@@ -229,12 +229,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The two-byte unsigned integer to write.</param>
 		public unsafe void Write(ushort value)
 		{
-			this.CheckLength(sizeof(ushort));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(ushort));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(ushort*)dataptr_t = value;
 			}
-			this.Position += sizeof(ushort);
+			Position += sizeof(ushort);
 		}
 		/// <summary>
 		/// Writes a four-byte signed integer to the current stream and advances the stream 
@@ -243,12 +243,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The four-byte signed integer to write.</param>
 		public unsafe void Write(int value)
 		{
-			this.CheckLength(sizeof(int));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(int));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(int*)dataptr_t = value;
 			}
-			this.Position += sizeof(int);
+			Position += sizeof(int);
 		}
 		/// <summary>
 		/// Writes a four-byte unsigned integer to the current stream and advances the stream 
@@ -257,12 +257,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The four-byte unsigned integer to write.</param>
 		public unsafe void Write(uint value)
 		{
-			this.CheckLength(sizeof(uint));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(uint));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(uint*)dataptr_t = value;
 			}
-			this.Position += sizeof(uint);
+			Position += sizeof(uint);
 		}
 		/// <summary>
 		/// Writes an eight-byte signed integer to the current stream and advances the stream 
@@ -271,12 +271,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The eight-byte signed integer to write.</param>
 		public unsafe void Write(long value)
 		{
-			this.CheckLength(sizeof(long));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(long));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(long*)dataptr_t = value;
 			}
-			this.Position += sizeof(long);
+			Position += sizeof(long);
 		}
 		/// <summary>
 		/// Writes an eight-byte unsigned integer to the current stream and advances the 
@@ -285,12 +285,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The eight-byte unsigned integer to write.</param>
 		public unsafe void Write(ulong value)
 		{
-			this.CheckLength(sizeof(ulong));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(ulong));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(ulong*)dataptr_t = value;
 			}
-			this.Position += sizeof(ulong);
+			Position += sizeof(ulong);
 		}
 		/// <summary>
 		/// Writes a four-byte floating-point value to the current stream and advances the 
@@ -299,12 +299,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The four-byte floating-point value to write.</param>
 		public unsafe void Write(float value)
 		{
-			this.CheckLength(sizeof(float));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(float));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(float*)dataptr_t = value;
 			}
-			this.Position += sizeof(float);
+			Position += sizeof(float);
 		}
 		/// <summary>
 		/// Writes an eight-byte floating-point value to the current stream and advances 
@@ -313,12 +313,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The eight-byte floating-point value to write.</param>
 		public unsafe void Write(double value)
 		{
-			this.CheckLength(sizeof(double));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(double));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(double*)dataptr_t = value;
 			}
-			this.Position += sizeof(double);
+			Position += sizeof(double);
 		}
 		/// <summary>
 		/// Writes a decimal value to the current stream and advances the stream position 
@@ -327,12 +327,12 @@ namespace NfsCore.Utils
 		/// <param name="value">The decimal value to write.</param>
 		public unsafe void Write(decimal value)
 		{
-			this.CheckLength(sizeof(decimal));
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(sizeof(decimal));
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*(decimal*)dataptr_t = value;
 			}
-			this.Position += sizeof(decimal);
+			Position += sizeof(decimal);
 		}
 		/// <summary>
 		/// Writes a length-prefixed string to this stream and advances the current position 
@@ -343,18 +343,18 @@ namespace NfsCore.Utils
 		{
 			if (value == null)
 			{
-				this.Write((byte)0);
-				++this.Position;
+				Write((byte)0);
+				++Position;
 				return;
 			}
-			this.CheckLength(value.Length + 1);
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(value.Length + 1);
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				*dataptr_t = (byte)value.Length;
 				for (int a1 = 0; a1 < value.Length; ++a1)
 					*(dataptr_t + a1 + 1) = (byte)value[a1];
 			}
-			this.Position += value.Length + 1;
+			Position += value.Length + 1;
 		}
 		/// <summary>
 		/// Writes a null-terminated string to this stream and advances the current position 
@@ -365,17 +365,17 @@ namespace NfsCore.Utils
 		{
 			if (value == null)
 			{
-				this.Write((byte)0);
-				++this.Position;
+				Write((byte)0);
+				++Position;
 				return;
 			}
-			this.CheckLength(value.Length + 1);
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			CheckLength(value.Length + 1);
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				for (int a1 = 0; a1 < value.Length; ++a1)
 					*(dataptr_t + a1) = (byte)value[a1];
 			}
-			this.Position += value.Length + 1;
+			Position += value.Length + 1;
 		}
 		/// <summary>
 		/// Writes a null-terminated string to this stream and advances the current position 
@@ -389,18 +389,18 @@ namespace NfsCore.Utils
 		{
 			if (value == null)
 			{
-				this.Write((byte)0);
-				++this.Position;
+				Write((byte)0);
+				++Position;
 			}
 			else
 			{
-				this.CheckLength(padding);
-				fixed (byte* dataptr_t = &this.stream[this.Position])
+				CheckLength(padding);
+				fixed (byte* dataptr_t = &stream[Position])
 				{
 					for (int a1 = 0; a1 < padding - 1 && a1 < value.Length; ++a1)
 						*(dataptr_t + a1) = (byte)value[a1];
 				}
-				this.Position += padding;
+				Position += padding;
 			}
 		}
 		/// <summary>
@@ -412,7 +412,7 @@ namespace NfsCore.Utils
 		public unsafe void WriteArray<TypeID>(TypeID[] array)
 		{
 			foreach (var obj in array)
-				this.WriteObject(obj, false);
+				WriteObject(obj, false);
 		}
 		/// <summary>
 		/// Writes enumerable of certain type to the current stream and advances position by the 
@@ -423,7 +423,7 @@ namespace NfsCore.Utils
 		public unsafe void WriteEnumerable<TypeID>(IEnumerable<TypeID> enumerable)
 		{
 			foreach (var obj in enumerable)
-				this.WriteObject(obj, false);
+				WriteObject(obj, false);
 		}
 		/// <summary>
 		/// Writes a class or a struct to the current stream, including all its static, public, 
@@ -445,16 +445,16 @@ namespace NfsCore.Utils
 				foreach (var ThisProperty in ThisType.GetProperties(BindingFlags.Public |
 						 BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic))
 				{
-					if (this.IsEnumerableType(ThisProperty))
+					if (IsEnumerableType(ThisProperty))
 					{
 						var enumerator = ThisProperty.GetValue(value) as IEnumerable;
 						if (enumerator == null) continue;
 						foreach (var obj in enumerator)
-							this.WriteObject(obj, propertyonly);
+							WriteObject(obj, propertyonly);
 
 					}
 					else
-						this.WriteObject(ThisProperty.GetValue(value), propertyonly);
+						WriteObject(ThisProperty.GetValue(value), propertyonly);
 				}
 			}
 			else
@@ -462,16 +462,16 @@ namespace NfsCore.Utils
 				foreach (var ThisField in ThisType.GetFields(BindingFlags.Public |
 						 BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic))
 				{
-					if (this.IsEnumerableType(ThisField))
+					if (IsEnumerableType(ThisField))
 					{
 						var enumerator = ThisField.GetValue(value) as IEnumerable;
 						if (enumerator == null) continue;
 						foreach (var obj in enumerator)
-							this.WriteObject(obj, propertyonly);
+							WriteObject(obj, propertyonly);
 
 					}
 					else
-						this.WriteObject(ThisField.GetValue(value), propertyonly);
+						WriteObject(ThisField.GetValue(value), propertyonly);
 				}
 			}
 		}
@@ -481,7 +481,7 @@ namespace NfsCore.Utils
 		/// <param name="filename">The file to open.</param>
 		public void SaveToFile(string filename)
 		{
-			this.SaveToFile(filename, FileMode.Open, FileAccess.Write);
+			SaveToFile(filename, FileMode.Open, FileAccess.Write);
 		}
 		/// <summary>
 		/// Saves current stream to the file specified.
@@ -492,7 +492,7 @@ namespace NfsCore.Utils
 		/// files are retained or overwritten.</param>
 		public void SaveToFile(string filename, FileMode mode)
 		{
-			this.SaveToFile(filename, mode, FileAccess.Write);
+			SaveToFile(filename, mode, FileAccess.Write);
 		}
 		/// <summary>
 		/// Saves current stream to the file specified.
@@ -509,7 +509,7 @@ namespace NfsCore.Utils
 				throw new FieldAccessException("Unable to write to the file specified because access was not granted");
 			using (var bw = new BinaryWriter(File.Open(filename, mode, access)))
 			{
-				bw.Write(this.stream);
+				bw.Write(stream);
 			}
 		}
 		/// <summary>
@@ -523,17 +523,17 @@ namespace NfsCore.Utils
 			switch (origin)
 			{
 				case SeekOrigin.Begin:
-					if (offset <= this.Length)
-						this.Position = offset;
+					if (offset <= Length)
+						Position = offset;
 					return;
 				case SeekOrigin.End:
-					if (offset <= this.Length)
-						this.Position = this.Length - offset;
+					if (offset <= Length)
+						Position = Length - offset;
 					return;
 				case SeekOrigin.Current:
-					if (this.Position + offset <= this.Length)
-						this.Position += offset;
-					else this.Position = this.Length;
+					if (Position + offset <= Length)
+						Position += offset;
+					else Position = Length;
 					return;
 			}
 		}
@@ -542,9 +542,9 @@ namespace NfsCore.Utils
 		/// </summary>
 		public void CompressToPosition()
 		{
-			var result = new byte[this.Position];
-			Buffer.BlockCopy(this.stream, 0, result, 0, this.Position);
-			this.stream = result;
+			var result = new byte[Position];
+			Buffer.BlockCopy(stream, 0, result, 0, Position);
+			stream = result;
 		}
 		public override string ToString()
 		{

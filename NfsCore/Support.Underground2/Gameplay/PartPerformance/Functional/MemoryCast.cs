@@ -4,26 +4,28 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class PartPerformance
 	{
-		public override Collectable MemoryCast(string CName)
+		public override Collectable MemoryCast(string collectionName)
 		{
-			var result = new PartPerformance(CName, this.Database);
-			result._part_perf_type = this._part_perf_type;
-			result._perf_brand_1 = this._perf_brand_1;
-			result._perf_brand_2 = this._perf_brand_2;
-			result._perf_brand_3 = this._perf_brand_3;
-			result._perf_brand_4 = this._perf_brand_4;
-			result._perf_brand_5 = this._perf_brand_5;
-			result._perf_brand_6 = this._perf_brand_6;
-			result._perf_brand_7 = this._perf_brand_7;
-			result._perf_brand_8 = this._perf_brand_8;
-			result.BeingReplacedByIndex1 = this.BeingReplacedByIndex1;
-			result.BeingReplacedByIndex2 = this.BeingReplacedByIndex2;
-			result.NumberOfBrands = this.NumberOfBrands;
-			result.PerfPartAmplifierFraction = this.PerfPartAmplifierFraction;
-			result.PerfPartCost = this.PerfPartCost;
-			result.PerfPartRangeX = this.PerfPartRangeX;
-			result.PerfPartRangeY = this.PerfPartRangeY;
-			result.PerfPartRangeZ = this.PerfPartRangeZ;
+			var result = new PartPerformance(collectionName, Database)
+			{
+				_partPerfType = _partPerfType,
+				_perfBrand1 = _perfBrand1,
+				_perfBrand2 = _perfBrand2,
+				_perfBrand3 = _perfBrand3,
+				_perfBrand4 = _perfBrand4,
+				_perfBrand5 = _perfBrand5,
+				_perfBrand6 = _perfBrand6,
+				_perfBrand7 = _perfBrand7,
+				_perfBrand8 = _perfBrand8,
+				BeingReplacedByIndex1 = BeingReplacedByIndex1,
+				BeingReplacedByIndex2 = BeingReplacedByIndex2,
+				NumberOfBrands = NumberOfBrands,
+				PerfPartAmplifierFraction = PerfPartAmplifierFraction,
+				PerfPartCost = PerfPartCost,
+				PerfPartRangeX = PerfPartRangeX,
+				PerfPartRangeY = PerfPartRangeY,
+				PerfPartRangeZ = PerfPartRangeZ
+			};
 			return result;
 		}
 	}

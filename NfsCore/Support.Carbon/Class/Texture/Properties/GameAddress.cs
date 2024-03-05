@@ -12,6 +12,6 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Database to which the class belongs to.
         /// </summary>
-        public override Database.CarbonDb Database { get; }
+        public new Database.CarbonDb Database { get; }
     }
 }

@@ -1,25 +1,26 @@
-﻿using NfsCore.Reflection.ID;
+﻿using System.Collections.Generic;
+using NfsCore.Reflection.ID;
 using NfsCore.Support.Underground2.Gameplay;
 
 namespace NfsCore.Support.Underground2.Framework
 {
-	public static partial class CareerManager
-	{
-		private static unsafe void ReadSponsors(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
-		{
-			if (PartOffsets[7] == -1) return; // if sponsors block does not exist
-			if (*(uint*)(byteptr_t + PartOffsets[7]) != CareerInfo.SPONSOR_BLOCK)
-				return; // check sponsors block ID
+    public static partial class CareerManager
+    {
+        private static unsafe void ReadSponsors(byte* bytePtrT, IReadOnlyList<int> partOffsets,
+            Database.Underground2Db db)
+        {
+            if (partOffsets[7] == -1) return; // if sponsors block does not exist
+            if (*(uint*) (bytePtrT + partOffsets[7]) != CareerInfo.SPONSOR_BLOCK)
+                return; // check sponsors block ID
 
-			int size = *(int*)(byteptr_t + PartOffsets[7] + 4) / 0x10;
-
-			for (int a1 = 0; a1 < size; ++a1)
-			{
-				int ptr_string = PartOffsets[0] + 8;
-				int ptr_header = PartOffsets[7] + a1 * 0x10 + 8;
-				var Class = new Sponsor(byteptr_t + ptr_header, byteptr_t + ptr_string, db);
-				db.Sponsors.Collections.Add(Class);
-			}
-		}
-	}
+            var size = *(int*) (bytePtrT + partOffsets[7] + 4) / 0x10;
+            for (var a1 = 0; a1 < size; ++a1)
+            {
+                var ptrString = partOffsets[0] + 8;
+                var ptrHeader = partOffsets[7] + a1 * 0x10 + 8;
+                var sponsor = new Sponsor(bytePtrT + ptrHeader, bytePtrT + ptrString, db);
+                db.Sponsors.Collections.Add(sponsor);
+            }
+        }
+    }
 }

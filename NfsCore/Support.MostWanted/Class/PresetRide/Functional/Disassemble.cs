@@ -9,91 +9,80 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        protected override unsafe void Disassemble(byte* byteptr_t)
+        protected override unsafe void Disassemble(byte* bytePtrT)
         {
             // Copy array into the memory
-            for (int x = 0; x < 0x290; ++x)
-                this.data[x] = *(byteptr_t + x);
+            for (var x = 0; x < 0x290; ++x)
+                _data[x] = *(bytePtrT + x);
 
-            string MODEL = ""; // for Model of the car
-            string hex = "0x"; // for hex representations
-            string v1 = "";    // main for class strings
-            string v2 = "";    // main for system strings
-            string v3 = "";    // extra for strings
-            string v4 = "";    // extra for strings
-            uint a1 = 0;     // only if one hash at a time
-            uint a2 = 0;     // read hash from file only
-            uint a3 = 0;     // extra for hashes, loops
-            uint a4 = 0;     // extra for hashes, loops
+            var model = ""; // for Model of the car
+            const string hex = "0x"; // for hex representations
+            string v3; // extra for strings
+            var v4 = ""; // extra for strings
+            uint a3 = 0; // extra for hashes, loops
 
             var parts = new Concatenator(); // assign actual concatenator
-            var add_on = new Add_On(); // assign actual add_on
+            var addOn = new Add_On(); // assign actual add_on
 
             // Get the model name
-            for (int x = 8; *(byteptr_t + x) != 0; ++x)
-                MODEL += ((char)*(byteptr_t + x)).ToString();
+            for (var x = 8; *(bytePtrT + x) != 0; ++x)
+                model += ((char) *(bytePtrT + x)).ToString();
 
             // Assign MODEL string
-            this.MODEL = MODEL;
-            this.OriginalModel = MODEL;
+            MODEL = model;
+            OriginalModel = model;
 
             // Frontend hash
-            a1 = *(uint*)(byteptr_t + 0x48);
-            if (Map.VltKeys.TryGetValue(a1, out v1))
-                this.Frontend = v1;
-            else
-                this.Frontend = $"{hex}{a1:X8}";
+            var a1 = *(uint*) (bytePtrT + 0x48); // only if one hash at a time
+            Frontend = Map.VltKeys.TryGetValue(a1, out var v1) ? v1 : $"{hex}{a1:X8}";
 
             // Pvehicle hash
-            a1 = *(uint*)(byteptr_t + 0x50);
-            if (Map.VltKeys.TryGetValue(a1, out v1))
-                this.Pvehicle = v1;
-            else
-                this.Pvehicle = $"{hex}{a1:X8}";
+            a1 = *(uint*) (bytePtrT + 0x50);
+            Pvehicle = Map.VltKeys.TryGetValue(a1, out v1) ? v1 : $"{hex}{a1:X8}";
 
-            a1 = Bin.Hash(MODEL + parts._BASE); // for RaiderKeys
+            a1 = Bin.Hash(model + parts._BASE); // for RaiderKeys
 
             // try to match _BODY
-            a2 = *(uint*)(byteptr_t + 0xBC);
+            var a2 = *(uint*) (bytePtrT + 0xBC); // read hash from file only
             if (a2 == 0)
             {
-                this._aftermarket_bodykit = -1; // basically no difference between this one and next one
+                _aftermarketBodyKit = -1; // basically no difference between this one and next one
                 goto LABEL_SPOILER;
-            }
-            a1 = Bin.Hash(MODEL + parts._BASE_KIT);
-            if (a1 == a2)
-            {
-                this._aftermarket_bodykit = -1;
-                goto LABEL_SPOILER;
-            }
-            else // (MODEL)_BODY_KIT(00-05)
-            {
-                for (int x1 = 0; x1 < 6; ++x1) // 5 bodykits max
-                {
-                    a1 = Bin.Hash(MODEL + parts._BASE_KIT + add_on._KIT + x1.ToString());
-                    if (a1 == a2)
-                    {
-                        this._aftermarket_bodykit = (sbyte)x1;
-                        goto LABEL_SPOILER;
-                    }
-                }
             }
 
-        LABEL_SPOILER:
+            a1 = Bin.Hash(model + parts._BASE_KIT);
+            if (a1 != a2)
+                // (MODEL)_BODY_KIT(00-05)
+            {
+                for (var x1 = 0; x1 < 6; ++x1) // 5 bodykits max
+                {
+                    a1 = Bin.Hash(model + parts._BASE_KIT + addOn._KIT + x1);
+                    if (a1 != a2) continue;
+                    _aftermarketBodyKit = (sbyte) x1;
+                    goto LABEL_SPOILER;
+                }
+            }
+            else
+            {
+                _aftermarketBodyKit = -1;
+            }
+
+            LABEL_SPOILER:
             // Try match spoiler
             // (MODEL)_SPOILER[SPOILER_STYLE(01 - 44)(TYPE)(_CF)]
-            a2 = *(uint*)(byteptr_t + 0x110);
+            a2 = *(uint*) (bytePtrT + 0x110);
             if (a2 == 0)
             {
-                this._spoiler_style = 0;
-                this._spoiler_type = eSTypes.NULL; // means spoiler is nulled
+                _spoilerStyle = 0;
+                _spoilerType = eSTypes.NULL; // means spoiler is nulled
                 goto LABEL_ROOF;
             }
-            a1 = Bin.Hash(MODEL + parts._SPOILER);
+
+            a1 = Bin.Hash(model + parts._SPOILER);
             if (a1 == a2) // stock spoiler
             {
-                this._spoiler_style = 0;
-                this._spoiler_type = eSTypes.STOCK;
+                _spoilerStyle = 0;
+                _spoilerType = eSTypes.STOCK;
             }
             else
             {
@@ -101,207 +90,195 @@ namespace NfsCore.Support.MostWanted.Class
                 {
                     for (byte x2 = 1; x2 < 45; ++x2) // all 44 spoiler styles
                     {
-                        v3 = add_on.SPOILER + add_on._STYLE + x2.ToString("00") + add_on._CSTYPE[x1];
+                        v3 = addOn.SPOILER + addOn._STYLE + x2.ToString("00") + addOn._CSTYPE[x1];
                         a3 = Bin.Hash(v3);
                         if (a3 == a2)
                         {
-                            this._spoiler_style = x2;
-                            v4 = add_on._CSTYPE[x1];
+                            _spoilerStyle = x2;
+                            v4 = addOn._CSTYPE[x1];
                             goto LABEL_ROOF; // break the whole loop
                         }
-                        else // try carbonfibre
-                        {
-                            a3 = Bin.Hash(v3 + add_on._CF);
-                            if (a3 == a2)
-                            {
-                                this._spoiler_style = x2;
-                                v4 = add_on._CSTYPE[x1];
-                                this._is_carbonfibre_spoiler = eBoolean.True;
-                                goto LABEL_ROOF; // break the whole loop
-                            }
-                        }
+
+                        // try carbon fibre
+                        a3 = Bin.Hash(v3 + addOn._CF);
+                        if (a3 != a2) continue;
+                        _spoilerStyle = x2;
+                        v4 = addOn._CSTYPE[x1];
+                        _isCarbonFibreSpoiler = eBoolean.True;
+                        goto LABEL_ROOF; // break the whole loop
                     }
                 }
             }
 
-        // escape from a really big spoiler loop
-        LABEL_ROOF:
+            // escape from a really big spoiler loop
+            LABEL_ROOF:
             // fix spoiler settings first
             if (v4 == string.Empty)
-                this._spoiler_type = eSTypes.BASE; // use BASE to make it clearer
+                _spoilerType = eSTypes.BASE; // use BASE to make it clearer
             else
-                System.Enum.TryParse(v4, out this._spoiler_type);
+                System.Enum.TryParse(v4, out _spoilerType);
 
             // Try to match ROOF_STYLE
-            a2 = *(uint*)(byteptr_t + 0x158);
-            a1 = Bin.Hash(parts.ROOF_STYLE + add_on._0 + add_on._0);
+            a2 = *(uint*) (bytePtrT + 0x158);
+            a1 = Bin.Hash(parts.ROOF_STYLE + addOn._0 + addOn._0);
             if (a2 == 0 || a1 == a2)
             {
-                this._roofscoop_style = 0;
+                _roofScoopStyle = 0;
                 goto LABEL_HOOD; // skip the rest of the statements
             }
-            else
+
+            for (byte x1 = 1; x1 < 19; ++x1) // all 18 roof scoop styles
             {
-                for (byte x1 = 1; x1 < 19; ++x1) // all 18 roof scoop styles
+                var x1Pad = x1.ToString("00");
+                v1 = parts.ROOF_STYLE + x1Pad;
+                v3 = parts.ROOF_STYLE + x1Pad + addOn._OFFSET;
+                v4 = parts.ROOF_STYLE + x1Pad + addOn._DUAL;
+                a1 = Bin.Hash(v1);
+                a3 = Bin.Hash(v3);
+                var a4 = Bin.Hash(v4); // extra for hashes, loops
+                if (a1 == a2)
                 {
-                    var x1pad = x1.ToString("00");
-                    v1 = parts.ROOF_STYLE + x1pad;
-                    v3 = parts.ROOF_STYLE + x1pad + add_on._OFFSET;
-                    v4 = parts.ROOF_STYLE + x1pad + add_on._DUAL;
-                    a1 = Bin.Hash(v1);
-                    a3 = Bin.Hash(v3);
-                    a4 = Bin.Hash(v4);
-                    if (a1 == a2)
-                    {
-                        this._roofscoop_style = x1;
-                        goto LABEL_HOOD;
-                    }
-                    else if (a3 == a2)
-                    {
-                        this._roofscoop_style = x1;
-                        this._is_offset_roofscoop = eBoolean.True;
-                        goto LABEL_HOOD;
-                    }
-                    else if (a4 == a2)
-                    {
-                        this._roofscoop_style = x1;
-                        this._is_dual_roofscoop = eBoolean.True;
-                        goto LABEL_HOOD;
-                    }
-                    else
-                    {
-                        a1 = Bin.Hash(v1 + add_on._CF);
-                        a3 = Bin.Hash(v3 + add_on._CF);
-                        a4 = Bin.Hash(v4 + add_on._CF);
-                        if (a1 == a2)
-                        {
-                            this._roofscoop_style = x1;
-                            this._is_carbonfibre_roofscoop = eBoolean.True;
-                            goto LABEL_HOOD;
-                        }
-                        else if (a3 == a2)
-                        {
-                            this._roofscoop_style = x1;
-                            this._is_offset_roofscoop = eBoolean.True;
-                            this._is_carbonfibre_roofscoop = eBoolean.True;
-                            goto LABEL_HOOD;
-                        }
-                        else if (a4 == a2)
-                        {
-                            this._roofscoop_style = x1;
-                            this._is_dual_roofscoop = eBoolean.True;
-                            this._is_carbonfibre_roofscoop = eBoolean.True;
-                            goto LABEL_HOOD;
-                        }
-                    }
+                    _roofScoopStyle = x1;
+                    goto LABEL_HOOD;
                 }
+
+                if (a3 == a2)
+                {
+                    _roofScoopStyle = x1;
+                    _isOffsetRoofScoop = eBoolean.True;
+                    goto LABEL_HOOD;
+                }
+
+                if (a4 == a2)
+                {
+                    _roofScoopStyle = x1;
+                    _isDualRoofScoop = eBoolean.True;
+                    goto LABEL_HOOD;
+                }
+
+                a1 = Bin.Hash(v1 + addOn._CF);
+                a3 = Bin.Hash(v3 + addOn._CF);
+                a4 = Bin.Hash(v4 + addOn._CF);
+                if (a1 == a2)
+                {
+                    _roofScoopStyle = x1;
+                    _isCarbonFibreRoofScoop = eBoolean.True;
+                    goto LABEL_HOOD;
+                }
+
+                if (a3 == a2)
+                {
+                    _roofScoopStyle = x1;
+                    _isOffsetRoofScoop = eBoolean.True;
+                    _isCarbonFibreRoofScoop = eBoolean.True;
+                    goto LABEL_HOOD;
+                }
+
+                if (a4 != a2) continue;
+                _roofScoopStyle = x1;
+                _isDualRoofScoop = eBoolean.True;
+                _isCarbonFibreRoofScoop = eBoolean.True;
+                goto LABEL_HOOD;
             }
 
-        // escape from a really big roofscoop loop
-        LABEL_HOOD:
+            // escape from a really big roofscoop loop
+            LABEL_HOOD:
             // Try match _HOOD
-            a2 = *(uint*)(byteptr_t + 0x15C);
-            a1 = Bin.Hash(MODEL + add_on._KIT + add_on._0 + parts._HOOD);
+            a2 = *(uint*) (bytePtrT + 0x15C);
+            a1 = Bin.Hash(model + addOn._KIT + addOn._0 + parts._HOOD);
             if (a2 == 0 || a1 == a2)
             {
-                this._hood_style = 0;
+                _hoodStyle = 0;
                 goto LABEL_RIM;
             }
-            else
+
+            for (byte x1 = 1; x1 < 33; ++x1) // 33 hood styles
             {
-                for (byte x1 = 1; x1 < 33; ++x1) // 33 hood styles
+                v1 = model + addOn._STYLE + x1.ToString("00") + parts._HOOD;
+                a1 = Bin.Hash(v1);
+                if (a1 == a2)
                 {
-                    v1 = MODEL + add_on._STYLE + x1.ToString("00") + parts._HOOD;
-                    a1 = Bin.Hash(v1);
-                    if (a1 == a2)
-                    {
-                        this._hood_style = x1;
-                        goto LABEL_RIM;
-                    }
-                    else // try carbonfibre
-                    {
-                        a1 = Bin.Hash(v1 + add_on._CF);
-                        if (a3 == a2)
-                        {
-                            this._hood_style = x1;
-                            this._is_carbonfibre_hood = eBoolean.True;
-                            goto LABEL_RIM;
-                        }
-                    }
+                    _hoodStyle = x1;
+                    goto LABEL_RIM;
                 }
+
+                // try carbon fibre
+                a1 = Bin.Hash(v1 + addOn._CF);
+                if (a3 != a2) continue;
+                _hoodStyle = x1;
+                _isCarbonFibreHood = eBoolean.True;
+                goto LABEL_RIM;
             }
 
-        // Escape from a really big hood loop
-        LABEL_RIM:
-            a2 = *(uint*)(byteptr_t + 0x168);
+            // Escape from a really big hood loop
+            LABEL_RIM:
+            a2 = *(uint*) (bytePtrT + 0x168);
             if (a2 == 0)
             {
-                this._rim_brand = BaseArguments.NULL;
+                _rimBrand = BaseArguments.NULL;
                 goto LABEL_PRECOMPVINYL;
             }
-            a1 = Bin.Hash(MODEL + parts._WHEEL);
+
+            a1 = Bin.Hash(model + parts._WHEEL);
             if (a1 == a2)
             {
-                this._rim_brand = BaseArguments.STOCK;
+                _rimBrand = BaseArguments.STOCK;
                 goto LABEL_PRECOMPVINYL;
             }
-            else
+
+            for (byte x1 = 1; x1 < Map.RimBrands.Count; ++x1) // else try match aftermarket wheels
             {
-                for (byte x1 = 1; x1 < Map.RimBrands.Count; ++x1) // else try match aftermarket wheels
+                for (byte x2 = 1; x2 < 7; ++x2) // 3 loops: 18 manufacturers, 6 styles, 4 sizes
                 {
-                    for (byte x2 = 1; x2 < 7; ++x2) // 3 loops: 18 manufacturers, 6 styles, 4 sizes
+                    for (byte x3 = 17; x3 < 21; ++x3)
                     {
-                        for (byte x3 = 17; x3 < 21; ++x3)
-                        {
-                            a1 = Bin.Hash(Map.RimBrands[x1] + add_on._STYLE + add_on._0 + x2.ToString() + "_" + x3.ToString() + add_on._25);
-                            if (a1 == a2)
-                            {
-                                this._rim_brand = Map.RimBrands[x1];
-                                this._rim_style = x2;
-                                this._rim_size = x3;
-                                goto LABEL_PRECOMPVINYL;
-                            }
-                        }
+                        a1 = Bin.Hash(Map.RimBrands[x1] + addOn._STYLE + addOn._0 + x2 + "_" +
+                                      x3 + addOn._25);
+                        if (a1 != a2) continue;
+                        _rimBrand = Map.RimBrands[x1];
+                        _rimStyle = x2;
+                        _rimSize = x3;
+                        goto LABEL_PRECOMPVINYL;
                     }
                 }
             }
 
-        LABEL_PRECOMPVINYL:
+            LABEL_PRECOMPVINYL:
             // Try find Body Paint
-            a2 = *(uint*)(byteptr_t + 0x190);
-            this.BodyPaint = Map.Lookup(a2, true) ?? BaseArguments.BPAINT;
+            a2 = *(uint*) (bytePtrT + 0x190);
+            BodyPaint = Map.Lookup(a2, true) ?? BaseArguments.BPAINT;
 
             // Try find Vinyl Name
-            a2 = *(uint*)(byteptr_t + 0x194);
-            this.VinylName = Map.Lookup(a2, true) ?? (hex + a2.ToString("X8"));
+            a2 = *(uint*) (bytePtrT + 0x194);
+            VinylName = Map.Lookup(a2, true) ?? (hex + a2.ToString("X8"));
 
             // Try find Rim Paint
-            a2 = *(uint*)(byteptr_t + 0x198);
-            this.RimPaint = Map.Lookup(a2, true) ?? BaseArguments.NULL;
+            a2 = *(uint*) (bytePtrT + 0x198);
+            RimPaint = Map.Lookup(a2, true) ?? BaseArguments.NULL;
 
             // Try find swatches
-            this._vinylcolor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x19C), false));
-            this._vinylcolor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x1A0), false));
-            this._vinylcolor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x1A4), false));
-            this._vinylcolor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x1A8), false));
+            _vinylColor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x19C), false));
+            _vinylColor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x1A0), false));
+            _vinylColor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x1A4), false));
+            _vinylColor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x1A8), false));
 
             // Read Decals
-            this.DECALS_FRONT_WINDOW.Read(byteptr_t + 0x1AC);
-            this.DECALS_REAR_WINDOW.Read(byteptr_t + 0x1CC);
-            this.DECALS_LEFT_DOOR.Read(byteptr_t + 0x1EC);
-            this.DECALS_RIGHT_DOOR.Read(byteptr_t + 0x20C);
-            this.DECALS_LEFT_QUARTER.Read(byteptr_t + 0x22C);
-            this.DECALS_RIGHT_QUARTER.Read(byteptr_t + 0x24C);
+            DECALS_FRONT_WINDOW.Read(bytePtrT + 0x1AC);
+            DECALS_REAR_WINDOW.Read(bytePtrT + 0x1CC);
+            DECALS_LEFT_DOOR.Read(bytePtrT + 0x1EC);
+            DECALS_RIGHT_DOOR.Read(bytePtrT + 0x20C);
+            DECALS_LEFT_QUARTER.Read(bytePtrT + 0x22C);
+            DECALS_RIGHT_QUARTER.Read(bytePtrT + 0x24C);
 
             // _WINDOW_TINT
-            a2 = *(uint*)(byteptr_t + 0x26C);
+            a2 = *(uint*) (bytePtrT + 0x26C);
             a1 = Bin.Hash(parts.WINDOW_TINT_STOCK);
             if (a2 == 0 || a1 == a2)
-                this._window_tint_type = BaseArguments.STOCK;
+                _windowTintType = BaseArguments.STOCK;
             else
             {
-                v2 = Map.Lookup(a2, false);
-                this._window_tint_type = Map.WindowTintMap.Contains(v2) ? v2 : BaseArguments.STOCK;
+                var v2 = Map.Lookup(a2, false); // main for system strings
+                _windowTintType = Map.WindowTintMap.Contains(v2) ? v2 : BaseArguments.STOCK;
             }
         }
     }

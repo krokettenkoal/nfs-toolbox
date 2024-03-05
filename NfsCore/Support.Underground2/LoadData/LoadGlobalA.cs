@@ -40,8 +40,8 @@ namespace NfsCore.Support.Underground2
                 uint offset = 0; // to calculate current offset
                 while (offset < db._GlobalABUN.Length)
                 {
-                    var id = *(uint*)(bytePtrT + offset); // to get the ID of the block being read
-                    var size = *(uint*)(bytePtrT + offset + 4); // to get the size of the block being read
+                    var id = *(uint*) (bytePtrT + offset); // to get the ID of the block being read
+                    var size = *(uint*) (bytePtrT + offset + 4); // to get the size of the block being read
                     if (offset + size > db._GlobalABUN.Length)
                     {
                         //Console.WriteLine("GlobalA: unable to read beyond the stream.");
@@ -61,9 +61,11 @@ namespace NfsCore.Support.Underground2
                             E_FNGroup(bytePtrT + offset, size + 8, db);
                             break;
                     }
+
                     offset += 8 + size; // advance in offset
                 }
             }
+
             return true;
         }
     }

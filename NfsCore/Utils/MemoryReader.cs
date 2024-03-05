@@ -10,32 +10,32 @@ namespace NfsCore.Utils
 	{
 		private byte[] stream;
 		public int Position { get; set; }
-		public int Length { get => this.stream.Length; }
+		public int Length { get => stream.Length; }
 
 		public MemoryReader() { }
 		public MemoryReader(byte[] array)
 		{
-			this.SetStream(array);
+			SetStream(array);
 		}
 		public MemoryReader(byte* byteptr_t, int count)
 		{
-			this.SetStream(byteptr_t, count);
+			SetStream(byteptr_t, count);
 		}
 		public MemoryReader(byte* byteptr_t, int offset, int count)
 		{
-			this.SetStream(byteptr_t, offset, count);
+			SetStream(byteptr_t, offset, count);
 		}
 		public MemoryReader(string filename)
 		{
-			this.SetStream(filename);
+			SetStream(filename);
 		}
 		public MemoryReader(IntPtr dataptr_t, int count)
 		{
-			this.SetStream(dataptr_t, count);
+			SetStream(dataptr_t, count);
 		}
 		public MemoryReader(IntPtr dataptr_t, int offset, int count)
 		{
-			this.SetStream(dataptr_t, offset, count);
+			SetStream(dataptr_t, offset, count);
 		}
 
 		/// <summary>
@@ -44,8 +44,8 @@ namespace NfsCore.Utils
 		/// <param name="array">Byte array to be read.</param>
 		public void SetStream(byte[] array)
 		{
-			this.stream = array;
-			this.Position = 0;
+			stream = array;
+			Position = 0;
 		}
 		/// <summary>
 		/// Sets memory array to be read from.
@@ -54,13 +54,13 @@ namespace NfsCore.Utils
 		/// <param name="count">Length of the memory to be read.</param>
 		public void SetStream(byte* byteptr_t, int count)
 		{
-			this.stream = new byte[count];
-			fixed (byte* dataptr_t = &this.stream[0])
+			stream = new byte[count];
+			fixed (byte* dataptr_t = &stream[0])
 			{
 				for (int a1 = 0; a1 < count; ++a1)
 					*(dataptr_t + a1) = *(byteptr_t + a1);
 			}
-			this.Position = 0;
+			Position = 0;
 		}
 		/// <summary>
 		/// Sets memory array to be read from.
@@ -70,13 +70,13 @@ namespace NfsCore.Utils
 		/// <param name="count">Length of the memory to be read.</param>
 		public void SetStream(byte* byteptr_t, int offset, int count)
 		{
-			this.stream = new byte[count];
-			fixed (byte* dataptr_t = &this.stream[0])
+			stream = new byte[count];
+			fixed (byte* dataptr_t = &stream[0])
 			{
 				for (int a1 = 0; a1 < count; ++a1)
 					*(dataptr_t + a1) = *(byteptr_t + offset + a1);
 			}
-			this.Position = 0;
+			Position = 0;
 		}
 		/// <summary>
 		/// Sets memory array to be read from.
@@ -84,8 +84,8 @@ namespace NfsCore.Utils
 		/// <param name="filename">Filename from which read the data through.</param>
 		public void SetStream(string filename)
 		{
-			this.stream = File.ReadAllBytes(filename);
-			this.Position = 0;
+			stream = File.ReadAllBytes(filename);
+			Position = 0;
 		}
 		/// <summary>
 		/// Sets memory array to be read from.
@@ -94,7 +94,7 @@ namespace NfsCore.Utils
 		/// <param name="count">Length of the memory to be read.</param>
 		public void SetStream(IntPtr dataptr_t, int count)
 		{
-			this.SetStream((byte*)dataptr_t, count);
+			SetStream((byte*)dataptr_t, count);
 		}
 		/// <summary>
 		/// Sets memory array to be read from.
@@ -104,7 +104,7 @@ namespace NfsCore.Utils
 		/// <param name="count">Length of the memory to be read.</param>
 		public void SetStream(IntPtr dataptr_t, int offset, int count)
 		{
-			this.SetStream((byte*)dataptr_t, offset, count);
+			SetStream((byte*)dataptr_t, offset, count);
 		}
 
 		/// <summary>
@@ -114,10 +114,10 @@ namespace NfsCore.Utils
 		/// <returns>True if the byte is nonzero; otherwise, false.</returns>
 		public bool ReadBoolean()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				bool result = *dataptr_t == 0 ? false : true;
-				this.Position += sizeof(bool);
+				Position += sizeof(bool);
 				return result;
 			}
 		}
@@ -128,10 +128,10 @@ namespace NfsCore.Utils
 		/// <returns>The next byte read from the current stream.</returns>
 		public byte ReadByte()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				byte result = *dataptr_t;
-				this.Position += sizeof(byte);
+				Position += sizeof(byte);
 				return result;
 			}
 		}
@@ -146,11 +146,11 @@ namespace NfsCore.Utils
 		{
 			if (count <= 0) return null;
 			byte[] result = new byte[count];
-			fixed (byte* dataptr_t = &this.stream[this.Position], resptr_t = &result[0])
+			fixed (byte* dataptr_t = &stream[Position], resptr_t = &result[0])
 			{
 				for (int a1 = 0; a1 < count; ++a1)
 					*(resptr_t + a1) = *(dataptr_t + a1);
-				this.Position += sizeof(byte) * count;
+				Position += sizeof(byte) * count;
 				return result;
 			}
 		}
@@ -162,10 +162,10 @@ namespace NfsCore.Utils
 		/// <returns>A character read from the current stream.</returns>
 		public char ReadChar()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				char result = *(char*)dataptr_t;
-				this.Position += sizeof(char);
+				Position += sizeof(char);
 				return result;
 			}
 		}
@@ -181,14 +181,14 @@ namespace NfsCore.Utils
 		{
 			if (count <= 0) return null;
 			char[] result = new char[count];
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				fixed (char* resptr_t = &result[0])
 				{
 					for (int a1 = 0; a1 < count; ++a1)
 						*(resptr_t + a1) = *(char*)(dataptr_t + a1 * sizeof(char));
 				}
-				this.Position += sizeof(char) * count;
+				Position += sizeof(char) * count;
 				return result;
 			}
 		}
@@ -199,10 +199,10 @@ namespace NfsCore.Utils
 		/// <returns>A signed byte read from the current stream.</returns>
 		public sbyte ReadSByte()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				sbyte result = *(sbyte*)dataptr_t;
-				this.Position += sizeof(sbyte);
+				Position += sizeof(sbyte);
 				return result;
 			}
 		}
@@ -213,10 +213,10 @@ namespace NfsCore.Utils
 		/// <returns>A 2-byte signed integer read from the current stream.</returns>
 		public short ReadInt16()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				short result = *(short*)dataptr_t;
-				this.Position += sizeof(short);
+				Position += sizeof(short);
 				return result;
 			}
 		}
@@ -227,10 +227,10 @@ namespace NfsCore.Utils
 		/// <returns>A 2-byte unsigned integer read from this stream.</returns>
 		public ushort ReadUInt16()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				ushort result = *(ushort*)dataptr_t;
-				this.Position += sizeof(ushort);
+				Position += sizeof(ushort);
 				return result;
 			}
 		}
@@ -241,10 +241,10 @@ namespace NfsCore.Utils
 		/// <returns>An 4-byte signed integer read from the current stream.</returns>
 		public int ReadInt32()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				int result = *(int*)dataptr_t;
-				this.Position += sizeof(int);
+				Position += sizeof(int);
 				return result;
 			}
 		}
@@ -255,10 +255,10 @@ namespace NfsCore.Utils
 		/// <returns>A 4-byte unsigned integer read from this stream.</returns>
 		public uint ReadUInt32()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				uint result = *(uint*)dataptr_t;
-				this.Position += sizeof(uint);
+				Position += sizeof(uint);
 				return result;
 			}
 		}
@@ -269,10 +269,10 @@ namespace NfsCore.Utils
 		/// <returns>An 8-byte signed integer read from the current stream.</returns>
 		public long ReadInt64()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				long result = *(long*)dataptr_t;
-				this.Position += sizeof(long);
+				Position += sizeof(long);
 				return result;
 			}
 		}
@@ -283,10 +283,10 @@ namespace NfsCore.Utils
 		/// <returns>An 8-byte unsigned integer read from the current stream.</returns>
 		public ulong ReadUInt64()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				ulong result = *(ulong*)dataptr_t;
-				this.Position += sizeof(ulong);
+				Position += sizeof(ulong);
 				return result;
 			}
 		}
@@ -297,10 +297,10 @@ namespace NfsCore.Utils
 		/// <returns>A 4-byte floating point value read from the current stream.</returns>
 		public float ReadSingle()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				float result = *(float*)dataptr_t;
-				this.Position += sizeof(float);
+				Position += sizeof(float);
 				return result;
 			}
 		}
@@ -311,10 +311,10 @@ namespace NfsCore.Utils
 		/// <returns>An 8-byte floating point value read from the current stream.</returns>
 		public double ReadDouble()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				double result = *(double*)dataptr_t;
-				this.Position += sizeof(double);
+				Position += sizeof(double);
 				return result;
 			}
 		}
@@ -325,10 +325,10 @@ namespace NfsCore.Utils
 		/// <returns>A decimal value read from the current stream.</returns>
 		public decimal ReadDecimal()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				decimal result = *(decimal*)dataptr_t;
-				this.Position += sizeof(decimal);
+				Position += sizeof(decimal);
 				return result;
 			}
 		}
@@ -339,13 +339,13 @@ namespace NfsCore.Utils
 		/// <returns>The string being read.</returns>
 		public string ReadString()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				string result = string.Empty;
 				byte count = *dataptr_t;
 				for (int a1 = 1; a1 < count + 1; ++a1)
 					result += ((char)*(dataptr_t + a1)).ToString();
-				this.Position += 1 + count;
+				Position += 1 + count;
 				return result;
 			}
 		}
@@ -356,12 +356,12 @@ namespace NfsCore.Utils
 		/// <returns>The string being read.</returns>
 		public string ReadNullTerminated()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				string result = string.Empty;
 				for (int a1 = 0; *(dataptr_t + a1) != 0; ++a1)
 					result += ((char)*(dataptr_t + a1)).ToString();
-				this.Position += 1 + result.Length;
+				Position += 1 + result.Length;
 				return result;
 			}
 		}
@@ -373,12 +373,12 @@ namespace NfsCore.Utils
 		/// <returns>The string being read.</returns>
 		public string ReadNullTerminated(int maxlength)
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				string result = string.Empty;
 				for (int a1 = 0; a1 < maxlength && *(dataptr_t + a1) != 0; ++a1)
 					result += ((char)*(dataptr_t + a1)).ToString();
-				this.Position += maxlength;
+				Position += maxlength;
 				return result;
 			}
 		}
@@ -391,7 +391,7 @@ namespace NfsCore.Utils
 		/// <returns>The next available primitive type.</returns>
 		public TypeID PeekPrimitive<TypeID>()
 		{
-			fixed (byte* dataptr_t = &this.stream[this.Position])
+			fixed (byte* dataptr_t = &stream[Position])
 			{
 				var type = typeof(TypeID);
 				if (!type.IsPrimitive)
@@ -411,17 +411,17 @@ namespace NfsCore.Utils
 			switch (origin)
 			{
 				case SeekOrigin.Begin:
-					if (offset <= this.Length)
-						this.Position = offset;
+					if (offset <= Length)
+						Position = offset;
 					return;
 				case SeekOrigin.End:
-					if (offset <= this.Length)
-						this.Position = this.Length - offset;
+					if (offset <= Length)
+						Position = Length - offset;
 					return;
 				case SeekOrigin.Current:
-					if (this.Position + offset <= this.Length)
-						this.Position += offset;
-					else this.Position = this.Length;
+					if (Position + offset <= Length)
+						Position += offset;
+					else Position = Length;
 					return;
 			}
 		}

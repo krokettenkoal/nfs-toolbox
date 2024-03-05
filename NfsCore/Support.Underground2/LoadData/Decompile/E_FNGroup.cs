@@ -9,28 +9,29 @@ namespace NfsCore.Support.Underground2
         /// <summary>
         /// Gets the frontend group, decompresses it if needed, and plugs into Vector.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the beginning of frontend group in Global data.</param>
+        /// <param name="bytePtrT">Pointer to the beginning of frontend group in Global data.</param>
         /// <param name="length">Length of the block to be read.</param>
         /// <param name="db">Database to which add classes.</param>
-        private static unsafe void E_FNGroup(byte* byteptr_t, uint length, Database.Underground2Db db)
+        private static unsafe void E_FNGroup(byte* bytePtrT, uint length, Database.Underground2Db db)
         {
             // Copy data and decompress
             var data = new byte[length];
-            fixed (byte* dataptr_t = &data[0])
+            fixed (byte* dataPtrT = &data[0])
             {
-                for (int a1 = 0; a1 < data.Length; ++a1)
-                    *(dataptr_t + a1) = *(byteptr_t + a1);
+                for (var a1 = 0; a1 < data.Length; ++a1)
+                    *(dataPtrT + a1) = *(bytePtrT + a1);
             }
+
             data = SAT.Decompress(data);
-            var Class = new FNGroup(data, db);
+            var fnGroup = new FNGroup(data, db);
 
             // Check whether this FEng class already exists in the database
-            if (Class.Destroy)
+            if (fnGroup.Destroy)
                 return;
-            if (db.FNGroups.FindCollection(Class.CollectionName) != null)
+            if (db.FNGroups.FindCollection(fnGroup.CollectionName) != null)
                 return;
-            db.FNGroups.Collections.Add(Class);
-            Bin.Hash(Class.CollectionName);
+            db.FNGroups.Collections.Add(fnGroup);
+            Bin.Hash(fnGroup.CollectionName);
         }
     }
 }

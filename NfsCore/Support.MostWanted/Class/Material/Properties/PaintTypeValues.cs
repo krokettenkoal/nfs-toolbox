@@ -5,58 +5,55 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class Material
     {
-        private float _shadowlevel = 0;
-        private float _mattelevel = 0;
-        private float _chromelevel = 0;
+        private float _shadowLevel;
+        private float _matteLevel;
+        private float _chromeLevel;
 
         /// <summary>
         /// Shadow level value of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float ShadowLevel
         {
-            get => this._shadowlevel;
+            get => _shadowLevel;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._shadowlevel = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _shadowLevel = value;
             }
         }
 
         /// <summary>
         /// Matte level value of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float MatteLevel
         {
-            get => this._mattelevel;
+            get => _matteLevel;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._mattelevel = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _matteLevel = value;
             }
         }
 
         /// <summary>
         /// Chrome level value of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float ChromeLevel
         {
-            get => this._chromelevel;
+            get => _chromeLevel;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._chromelevel = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _chromeLevel = value;
             }
         }
     }

@@ -6,11 +6,11 @@
 		public STRBlock() { }
 
 		// Default constructor: disassemble string block
-		public unsafe STRBlock(byte* strptr, byte* labptr, int strlen, int lablen, Database.Underground1Db db)
+		public unsafe STRBlock(byte* strPtr, byte* labPtr, int strLen, int labLen, Database.Underground1Db db)
 		{
-			this.Database = db;
-			this.Disassemble(strptr, strlen);
-			this.DisperseLabels(labptr, lablen);
+			Database = db;
+			Disassemble(strPtr, strLen);
+			DisperseLabels(labPtr, labLen);
 		}
 
 		~STRBlock() { }

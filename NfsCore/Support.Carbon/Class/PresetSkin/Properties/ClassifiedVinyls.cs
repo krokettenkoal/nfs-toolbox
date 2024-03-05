@@ -6,37 +6,37 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class PresetSkin
     {
-        private string _genericvinyl = BaseArguments.NULL;
-        private string _vectorvinyl = BaseArguments.NULL;
+        private string _genericVinyl = BaseArguments.NULL;
+        private string _vectorVinyl = BaseArguments.NULL;
 
         /// <summary>
         /// Generic vinyl value of the preset skin.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string GenericVinyl
         {
-            get => this._genericvinyl;
+            get => _genericVinyl;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._genericvinyl = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _genericVinyl = value;
             }
         }
 
         /// <summary>
         /// Vector vinyl value of the preset skin.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public string VectorVinyl
         {
-            get => this._vectorvinyl;
+            get => _vectorVinyl;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._vectorvinyl = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _vectorVinyl = value;
             }
         }
     }

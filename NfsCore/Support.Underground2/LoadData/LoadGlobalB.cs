@@ -49,8 +49,8 @@ namespace NfsCore.Support.Underground2
 
                 while (offset < db._GlobalBLZC.Length)
                 {
-                    var id = *(uint*)(bytePtrT + offset); // to get the ID of the block being read
-                    var size = *(uint*)(bytePtrT + offset + 4); // to get the size of the block being read
+                    var id = *(uint*) (bytePtrT + offset); // to get the ID of the block being read
+                    var size = *(uint*) (bytePtrT + offset + 4); // to get the size of the block being read
                     if (offset + size > db._GlobalBLZC.Length)
                     {
                         //Console.WriteLine("GlobalB: unable to read beyond the stream.");
@@ -98,7 +98,7 @@ namespace NfsCore.Support.Underground2
                         case GlobalId.SlotTypes:
                             E_SlotType(bytePtrT + offset, size + 8, db);
                             break;
-                        
+
 
                         case GlobalId.CareerInfo:
                             if (gcOff == 0xFFFFFFFF)
@@ -114,6 +114,7 @@ namespace NfsCore.Support.Underground2
                             E_FNGroup(bytePtrT + offset, size + 8, db);
                             break;
                     }
+
                     offset += 8 + size; // advance in offset
                 }
 

@@ -1,11 +1,11 @@
 ﻿namespace NfsCore.Support.Underground1.Gameplay
 {
-	public partial class SunInfo
-	{
-		public override string ToString()
-		{
-			return $"Collection Name: {this.CollectionName} | " +
-				   $"BinKey: {this.BinKey.ToString("X8")} | Game: {this.GameSTR}";
-		}
-	}
+    public partial class SunInfo
+    {
+        public override string ToString()
+        {
+            return $"Collection Name: {CollectionName} | " +
+                   $"BinKey: {BinKey:X8} | Game: {GameSTR}";
+        }
+    }
 }

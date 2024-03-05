@@ -5,25 +5,23 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class PartPerformance
 	{
-		private void SwitchPerfType(ePerformanceType perftype)
+		private void SwitchPerfType(ePerformanceType perfType)
 		{
 			// Clear slot
-			this.ClearPartTableSlot();
+			ClearPartTableSlot();
 			
 			// Move to another
-			this._part_perf_type = perftype;
-			int index = (int)perftype;
-			for (int a1 = 0; a1 < 3; ++a1)
+			_partPerfType = perfType;
+			var index = (int)perfType;
+			for (var a1 = 0; a1 < 3; ++a1)
 			{
-				for (int a2 = 0; a2 < 4; ++a2)
+				for (var a2 = 0; a2 < 4; ++a2)
 				{
-					if (Map.PerfPartTable[index, a1, a2] == 0)
-					{
-						Map.PerfPartTable[index, a1, a2] = this.BinKey;
-						this._upgrade_level = a1;
-						this._upgrade_part_index = a2;
-						return;
-					}
+					if (Map.PerfPartTable[index, a1, a2] != 0) continue;
+					Map.PerfPartTable[index, a1, a2] = BinKey;
+					_upgradeLevel = a1;
+					_upgradePartIndex = a2;
+					return;
 				}
 			}
 		}

@@ -7,84 +7,84 @@ namespace NfsCore.Support.Underground2.Class
         /// <summary>
         /// Finds offsets of all partials and its parts in the tpk block.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <returns>Array of all offsets.</returns>
-        protected override unsafe int[] FindOffsets(byte* byteptr_t)
+        protected override unsafe int[] FindOffsets(byte* bytePtrT)
         {
-            var offsets = new int[8] { -1, -1, -1, -1, -1, -1, -1, -1 };
-            int ReaderOffset = 8; // start after ID and size
-            uint ReaderID = 0;
-            int InfoBlockSize = 0;
-            int DataBlockSize = 0;
+            var offsets = new[] {-1, -1, -1, -1, -1, -1, -1, -1};
+            var readerOffset = 8; // start after ID and size
+            uint readerId = 0;
+            var infoBlockSize = 0;
+            var dataBlockSize = 0;
 
-            while (ReaderID != TPK.INFO_BLOCKID)
+            while (readerId != TPK.INFO_BLOCKID)
             {
-                ReaderID = *(uint*)(byteptr_t + ReaderOffset);
-                InfoBlockSize = *(int*)(byteptr_t + ReaderOffset + 4);
-                if (ReaderID != TPK.INFO_BLOCKID) ReaderOffset += InfoBlockSize;
-                ReaderOffset += 8;
+                readerId = *(uint*) (bytePtrT + readerOffset);
+                infoBlockSize = *(int*) (bytePtrT + readerOffset + 4);
+                if (readerId != TPK.INFO_BLOCKID) readerOffset += infoBlockSize;
+                readerOffset += 8;
             }
 
-            InfoBlockSize += ReaderOffset; // relative offset
-            while (ReaderOffset < InfoBlockSize)
+            infoBlockSize += readerOffset; // relative offset
+            while (readerOffset < infoBlockSize)
             {
-                ReaderID = *(uint*)(byteptr_t + ReaderOffset);
-                switch (ReaderID)
+                readerId = *(uint*) (bytePtrT + readerOffset);
+                switch (readerId)
                 {
                     case TPK.INFO_PART1_BLOCKID:
-                        offsets[0] = ReaderOffset;
+                        offsets[0] = readerOffset;
                         goto default;
 
                     case TPK.INFO_PART2_BLOCKID:
-                        offsets[1] = ReaderOffset;
+                        offsets[1] = readerOffset;
                         goto default;
 
                     case TPK.INFO_PART3_BLOCKID:
-                        offsets[2] = ReaderOffset;
+                        offsets[2] = readerOffset;
                         goto default;
 
                     case TPK.INFO_PART4_BLOCKID:
-                        offsets[3] = ReaderOffset;
+                        offsets[3] = readerOffset;
                         goto default;
 
                     case TPK.INFO_PART5_BLOCKID:
-                        offsets[4] = ReaderOffset;
+                        offsets[4] = readerOffset;
                         goto default;
 
                     default:
-                        ReaderOffset += 8 + *(int*)(byteptr_t + ReaderOffset + 4);
+                        readerOffset += 8 + *(int*) (bytePtrT + readerOffset + 4);
                         break;
                 }
             }
 
-            while (ReaderID != TPK.DATA_BLOCKID)
+            while (readerId != TPK.DATA_BLOCKID)
             {
-                ReaderID = *(uint*)(byteptr_t + ReaderOffset);
-                DataBlockSize = *(int*)(byteptr_t + ReaderOffset + 4);
-                if (ReaderID != TPK.DATA_BLOCKID) ReaderOffset += DataBlockSize;
-                ReaderOffset += 8;
+                readerId = *(uint*) (bytePtrT + readerOffset);
+                dataBlockSize = *(int*) (bytePtrT + readerOffset + 4);
+                if (readerId != TPK.DATA_BLOCKID) readerOffset += dataBlockSize;
+                readerOffset += 8;
             }
 
-            DataBlockSize += ReaderOffset; // relative offset
-            while (ReaderOffset < DataBlockSize)
+            dataBlockSize += readerOffset; // relative offset
+            while (readerOffset < dataBlockSize)
             {
-                ReaderID = *(uint*)(byteptr_t + ReaderOffset);
-                switch (ReaderID)
+                readerId = *(uint*) (bytePtrT + readerOffset);
+                switch (readerId)
                 {
                     case TPK.DATA_PART1_BLOCKID:
-                        offsets[5] = ReaderOffset;
+                        offsets[5] = readerOffset;
                         goto default;
 
                     case TPK.DATA_PART2_BLOCKID:
-                        offsets[6] = ReaderOffset;
+                        offsets[6] = readerOffset;
                         goto default;
 
                     case TPK.DATA_PART3_BLOCKID:
-                        offsets[7] = ReaderOffset;
+                        offsets[7] = readerOffset;
                         goto default;
 
                     default:
-                        ReaderOffset += 8 + *(int*)(byteptr_t + ReaderOffset + 4);
+                        readerOffset += 8 + *(int*) (bytePtrT + readerOffset + 4);
                         break;
                 }
             }

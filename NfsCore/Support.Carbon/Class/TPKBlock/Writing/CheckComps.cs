@@ -9,9 +9,9 @@ namespace NfsCore.Support.Carbon.Class
         /// </summary>
         protected override void CheckComps()
         {
-            this.compressions.Clear();
-            for (int a1 = 0; a1 < this.Textures.Count; ++a1)
-                this.compressions.Add(Comp.GetInt(this.Textures[a1].Compression));
+            _compressions.Clear();
+            foreach (var t in Textures)
+                _compressions.Add(Comp.GetInt(t.Compression));
         }
     }
 }

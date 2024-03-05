@@ -24,8 +24,17 @@ namespace NfsCore.Reflection.Abstract
         /// </summary>
         public string GameSTR => GameINT.ToString();
         
+        /// <summary>
+        /// The database's FNGroups (frontend groups) collection.
+        /// </summary>
         public Root<FNGroup> FNGroups { get; protected set; }
+        /// <summary>
+        /// The database's TPKBlocks (compressed textures) collection.
+        /// </summary>
         public Root<TPKBlock> TPKBlocks { get; protected set; }
+        /// <summary>
+        /// The database's STRBlocks collection.
+        /// </summary>
         public Root<STRBlock> STRBlocks { get; protected set; }
 
         protected BasicBase()
@@ -72,7 +81,7 @@ namespace NfsCore.Reflection.Abstract
         /// <returns><see cref="Collectable"/> class.</returns>
         public virtual Collectable GetCollection(string CName, string root)
         {
-            var property = this.GetType().GetProperty(root);
+            var property = GetType().GetProperty(root);
             if (property == null) return null;
 
             return (Collectable)property.PropertyType
@@ -92,7 +101,7 @@ namespace NfsCore.Reflection.Abstract
             collection = null;
             try
             {
-                collection = this.GetCollection(CName, root);
+                collection = GetCollection(CName, root);
                 if (collection == null) return false;
                 else return true;
             }
@@ -112,10 +121,10 @@ namespace NfsCore.Reflection.Abstract
             switch (path.Length)
             {
                 case 2:
-                    return this.GetCollection(path[1], path[0]);
+                    return GetCollection(path[1], path[0]);
 
                 case 4:
-                    var collection = this.GetCollection(path[1], path[0]);
+                    var collection = GetCollection(path[1], path[0]);
                     return collection.GetSubPart(path[3], path[2]);
 
                 default:
@@ -125,7 +134,7 @@ namespace NfsCore.Reflection.Abstract
 
         public virtual bool TrySetStaticValue(string root, string field, string value)
         {
-            var property = this.GetType().GetProperty(root ?? string.Empty);
+            var property = GetType().GetProperty(root ?? string.Empty);
             if (property == null) return false;
             try
             {
@@ -139,7 +148,7 @@ namespace NfsCore.Reflection.Abstract
         public virtual bool TrySetStaticValue(string root, string field, string value, out string error)
         {
             error = null;
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -165,19 +174,19 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to add class specfified to the database.
         /// </summary>
-        /// <param name="CName">Collection Name of the new class.</param>
+        /// <param name="collectionName">Collection Name of the new class.</param>
         /// <param name="root">Root of the new class. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <returns>True if class adding was successful, false otherwise.</returns>
-        public virtual bool TryAddCollection(string CName, string root)
+        public virtual bool TryAddCollection(string collectionName, string root)
         {
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null) return false;
 
             try
             {
                 return (bool)node.PropertyType
                     .GetMethod("TryAddCollection", new Type[] { typeof(string) })
-                    .Invoke(node.GetValue(this), new object[] { CName });
+                    .Invoke(node.GetValue(this), new object[] { collectionName });
             }
             catch (System.Exception) { return false; }
         }
@@ -185,14 +194,14 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to add class specfified to the database.
         /// </summary>
-        /// <param name="CName">Collection Name of the new class.</param>
+        /// <param name="collectionName">Collection Name of the new class.</param>
         /// <param name="root">Root of the new class. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <param name="error">Error occured while trying to add class.</param>
         /// <returns>True if class adding was successful, false otherwise.</returns>
-        public virtual bool TryAddCollection(string CName, string root, out string error)
+        public virtual bool TryAddCollection(string collectionName, string root, out string error)
         {
             error = null;
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -201,7 +210,7 @@ namespace NfsCore.Reflection.Abstract
 
             try
             {
-                var callargs = new object[] { CName, error };
+                var callargs = new object[] { collectionName, error };
                 bool result = (bool)node.PropertyType
                     .GetMethod("TryAddCollection", new Type[] { typeof(string), typeof(string).MakeByRefType() })
                     .Invoke(node.GetValue(this), callargs);
@@ -218,19 +227,19 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to remove class specfified in the database.
         /// </summary>
-        /// <param name="CName">Collection Name of the class to be deleted.</param>
+        /// <param name="collectionName">Collection Name of the class to be deleted.</param>
         /// <param name="root">Root of the class to delete. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <returns>True if class removing was successful, false otherwise.</returns>
-        public virtual bool TryRemoveCollection(string CName, string root)
+        public virtual bool TryRemoveCollection(string collectionName, string root)
         {
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null) return false;
 
             try
             {
                 return (bool)node.PropertyType
                     .GetMethod("TryRemoveCollection", new Type[] { typeof(string) })
-                    .Invoke(node.GetValue(this), new object[] { CName });
+                    .Invoke(node.GetValue(this), new object[] { collectionName });
             }
             catch (System.Exception) { return false; }
         }
@@ -238,14 +247,14 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to remove class specfified in the database.
         /// </summary>
-        /// <param name="CName">Collection Name of the class to be deleted.</param>
+        /// <param name="collectionName">Collection Name of the class to be deleted.</param>
         /// <param name="root">Root of the class to delete. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <param name="error">Error occured while trying to remove class.</param>
         /// <returns>True if class removing was successful, false otherwise.</returns>
-        public virtual bool TryRemoveCollection(string CName, string root, out string error)
+        public virtual bool TryRemoveCollection(string collectionName, string root, out string error)
         {
             error = null;
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -254,7 +263,7 @@ namespace NfsCore.Reflection.Abstract
 
             try
             {
-                var callargs = new object[] { CName, error };
+                var callargs = new object[] { collectionName, error };
                 bool result = (bool)node.PropertyType
                     .GetMethod("TryRemoveCollection", new Type[] { typeof(string), typeof(string).MakeByRefType() })
                     .Invoke(node.GetValue(this), callargs);
@@ -271,20 +280,20 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to clone class specfified in the database.
         /// </summary>
-        /// <param name="newname">Collection Name of the new class.</param>
-        /// <param name="copyfrom">Collection Name of the class to clone.</param>
+        /// <param name="newName">Collection Name of the new class.</param>
+        /// <param name="copyFrom">Collection Name of the class to clone.</param>
         /// <param name="root">Root of the class to clone. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <returns>True if class cloning was successful, false otherwise.</returns>
-        public virtual bool TryCloneCollection(string newname, string copyfrom, string root)
+        public virtual bool TryCloneCollection(string newName, string copyFrom, string root)
         {
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null) return false;
 
             try
             {
                 return (bool)node.PropertyType
                     .GetMethod("TryCloneCollection", new Type[] { typeof(string), typeof(string) })
-                    .Invoke(node.GetValue(this), new object[] { newname, copyfrom });
+                    .Invoke(node.GetValue(this), new object[] { newName, copyFrom });
             }
             catch (System.Exception) { return false; }
         }
@@ -292,15 +301,15 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Attempts to clone class specfified in the database.
         /// </summary>
-        /// <param name="newname">Collection Name of the new class.</param>
-        /// <param name="copyfrom">Collection Name of the class to clone.</param>
+        /// <param name="newName">Collection Name of the new class.</param>
+        /// <param name="copyFrom">Collection Name of the class to clone.</param>
         /// <param name="root">Root of the class to clone. Range: Materials, CarTypeInfos, PresetRides.</param>
         /// <param name="error">Error occured while trying to copy class.</param>
         /// <returns>True if class cloning was successful, false otherwise.</returns>
-        public virtual bool TryCloneCollection(string newname, string copyfrom, string root, out string error)
+        public virtual bool TryCloneCollection(string newName, string copyFrom, string root, out string error)
         {
             error = null;
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -309,7 +318,7 @@ namespace NfsCore.Reflection.Abstract
 
             try
             {
-                var callargs = new object[] { newname, copyfrom, error };
+                var callargs = new object[] { newName, copyFrom, error };
                 bool result = (bool)node.PropertyType
                     .GetMethod("TryCloneCollection", new Type[] { typeof(string), typeof(string), typeof(string).MakeByRefType() })
                     .Invoke(node.GetValue(this), callargs);
@@ -342,7 +351,7 @@ namespace NfsCore.Reflection.Abstract
                 return false;
             }
 
-            var node = this.GetType().GetProperty(root);
+            var node = GetType().GetProperty(root);
             if (root == null) return false;
 
             return (bool)node.PropertyType
@@ -373,7 +382,7 @@ namespace NfsCore.Reflection.Abstract
                 return false;
             }
 
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -400,20 +409,20 @@ namespace NfsCore.Reflection.Abstract
         /// Exports <see cref="Collectable"/> data from <see cref="Root{TypeID}"/> 
         /// root to a file path specified.
         /// </summary>
-        /// <param name="CName">CollectionName of <see cref="Collectable"/> class.</param>
+        /// <param name="collectionName">CollectionName of <see cref="Collectable"/> class.</param>
         /// <param name="root">Name of the <see cref="Root{TypeID}"/> collection.</param>
         /// <param name="filepath">Filepath where data should be exported.</param>
         /// <returns>True if class export was successful, false otherwise.</returns>
-        public virtual bool TryExportCollection(string CName, string root, string filepath)
+        public virtual bool TryExportCollection(string collectionName, string root, string filepath)
         {
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null) return false;
 
             try
             {
                 return (bool)node.PropertyType
                     .GetMethod("TryExportCollection", new Type[] { typeof(string), typeof(string) })
-                    .Invoke(node.GetValue(this), new object[] { CName, filepath });
+                    .Invoke(node.GetValue(this), new object[] { collectionName, filepath });
             }
             catch (System.Exception) { return false; }
         }
@@ -422,15 +431,15 @@ namespace NfsCore.Reflection.Abstract
         /// Exports <see cref="Collectable"/> data from <see cref="Root{TypeID}"/> 
         /// root to a file path specified.
         /// </summary>
-        /// <param name="CName">CollectionName of <see cref="Collectable"/> class.</param>
+        /// <param name="collectionName">CollectionName of <see cref="Collectable"/> class.</param>
         /// <param name="root">Name of the <see cref="Root{TypeID}"/> collection.</param>
         /// <param name="filepath">Filepath where data should be exported.</param>
         /// <param name="error">Error occured while trying to export class.</param>
         /// <returns>True if class export was successful, false otherwise.</returns>
-        public virtual bool TryExportCollection(string CName, string root, string filepath, out string error)
+        public virtual bool TryExportCollection(string collectionName, string root, string filepath, out string error)
         {
             error = null;
-            var node = this.GetType().GetProperty(root ?? string.Empty);
+            var node = GetType().GetProperty(root ?? string.Empty);
             if (node == null)
             {
                 error = $"Root named {root} does not exist in the database.";
@@ -439,7 +448,7 @@ namespace NfsCore.Reflection.Abstract
 
             try
             {
-                var callargs = new object[] { CName, filepath, error };
+                var callargs = new object[] { collectionName, filepath, error };
                 bool result = (bool)node.PropertyType
                     .GetMethod("TryExportCollection", new Type[] { typeof(string), typeof(string), typeof(string).MakeByRefType() })
                     .Invoke(node.GetValue(this), callargs);
@@ -456,11 +465,11 @@ namespace NfsCore.Reflection.Abstract
         /// <summary>
         /// Adds collision block to the database memory.
         /// </summary>
-        /// <param name="CName">Collection Name of the collision block.</param>
+        /// <param name="collectionName">Collection Name of the collision block.</param>
         /// <param name="filename">Filepath of the collision block to be imported.</param>
         /// <param name="error">Error occured when trying to add collision.</param>
         /// <returns>True if adding was successful; false otherwise.</returns>
-        public abstract unsafe bool TryAddCollision(string CName, string filename, out string error);
+        public abstract unsafe bool TryAddCollision(string collectionName, string filename, out string error);
 
         /// <summary>
         /// Gets information about <see cref="BasicBase"/> database.

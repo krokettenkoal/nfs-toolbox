@@ -15,16 +15,16 @@ namespace NfsCore.Support.MostWanted.Class
         /// <returns>Byte array of the preset ride.</returns>
         public override unsafe byte[] Assemble()
         {
-            var result = new byte[this.data.Length];
-            Buffer.BlockCopy(this.data, 0, result, 0, this.data.Length);
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[_data.Length];
+            Buffer.BlockCopy(_data, 0, result, 0, _data.Length);
+            fixed (byte* bytePtrT = &result[0])
             {
                 var parts = new Concatenator();
-                var add_on = new Add_On();
+                var addOn = new Add_On();
 
                 // Frontend and Pvehicle
-                this._Frontend_Hash = Vlt.SmartHash(this.Frontend);
-                this._Pvehicle_Hash = Vlt.SmartHash(this.Pvehicle);
+                _frontendHash = Vlt.SmartHash(Frontend);
+                _pvehicleHash = Vlt.SmartHash(Pvehicle);
 
                 // _BASE
                 parts._BASE = MODEL + parts._BASE;
@@ -54,10 +54,10 @@ namespace NfsCore.Support.MostWanted.Class
                 parts._DAMAGE_0_REAR_DOOR = MODEL + parts._DAMAGE_0_REAR_DOOR;
 
                 // _BASE_KIT
-                if (this._aftermarket_bodykit == -1)
+                if (_aftermarketBodyKit == -1)
                     parts._BASE_KIT = MODEL + parts._BASE_KIT;
                 else
-                    parts._BASE_KIT = MODEL + parts._BASE_KIT + add_on._KIT + this._aftermarket_bodykit.ToString();
+                    parts._BASE_KIT = MODEL + parts._BASE_KIT + addOn._KIT + _aftermarketBodyKit;
 
                 // Bunch of stuff
                 parts._FRONT_BRAKE = MODEL + parts._FRONT_BRAKE;
@@ -82,142 +82,146 @@ namespace NfsCore.Support.MostWanted.Class
                 parts._DRIVER = MODEL + parts._DRIVER;
 
                 // _SPOILER
-                if (this._spoiler_type == eSTypes.NULL)
+                if (_spoilerType == eSTypes.NULL)
                     parts._SPOILER = "";
-                else if (this._spoiler_type == eSTypes.STOCK || this._spoiler_style == 0)
+                else if (_spoilerType == eSTypes.STOCK || _spoilerStyle == 0)
                     parts._SPOILER = MODEL + parts._SPOILER;
                 else
                 {
-                    parts._SPOILER = add_on.SPOILER + add_on._STYLE + this._spoiler_style.ToString("00");
-                    if (this.SpoilerType != eSTypes.BASE)
-                        parts._SPOILER += this._spoiler_type.ToString();
-                    if (this._is_carbonfibre_spoiler == eBoolean.True)
-                        parts._SPOILER += add_on._CF;
+                    parts._SPOILER = addOn.SPOILER + addOn._STYLE + _spoilerStyle.ToString("00");
+                    if (SpoilerType != eSTypes.BASE)
+                        parts._SPOILER += _spoilerType.ToString();
+                    if (_isCarbonFibreSpoiler == eBoolean.True)
+                        parts._SPOILER += addOn._CF;
                 }
 
                 // _UNIVERSAL_SPOILER_BASE
                 parts._UNIVERSAL_SPOILER_BASE = MODEL + parts._UNIVERSAL_SPOILER_BASE;
 
                 // _DAMAGE0_FRONT and _DAMAGE0_REAR
-                parts._DAMAGE0_FRONT = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_FRONT;
-                parts._DAMAGE0_FRONTLEFT = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_FRONTLEFT;
-                parts._DAMAGE0_FRONTRIGHT = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_FRONTRIGHT;
-                parts._DAMAGE0_REAR = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_REAR;
-                parts._DAMAGE0_REARLEFT = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_REARLEFT;
-                parts._DAMAGE0_REARRIGHT = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DAMAGE0_REARRIGHT;
+                parts._DAMAGE0_FRONT = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_FRONT;
+                parts._DAMAGE0_FRONTLEFT = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_FRONTLEFT;
+                parts._DAMAGE0_FRONTRIGHT = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_FRONTRIGHT;
+                parts._DAMAGE0_REAR = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_REAR;
+                parts._DAMAGE0_REARLEFT = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_REARLEFT;
+                parts._DAMAGE0_REARRIGHT = MODEL + addOn._KIT + _aftermarketBodyKit + parts._DAMAGE0_REARRIGHT;
 
                 // _ATTACHMENT
                 parts._ATTACHMENT = MODEL + parts._ATTACHMENT;
 
                 // ROOF_STYLE
-                if (this._roofscoop_style == 0)
-                    parts.ROOF_STYLE += add_on._0 + add_on._0;
+                if (_roofScoopStyle == 0)
+                    parts.ROOF_STYLE += addOn._0 + addOn._0;
                 else
                 {
-                    parts.ROOF_STYLE += this._roofscoop_style.ToString("00");
-                    if (this._is_dual_roofscoop == eBoolean.True)
-                        parts.ROOF_STYLE += add_on._DUAL;
-                    if (this._is_offset_roofscoop == eBoolean.True && this._is_dual_roofscoop == eBoolean.False)
-                        parts.ROOF_STYLE += add_on._OFFSET;
-                    if (this._is_carbonfibre_roofscoop == eBoolean.True)
-                        parts.ROOF_STYLE += add_on._CF;
+                    parts.ROOF_STYLE += _roofScoopStyle.ToString("00");
+                    if (_isDualRoofScoop == eBoolean.True)
+                        parts.ROOF_STYLE += addOn._DUAL;
+                    if (_isOffsetRoofScoop == eBoolean.True && _isDualRoofScoop == eBoolean.False)
+                        parts.ROOF_STYLE += addOn._OFFSET;
+                    if (_isCarbonFibreRoofScoop == eBoolean.True)
+                        parts.ROOF_STYLE += addOn._CF;
                 }
 
                 // _HOOD
-                if (this._hood_style == 0)
-                    parts._HOOD = MODEL + add_on._KIT + add_on._0 + parts._HOOD;
+                if (_hoodStyle == 0)
+                    parts._HOOD = MODEL + addOn._KIT + addOn._0 + parts._HOOD;
                 else
                 {
-                    parts._HOOD = MODEL + add_on._STYLE + this._hood_style.ToString("00") + parts._HOOD;
-                    if (this._is_carbonfibre_hood == eBoolean.True)
-                        parts._HOOD += add_on._CF;
+                    parts._HOOD = MODEL + addOn._STYLE + _hoodStyle.ToString("00") + parts._HOOD;
+                    if (_isCarbonFibreHood == eBoolean.True)
+                        parts._HOOD += addOn._CF;
                 }
 
                 // _WHEEL
-                switch (this._rim_brand)
+                switch (_rimBrand)
                 {
                     case BaseArguments.NULL:
                     case BaseArguments.STOCK:
                         parts._WHEEL = MODEL + parts._WHEEL; // null, empty, NULL or STOCK
                         break;
                     default:
-                        parts._WHEEL = $"{this._rim_brand}{add_on._STYLE}{this._rim_style:00}_{this._rim_size}{add_on._25}";
+                        parts._WHEEL = $"{_rimBrand}{addOn._STYLE}{_rimStyle:00}_{_rimSize}{addOn._25}";
                         break;
                 }
 
                 // _DECAL
                 parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM;
                 parts._DECAL_REAR_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_REAR_WINDOW_WIDE_MEDIUM;
-                parts._DECAL_LEFT_DOOR_RECT_MEDIUM = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DECAL_LEFT_DOOR_RECT_MEDIUM;
-                parts._DECAL_RIGHT_DOOR_RECT_MEDIUM = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DECAL_RIGHT_DOOR_RECT_MEDIUM;
-                parts._DECAL_LEFT_QUARTER_RECT_MEDIUM = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DECAL_LEFT_QUARTER_RECT_MEDIUM;
-                parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM = MODEL + add_on._KIT + this._aftermarket_bodykit.ToString() + parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM;
+                parts._DECAL_LEFT_DOOR_RECT_MEDIUM =
+                    MODEL + addOn._KIT + _aftermarketBodyKit + parts._DECAL_LEFT_DOOR_RECT_MEDIUM;
+                parts._DECAL_RIGHT_DOOR_RECT_MEDIUM =
+                    MODEL + addOn._KIT + _aftermarketBodyKit + parts._DECAL_RIGHT_DOOR_RECT_MEDIUM;
+                parts._DECAL_LEFT_QUARTER_RECT_MEDIUM =
+                    MODEL + addOn._KIT + _aftermarketBodyKit + parts._DECAL_LEFT_QUARTER_RECT_MEDIUM;
+                parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM =
+                    MODEL + addOn._KIT + _aftermarketBodyKit + parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM;
 
                 // PAINT
-                parts.PAINT = this._body_paint;
+                parts.PAINT = _bodyPaint;
 
                 // RIMPAINT
-                if (this.RimPaint != BaseArguments.NULL)
-                    parts.RIM_PAINT = this._rim_paint;
+                if (RimPaint != BaseArguments.NULL)
+                    parts.RIM_PAINT = _rimPaint;
 
                 // WINDOW_TINT
-                if (this.WindowTintType != BaseArguments.STOCK)
-                    parts.WINDOW_TINT_STOCK = this._window_tint_type;
+                if (WindowTintType != BaseArguments.STOCK)
+                    parts.WINDOW_TINT_STOCK = _windowTintType;
 
                 // VINYL_LAYER
-                if (this.VinylName != BaseArguments.NULL)
-                    parts.VINYL_LAYER = this.VinylName;
+                if (VinylName != BaseArguments.NULL)
+                    parts.VINYL_LAYER = VinylName;
 
                 // SWATCH
-                parts.SWATCH[0] = Resolve.GetVinylString(this._vinylcolor1);
-                parts.SWATCH[1] = Resolve.GetVinylString(this._vinylcolor2);
-                parts.SWATCH[2] = Resolve.GetVinylString(this._vinylcolor3);
-                parts.SWATCH[3] = Resolve.GetVinylString(this._vinylcolor4);
+                parts.SWATCH[0] = Resolve.GetVinylString(_vinylColor1);
+                parts.SWATCH[1] = Resolve.GetVinylString(_vinylColor2);
+                parts.SWATCH[2] = Resolve.GetVinylString(_vinylColor3);
+                parts.SWATCH[3] = Resolve.GetVinylString(_vinylColor4);
 
                 // Hash all strings to keys
-                var keys = this.StringToKey(parts);
+                var keys = StringToKey(parts);
 
                 // Write CollectionName
-                for (int a1 = 0; a1 < 0x20; ++a1)
-                    *(byteptr_t + 0x28 + a1) = (byte)0;
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + 0x28 + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < 0x20; ++a1)
+                    *(bytePtrT + 0x28 + a1) = 0;
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + 0x28 + a1) = (byte) CollectionName[a1];
 
                 // Write Fronend and Pvehicle
-                *(uint*)(byteptr_t + 0x48) = this._Frontend_Hash;
-                *(uint*)(byteptr_t + 0x50) = this._Pvehicle_Hash;
+                *(uint*) (bytePtrT + 0x48) = _frontendHash;
+                *(uint*) (bytePtrT + 0x50) = _pvehicleHash;
 
                 // If the preset already existed, it is better to internally modify its main values
                 // rather than overwriting it, to avoid changing some other values; also, if the model
                 // was not changed, it skips bunch of other conversions and hashing stages
-                if (this.Exists && (this.MODEL == this.OriginalModel))
+                if (Exists && (MODEL == OriginalModel))
                 {
-                    if (!this.Modified) // if exists and not modified, return original array
-                        return this.data;
+                    if (!Modified) // if exists and not modified, return original array
+                        return _data;
 
                     // Write settings that could have been changed
-                    fixed (uint* uintptr_t = &keys[0])
+                    fixed (uint* uIntPtrT = &keys[0])
                     {
-                        *(uint*)(byteptr_t + 0xBC) = *(uintptr_t + 23);  // _BASE_KIT
-                        *(uint*)(byteptr_t + 0x110) = *(uintptr_t + 44); // _SPOILER
-                        *(uint*)(byteptr_t + 0x114) = *(uintptr_t + 45); // _UNIVERSAL_SPOILER_BASE
-                        *(uint*)(byteptr_t + 0x118) = *(uintptr_t + 46); // _DAMAGE0_FRONT
-                        *(uint*)(byteptr_t + 0x11C) = *(uintptr_t + 47); // _DAMAGE0_FRONTLEFT
-                        *(uint*)(byteptr_t + 0x120) = *(uintptr_t + 48); // _DAMAGE0_FRONTRIGHT
-                        *(uint*)(byteptr_t + 0x124) = *(uintptr_t + 49); // _DAMAGE0_REAR
-                        *(uint*)(byteptr_t + 0x128) = *(uintptr_t + 50); // _DAMAGE0_REARLEFT
-                        *(uint*)(byteptr_t + 0x12C) = *(uintptr_t + 51); // _DAMAGE0_REARRIGHT
-                        *(uint*)(byteptr_t + 0x158) = *(uintptr_t + 62); // ROOF_STYLE
-                        *(uint*)(byteptr_t + 0x15C) = *(uintptr_t + 63); // _HOOD
-                        *(uint*)(byteptr_t + 0x168) = *(uintptr_t + 64); // _WHEEL
-                        *(uint*)(byteptr_t + 0x190) = *(uintptr_t + 72); // PAINT
-                        *(uint*)(byteptr_t + 0x194) = *(uintptr_t + 73); // VINYL_LAYER
-                        *(uint*)(byteptr_t + 0x198) = *(uintptr_t + 74); // RIM_PAINT
-                        *(uint*)(byteptr_t + 0x19C) = *(uintptr_t + 75); // SWATCH[0]
-                        *(uint*)(byteptr_t + 0x1A0) = *(uintptr_t + 76); // SWATCH[1]
-                        *(uint*)(byteptr_t + 0x1A4) = *(uintptr_t + 77); // SWATCH[2]
-                        *(uint*)(byteptr_t + 0x1A8) = *(uintptr_t + 78); // SWATCH[3]
-                        *(uint*)(byteptr_t + 0x26C) = *(uintptr_t + 79); // WINDOW_TINT
+                        *(uint*) (bytePtrT + 0xBC) = *(uIntPtrT + 23); // _BASE_KIT
+                        *(uint*) (bytePtrT + 0x110) = *(uIntPtrT + 44); // _SPOILER
+                        *(uint*) (bytePtrT + 0x114) = *(uIntPtrT + 45); // _UNIVERSAL_SPOILER_BASE
+                        *(uint*) (bytePtrT + 0x118) = *(uIntPtrT + 46); // _DAMAGE0_FRONT
+                        *(uint*) (bytePtrT + 0x11C) = *(uIntPtrT + 47); // _DAMAGE0_FRONTLEFT
+                        *(uint*) (bytePtrT + 0x120) = *(uIntPtrT + 48); // _DAMAGE0_FRONTRIGHT
+                        *(uint*) (bytePtrT + 0x124) = *(uIntPtrT + 49); // _DAMAGE0_REAR
+                        *(uint*) (bytePtrT + 0x128) = *(uIntPtrT + 50); // _DAMAGE0_REARLEFT
+                        *(uint*) (bytePtrT + 0x12C) = *(uIntPtrT + 51); // _DAMAGE0_REARRIGHT
+                        *(uint*) (bytePtrT + 0x158) = *(uIntPtrT + 62); // ROOF_STYLE
+                        *(uint*) (bytePtrT + 0x15C) = *(uIntPtrT + 63); // _HOOD
+                        *(uint*) (bytePtrT + 0x168) = *(uIntPtrT + 64); // _WHEEL
+                        *(uint*) (bytePtrT + 0x190) = *(uIntPtrT + 72); // PAINT
+                        *(uint*) (bytePtrT + 0x194) = *(uIntPtrT + 73); // VINYL_LAYER
+                        *(uint*) (bytePtrT + 0x198) = *(uIntPtrT + 74); // RIM_PAINT
+                        *(uint*) (bytePtrT + 0x19C) = *(uIntPtrT + 75); // SWATCH[0]
+                        *(uint*) (bytePtrT + 0x1A0) = *(uIntPtrT + 76); // SWATCH[1]
+                        *(uint*) (bytePtrT + 0x1A4) = *(uIntPtrT + 77); // SWATCH[2]
+                        *(uint*) (bytePtrT + 0x1A8) = *(uIntPtrT + 78); // SWATCH[3]
+                        *(uint*) (bytePtrT + 0x26C) = *(uIntPtrT + 79); // WINDOW_TINT
                     }
                 }
 
@@ -226,41 +230,42 @@ namespace NfsCore.Support.MostWanted.Class
                 else
                 {
                     // Write ModelName
-                    for (int a1 = 0; a1 < 0x20; ++a1)
-                        *(byteptr_t + 8 + a1) = (byte)0;
-                    for (int a1 = 0; a1 < this.MODEL.Length; ++a1)
-                        *(byteptr_t + 8 + a1) = (byte)this.MODEL[a1];
+                    for (var a1 = 0; a1 < 0x20; ++a1)
+                        *(bytePtrT + 8 + a1) = 0;
+                    for (var a1 = 0; a1 < MODEL.Length; ++a1)
+                        *(bytePtrT + 8 + a1) = (byte) MODEL[a1];
 
                     // Write all keys
-                    fixed (uint* uintptr_t = &keys[0])
+                    fixed (uint* uIntPtrT = &keys[0])
                     {
-                        for (int a1 = 0; a1 < 64; ++a1)
-                            *(uint*)(byteptr_t + 0x60 + a1 * 4) = *(uintptr_t + a1);
+                        for (var a1 = 0; a1 < 64; ++a1)
+                            *(uint*) (bytePtrT + 0x60 + a1 * 4) = *(uIntPtrT + a1);
 
-                        *(uint*)(byteptr_t + 0x168) = *(uintptr_t + 64);
+                        *(uint*) (bytePtrT + 0x168) = *(uIntPtrT + 64);
 
-                        for (int a1 = 0; a1 < 14; ++a1)
-                            *(uint*)(byteptr_t + 0x174 + a1 * 4) = *(uintptr_t + 65 + a1);
+                        for (var a1 = 0; a1 < 14; ++a1)
+                            *(uint*) (bytePtrT + 0x174 + a1 * 4) = *(uIntPtrT + 65 + a1);
 
-                        *(uint*)(byteptr_t + 0x26C) = *(uintptr_t + 79);
-                        if (!this.Exists)
+                        *(uint*) (bytePtrT + 0x26C) = *(uIntPtrT + 79);
+                        if (!Exists)
                         {
-                            *(uint*)(byteptr_t + 0x270) = Bin.Hash(parts.HUD);
-                            *(uint*)(byteptr_t + 0x274) = Bin.Hash(parts.HUD_BACKING);
-                            *(uint*)(byteptr_t + 0x278) = Bin.Hash(parts.HUD_NEEDLE);
-                            *(uint*)(byteptr_t + 0x27C) = Bin.Hash(parts.HUD_CHARS);
+                            *(uint*) (bytePtrT + 0x270) = Bin.Hash(parts.HUD);
+                            *(uint*) (bytePtrT + 0x274) = Bin.Hash(parts.HUD_BACKING);
+                            *(uint*) (bytePtrT + 0x278) = Bin.Hash(parts.HUD_NEEDLE);
+                            *(uint*) (bytePtrT + 0x27C) = Bin.Hash(parts.HUD_CHARS);
                         }
                     }
                 }
 
                 // Read Decals
-                this.DECALS_FRONT_WINDOW.Write(byteptr_t + 0x1AC);
-                this.DECALS_REAR_WINDOW.Write(byteptr_t + 0x1CC);
-                this.DECALS_LEFT_DOOR.Write(byteptr_t + 0x1EC);
-                this.DECALS_RIGHT_DOOR.Write(byteptr_t + 0x20C);
-                this.DECALS_LEFT_QUARTER.Write(byteptr_t + 0x22C);
-                this.DECALS_RIGHT_QUARTER.Write(byteptr_t + 0x24C);
+                DECALS_FRONT_WINDOW.Write(bytePtrT + 0x1AC);
+                DECALS_REAR_WINDOW.Write(bytePtrT + 0x1CC);
+                DECALS_LEFT_DOOR.Write(bytePtrT + 0x1EC);
+                DECALS_RIGHT_DOOR.Write(bytePtrT + 0x20C);
+                DECALS_LEFT_QUARTER.Write(bytePtrT + 0x22C);
+                DECALS_RIGHT_QUARTER.Write(bytePtrT + 0x24C);
             }
+
             return result;
         }
     }

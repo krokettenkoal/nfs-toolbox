@@ -12,15 +12,15 @@ namespace NfsCore.Support.MostWanted.Class
         /// <summary>
         /// Aftermarket spoiler type of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eSpoiler Spoiler
         {
-            get => this._spoiler;
+            get => _spoiler;
             set
             {
                 if (Enum.IsDefined(typeof(eSpoiler), value))
-                    this._spoiler = value;
+                    _spoiler = value;
                 else
                     throw new MappingFailException();
             }

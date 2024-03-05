@@ -7,37 +7,38 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
-            var result = new PresetSkin(CName, this.Database);
+            var result = new PresetSkin(collectionName, Database)
+            {
+                PositionY = PositionY,
+                PositionX = PositionX,
+                Rotation = Rotation,
+                Skew = Skew,
+                ScaleY = ScaleY,
+                ScaleX = ScaleX,
+                Saturation1 = Saturation1,
+                Saturation2 = Saturation2,
+                Saturation3 = Saturation3,
+                Saturation4 = Saturation4,
+                Brightness1 = Brightness1,
+                Brightness2 = Brightness2,
+                Brightness3 = Brightness3,
+                Brightness4 = Brightness4,
+                _swatch1 = _swatch1,
+                _swatch2 = _swatch2,
+                _swatch3 = _swatch3,
+                _swatch4 = _swatch4,
+                _genericVinyl = _genericVinyl,
+                _vectorVinyl = _vectorVinyl,
+                PaintSwatch = PaintSwatch,
+                PaintBrightness = PaintBrightness,
+                PaintSaturation = PaintSaturation,
+                PaintType = PaintType
+            };
 
-            result.PositionY = this.PositionY;
-            result.PositionX = this.PositionX;
-            result.Rotation = this.Rotation;
-            result.Skew = this.Skew;
-            result.ScaleY = this.ScaleY;
-            result.ScaleX = this.ScaleX;
-            result.Saturation1 = this.Saturation1;
-            result.Saturation2 = this.Saturation2;
-            result.Saturation3 = this.Saturation3;
-            result.Saturation4 = this.Saturation4;
-            result.Brightness1 = this.Brightness1;
-            result.Brightness2 = this.Brightness2;
-            result.Brightness3 = this.Brightness3;
-            result.Brightness4 = this.Brightness4;
-            result._swatch1 = this._swatch1;
-            result._swatch2 = this._swatch2;
-            result._swatch3 = this._swatch3;
-            result._swatch4 = this._swatch4;
-            result._genericvinyl = this._genericvinyl;
-            result._vectorvinyl = this._vectorvinyl;
-            result.PaintSwatch = this.PaintSwatch;
-            result.PaintBrightness = this.PaintBrightness;
-            result.PaintSaturation = this.PaintSaturation;
-            result.PaintType = this.PaintType;
-            
             return result;
         }
     }

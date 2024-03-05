@@ -1,4 +1,5 @@
-﻿using NfsCore.Global;
+﻿using System.Linq;
+using NfsCore.Global;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Class
@@ -10,14 +11,11 @@ namespace NfsCore.Support.Underground2.Class
         /// </summary>
         private void SetValidRimSize()
         {
-            string rim = $"{this._rim_brand}_STYLE{this._rim_style:00}";
-            foreach (var str in Map.RimBrands)
+            var rim = $"{_rimBrand}_STYLE{_rimStyle:00}";
+            foreach (var str in Map.RimBrands.Where(str => str.StartsWith(rim)))
             {
-                if (str.StartsWith(rim))
-                {
-                    if (FormatX.GetByte(str, rim + "_{X}_##", out byte radius))
-                        this._rim_size = radius;
-                }
+                if (FormatX.GetByte(str, rim + "_{X}_##", out var radius))
+                    _rimSize = radius;
             }
         }
     }

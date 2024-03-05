@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using NfsCore.Global;
 using NfsCore.Reflection;
 using NfsCore.Reflection.ID;
@@ -10,49 +11,49 @@ namespace NfsCore.Support.MostWanted
     {
         private static unsafe void I_CollisionLibBlock(Database.MostWantedDb db, BinaryWriter bw)
         {
-            int colsize = 0;
-            int padding = 0;
+            var colSize = 0;
+            var padding = 0;
 
             // Collision Block
-            var CollisionsUsed = new List<string>();
-            foreach (var info in db.CarTypeInfos.Collections)
+            var collisionsUsed = new List<string>();
+            foreach (var info in db.CarTypeInfos.Collections.Where(info =>
+                         info.CollisionExternalName != BaseArguments.NULL))
             {
-                if (info.CollisionExternalName == BaseArguments.NULL)
-                    continue;
-                else if (info.CollisionExternalName != info.CollisionInternalName)
+                if (info.CollisionExternalName != info.CollisionInternalName)
                 {
-                    CollisionsUsed.Add(info.CollisionInternalName);
-                    colsize += info.CollisionInternalName.Length + 1;
+                    collisionsUsed.Add(info.CollisionInternalName);
+                    colSize += info.CollisionInternalName.Length + 1;
                 }
                 else
                 {
-                    CollisionsUsed.Add(info.CollisionExternalName);
-                    colsize += info.CollisionExternalName.Length + 1;
+                    collisionsUsed.Add(info.CollisionExternalName);
+                    colSize += info.CollisionExternalName.Length + 1;
                 }
             }
 
-            padding = 0x80 - (((int)bw.BaseStream.Length + colsize + 0x98) % 0x80);
+            padding = 0x80 - (((int) bw.BaseStream.Length + colSize + 0x98) % 0x80);
             if (padding == 0x80) padding = 0;
-            var coldata = new byte[0x58];
-            fixed (byte* byteptr_t = &coldata[0])
+            var colData = new byte[0x58];
+            fixed (byte* bytePtrT = &colData[0])
             {
-                *(int*)(byteptr_t + 4) = colsize + 0x50 + padding;
-                *(uint*)(byteptr_t + 8) = GlobalId.GlobalLib;
-                string colblock = "Collision Block";
-                string LibDescr = Process.Watermark;
-                for (int a1 = 0; a1 < LibDescr.Length; ++a1)
-                    *(byteptr_t + 0x10 + a1) = (byte)LibDescr[a1];
-                for (int a1 = 0; a1 < colblock.Length; ++a1)
-                    *(byteptr_t + 0x30 + a1) = (byte)colblock[a1];
-                *(int*)(byteptr_t + 0x50) = CollisionsUsed.Count;
-                *(int*)(byteptr_t + 0x54) = colsize;
-
+                *(int*) (bytePtrT + 4) = colSize + 0x50 + padding;
+                *(uint*) (bytePtrT + 8) = GlobalId.GlobalLib;
+                const string colBlock = "Collision Block";
+                var libDescription = Process.Watermark;
+                for (var a1 = 0; a1 < libDescription.Length; ++a1)
+                    *(bytePtrT + 0x10 + a1) = (byte) libDescription[a1];
+                for (var a1 = 0; a1 < colBlock.Length; ++a1)
+                    *(bytePtrT + 0x30 + a1) = (byte) colBlock[a1];
+                *(int*) (bytePtrT + 0x50) = collisionsUsed.Count;
+                *(int*) (bytePtrT + 0x54) = colSize;
             }
-            bw.Write(coldata);
-            for (int a1 = 0; a1 < CollisionsUsed.Count; ++a1)
-                bw.Write(CollisionsUsed[a1]);
-            for (int a1 = 0; a1 < padding; ++a1)
-                bw.Write((byte)0);
+
+            bw.Write(colData);
+            foreach (var c in collisionsUsed)
+                bw.Write(c);
+
+            for (var a1 = 0; a1 < padding; ++a1)
+                bw.Write((byte) 0);
         }
     }
 }

@@ -7,18 +7,19 @@ namespace NfsCore.Support.MostWanted
         /// <summary>
         /// Extracts slottype block into memory.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the ID of spoilerss block in Global data.</param>
+        /// <param name="bytePtrT">Pointer to the ID of spoilerss block in Global data.</param>
         /// <param name="length">Length of the block to be read (including ID and size).</param>
         /// <param name="db">Database to which add classes.</param>
-        private static unsafe void E_SlotType(byte* byteptr_t, uint length, Database.MostWantedDb db)
+        private static unsafe void E_SlotType(byte* bytePtrT, uint length, Database.MostWantedDb db)
         {
-            var Data = new byte[length];
-            fixed (byte* dataptr_t = &Data[0])
+            var data = new byte[length];
+            fixed (byte* dataPtrT = &data[0])
             {
                 for (var a1 = 0; a1 < length; ++a1)
-                    *(dataptr_t + a1) = *(byteptr_t + a1);
+                    *(dataPtrT + a1) = *(bytePtrT + a1);
             }
-            db.SlotTypes.Spoilers = new Spoilers(Data);
+
+            db.SlotTypes.Spoilers = new Spoilers(data);
         }
     }
 }

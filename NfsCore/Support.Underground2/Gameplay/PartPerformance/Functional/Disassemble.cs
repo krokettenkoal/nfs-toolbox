@@ -2,60 +2,58 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class PartPerformance
-	{
-		private unsafe void Disassemble(byte* byteptr_t)
-		{
-			uint key = 0;
+    public partial class PartPerformance
+    {
+        private unsafe void Disassemble(byte* bytePtrT)
+        {
+            // CollectionName and stuff
+            _partIndex = *(int*) bytePtrT;
+            var key = *(uint*) (bytePtrT + 4);
+            CollName = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            PerfPartCost = *(int*) (bytePtrT + 8);
+            NumberOfBrands = *(int*) (bytePtrT + 0xC);
 
-			// CollectionName and stuff
-			this._part_index = *(int*)byteptr_t;
-			key = *(uint*)(byteptr_t + 4);
-			this._collection_name = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			this.PerfPartCost = *(int*)(byteptr_t + 8);
-			this.NumberOfBrands = *(int*)(byteptr_t + 0xC);
+            // Resolve all brands (use non-reflective for speed)
+            if (NumberOfBrands < 1) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x10);
+            _perfBrand1 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			// Resolve all brands (use non-reflective for speed)
-			if (this.NumberOfBrands < 1) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x10);
-			this._perf_brand_1 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 2) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x14);
+            _perfBrand2 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 2) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x14);
-			this._perf_brand_2 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 3) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x18);
+            _perfBrand3 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 3) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x18);
-			this._perf_brand_3 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 4) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x1C);
+            _perfBrand4 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 4) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x1C);
-			this._perf_brand_4 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 5) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x20);
+            _perfBrand5 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 5) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x20);
-			this._perf_brand_5 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 6) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x24);
+            _perfBrand6 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 6) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x24);
-			this._perf_brand_6 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 7) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x28);
+            _perfBrand7 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 7) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x28);
-			this._perf_brand_7 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            if (NumberOfBrands < 8) goto LABEL_SKIP;
+            key = *(uint*) (bytePtrT + 0x2C);
+            _perfBrand8 = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
-			if (this.NumberOfBrands < 8) goto LABEL_SKIP;
-			key = *(uint*)(byteptr_t + 0x2C);
-			this._perf_brand_8 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-
-			// Do the rest of the values
-		LABEL_SKIP:
-			this.PerfPartAmplifierFraction = *(float*)(byteptr_t + 0x30);
-			this.PerfPartRangeX = *(float*)(byteptr_t + 0x34);
-			this.PerfPartRangeY = *(float*)(byteptr_t + 0x38);
-			this.PerfPartRangeZ = *(float*)(byteptr_t + 0x3C);
-			this.BeingReplacedByIndex1 = *(int*)(byteptr_t + 0x40);
-			this.BeingReplacedByIndex2 = *(int*)(byteptr_t + 0x44);
-		}
-	}
+            // Do the rest of the values
+            LABEL_SKIP:
+            PerfPartAmplifierFraction = *(float*) (bytePtrT + 0x30);
+            PerfPartRangeX = *(float*) (bytePtrT + 0x34);
+            PerfPartRangeY = *(float*) (bytePtrT + 0x38);
+            PerfPartRangeZ = *(float*) (bytePtrT + 0x3C);
+            BeingReplacedByIndex1 = *(int*) (bytePtrT + 0x40);
+            BeingReplacedByIndex2 = *(int*) (bytePtrT + 0x44);
+        }
+    }
 }

@@ -1,24 +1,26 @@
-﻿using NfsCore.Reflection.ID;
+﻿using System.Collections.Generic;
+using NfsCore.Reflection.ID;
 using NfsCore.Support.Underground2.Gameplay;
 
 namespace NfsCore.Support.Underground2.Framework
 {
-	public static partial class CareerManager
-	{
-		private static unsafe void ReadGCareerBrands(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
-		{
-			if (PartOffsets[3] == -1) return; // if career brands block does not exist
-			if (*(uint*)(byteptr_t + PartOffsets[3]) != CareerInfo.BRAND_BLOCK)
-				return; // check career brands block ID
+    public static partial class CareerManager
+    {
+        private static unsafe void ReadGCareerBrands(byte* bytePtrT, IReadOnlyList<int> partOffsets,
+            Database.Underground2Db db)
+        {
+            if (partOffsets[3] == -1) return; // if career brands block does not exist
+            if (*(uint*) (bytePtrT + partOffsets[3]) != CareerInfo.BRAND_BLOCK)
+                return; // check career brands block ID
 
-			int size = *(int*)(byteptr_t + PartOffsets[3] + 4) / 0x44;
+            var size = *(int*) (bytePtrT + partOffsets[3] + 4) / 0x44;
 
-			for (int a1 = 0; a1 < size; ++a1)
-			{
-				int ptr_header = PartOffsets[3] + a1 * 0x44 + 8;
-				var Class = new GCareerBrand(byteptr_t + ptr_header, db);
-				db.GCareerBrands.Collections.Add(Class);
-			}
-		}
-	}
+            for (var a1 = 0; a1 < size; ++a1)
+            {
+                var ptrHeader = partOffsets[3] + a1 * 0x44 + 8;
+                var careerBrand = new GCareerBrand(bytePtrT + ptrHeader, db);
+                db.GCareerBrands.Collections.Add(careerBrand);
+            }
+        }
+    }
 }

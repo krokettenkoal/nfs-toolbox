@@ -10,19 +10,20 @@ namespace NfsCore.Support.Underground2.Class
         /// <returns>Byte array of the partial 1 part5.</returns>
         protected override unsafe byte[] Get1Part5()
         {
-            var result = new byte[8 + this.keys.Count * 0x20];
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[8 + _keys.Count * 0x20];
+            fixed (byte* bytePtrT = &result[0])
             {
-                *(uint*)byteptr_t = TPK.INFO_PART5_BLOCKID; // write ID
-                *(int*)(byteptr_t + 4) = this.keys.Count * 0x20; // write size
-                for (int a1 = 0; a1 < this.keys.Count; ++a1)
+                *(uint*) bytePtrT = TPK.INFO_PART5_BLOCKID; // write ID
+                *(int*) (bytePtrT + 4) = _keys.Count * 0x20; // write size
+                for (var a1 = 0; a1 < _keys.Count; ++a1)
                 {
-                    *(int*)(byteptr_t + 0x10 + a1 * 0x20) = this.compressions[a1].var1;
-                    *(int*)(byteptr_t + 0x14 + a1 * 0x20) = this.compressions[a1].var2;
-                    *(int*)(byteptr_t + 0x18 + a1 * 0x20) = this.compressions[a1].var3;
-                    *(uint*)(byteptr_t + 0x1C + a1 * 0x20) = this.compressions[a1].comp;
+                    *(int*) (bytePtrT + 0x10 + a1 * 0x20) = _compressions[a1].var1;
+                    *(int*) (bytePtrT + 0x14 + a1 * 0x20) = _compressions[a1].var2;
+                    *(int*) (bytePtrT + 0x18 + a1 * 0x20) = _compressions[a1].var3;
+                    *(uint*) (bytePtrT + 0x1C + a1 * 0x20) = _compressions[a1].comp;
                 }
             }
+
             return result;
         }
     }

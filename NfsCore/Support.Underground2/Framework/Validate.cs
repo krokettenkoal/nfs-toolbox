@@ -1,78 +1,74 @@
 ﻿using NfsCore.Utils;
 
-
 namespace NfsCore.Support.Underground2.Framework
 {
-	public static class Validate
-	{
-		public static bool TrackRegionName(string region_name)
-		{
-			// Allowed format: L#R&, where # = int number, & = ascii char
-			if (!region_name.StartsWith("L")) return false;
-			if (region_name.Substring(region_name.Length - 2, 1) != "R") return false;
-			if ((byte)region_name[region_name.Length - 1] > sbyte.MaxValue) return false;
-			if (!FormatX.GetInt32(region_name, "L{X}R#", out int result)) return false;
-			return true;
-		}
+    public static class Validate
+    {
+        public static bool TrackRegionName(string regionName)
+        {
+            // Allowed format: L#R&, where # = int number, & = ascii char
+            if (!regionName.StartsWith("L")) return false;
+            if (regionName.Substring(regionName.Length - 2, 1) != "R") return false;
+            return (byte) regionName[^1] <= sbyte.MaxValue && FormatX.GetInt32(regionName, "L{X}R#", out _);
+        }
 
-		public static bool TrackCollectionName(string CName)
-		{
-			// Allowed format: Track_#, where # is ushort
-			if (!CName.StartsWith("Track_")) return false;
-			if (!FormatX.GetInt32(CName, "Track_{X}", out int result)) return false;
-			return result <= ushort.MaxValue;
-		}
+        public static bool TrackCollectionName(string collectionName)
+        {
+            // Allowed format: Track_#, where # is ushort
+            if (!collectionName.StartsWith("Track_")) return false;
+            if (!FormatX.GetInt32(collectionName, "Track_{X}", out var result)) return false;
+            return result <= ushort.MaxValue;
+        }
 
-		public static bool PartPerformanceCollectionName(string CName)
-		{
-			if (CName.Length != 10) return false;
-			try
-			{
-				uint _ = System.Convert.ToUInt32(CName, 16);
-				return true;
-			}
-			catch (System.Exception)
-			{
-				return false;
-			}
-		}
+        public static bool PartPerformanceCollectionName(string collectionName)
+        {
+            if (collectionName.Length != 10) return false;
+            try
+            {
+                _ = System.Convert.ToUInt32(collectionName, 16);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
 
-		public static bool PerfSliderCollectionName(string CName)
-		{
-			if (CName.Length != 10) return false;
-			try
-			{
-				uint _ = System.Convert.ToUInt32(CName, 16);
-				return true;
-			}
-			catch (System.Exception)
-			{
-				return false;
-			}
-		}
+        public static bool PerfSliderCollectionName(string collectionName)
+        {
+            if (collectionName.Length != 10) return false;
+            try
+            {
+                _ = System.Convert.ToUInt32(collectionName, 16);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
 
-		public static bool PartUnlockableCollectionName(string CName)
-		{
-			if (CName.Length != 10) return false;
-			if (!CName.StartsWith("CARPART_")) return false;
-			string index = FormatX.GetString(CName, "CARPART_{X}");
-			if (ConvertX.ToInt32(index) == 0) return false;
-			else return true;
-		}
-	
-		public static bool CareerStageCollectionName(string CName)
-		{
-			if (!CName.StartsWith("STAGE_")) return false;
-			string index = FormatX.GetString(CName, "STAGE_{X}");
-			return byte.TryParse(index, out byte _);
-		}
-	
-		public static bool BankTriggerCollectionName(string CName)
-		{
-			if (CName.Length != 15) return false;
-			if (!CName.StartsWith("BANK_TRIGGER_")) return false;
-			string index = FormatX.GetString(CName, "BANK_TRIGGER_{X}");
-			return byte.TryParse(index, out byte _);
-		}
-	}
+        public static bool PartUnlockableCollectionName(string collectionName)
+        {
+            if (collectionName.Length != 10) return false;
+            if (!collectionName.StartsWith("CARPART_")) return false;
+            var index = FormatX.GetString(collectionName, "CARPART_{X}");
+            return ConvertX.ToInt32(index) != 0;
+        }
+
+        public static bool CareerStageCollectionName(string collectionName)
+        {
+            if (!collectionName.StartsWith("STAGE_")) return false;
+            var index = FormatX.GetString(collectionName, "STAGE_{X}");
+            return byte.TryParse(index, out _);
+        }
+
+        public static bool BankTriggerCollectionName(string collectionName)
+        {
+            if (collectionName.Length != 15) return false;
+            if (!collectionName.StartsWith("BANK_TRIGGER_")) return false;
+            var index = FormatX.GetString(collectionName, "BANK_TRIGGER_{X}");
+            return byte.TryParse(index, out _);
+        }
+    }
 }

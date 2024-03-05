@@ -6,38 +6,45 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class PresetRide
     {
-        private sbyte _autosculpt_skirt = 0;
+        private sbyte _autoSculptSkirt;
 
         /// <summary>
         /// Autosculpt skirt value of the preset ride. Range: 0-10, NULL.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string AutosculptSkirt
         {
             get
             {
-                if (this._autosculpt_skirt == -1)
-                    return BaseArguments.NULL;
-                if (this._autosculpt_skirt == -2)
-                    return "CAPPED";
-                else
-                    return this._autosculpt_skirt.ToString();
+                return _autoSculptSkirt switch
+                {
+                    -1 => BaseArguments.NULL,
+                    -2 => "CAPPED",
+                    _ => _autoSculptSkirt.ToString()
+                };
             }
             set
             {
-                if (value == BaseArguments.NULL)
-                    this._autosculpt_skirt = -1;
-                else if (value == "CAPPED")
-                    this._autosculpt_skirt = -2;
-                else
+                switch (value)
                 {
-                    if (!byte.TryParse(value, out byte result) || result > 14)
-                        throw new ArgumentOutOfRangeException("This value should be in range 0 to 14, or NULL, or CAPPED.");
-                    else
-                        this._autosculpt_skirt = (sbyte)result;
+                    case BaseArguments.NULL:
+                        _autoSculptSkirt = -1;
+                        break;
+                    case "CAPPED":
+                        _autoSculptSkirt = -2;
+                        break;
+                    default:
+                    {
+                        if (!byte.TryParse(value, out var result) || result > 14)
+                            throw new ArgumentOutOfRangeException(nameof(value),
+                                "This value should be in range 0 to 14, or NULL, or CAPPED.");
+                        _autoSculptSkirt = (sbyte) result;
+                        break;
+                    }
                 }
-                this.Modified = true;
+
+                Modified = true;
             }
         }
     }

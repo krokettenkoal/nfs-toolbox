@@ -2,37 +2,37 @@
 
 namespace NfsCore.Support.Carbon.Class
 {
-	public partial class PresetRide
-	{
-		private void Initialize()
-		{
-			this.FRONTBUMPER = new Autosculpt();
-			this.REARBUMPER = new Autosculpt();
-			this.ROOFSCOOP = new Autosculpt();
-			this.SPOILER = new Autosculpt();
-			this.WHEELS = new Autosculpt();
-			this.SKIRT = new Autosculpt();
-			this.HOOD = new Autosculpt();
-			this.VINYL01 = new Vinyl();
-			this.VINYL02 = new Vinyl();
-			this.VINYL03 = new Vinyl();
-			this.VINYL04 = new Vinyl();
-			this.VINYL05 = new Vinyl();
-			this.VINYL06 = new Vinyl();
-			this.VINYL07 = new Vinyl();
-			this.VINYL08 = new Vinyl();
-			this.VINYL09 = new Vinyl();
-			this.VINYL10 = new Vinyl();
-			this.VINYL11 = new Vinyl();
-			this.VINYL12 = new Vinyl();
-			this.VINYL13 = new Vinyl();
-			this.VINYL14 = new Vinyl();
-			this.VINYL15 = new Vinyl();
-			this.VINYL16 = new Vinyl();
-			this.VINYL17 = new Vinyl();
-			this.VINYL18 = new Vinyl();
-			this.VINYL19 = new Vinyl();
-			this.VINYL20 = new Vinyl();
-		}
-	}
+    public partial class PresetRide
+    {
+        private void Initialize()
+        {
+            FRONTBUMPER = new Autosculpt();
+            REARBUMPER = new Autosculpt();
+            ROOFSCOOP = new Autosculpt();
+            SPOILER = new Autosculpt();
+            WHEELS = new Autosculpt();
+            SKIRT = new Autosculpt();
+            HOOD = new Autosculpt();
+            VINYL01 = new Vinyl();
+            VINYL02 = new Vinyl();
+            VINYL03 = new Vinyl();
+            VINYL04 = new Vinyl();
+            VINYL05 = new Vinyl();
+            VINYL06 = new Vinyl();
+            VINYL07 = new Vinyl();
+            VINYL08 = new Vinyl();
+            VINYL09 = new Vinyl();
+            VINYL10 = new Vinyl();
+            VINYL11 = new Vinyl();
+            VINYL12 = new Vinyl();
+            VINYL13 = new Vinyl();
+            VINYL14 = new Vinyl();
+            VINYL15 = new Vinyl();
+            VINYL16 = new Vinyl();
+            VINYL17 = new Vinyl();
+            VINYL18 = new Vinyl();
+            VINYL19 = new Vinyl();
+            VINYL20 = new Vinyl();
+        }
+    }
 }

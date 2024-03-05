@@ -1,5 +1,4 @@
 ﻿using System;
-using NfsCore.Global;
 using NfsCore.Reflection.Abstract;
 using NfsCore.Reflection.Attributes;
 using NfsCore.Support.Shared.Parts.PresetParts;
@@ -12,47 +11,22 @@ namespace NfsCore.Support.Shared.Class
         #region Private Fields
 
         private string _model = "SUPRA";
-        private string _frontend = "supra";
-        private string _pvehicle = "supra";
+        protected string FrontendInternal = "supra";
+        protected string PVehicleInternal = "supra";
 
         #endregion
 
         #region Main Properties
 
         /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get; set; }
-
-        /// <summary>
-        /// Game to which the class belongs to.
-        /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
-        /// Binary memory hash of the collection name.
-        /// </summary>
-        public virtual uint BinKey { get => Bin.Hash(this.CollectionName); }
-
-        /// <summary>
-        /// Vault memory hash of the collection name.
-        /// </summary>
-        public virtual uint VltKey { get => Vlt.Hash(this.CollectionName); }
-
-        /// <summary>
         /// Vault memory hash of the frontend value.
         /// </summary>
-        public virtual uint FrontendKey { get => Vlt.Hash(this._frontend); }
+        public virtual uint FrontendKey => Vlt.Hash(FrontendInternal);
 
         /// <summary>
         /// Vault memory hash of the pvehicle value.
         /// </summary>
-        public virtual uint PvehicleKey { get => Vlt.Hash(this._pvehicle); }
+        public virtual uint PvehicleKey => Vlt.Hash(PVehicleInternal);
 
         /// <summary>
         /// Original model name of the preset ride.
@@ -66,16 +40,15 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Represents model of the preset ride.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public string MODEL
         {
-            get => this._model;
+            get => _model;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                else
-                    this._model = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _model = value;
             }
         }
 
@@ -84,12 +57,12 @@ namespace NfsCore.Support.Shared.Class
         /// </summary>
         public virtual string Frontend
         {
-            get => this._frontend;
+            get => FrontendInternal;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._frontend = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                FrontendInternal = value;
             }
         }
 
@@ -98,12 +71,12 @@ namespace NfsCore.Support.Shared.Class
         /// </summary>
         public virtual string Pvehicle
         {
-            get => this._pvehicle;
+            get => PVehicleInternal;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._pvehicle = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                PVehicleInternal = value;
             }
         }
 
@@ -115,27 +88,27 @@ namespace NfsCore.Support.Shared.Class
         /// Assembles preset ride into a byte array.
         /// </summary>
         /// <returns>Byte array of the preset ride.</returns>
-        public virtual unsafe byte[] Assemble() { return null; }
+        public virtual byte[] Assemble() { return null; }
 
         /// <summary>
         /// Disassembles preset ride array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the preset ride array.</param>
-        protected virtual unsafe void Disassemble(byte* byteptr_t) { }
+        /// <param name="bytePtrT">Pointer to the preset ride array.</param>
+        protected virtual unsafe void Disassemble(byte* bytePtrT) { }
 
         /// <summary>
         /// Converts all preset parts into binary memory keys.
         /// </summary>
         /// <param name="parts">PresetParts concatenator class of all preset ride's parts.</param>
         /// <returns>Sorted array of all preset parts hashes.</returns>
-        protected virtual unsafe uint[] StringToKey(Concatenator parts) { return null; }
+        protected virtual uint[] StringToKey(Concatenator parts) { return null; }
 
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
             throw new NotImplementedException();
         }

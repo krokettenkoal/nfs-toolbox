@@ -7,43 +7,44 @@ namespace NfsCore.Support.MostWanted.Class
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
-            var result = new Material(CName, this.Database);
+            var result = new Material(collectionName, Database)
+            {
+                _brightColor1Level = _brightColor1Level,
+                _brightColor1Red = _brightColor1Red,
+                _brightColor1Green = _brightColor1Green,
+                _brightColor1Blue = _brightColor1Blue,
+                _brightColor2Level = _brightColor2Level,
+                _brightColor2Red = _brightColor2Red,
+                _brightColor2Green = _brightColor2Green,
+                _brightColor2Blue = _brightColor2Blue,
+                _linearNegative = _linearNegative,
+                _gradientNegative = _gradientNegative,
+                _shadowLevel = _shadowLevel,
+                _matteLevel = _matteLevel,
+                _chromeLevel = _chromeLevel,
+                _reflection1 = _reflection1,
+                _reflection2 = _reflection2,
+                _reflection3 = _reflection3,
+                _strongColor1Level = _strongColor1Level,
+                _strongColor1Red = _strongColor1Red,
+                _strongColor1Green = _strongColor1Green,
+                _strongColor1Blue = _strongColor1Blue,
+                _transparency = _transparency,
+                _unk1 = _unk1,
+                _unk2 = _unk2,
+                _unk3 = _unk3,
+                _unk4 = _unk4,
+                _unk5 = _unk5,
+                _unk6 = _unk6,
+                _unk7 = _unk7,
+                _unk8 = _unk8,
+                _unk9 = _unk9
+            };
 
-            result._brightcolor1_level = this._brightcolor1_level;
-            result._brightcolor1_red = this._brightcolor1_red;
-            result._brightcolor1_green = this._brightcolor1_green;
-            result._brightcolor1_blue = this._brightcolor1_blue;
-            result._brightcolor2_level = this._brightcolor2_level;
-            result._brightcolor2_red = this._brightcolor2_red;
-            result._brightcolor2_green = this._brightcolor2_green;
-            result._brightcolor2_blue = this._brightcolor2_blue;
-            result._linear_negative = this._linear_negative;
-            result._gradient_negative = this._gradient_negative;
-            result._shadowlevel = this._shadowlevel;
-            result._mattelevel = this._mattelevel;
-            result._chromelevel = this._chromelevel;
-            result._reflection1 = this._reflection1;
-            result._reflection2 = this._reflection2;
-            result._reflection3 = this._reflection3;
-            result._strongcolor1_level = this._strongcolor1_level;
-            result._strongcolor1_red = this._strongcolor1_red;
-            result._strongcolor1_green = this._strongcolor1_green;
-            result._strongcolor1_blue = this._strongcolor1_blue;
-            result._transparency = this._transparency;
-            result._unk1 = this._unk1;
-            result._unk2 = this._unk2;
-            result._unk3 = this._unk3;
-            result._unk4 = this._unk4;
-            result._unk5 = this._unk5;
-            result._unk6 = this._unk6;
-            result._unk7 = this._unk7;
-            result._unk8 = this._unk8;
-            result._unk9 = this._unk9;
-            
             return result;
         }
     }

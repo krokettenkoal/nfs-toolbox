@@ -10,16 +10,16 @@ using NfsCore.Utils;
 
 namespace NfsCore.Database.Collection
 {
-    public class Root<T> where T : Collectable, new()
+    public class Root<T> where T : Collectable
     {
         public List<T> Collections { get; } = new();
         public string ThisName { get; }
         public int Length => Collections.Count;
-        internal int MaxCNameLength { get; }
+        private int MaxCNameLength { get; }
         internal int CNameOffsetAt { get; }
-        internal int BaseClassSize { get; }
-        public bool Resizable { get; }
-        public BasicBase Database { get; }
+        private int BaseClassSize { get; }
+        private bool Resizable { get; }
+        private BasicBase Database { get; }
 
         private readonly bool _importable;
 
@@ -273,7 +273,7 @@ namespace NfsCore.Database.Collection
             return done;
         }
 
-        public bool TryCloneCollection(string value, string copyfrom)
+        public bool TryCloneCollection(string value, string copyFrom)
         {
             try
             {
@@ -281,7 +281,7 @@ namespace NfsCore.Database.Collection
                 if (string.IsNullOrWhiteSpace(value)) return false;
                 if (MaxCNameLength != -1 && value.Length > MaxCNameLength) return false;
                 if (FindCollection(value) != null) return false;
-                if (!TryGetCollection(copyfrom, out var cla)) return false;
+                if (!TryGetCollection(copyFrom, out var cla)) return false;
 
                 var instance = (T) cla.MemoryCast(value);
                 Collections.Add(instance);
@@ -293,7 +293,7 @@ namespace NfsCore.Database.Collection
             }
         }
 
-        public bool TryCloneCollection(string value, string copyfrom, out string error)
+        public bool TryCloneCollection(string value, string copyFrom, out string error)
         {
             error = null;
 
@@ -323,9 +323,9 @@ namespace NfsCore.Database.Collection
                     return false;
                 }
 
-                if (!TryGetCollection(copyfrom, out var cla))
+                if (!TryGetCollection(copyFrom, out var cla))
                 {
-                    error = $"Class with CollectionName {copyfrom} does not exist.";
+                    error = $"Class with CollectionName {copyFrom} does not exist.";
                     return false;
                 }
 
@@ -475,10 +475,10 @@ namespace NfsCore.Database.Collection
                 foreach (var property in properties)
                 {
                     var attrib = new CollectionAttrib((PropertyInfo) property, coll);
-                    var subpath = $"{path}\\{attrib.PropertyName}";
-                    attrib.FullPath = subpath;
+                    var subPath = $"{path}\\{attrib.PropertyName}";
+                    attrib.FullPath = subPath;
                     attrib.Directory = path;
-                    map[subpath] = attrib;
+                    map[subPath] = attrib;
                 }
 
                 var nodes = coll.GetAllNodes();

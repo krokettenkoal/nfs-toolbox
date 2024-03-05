@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NfsCore.Support.MostWanted.Parts.CarParts;
 
 namespace NfsCore.Support.MostWanted
 {
     public static partial class LoadData
     {
-        private static unsafe void CPE_Part56(byte* part5ptr_t, byte* part6ptr_t, Database.MostWantedDb db)
+        private static unsafe void CPE_Part56(byte* part5PtrT, byte* part6PtrT, Database.MostWantedDb db)
         {
-            var len5 = *(int*)(part5ptr_t + 4) + 8; // size of part5
-            var len6 = *(int*)(part6ptr_t + 4); // size of part6
+            var len5 = *(int*) (part5PtrT + 4) + 8; // size of part5
+            var len6 = *(int*) (part6PtrT + 4); // size of part6
 
             // Exclude padding
-            while (*(int*)(part5ptr_t + len5 - 4) == 0)
+            while (*(int*) (part5PtrT + len5 - 4) == 0)
                 len5 -= 4;
-            while (*(int*)(part6ptr_t + len6 + 4) == 0)
+            while (*(int*) (part6PtrT + len6 + 4) == 0)
                 len6 -= 4;
             len6 = len6 / 0xE * 0xE + 8;
 
@@ -22,33 +23,29 @@ namespace NfsCore.Support.MostWanted
             var size = 0; // size of one part in part6
 
             // Validation check
-            var check = *(part6ptr_t + len6 - 7) + 1;
+            var check = *(part6PtrT + len6 - 7) + 1;
             var total = (len5 - 8) / 4;
             if (check < total) len5 = check * 4 + 8;
 
             db.SlotTypes.Part56 = new List<Part56>();
-            var CarCNames = new List<uint>();
-
-            foreach (var car in db.CarTypeInfos.Collections)
-                CarCNames.Add(car.BinKey);
-
+            var carCollectionNames = db.CarTypeInfos.Collections.Select(car => car.BinKey).ToList();
             while (off5 < len5)
             {
-                var ckey = *(uint*)(part5ptr_t + off5);
-                if (ckey == 0) break; // padding means end
-                var IsCar = false;
-                byte current = 0;
-                var index = *(part6ptr_t + off6 + 7);
+                var cKey = *(uint*) (part5PtrT + off5);
+                if (cKey == 0) break; // padding means end
+                var isCar = false;
+                var index = *(part6PtrT + off6 + 7);
                 while (true)
                 {
                     if (off6 + size + 7 >= len6) break;
-                    current = *(part6ptr_t + off6 + size + 7);
+                    var current = *(part6PtrT + off6 + size + 7);
                     if (current != index) break;
-                    else size += 0xE;
+                    size += 0xE;
                 }
-                if (CarCNames.Contains(ckey)) IsCar = true;
-                var Part = new Part56(ckey, part6ptr_t + off6, size, IsCar);
-                db.SlotTypes.Part56.Add(Part);
+
+                if (carCollectionNames.Contains(cKey)) isCar = true;
+                var part = new Part56(cKey, part6PtrT + off6, size, isCar);
+                db.SlotTypes.Part56.Add(part);
                 off5 += 4;
                 off6 += size;
                 size = 0;

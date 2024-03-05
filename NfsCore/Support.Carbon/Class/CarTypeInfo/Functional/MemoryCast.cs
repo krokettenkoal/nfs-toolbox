@@ -7,70 +7,71 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
-            var result = new CarTypeInfo(CName, this.Database);
+            var result = new CarTypeInfo(collectionName, Database)
+            {
+                _spoiler = _spoiler,
+                _spoilerAs = _spoilerAs,
+                CollisionInternalName = CollisionInternalName,
+                UsageType = UsageType,
+                MemoryType = MemoryType,
+                IsSkinnable = IsSkinnable,
+                ManufacturerName = ManufacturerName,
+                DefaultBasePaint = DefaultBasePaint,
+                HeadlightFOV = HeadlightFOV,
+                PadHighPerformance = PadHighPerformance,
+                NumAvailableSkinNumbers = NumAvailableSkinNumbers,
+                WhatGame = WhatGame,
+                ConvertibleFlag = ConvertibleFlag,
+                WheelOuterRadius = WheelOuterRadius,
+                WheelInnerRadiusMin = WheelInnerRadiusMin,
+                WheelInnerRadiusMax = WheelInnerRadiusMax,
+                Padding0 = Padding0,
+                HeadlightPositionX = HeadlightPositionX,
+                HeadlightPositionY = HeadlightPositionY,
+                HeadlightPositionZ = HeadlightPositionZ,
+                HeadlightPositionW = HeadlightPositionW,
+                DriverRenderingOffsetX = DriverRenderingOffsetX,
+                DriverRenderingOffsetY = DriverRenderingOffsetY,
+                DriverRenderingOffsetZ = DriverRenderingOffsetZ,
+                DriverRenderingOffsetW = DriverRenderingOffsetW,
+                SteeringWheelRenderingX = SteeringWheelRenderingX,
+                SteeringWheelRenderingY = SteeringWheelRenderingY,
+                SteeringWheelRenderingZ = SteeringWheelRenderingZ,
+                SteeringWheelRenderingW = SteeringWheelRenderingW,
+                MaxInstances1 = MaxInstances1,
+                MaxInstances2 = MaxInstances2,
+                MaxInstances3 = MaxInstances3,
+                MaxInstances4 = MaxInstances4,
+                MaxInstances5 = MaxInstances5,
+                KeepLoaded1 = KeepLoaded1,
+                KeepLoaded2 = KeepLoaded2,
+                KeepLoaded3 = KeepLoaded3,
+                KeepLoaded4 = KeepLoaded4,
+                KeepLoaded5 = KeepLoaded5,
+                Padding1 = Padding1,
+                MinTimeBetweenUses1 = MinTimeBetweenUses1,
+                MinTimeBetweenUses2 = MinTimeBetweenUses2,
+                MinTimeBetweenUses3 = MinTimeBetweenUses3,
+                MinTimeBetweenUses4 = MinTimeBetweenUses4,
+                MinTimeBetweenUses5 = MinTimeBetweenUses5,
+                AvailableSkinNumbers01 = AvailableSkinNumbers01,
+                AvailableSkinNumbers02 = AvailableSkinNumbers02,
+                AvailableSkinNumbers03 = AvailableSkinNumbers03,
+                AvailableSkinNumbers04 = AvailableSkinNumbers04,
+                AvailableSkinNumbers05 = AvailableSkinNumbers05,
+                AvailableSkinNumbers06 = AvailableSkinNumbers06,
+                AvailableSkinNumbers07 = AvailableSkinNumbers07,
+                AvailableSkinNumbers08 = AvailableSkinNumbers08,
+                AvailableSkinNumbers09 = AvailableSkinNumbers09,
+                AvailableSkinNumbers10 = AvailableSkinNumbers10,
+                DefaultSkinNumber = DefaultSkinNumber,
+                Padding2 = Padding2
+            };
 
-            result._spoiler = this._spoiler;
-            result._spoilerAS = this._spoilerAS;
-            result.CollisionInternalName = this.CollisionInternalName;
-            result.UsageType = this.UsageType;
-            result.MemoryType = this.MemoryType;
-            result.IsSkinnable = this.IsSkinnable;
-            result.ManufacturerName = this.ManufacturerName;
-            result.DefaultBasePaint = this.DefaultBasePaint;
-            result.HeadlightFOV = this.HeadlightFOV;
-            result.PadHighPerformance = this.PadHighPerformance;
-            result.NumAvailableSkinNumbers = this.NumAvailableSkinNumbers;
-            result.WhatGame = this.WhatGame;
-            result.ConvertibleFlag = this.ConvertibleFlag;
-            result.WheelOuterRadius = this.WheelOuterRadius;
-            result.WheelInnerRadiusMin = this.WheelInnerRadiusMin;
-            result.WheelInnerRadiusMax = this.WheelInnerRadiusMax;
-            result.Padding0 = this.Padding0;
-            result.HeadlightPositionX = this.HeadlightPositionX;
-            result.HeadlightPositionY = this.HeadlightPositionY;
-            result.HeadlightPositionZ = this.HeadlightPositionZ;
-            result.HeadlightPositionW = this.HeadlightPositionW;
-            result.DriverRenderingOffsetX = this.DriverRenderingOffsetX;
-            result.DriverRenderingOffsetY = this.DriverRenderingOffsetY;
-            result.DriverRenderingOffsetZ = this.DriverRenderingOffsetZ;
-            result.DriverRenderingOffsetW = this.DriverRenderingOffsetW;
-            result.SteeringWheelRenderingX = this.SteeringWheelRenderingX;
-            result.SteeringWheelRenderingY = this.SteeringWheelRenderingY;
-            result.SteeringWheelRenderingZ = this.SteeringWheelRenderingZ;
-            result.SteeringWheelRenderingW = this.SteeringWheelRenderingW;
-            result.MaxInstances1 = this.MaxInstances1;
-            result.MaxInstances2 = this.MaxInstances2;
-            result.MaxInstances3 = this.MaxInstances3;
-            result.MaxInstances4 = this.MaxInstances4;
-            result.MaxInstances5 = this.MaxInstances5;
-            result.KeepLoaded1 = this.KeepLoaded1;
-            result.KeepLoaded2 = this.KeepLoaded2;
-            result.KeepLoaded3 = this.KeepLoaded3;
-            result.KeepLoaded4 = this.KeepLoaded4;
-            result.KeepLoaded5 = this.KeepLoaded5;
-            result.Padding1 = this.Padding1;
-            result.MinTimeBetweenUses1 = this.MinTimeBetweenUses1;
-            result.MinTimeBetweenUses2 = this.MinTimeBetweenUses2;
-            result.MinTimeBetweenUses3 = this.MinTimeBetweenUses3;
-            result.MinTimeBetweenUses4 = this.MinTimeBetweenUses4;
-            result.MinTimeBetweenUses5 = this.MinTimeBetweenUses5;
-            result.AvailableSkinNumbers01 = this.AvailableSkinNumbers01;
-            result.AvailableSkinNumbers02 = this.AvailableSkinNumbers02;
-            result.AvailableSkinNumbers03 = this.AvailableSkinNumbers03;
-            result.AvailableSkinNumbers04 = this.AvailableSkinNumbers04;
-            result.AvailableSkinNumbers05 = this.AvailableSkinNumbers05;
-            result.AvailableSkinNumbers06 = this.AvailableSkinNumbers06;
-            result.AvailableSkinNumbers07 = this.AvailableSkinNumbers07;
-            result.AvailableSkinNumbers08 = this.AvailableSkinNumbers08;
-            result.AvailableSkinNumbers09 = this.AvailableSkinNumbers09;
-            result.AvailableSkinNumbers10 = this.AvailableSkinNumbers10;
-            result.DefaultSkinNumber = this.DefaultSkinNumber;
-            result.Padding2 = this.Padding2;
-            
             return result;
         }
     }

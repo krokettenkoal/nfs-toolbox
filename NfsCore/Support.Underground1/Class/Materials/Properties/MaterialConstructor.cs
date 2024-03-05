@@ -7,24 +7,28 @@ namespace NfsCore.Support.Underground1.Class
     public partial class Material : Shared.Class.Material
     {
         // Default constructor
-        public Material() { }
+        public Material()
+        {
+        }
 
         // Default constructor: create new material
-        public Material(string CName, Database.Underground1Db db)
+        public Material(string collectionName, Database.Underground1Db db)
         {
-            this.Database = db;
-            this.CollectionName = CName;
-            Map.BinKeys[Bin.Hash(CName)] = CName;
+            Database = db;
+            CollName = collectionName;
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
         }
 
         // Default constructor: disassemble material
-        public unsafe Material(IntPtr byteptr_t, string CName, Database.Underground1Db db)
+        public unsafe Material(IntPtr bytePtrT, string collectionName, Database.Underground1Db db)
         {
-            this.Database = db;
-            this._collection_name = CName;
-            this.Disassemble((byte*)byteptr_t);
+            Database = db;
+            CollName = collectionName;
+            Disassemble((byte*) bytePtrT);
         }
 
-        ~Material() { }
+        ~Material()
+        {
+        }
     }
 }

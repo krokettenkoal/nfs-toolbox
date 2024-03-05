@@ -11,19 +11,21 @@ namespace NfsCore.Support.Carbon.Class
         /// <returns>Byte array of the partial 1 part4.</returns>
         protected override unsafe byte[] Get1Part4()
         {
-            var result = new byte[8 + this.keys.Count * 0x7C]; // later resize
-            int offheader = 8; // for calculating header offsets
-            int offdata = 0; // for calculating data offsets
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[8 + _keys.Count * 0x7C]; // later resize
+            var offHeader = 8; // for calculating header offsets
+            var offData = 0; // for calculating data offsets
+            fixed (byte* bytePtrT = &result[0])
             {
-                *(uint*)byteptr_t = TPK.INFO_PART4_BLOCKID; // write ID
-                for (int a1 = 0; a1 < this.keys.Count; ++a1)
+                *(uint*) bytePtrT = TPK.INFO_PART4_BLOCKID; // write ID
+                for (var a1 = 0; a1 < _keys.Count; ++a1)
                 {
-                    this.Textures[a1].Assemble(byteptr_t, ref offheader, ref offdata);
+                    Textures[a1].Assemble(bytePtrT, ref offHeader, ref offData);
                 }
-                *(int*)(byteptr_t + 4) = offheader - 8; // write size
+
+                *(int*) (bytePtrT + 4) = offHeader - 8; // write size
             }
-            Array.Resize(ref result, offheader);
+
+            Array.Resize(ref result, offHeader);
             return result;
         }
     }

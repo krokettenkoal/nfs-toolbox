@@ -1,29 +1,33 @@
 ﻿using NfsCore.Global;
-using NfsCore.Reflection.Abstract;
+using NfsCore.Support.Underground2.Class;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCarUnlock : Collectable
-	{
-		// Default constructor
-		public GCarUnlock() { }
+    public partial class GCarUnlock : NfsUnderground2Collectable
+    {
+        // Default constructor
+        public GCarUnlock()
+        {
+        }
 
-		// Default constructor: create new car unlock
-		public GCarUnlock(string CName, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.CollectionName = CName;
-			Map.BinKeys[Bin.Hash(CName)] = CName;
-		}
+        // Default constructor: create new car unlock
+        public GCarUnlock(string collectionName, Database.Underground2Db db)
+        {
+            Database = db;
+            CollectionName = collectionName;
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
+        }
 
-		// Default constructor: disassemble car unlock
-		public unsafe GCarUnlock(byte* byteptr_t, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.Disassemble(byteptr_t);
-		}
+        // Default constructor: disassemble car unlock
+        public unsafe GCarUnlock(byte* bytePtrT, Database.Underground2Db db)
+        {
+            Database = db;
+            Disassemble(bytePtrT);
+        }
 
-		~GCarUnlock() { }
-	}
+        ~GCarUnlock()
+        {
+        }
+    }
 }

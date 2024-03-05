@@ -1,25 +1,24 @@
 ﻿namespace NfsCore.Support.Underground2.Framework
 {
-	public static partial class CareerManager
-	{
-		public static unsafe void Disassemble(byte* byteptr_t, Database.Underground2Db db)
-		{
-			var PartOffsets = FindOffsets(byteptr_t);
-
-			ReadStrings(byteptr_t, PartOffsets);
-			ReadGCareerRaces(byteptr_t, PartOffsets, db);
-			ReadWorldShops(byteptr_t, PartOffsets, db);
-			ReadGCareerBrands(byteptr_t, PartOffsets, db);
-			ReadPartPerformances(byteptr_t, PartOffsets, db);
-			ReadGShowcases(byteptr_t, PartOffsets, db);
-			ReadSMSMessages(byteptr_t, PartOffsets, db);
-			ReadSponsors(byteptr_t, PartOffsets, db);
-			ReadGCareerStages(byteptr_t, PartOffsets, db);
-			ReadPerfSliderTunings(byteptr_t, PartOffsets, db);
-			ReadWorldChallenges(byteptr_t, PartOffsets, db);
-			ReadPartUnlockables(byteptr_t, PartOffsets, db);
-			ReadBankTriggers(byteptr_t, PartOffsets, db);
-			ReadGCarUnlocks(byteptr_t, PartOffsets, db);
-		}
-	}
+    public static partial class CareerManager
+    {
+        public static unsafe void Disassemble(byte* bytePtrT, Database.Underground2Db db)
+        {
+            var partOffsets = FindOffsets(bytePtrT);
+            ReadStrings(bytePtrT, partOffsets);
+            ReadGCareerRaces(bytePtrT, partOffsets, db);
+            ReadWorldShops(bytePtrT, partOffsets, db);
+            ReadGCareerBrands(bytePtrT, partOffsets, db);
+            ReadPartPerformances(bytePtrT, partOffsets, db);
+            ReadGShowcases(bytePtrT, partOffsets, db);
+            ReadSMSMessages(bytePtrT, partOffsets, db);
+            ReadSponsors(bytePtrT, partOffsets, db);
+            ReadGCareerStages(bytePtrT, partOffsets, db);
+            ReadPerfSliderTunings(bytePtrT, partOffsets, db);
+            ReadWorldChallenges(bytePtrT, partOffsets, db);
+            ReadPartUnlockables(bytePtrT, partOffsets, db);
+            ReadBankTriggers(bytePtrT, partOffsets, db);
+            ReadGCarUnlocks(bytePtrT, partOffsets, db);
+        }
+    }
 }

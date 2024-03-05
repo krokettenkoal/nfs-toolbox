@@ -1,29 +1,33 @@
 ﻿using NfsCore.Global;
-using NfsCore.Reflection.Abstract;
+using NfsCore.Support.Underground2.Class;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GShowcase : Collectable
-	{
-		// Default constructor
-		public GShowcase() { }
+    public partial class GShowcase : NfsUnderground2Collectable
+    {
+        // Default constructor
+        public GShowcase()
+        {
+        }
 
-		// Default constructor: create new showcase
-		public GShowcase(string CName, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.CollectionName = CName;
-			Map.BinKeys[Bin.Hash(CName)] = CName;
-		}
+        // Default constructor: create new showcase
+        public GShowcase(string collectionName, Database.Underground2Db db)
+        {
+            Database = db;
+            CollectionName = collectionName;
+            Map.BinKeys[Bin.Hash(collectionName)] = collectionName;
+        }
 
-		// Default constructor: disassemble showcase
-		public unsafe GShowcase(byte* byteptr_t, Database.Underground2Db db)
-		{
-			this.Database = db;
-			this.Disassemble(byteptr_t);
-		}
+        // Default constructor: disassemble showcase
+        public unsafe GShowcase(byte* bytePtrT, Database.Underground2Db db)
+        {
+            Database = db;
+            Disassemble(bytePtrT);
+        }
 
-		~GShowcase() { }
-	}
+        ~GShowcase()
+        {
+        }
+    }
 }

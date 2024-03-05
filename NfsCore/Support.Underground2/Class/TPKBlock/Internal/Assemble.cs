@@ -13,58 +13,59 @@ namespace NfsCore.Support.Underground2.Class
         public override unsafe byte[] Assemble()
         {
             // TPK Check
-            this.CheckKeys();
-            this.CheckComps();
-            this.TextureSort();
+            CheckKeys();
+            CheckComps();
+            TextureSort();
 
             // Partial 1 Block
-            var _1_Part1 = this.Get1Part1();
-            var _1_Part2 = this.Get1Part2();
-            var _1_Part4 = this.Get1Part4();
-            var _1_Part5 = this.Get1Part5();
+            var _1_Part1 = Get1Part1();
+            var _1_Part2 = Get1Part2();
+            var _1_Part4 = Get1Part4();
+            var _1_Part5 = Get1Part5();
 
             // Partial 2 Block
-            var _2_Part1 = this.Get2Part1();
-            var _2_Part2 = this.Get2Part2();
+            var _2_Part1 = Get2Part1();
+            var _2_Part2 = Get2Part2();
 
             // Get sizes
-            int _1_Size = _1_Part1.Length + _1_Part2.Length + _1_Part4.Length + _1_Part5.Length;
-            int _2_Size = _2_Part1.Length + _2_Part2.Length;
-            var Padding = Resolve.GetPaddingArray(_1_Size + 0x48, 0x80);
-            int PadSize = Padding.Length;
+            var _1_Size = _1_Part1.Length + _1_Part2.Length + _1_Part4.Length + _1_Part5.Length;
+            var _2_Size = _2_Part1.Length + _2_Part2.Length;
+            var padding = Resolve.GetPaddingArray(_1_Size + 0x48, 0x80);
+            var padSize = padding.Length;
 
             // All offsets
-            int PartialOffset1 = 0x40;
-            int PartialOffset2 = 0x48 + _1_Size + PadSize;
+            const int partialOffset1 = 0x40;
+            var partialOffset2 = 0x48 + _1_Size + padSize;
 
-            int _1_Offset1 = PartialOffset1 + 8;
-            int _1_Offset2 = _1_Offset1 + _1_Part1.Length;
-            int _1_Offset4 = _1_Offset2 + _1_Part2.Length;
-            int _1_Offset5 = _1_Offset4 + _1_Part4.Length;
-            int PaddOffset = _1_Offset5 + _1_Part5.Length;
-            int _2_Offset1 = PartialOffset2 + 8;
-            int _2_Offset2 = _2_Offset1 + _2_Part1.Length;
+            const int _1_Offset1 = partialOffset1 + 8;
+            var _1_Offset2 = _1_Offset1 + _1_Part1.Length;
+            var _1_Offset4 = _1_Offset2 + _1_Part2.Length;
+            var _1_Offset5 = _1_Offset4 + _1_Part4.Length;
+            var paddingOffset = _1_Offset5 + _1_Part5.Length;
+            var _2_Offset1 = partialOffset2 + 8;
+            var _2_Offset2 = _2_Offset1 + _2_Part1.Length;
 
             // Initialize .tpk array
-            int total = _1_Size + _2_Size + PadSize + 0x50;
+            var total = _1_Size + _2_Size + padSize + 0x50;
             var result = new byte[total];
 
             // Write everything
-            fixed (byte* byteptr_t = &result[0])
+            fixed (byte* bytePtrT = &result[0])
             {
-                *(uint*)byteptr_t = TPK.MAINID;
-                *(int*)(byteptr_t + 4) = total - 8;
-                *(int*)(byteptr_t + 12) = 0x30;
-                *(uint*)(byteptr_t + PartialOffset1) = TPK.INFO_BLOCKID;
-                *(int*)(byteptr_t + PartialOffset1 + 4) = _1_Size;
-                *(uint*)(byteptr_t + PartialOffset2) = TPK.DATA_BLOCKID;
-                *(int*)(byteptr_t + PartialOffset2 + 4) = _2_Size;
+                *(uint*) bytePtrT = TPK.MAINID;
+                *(int*) (bytePtrT + 4) = total - 8;
+                *(int*) (bytePtrT + 12) = 0x30;
+                *(uint*) (bytePtrT + partialOffset1) = TPK.INFO_BLOCKID;
+                *(int*) (bytePtrT + partialOffset1 + 4) = _1_Size;
+                *(uint*) (bytePtrT + partialOffset2) = TPK.DATA_BLOCKID;
+                *(int*) (bytePtrT + partialOffset2 + 4) = _2_Size;
             }
+
             Buffer.BlockCopy(_1_Part1, 0, result, _1_Offset1, _1_Part1.Length);
             Buffer.BlockCopy(_1_Part2, 0, result, _1_Offset2, _1_Part2.Length);
             Buffer.BlockCopy(_1_Part4, 0, result, _1_Offset4, _1_Part4.Length);
             Buffer.BlockCopy(_1_Part5, 0, result, _1_Offset5, _1_Part5.Length);
-            Buffer.BlockCopy(Padding, 0, result, PaddOffset, PadSize);
+            Buffer.BlockCopy(padding, 0, result, paddingOffset, padSize);
             Buffer.BlockCopy(_2_Part1, 0, result, _2_Offset1, _2_Part1.Length);
             Buffer.BlockCopy(_2_Part2, 0, result, _2_Offset2, _2_Part2.Length);
 

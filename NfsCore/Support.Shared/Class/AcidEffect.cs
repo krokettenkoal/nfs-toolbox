@@ -1,7 +1,5 @@
 ﻿using System;
-using NfsCore.Global;
 using NfsCore.Reflection.Abstract;
-using NfsCore.Utils;
 
 namespace NfsCore.Support.Shared.Class
 {
@@ -9,36 +7,7 @@ namespace NfsCore.Support.Shared.Class
     {
         #region Private Fields
 
-        protected const int _Localizer = 0xB;
-
-        #endregion
-
-        #region Main Properties
-
-        /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get; set; }
-
-        /// <summary>
-        /// Game to which the class belongs to.
-        /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
-        /// Binary memory hash of the collection name.
-        /// </summary>
-        public virtual uint BinKey { get => Bin.Hash(this.CollectionName); }
-
-        /// <summary>
-        /// Vault memory hash of the collection name.
-        /// </summary>
-        public virtual uint VltKey { get => Vlt.Hash(this.CollectionName); }
+        protected const int Localizer = 0xB;
 
         #endregion
 
@@ -48,20 +17,20 @@ namespace NfsCore.Support.Shared.Class
         /// Assembles material into a byte array.
         /// </summary>
         /// <returns>Byte array of the material.</returns>
-        public virtual unsafe byte[] Assemble() { return null; }
+        public virtual byte[] Assemble() { return null; }
 
         /// <summary>
         /// Disassembles material array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the material array.</param>
-        protected virtual unsafe void Disassemble(byte* byteptr_t) { }
+        /// <param name="bytePtrT">Pointer to the material array.</param>
+        protected virtual unsafe void Disassemble(byte* bytePtrT) { }
 
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
             throw new NotImplementedException();
         }

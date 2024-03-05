@@ -12,10 +12,9 @@ namespace NfsCore.Support.Carbon.Class
         public Vinyl VinylByName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null;
-            string value = name.ToUpper();
-            var vinyl = this.GetType().GetProperty(name);
-            if (vinyl.PropertyType == typeof(Vinyl))
-                return (Vinyl)vinyl.GetValue(this);
+            var vinyl = GetType().GetProperty(name);
+            if (vinyl?.PropertyType == typeof(Vinyl))
+                return (Vinyl) vinyl.GetValue(this);
             return null;
         }
     }

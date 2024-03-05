@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using NfsCore.Support.MostWanted.Parts.CarParts;
 
-
 namespace NfsCore.Support.MostWanted.Class
 {
-    public partial class SlotType : Shared.Class.SlotType
+    public class SlotType : Shared.Class.SlotType
     {
         public List<Part56> Part56 { get; set; }
         public Spoilers Spoilers { get; set; }

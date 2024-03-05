@@ -4,36 +4,31 @@ using NfsCore.Reflection.Attributes;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-        private sbyte _autosculpt_skirt = 0;
+    public partial class PresetRide
+    {
+        private sbyte _autoSculptSkirt;
 
         /// <summary>
         /// Autosculpt skirt value of the preset ride. Range: 0-30, NULL.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string AutosculptSkirt
         {
-            get
-            {
-                if (this._autosculpt_skirt == -1)
-                    return BaseArguments.NULL;
-                else
-                    return this._autosculpt_skirt.ToString();
-            }
+            get => _autoSculptSkirt == -1 ? BaseArguments.NULL : _autoSculptSkirt.ToString();
             set
             {
                 if (value == BaseArguments.NULL)
-                    this._autosculpt_skirt = -1;
+                    _autoSculptSkirt = -1;
                 else
                 {
-                    if (!byte.TryParse(value, out byte result) || result > 30)
-                        throw new ArgumentOutOfRangeException("This value should be in range 0 to 30, or NULL, or CAPPED.");
-                    else
-                        this._autosculpt_skirt = (sbyte)result;
+                    if (!byte.TryParse(value, out var result) || result > 30)
+                        throw new ArgumentOutOfRangeException(nameof(value),
+                            "This value should be in range 0 to 30, or NULL, or CAPPED.");
+                    _autoSculptSkirt = (sbyte) result;
                 }
-                this.Modified = true;
+
+                Modified = true;
             }
         }
     }

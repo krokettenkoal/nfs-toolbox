@@ -1,10 +1,11 @@
-﻿using NfsCore.Global;
+﻿using System.Linq;
+using NfsCore.Global;
 using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
+    public partial class PresetRide
+    {
         /// <summary>
         /// Checks if a value passed is a valid rim style in terms of current brand.
         /// </summary>
@@ -12,17 +13,15 @@ namespace NfsCore.Support.Underground2.Class
         /// <returns>True if value passed is valid, false otherwise.</returns>
         private bool IsValidRimStyle(byte value)
         {
-            string rim = $"{this._rim_brand}_STYLE";
-            foreach (var str in Map.RimBrands)
+            var rim = $"{_rimBrand}_STYLE";
+            foreach (var str in Map.RimBrands.Where(str => str.StartsWith(rim)))
             {
-                if (str.StartsWith(rim))
-                {
-                    if (!FormatX.GetByte(str, rim + "{X}_##_##", out byte radius))
-                        continue;
-                    if (value == radius)
-                        return true;
-                }
+                if (!FormatX.GetByte(str, rim + "{X}_##_##", out var radius))
+                    continue;
+                if (value == radius)
+                    return true;
             }
+
             return false;
         }
     }

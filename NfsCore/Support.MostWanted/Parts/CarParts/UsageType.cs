@@ -3,7 +3,8 @@
     public static class UsageType
     {
         // 191 parts total (0xBF)
-        public static string[] PartName = {
+        public static readonly string[] PartName =
+        {
             "_BASE",
             "_DAMAGE_0_FRONT_WINDOW",
             "_DAMAGE_1_FRONT_WINDOW",
@@ -196,7 +197,8 @@
             "_KIT05_DECAL_RIGHT_QUARTER_RECT_MEDIUM",
             "_KIT06_DECAL_RIGHT_QUARTER_RECT_MEDIUM"
         };
-        public static   byte[] CarSlotID =
+
+        public static readonly byte[] CarSlotID =
         {
             0x0,
             0x1,
@@ -390,7 +392,8 @@
             0x4B,
             0x4B
         };
-        public static ushort[] Unknown1 =
+
+        public static readonly ushort[] Unknown1 =
         {
             0x100,
             0x100,
@@ -584,7 +587,8 @@
             0x120,
             0x120
         };
-        public static ushort[] CarPart1Offset =
+
+        public static readonly ushort[] CarPart1Offset =
         {
             0x4D5,
             0x4CD,
@@ -778,7 +782,8 @@
             0x42,
             0x3B
         };
-        public static ushort[] Unknown2 =
+
+        public static readonly ushort[] Unknown2 =
         {
             0xFFFF,
             0x1749,
@@ -972,7 +977,8 @@
             0x17E6,
             0x17E6
         };
-        public static ushort[] FeCustRecID =
+
+        public static readonly ushort[] FeCustRecID =
         {
             0x0139,
             0x013A,

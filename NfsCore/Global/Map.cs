@@ -64,10 +64,11 @@ namespace NfsCore.Global
         /// Lookup through raider key map that throws no exceptions.
         /// </summary>
         /// <param name="key">Binary memory hash to look for.</param>
+        /// <param name="nullIfZero">Whether to return <see cref="BaseArguments.NULL"/> if the given <paramref name="key"/> is <c>0</c></param>
         /// <returns>Result value from the key passed, if value was not found, returns null instead.</returns>
-        public static string Lookup(uint key, bool nullifzero)
+        public static string Lookup(uint key, bool nullIfZero)
         {
-            if (nullifzero && key == 0) return BaseArguments.NULL;
+            if (nullIfZero && key == 0) return BaseArguments.NULL;
             return BinKeys.GetValueOrDefault(key);
         }
     }

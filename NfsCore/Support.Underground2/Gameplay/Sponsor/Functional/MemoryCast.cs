@@ -2,18 +2,20 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class Sponsor
-	{
-		public override Collectable MemoryCast(string CName)
-		{
-			var result = new Sponsor(CName, this.Database);
-			result.CashValuePerWin = this.CashValuePerWin;
-			result.SignCashBonus = this.SignCashBonus;
-			result.PotentialCashBonus = this.PotentialCashBonus;
-			result._sponsor_race1 = this._sponsor_race1;
-			result._sponsor_race2 = this._sponsor_race2;
-			result._sponsor_race3 = this._sponsor_race3;
-			return result;
-		}
-	}
+    public partial class Sponsor
+    {
+        public override Collectable MemoryCast(string collectionName)
+        {
+            var result = new Sponsor(collectionName, Database)
+            {
+                CashValuePerWin = CashValuePerWin,
+                SignCashBonus = SignCashBonus,
+                PotentialCashBonus = PotentialCashBonus,
+                _sponsorRace1 = _sponsorRace1,
+                _sponsorRace2 = _sponsorRace2,
+                _sponsorRace3 = _sponsorRace3
+            };
+            return result;
+        }
+    }
 }

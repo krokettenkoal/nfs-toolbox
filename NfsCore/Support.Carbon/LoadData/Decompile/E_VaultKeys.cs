@@ -3,23 +3,28 @@ using NfsCore.Utils;
 
 namespace NfsCore.Support.Carbon
 {
-	public static partial class LoadData
-	{
-		private static unsafe void E_VaultKeys(byte* byteptr_t)
-		{
-			var ID = *(uint*)byteptr_t;
-			var size = *(int*)(byteptr_t + 4) + 8;
-			if (ID != 0x53747245) return;
+    public static partial class LoadData
+    {
+        private static unsafe void E_VaultKeys(byte* bytePtrT)
+        {
+            var id = *(uint*) bytePtrT;
+            var size = *(int*) (bytePtrT + 4) + 8;
+            if (id != 0x53747245) return;
 
-			var offset = 8;
-			while (offset < size)
-			{
-				var CName = ScriptX.NullTerminatedString(byteptr_t + offset, size - offset);
-				if (CName == null) { offset += 1; continue; }
-				var key = Vlt.Hash(CName);
-				Map.VltKeys[key] = CName;
-				offset += CName.Length + 1;
-			}
-		}
-	}
+            var offset = 8;
+            while (offset < size)
+            {
+                var collectionName = ScriptX.NullTerminatedString(bytePtrT + offset, size - offset);
+                if (collectionName == null)
+                {
+                    offset += 1;
+                    continue;
+                }
+
+                var key = Vlt.Hash(collectionName);
+                Map.VltKeys[key] = collectionName;
+                offset += collectionName.Length + 1;
+            }
+        }
+    }
 }

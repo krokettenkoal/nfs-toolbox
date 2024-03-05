@@ -6,11 +6,8 @@ namespace NfsCore.Support.Underground2.Gameplay
 	{
 		private bool CheckIfIndexCanBeSwitched(int value)
 		{
-			int index = (int)this._part_perf_type;
-			if (Map.PerfPartTable[index, this._upgrade_level, value] == 0)
-				return true;
-			else
-				return false;
+			var index = (int)_partPerfType;
+			return Map.PerfPartTable[index, _upgradeLevel, value] == 0;
 		}
 	}
 }

@@ -4,36 +4,31 @@ using NfsCore.Reflection.Attributes;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-        private sbyte _autosculpt_frontbumper = 0;
+    public partial class PresetRide
+    {
+        private sbyte _autosculptFrontBumper;
 
         /// <summary>
         /// Autosculpt front bumper value of the preset ride. Range: 0-30, NULL.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string AutosculptFrontBumper
         {
-            get
-            {
-                if (this._autosculpt_frontbumper == -1)
-                    return BaseArguments.NULL;
-                else
-                    return this._autosculpt_frontbumper.ToString();
-            }
+            get => _autosculptFrontBumper == -1 ? BaseArguments.NULL : _autosculptFrontBumper.ToString();
             set
             {
                 if (value == BaseArguments.NULL)
-                    this._autosculpt_frontbumper = -1;
+                    _autosculptFrontBumper = -1;
                 else
                 {
-                    if (!byte.TryParse(value, out byte result) || result > 30)
-                        throw new ArgumentOutOfRangeException("This value should be in range 0 to 30, or NULL.");
-                    else
-                        this._autosculpt_frontbumper = (sbyte)result;
+                    if (!byte.TryParse(value, out var result) || result > 30)
+                        throw new ArgumentOutOfRangeException(nameof(value),
+                            "This value should be in range 0 to 30, or NULL.");
+                    _autosculptFrontBumper = (sbyte) result;
                 }
-                this.Modified = true;
+
+                Modified = true;
             }
         }
     }

@@ -24,7 +24,7 @@ namespace NfsCore.Support.MostWanted
             while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 // Set Offset, ID and Size values, read starting in the beginning of the file
-                var writerSlotOffset = (uint)br.BaseStream.Position;
+                var writerSlotOffset = (uint) br.BaseStream.Position;
                 var writerSlotId = br.ReadUInt32();
                 var writerSlotSize = br.ReadInt32();
 
@@ -39,7 +39,7 @@ namespace NfsCore.Support.MostWanted
                             br.BaseStream.Position += writerSlotSize;
                             break;
                         }
-                            
+
                         goto default;
 
                     case GlobalId.Materials:

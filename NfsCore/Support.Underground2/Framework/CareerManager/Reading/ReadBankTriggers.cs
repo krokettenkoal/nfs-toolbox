@@ -1,24 +1,26 @@
-﻿using NfsCore.Reflection.ID;
+﻿using System.Collections.Generic;
+using NfsCore.Reflection.ID;
 using NfsCore.Support.Underground2.Gameplay;
 
 namespace NfsCore.Support.Underground2.Framework
 {
-	public static partial class CareerManager
-	{
-		private static unsafe void ReadBankTriggers(byte* byteptr_t, int[] PartOffsets, Database.Underground2Db db)
-		{
-			if (PartOffsets[12] == -1) return; // if bank trigger block does not exist
-			if (*(uint*)(byteptr_t + PartOffsets[12]) != CareerInfo.BANK_TRIGS_BLOCK)
-				return; // check bank trigger block ID
+    public static partial class CareerManager
+    {
+        private static unsafe void ReadBankTriggers(byte* bytePtrT, IReadOnlyList<int> partOffsets,
+            Database.Underground2Db db)
+        {
+            if (partOffsets[12] == -1) return; // if bank trigger block does not exist
+            if (*(uint*) (bytePtrT + partOffsets[12]) != CareerInfo.BANK_TRIGS_BLOCK)
+                return; // check bank trigger block ID
 
-			int size = *(int*)(byteptr_t + PartOffsets[12] + 4) / 0xC;
+            var size = *(int*) (bytePtrT + partOffsets[12] + 4) / 0xC;
 
-			for (int a1 = 0; a1 < size; ++a1)
-			{
-				int ptr_header = PartOffsets[12] + a1 * 0xC + 8;
-				var Class = new BankTrigger(byteptr_t + ptr_header, db);
-				db.BankTriggers.Collections.Add(Class);
-			}
-		}
-	}
+            for (var a1 = 0; a1 < size; ++a1)
+            {
+                var ptrHeader = partOffsets[12] + a1 * 0xC + 8;
+                var bankTrigger = new BankTrigger(bytePtrT + ptrHeader, db);
+                db.BankTriggers.Collections.Add(bankTrigger);
+            }
+        }
+    }
 }

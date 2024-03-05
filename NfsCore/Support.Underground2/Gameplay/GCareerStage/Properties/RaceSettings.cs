@@ -6,46 +6,46 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class GCareerStage
 	{
-		private string _last_stage_event = BaseArguments.NULL;
+		private string _lastStageEvent = BaseArguments.NULL;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short OutrunCashValue { get; set; }
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string LastStageEvent
 		{
-			get => this._last_stage_event;
+			get => _lastStageEvent;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._last_stage_event = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_lastStageEvent = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxCircuitsShownOnMap { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxDragsShownOnMap { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxStreetXShownOnMap { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxDriftsShownOnMap { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxSprintsShownOnMap { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public byte MaxOutrunEvents { get; set; }
 	}
 }

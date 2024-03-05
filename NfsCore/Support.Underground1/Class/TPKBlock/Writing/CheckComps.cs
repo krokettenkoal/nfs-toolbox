@@ -1,4 +1,5 @@
-﻿using NfsCore.Support.Shared.Parts.TPKParts;
+﻿using System.Linq;
+using NfsCore.Support.Shared.Parts.TPKParts;
 using NfsCore.Utils.EA;
 
 namespace NfsCore.Support.Underground1.Class
@@ -10,15 +11,16 @@ namespace NfsCore.Support.Underground1.Class
         /// </summary>
         protected override void CheckComps()
         {
-            this.compressions.Clear();
-            for (int a1 = 0; a1 < this.Textures.Count; ++a1)
+            _compressions.Clear();
+            foreach (var slot in Textures.Select(t => new CompSlot
+                     {
+                         var1 = t.CompVal1,
+                         var2 = t.CompVal2,
+                         var3 = t.CompVal3,
+                         comp = Comp.GetInt(t.Compression)
+                     }))
             {
-                var Slot = new CompSlot();
-                Slot.var1 = this.Textures[a1].CompVal1;
-                Slot.var2 = this.Textures[a1].CompVal2;
-                Slot.var3 = this.Textures[a1].CompVal3;
-                Slot.comp = Comp.GetInt(this.Textures[a1].Compression);
-                this.compressions.Add(Slot);
+                _compressions.Add(slot);
             }
         }
     }

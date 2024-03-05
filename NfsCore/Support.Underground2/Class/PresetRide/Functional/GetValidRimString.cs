@@ -3,14 +3,14 @@ using NfsCore.Reflection.Enum;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-		private string GetValidRimString()
-		{
-			if (this._rim_brand == BaseArguments.NULL || this._rim_brand == BaseArguments.STOCK)
-				return $"{this.MODEL}_KIT00_FRONT_WHEEL";
-			string result = $"{this._rim_brand}_STYLE{this._rim_style:00}_{this._rim_size:00}_{this._rim_outer_max:00}";
-			return (this._is_spinning_rim == eBoolean.True) ? result + "_SPI" : result;
-		}
-	}
+    public partial class PresetRide
+    {
+        private string GetValidRimString()
+        {
+            if (_rimBrand is BaseArguments.NULL or BaseArguments.STOCK)
+                return $"{MODEL}_KIT00_FRONT_WHEEL";
+            var result = $"{_rimBrand}_STYLE{_rimStyle:00}_{_rimSize:00}_{_rimOuterMax:00}";
+            return _isSpinningRim == eBoolean.True ? result + "_SPI" : result;
+        }
+    }
 }

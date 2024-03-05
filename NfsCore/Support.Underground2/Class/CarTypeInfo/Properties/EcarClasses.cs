@@ -12,7 +12,6 @@ namespace NfsCore.Support.Underground2.Class
 		[Expandable("General")]
 		public Pvehicle PVEHICLE { get; set; }
 
-
 		/* 0x0120 - 0x0144 */
 		[Expandable("Wheels")]
 		public CarInfoWheel WHEEL_FRONT_LEFT { get; set; }

@@ -7,22 +7,22 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class PresetRide
     {
-        private eCarbonPaint _paint_type = eCarbonPaint.GLOSS;
+        private eCarbonPaint _paintType = eCarbonPaint.GLOSS;
 
         /// <summary>
         /// Paint type value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eCarbonPaint PaintType
         {
-            get => this._paint_type;
+            get => _paintType;
             set
             {
                 if (Enum.IsDefined(typeof(eCarbonPaint), value))
                 {
-                    this._paint_type = value;
-                    this.Modified = true;
+                    _paintType = value;
+                    Modified = true;
                 }
                 else
                     throw new MappingFailException();

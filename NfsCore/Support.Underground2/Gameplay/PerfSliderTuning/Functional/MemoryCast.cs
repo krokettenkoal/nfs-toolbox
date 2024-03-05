@@ -1,21 +1,22 @@
-﻿using NfsCore.Reflection.Abstract;
+﻿using System.Linq;
+using NfsCore.Reflection.Abstract;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class PerfSliderTuning
-	{
-		public override Collectable MemoryCast(string CName)
-		{
-			var result = new PerfSliderTuning(CName, this.Database);
-			uint maxkey = 0;
-			foreach (var slider in this.Database.PerfSliderTunings.Collections)
-				if (slider.BinKey > maxkey) maxkey = slider.BinKey;
-			result._collection_name = (maxkey + 1).ToString();
-			result.MaxSliderValueRatio = this.MaxSliderValueRatio;
-			result.MinSliderValueRatio = this.MinSliderValueRatio;
-			result.ValueSpread1 = this.ValueSpread1;
-			result.ValueSpread2 = this.ValueSpread2;
-			return result;
-		}
-	}
+    public partial class PerfSliderTuning
+    {
+        public override Collectable MemoryCast(string collectionName)
+        {
+            var result = new PerfSliderTuning(collectionName, Database);
+            uint maxKey = 0;
+            foreach (var slider in Database.PerfSliderTunings.Collections.Where(slider => slider.BinKey > maxKey))
+                maxKey = slider.BinKey;
+            result.CollName = (maxKey + 1).ToString();
+            result.MaxSliderValueRatio = MaxSliderValueRatio;
+            result.MinSliderValueRatio = MinSliderValueRatio;
+            result.ValueSpread1 = ValueSpread1;
+            result.ValueSpread2 = ValueSpread2;
+            return result;
+        }
+    }
 }

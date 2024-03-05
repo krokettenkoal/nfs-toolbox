@@ -52,8 +52,8 @@ namespace NfsCore.Support.Carbon
 
                 while (offset < db._GlobalBLZC.Length)
                 {
-                    var id = *(uint*)(bytePtrT + offset); // to get the ID of the block being read
-                    var size = *(uint*)(bytePtrT + offset + 4); // to get the size of the block being read
+                    var id = *(uint*) (bytePtrT + offset); // to get the ID of the block being read
+                    var size = *(uint*) (bytePtrT + offset + 4); // to get the size of the block being read
                     if (offset + size > db._GlobalBLZC.Length)
                     {
                         //Console.WriteLine("GlobalB: unable to read beyond the stream.");
@@ -63,7 +63,7 @@ namespace NfsCore.Support.Carbon
                     switch (id)
                     {
                         case 0:
-                            if (*(uint*)(bytePtrT + offset + 8) == GlobalId.GlobalLib)
+                            if (*(uint*) (bytePtrT + offset + 8) == GlobalId.GlobalLib)
                                 E_GlobalLibBlock(bytePtrT + offset, size + 8);
                             break;
 
@@ -109,6 +109,7 @@ namespace NfsCore.Support.Carbon
                             E_FNGroup(bytePtrT + offset, size + 8, db);
                             break;
                     }
+
                     offset += 8 + size; // advance in offset
                 }
 

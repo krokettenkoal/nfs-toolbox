@@ -6,10 +6,10 @@ namespace NfsCore.Support.Underground2.Gameplay
 	{
 		public void ClearPartTableSlot()
 		{
-			int index = (int)this._part_perf_type;
-			int level = this._upgrade_level;
-			int value = this._upgrade_part_index;
-			if (Map.PerfPartTable[index, level, value] == this.BinKey)
+			var index = (int)_partPerfType;
+			var level = _upgradeLevel;
+			var value = _upgradePartIndex;
+			if (Map.PerfPartTable[index, level, value] == BinKey)
 				Map.PerfPartTable[index, level, value] = 0;
 		}
 	}

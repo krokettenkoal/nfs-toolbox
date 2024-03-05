@@ -3,69 +3,67 @@ using NfsCore.Reflection;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCareerStage
-	{
-		private unsafe void Disassemble(byte* byteptr_t)
-		{
-			uint key = 0;
+    public partial class GCareerStage
+    {
+        private unsafe void Disassemble(byte* bytePtrT)
+        {
+            // CollectionName
+            CollName = $"STAGE_{*bytePtrT}";
 
-			// CollectionName
-			this._collection_name = $"STAGE_{*byteptr_t}";
+            // Sponsor Settings
+            NumberOfSponsorsToChoose = *(bytePtrT + 0x01);
+            var key = *(uint*) (bytePtrT + 0x08);
+            _stageSponsor1 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x0C);
+            _stageSponsor2 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x10);
+            _stageSponsor3 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x14);
+            _stageSponsor4 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x18);
+            _stageSponsor5 = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            AttribSponsor1 = *(short*) (bytePtrT + 0x1C);
+            AttribSponsor2 = *(short*) (bytePtrT + 0x1E);
+            AttribSponsor3 = *(short*) (bytePtrT + 0x20);
+            AttribSponsor4 = *(short*) (bytePtrT + 0x22);
+            AttribSponsor5 = *(short*) (bytePtrT + 0x24);
 
-			// Sponsor Settings
-			this.NumberOfSponsorsToChoose = *(byteptr_t + 0x01);
-			key = *(uint*)(byteptr_t + 0x08);
-			this._stage_sponsor1 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x0C);
-			this._stage_sponsor2 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x10);
-			this._stage_sponsor3 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x14);
-			this._stage_sponsor4 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x18);
-			this._stage_sponsor5 = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			this.AttribSponsor1 = *(short*)(byteptr_t + 0x1C);
-			this.AttribSponsor2 = *(short*)(byteptr_t + 0x1E);
-			this.AttribSponsor3 = *(short*)(byteptr_t + 0x20);
-			this.AttribSponsor4 = *(short*)(byteptr_t + 0x22);
-			this.AttribSponsor5 = *(short*)(byteptr_t + 0x24);
+            // Race Settings
+            OutrunCashValue = *(short*) (bytePtrT + 0x02);
+            MaxCircuitsShownOnMap = *(bytePtrT + 0x30);
+            MaxDragsShownOnMap = *(bytePtrT + 0x31);
+            MaxStreetXShownOnMap = *(bytePtrT + 0x32);
+            MaxDriftsShownOnMap = *(bytePtrT + 0x33);
+            MaxSprintsShownOnMap = *(bytePtrT + 0x34);
+            MaxOutrunEvents = *(bytePtrT + 0x40);
+            key = *(uint*) (bytePtrT + 0x28);
+            _lastStageEvent = Map.Lookup(key, true) ?? BaseArguments.NULL;
 
-			// Race Settings
-			this.OutrunCashValue = *(short*)(byteptr_t + 0x02);
-			this.MaxCircuitsShownOnMap = *(byteptr_t + 0x30);
-			this.MaxDragsShownOnMap = *(byteptr_t + 0x31);
-			this.MaxStreetXShownOnMap = *(byteptr_t + 0x32);
-			this.MaxDriftsShownOnMap = *(byteptr_t + 0x33);
-			this.MaxSprintsShownOnMap = *(byteptr_t + 0x34);
-			this.MaxOutrunEvents = *(byteptr_t + 0x40);
-			key = *(uint*)(byteptr_t + 0x28);
-			this._last_stage_event = Map.Lookup(key, true) ?? BaseArguments.NULL;
-
-			// Unknown Yet Values
-			this.Unknown0x04 = *(short*)(byteptr_t + 0x04);
-			this.Unknown0x06 = *(short*)(byteptr_t + 0x06);
-			this.Unknown0x26 = *(short*)(byteptr_t + 0x26);
-			this.Unknown0x2C = *(byteptr_t + 0x2C);
-			this.Unknown0x2D = *(byteptr_t + 0x2D);
-			this.Unknown0x2E = *(byteptr_t + 0x2E);
-			this.Unknown0x2F = *(byteptr_t + 0x2F);
-			this.Unknown0x35 = *(byteptr_t + 0x35);
-			this.Unknown0x36 = *(byteptr_t + 0x36);
-			this.Unknown0x37 = *(byteptr_t + 0x37);
-			this.Unknown0x38 = *(byteptr_t + 0x38);
-			this.Unknown0x39 = *(byteptr_t + 0x39);
-			this.Unknown0x3A = *(byteptr_t + 0x3A);
-			this.Unknown0x3B = *(byteptr_t + 0x3B);
-			this.Unknown0x3C = *(byteptr_t + 0x3C);
-			this.Unknown0x3D = *(byteptr_t + 0x3D);
-			this.Unknown0x3E = *(byteptr_t + 0x3E);
-			this.Unknown0x3F = *(byteptr_t + 0x3F);
-			this.Unknown0x41 = *(byteptr_t + 0x41);
-			this.Unknown0x42 = *(byteptr_t + 0x42);
-			this.Unknown0x43 = *(byteptr_t + 0x43);
-			this.Unknown0x44 = *(float*)(byteptr_t + 0x44);
-			this.Unknown0x48 = *(float*)(byteptr_t + 0x48);
-			this.Unknown0x4C = *(float*)(byteptr_t + 0x4C);
-		}
-	}
+            // Unknown Yet Values
+            Unknown0x04 = *(short*) (bytePtrT + 0x04);
+            Unknown0x06 = *(short*) (bytePtrT + 0x06);
+            Unknown0x26 = *(short*) (bytePtrT + 0x26);
+            Unknown0x2C = *(bytePtrT + 0x2C);
+            Unknown0x2D = *(bytePtrT + 0x2D);
+            Unknown0x2E = *(bytePtrT + 0x2E);
+            Unknown0x2F = *(bytePtrT + 0x2F);
+            Unknown0x35 = *(bytePtrT + 0x35);
+            Unknown0x36 = *(bytePtrT + 0x36);
+            Unknown0x37 = *(bytePtrT + 0x37);
+            Unknown0x38 = *(bytePtrT + 0x38);
+            Unknown0x39 = *(bytePtrT + 0x39);
+            Unknown0x3A = *(bytePtrT + 0x3A);
+            Unknown0x3B = *(bytePtrT + 0x3B);
+            Unknown0x3C = *(bytePtrT + 0x3C);
+            Unknown0x3D = *(bytePtrT + 0x3D);
+            Unknown0x3E = *(bytePtrT + 0x3E);
+            Unknown0x3F = *(bytePtrT + 0x3F);
+            Unknown0x41 = *(bytePtrT + 0x41);
+            Unknown0x42 = *(bytePtrT + 0x42);
+            Unknown0x43 = *(bytePtrT + 0x43);
+            Unknown0x44 = *(float*) (bytePtrT + 0x44);
+            Unknown0x48 = *(float*) (bytePtrT + 0x48);
+            Unknown0x4C = *(float*) (bytePtrT + 0x4C);
+        }
+    }
 }

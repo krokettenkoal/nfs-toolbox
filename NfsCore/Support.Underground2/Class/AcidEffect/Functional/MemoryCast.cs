@@ -7,41 +7,42 @@ namespace NfsCore.Support.Underground2.Class
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
-            var result = new AcidEffect(CName, this.Database);
-
-            result.ClassKey = this.ClassKey;
-            result.Flags = this.Flags;
-            result.NumEmitters = this.NumEmitters;
-            result.SectionNumber = this.SectionNumber;
-            result.LocalWorld_Vec1_X = this.LocalWorld_Vec1_X;
-            result.LocalWorld_Vec1_Y = this.LocalWorld_Vec1_Y;
-            result.LocalWorld_Vec1_Z = this.LocalWorld_Vec1_Z;
-            result.LocalWorld_Vec1_W = this.LocalWorld_Vec1_W;
-            result.LocalWorld_Vec2_X = this.LocalWorld_Vec2_X;
-            result.LocalWorld_Vec2_Y = this.LocalWorld_Vec2_Y;
-            result.LocalWorld_Vec2_Z = this.LocalWorld_Vec2_Z;
-            result.LocalWorld_Vec2_W = this.LocalWorld_Vec2_W;
-            result.LocalWorld_Vec3_X = this.LocalWorld_Vec3_X;
-            result.LocalWorld_Vec3_Y = this.LocalWorld_Vec3_Y;
-            result.LocalWorld_Vec3_Z = this.LocalWorld_Vec3_Z;
-            result.LocalWorld_Vec3_W = this.LocalWorld_Vec3_W;
-            result.LocalWorld_Vec4_X = this.LocalWorld_Vec4_X;
-            result.LocalWorld_Vec4_Y = this.LocalWorld_Vec4_Y;
-            result.LocalWorld_Vec4_Z = this.LocalWorld_Vec4_Z;
-            result.LocalWorld_Vec4_W = this.LocalWorld_Vec4_W;
-            result._inheritance_key = this._inheritance_key;
-            result.FarClip = this.FarClip;
-            result.Intensity = this.Intensity;
-            result.LastPositionX = this.LastPositionX;
-            result.LastPositionY = this.LastPositionY;
-            result.LastPositionZ = this.LastPositionZ;
-            result.LastPositionW = this.LastPositionW;
-            result.NumZeroParticleFrames = this.NumZeroParticleFrames;
-            result.CreationTimeStamp = this.CreationTimeStamp;
+            var result = new AcidEffect(collectionName, Database)
+            {
+                ClassKey = ClassKey,
+                Flags = Flags,
+                NumEmitters = NumEmitters,
+                SectionNumber = SectionNumber,
+                LocalWorldVec1X = LocalWorldVec1X,
+                LocalWorldVec1Y = LocalWorldVec1Y,
+                LocalWorldVec1Z = LocalWorldVec1Z,
+                LocalWorldVec1W = LocalWorldVec1W,
+                LocalWorldVec2X = LocalWorldVec2X,
+                LocalWorldVec2Y = LocalWorldVec2Y,
+                LocalWorldVec2Z = LocalWorldVec2Z,
+                LocalWorldVec2W = LocalWorldVec2W,
+                LocalWorldVec3X = LocalWorldVec3X,
+                LocalWorldVec3Y = LocalWorldVec3Y,
+                LocalWorldVec3Z = LocalWorldVec3Z,
+                LocalWorldVec3W = LocalWorldVec3W,
+                LocalWorldVec4X = LocalWorldVec4X,
+                LocalWorldVec4Y = LocalWorldVec4Y,
+                LocalWorldVec4Z = LocalWorldVec4Z,
+                LocalWorldVec4W = LocalWorldVec4W,
+                _inheritanceKey = _inheritanceKey,
+                FarClip = FarClip,
+                Intensity = Intensity,
+                LastPositionX = LastPositionX,
+                LastPositionY = LastPositionY,
+                LastPositionZ = LastPositionZ,
+                LastPositionW = LastPositionW,
+                NumZeroParticleFrames = NumZeroParticleFrames,
+                CreationTimeStamp = CreationTimeStamp
+            };
 
             return result;
         }

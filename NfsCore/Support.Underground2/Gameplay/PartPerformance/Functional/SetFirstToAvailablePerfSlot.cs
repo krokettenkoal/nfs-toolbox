@@ -7,20 +7,18 @@ namespace NfsCore.Support.Underground2.Gameplay
 	{
 		private void SetToFirstAvailablePerfSlot()
 		{
-			for (int a1 = 0; a1 < 10; ++a1)
+			for (var a1 = 0; a1 < 10; ++a1)
 			{
-				for (int a2 = 0; a2 < 3; ++a2)
+				for (var a2 = 0; a2 < 3; ++a2)
 				{
-					for (int a3 = 0; a3 < 4; ++a3)
+					for (var a3 = 0; a3 < 4; ++a3)
 					{
-						if (Map.PerfPartTable[a1, a2, a3] == 0)
-						{
-							this._part_perf_type = (ePerformanceType)a1;
-							this._upgrade_level = a2;
-							this._upgrade_part_index = a3;
-							Map.PerfPartTable[a1, a2, a3] = this.BinKey;
-							return;
-						}
+						if (Map.PerfPartTable[a1, a2, a3] != 0) continue;
+						_partPerfType = (ePerformanceType)a1;
+						_upgradeLevel = a2;
+						_upgradePartIndex = a3;
+						Map.PerfPartTable[a1, a2, a3] = BinKey;
+						return;
 					}
 				}
 			}

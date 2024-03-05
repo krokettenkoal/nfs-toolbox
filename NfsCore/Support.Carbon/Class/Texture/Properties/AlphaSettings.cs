@@ -2,8 +2,8 @@
 {
     public partial class Texture
     {
-        private byte _apply_alpha_sort = 0;
-        private byte _alpha_usage_type = 2;
-        private byte _alpha_blend_type = 1;
+        private byte _applyAlphaSort = 0;
+        private byte _alphaUsageType = 2;
+        private byte _alphaBlendType = 1;
     }
 }

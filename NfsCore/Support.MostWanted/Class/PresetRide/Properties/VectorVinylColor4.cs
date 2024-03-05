@@ -5,23 +5,22 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private byte _vinylcolor4 = 0;
+        private byte _vinylColor4;
 
         /// <summary>
         /// Fourth vinyl color of the preset ride. Range: 0-80.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte VinylColor4
         {
-            get => this._vinylcolor4;
+            get => _vinylColor4;
             set
             {
                 if (value > 80)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 80.");
-                else
-                    this._vinylcolor4 = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 80.");
+                _vinylColor4 = value;
+                Modified = true;
             }
         }
     }

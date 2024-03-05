@@ -3,24 +3,26 @@ using NfsCore.Reflection.Interface;
 
 namespace NfsCore.Support.Underground2.Parts.InfoParts
 {
-	public class CarInfoWheel : SubPart, ICopyable<CarInfoWheel>
-	{
-		public float XValue { get; set; }
-		public float Springs { get; set; }
-		public float RideHeight { get; set; }
-		public float UnknownVal { get; set; }
-		public float Diameter { get; set; }
-		public float TireSkidWidth { get; set; }
-		public int WheelID { get; set; }
-		public float YValue { get; set; }
-		public float WideBodyYValue { get; set; }
+    public class CarInfoWheel : SubPart, ICopyable<CarInfoWheel>
+    {
+        public float XValue { get; set; }
+        public float Springs { get; set; }
+        public float RideHeight { get; set; }
+        public float UnknownVal { get; set; }
+        public float Diameter { get; set; }
+        public float TireSkidWidth { get; set; }
+        public int WheelID { get; set; }
+        public float YValue { get; set; }
+        public float WideBodyYValue { get; set; }
 
-		public CarInfoWheel() { }
+        public CarInfoWheel()
+        {
+        }
 
-		public CarInfoWheel(int ID)
-		{
-			this.WheelID = ID;
-		}
+        public CarInfoWheel(int id)
+        {
+            WheelID = id;
+        }
 
         /// <summary>
         /// Creates a plain copy of the objects that contains same values.
@@ -29,13 +31,14 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public CarInfoWheel PlainCopy()
         {
             var result = new CarInfoWheel();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

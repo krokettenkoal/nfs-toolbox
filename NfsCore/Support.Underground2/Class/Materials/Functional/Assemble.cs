@@ -8,52 +8,53 @@
         /// <returns>Byte array of the material.</returns>
         public override unsafe byte[] Assemble()
         {
-            byte[] result = new byte[0xA8];
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[0xA8];
+            fixed (byte* bytePtrT = &result[0])
             {
                 // Write header of the material
-                *(uint*)(byteptr_t + 0) = this.ID;
-                *(int*)(byteptr_t + 4) = this.Size;
-                *(uint*)(byteptr_t + 8) = _class_key;
-                *(int*)(byteptr_t + 0xC) = _Localizer;
-                *(int*)(byteptr_t + 0x10) = _Localizer;
-                *(uint*)(byteptr_t + 0x14) = this.BinKey;
-                *(int*)(byteptr_t + 0x18) = _Localizer;
+                *(uint*) (bytePtrT + 0) = Id;
+                *(int*) (bytePtrT + 4) = Size;
+                *(uint*) (bytePtrT + 8) = ClassKey;
+                *(int*) (bytePtrT + 0xC) = MaterialLocalizer;
+                *(int*) (bytePtrT + 0x10) = MaterialLocalizer;
+                *(uint*) (bytePtrT + 0x14) = BinKey;
+                *(int*) (bytePtrT + 0x18) = MaterialLocalizer;
 
                 // Write CollectionName
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + 0x1C + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + 0x1C + a1) = (byte) CollectionName[a1];
 
                 // Write all settings
-                *(float*)(byteptr_t + 0x38) = this._brightcolor1_level;
-                *(float*)(byteptr_t + 0x3C) = this._brightcolor1_red;
-                *(float*)(byteptr_t + 0x40) = this._brightcolor1_green;
-                *(float*)(byteptr_t + 0x44) = this._brightcolor1_blue;
-                *(float*)(byteptr_t + 0x48) = this._brightcolor2_level;
-                *(float*)(byteptr_t + 0x4C) = this._brightcolor2_red;
-                *(float*)(byteptr_t + 0x50) = this._brightcolor2_green;
-                *(float*)(byteptr_t + 0x54) = this._brightcolor2_blue;
-                *(float*)(byteptr_t + 0x58) = this._transparency1;
-                *(float*)(byteptr_t + 0x5C) = this._transparency2;
-                *(float*)(byteptr_t + 0x60) = this._strong_1_to_2_ratio;
-                *(float*)(byteptr_t + 0x64) = this._strongcolor1_level;
-                *(float*)(byteptr_t + 0x68) = this._strongcolor1_red;
-                *(float*)(byteptr_t + 0x6C) = this._strongcolor1_green;
-                *(float*)(byteptr_t + 0x70) = this._strongcolor1_blue;
-                *(float*)(byteptr_t + 0x74) = this._strongcolor2_level;
-                *(float*)(byteptr_t + 0x78) = this._strongcolor2_red;
-                *(float*)(byteptr_t + 0x7C) = this._strongcolor2_green;
-                *(float*)(byteptr_t + 0x80) = this._strongcolor2_blue;
-                *(float*)(byteptr_t + 0x84) = this._strong_3_to_4_ratio;
-                *(float*)(byteptr_t + 0x88) = this._strongcolor3_level;
-                *(float*)(byteptr_t + 0x8C) = this._strongcolor3_red;
-                *(float*)(byteptr_t + 0x90) = this._strongcolor3_green;
-                *(float*)(byteptr_t + 0x94) = this._strongcolor3_blue;
-                *(float*)(byteptr_t + 0x98) = this._strongcolor4_level;
-                *(float*)(byteptr_t + 0x9C) = this._strongcolor4_red;
-                *(float*)(byteptr_t + 0xA0) = this._strongcolor4_green;
-                *(float*)(byteptr_t + 0xA4) = this._strongcolor4_blue;
+                *(float*) (bytePtrT + 0x38) = _brightColor1Level;
+                *(float*) (bytePtrT + 0x3C) = _brightColor1Red;
+                *(float*) (bytePtrT + 0x40) = _brightColor1Green;
+                *(float*) (bytePtrT + 0x44) = _brightColor1Blue;
+                *(float*) (bytePtrT + 0x48) = _brightColor2Level;
+                *(float*) (bytePtrT + 0x4C) = _brightColor2Red;
+                *(float*) (bytePtrT + 0x50) = _brightColor2Green;
+                *(float*) (bytePtrT + 0x54) = _brightColor2Blue;
+                *(float*) (bytePtrT + 0x58) = _transparency1;
+                *(float*) (bytePtrT + 0x5C) = _transparency2;
+                *(float*) (bytePtrT + 0x60) = _strong1To2Ratio;
+                *(float*) (bytePtrT + 0x64) = _strongColor1Level;
+                *(float*) (bytePtrT + 0x68) = _strongColor1Red;
+                *(float*) (bytePtrT + 0x6C) = _strongColor1Green;
+                *(float*) (bytePtrT + 0x70) = _strongColor1Blue;
+                *(float*) (bytePtrT + 0x74) = _strongColor2Level;
+                *(float*) (bytePtrT + 0x78) = _strongColor2Red;
+                *(float*) (bytePtrT + 0x7C) = _strongColor2Green;
+                *(float*) (bytePtrT + 0x80) = _strongColor2Blue;
+                *(float*) (bytePtrT + 0x84) = _strong3To4Ratio;
+                *(float*) (bytePtrT + 0x88) = _strongColor3Level;
+                *(float*) (bytePtrT + 0x8C) = _strongColor3Red;
+                *(float*) (bytePtrT + 0x90) = _strongColor3Green;
+                *(float*) (bytePtrT + 0x94) = _strongColor3Blue;
+                *(float*) (bytePtrT + 0x98) = _strongColor4Level;
+                *(float*) (bytePtrT + 0x9C) = _strongColor4Red;
+                *(float*) (bytePtrT + 0xA0) = _strongColor4Green;
+                *(float*) (bytePtrT + 0xA4) = _strongColor4Blue;
             }
+
             return result;
         }
     }

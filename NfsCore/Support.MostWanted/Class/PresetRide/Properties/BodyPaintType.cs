@@ -8,25 +8,25 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private string _body_paint = BaseArguments.BPAINT;
+        private string _bodyPaint = BaseArguments.BPAINT;
 
         /// <summary>
         /// Body paint value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string BodyPaint
         {
-            get => this._body_paint;
+            get => _bodyPaint;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
                 if (Map.BinKeys.ContainsValue(value))
-                    this._body_paint = value;
+                    _bodyPaint = value;
                 else
                     throw new MappingFailException();
-                this.Modified = true;
+                Modified = true;
             }
         }
     }

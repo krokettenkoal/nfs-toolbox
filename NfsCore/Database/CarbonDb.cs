@@ -18,11 +18,11 @@ namespace NfsCore.Database
         /// </summary>
         public override GameINT GameINT => GameINT.Carbon;
 
-        public Root<Material> Materials { get; set; }
-        public Root<CarTypeInfo> CarTypeInfos { get; set; }
-        public Root<PresetRide> PresetRides { get; set; }
-        public Root<PresetSkin> PresetSkins { get; set; }
-        public SlotType SlotTypes { get; set; }
+        public Root<Material> Materials { get; private set; }
+        public Root<CarTypeInfo> CarTypeInfos { get; private set; }
+        public Root<PresetRide> PresetRides { get; private set; }
+        public Root<PresetSkin> PresetSkins { get; private set; }
+        public SlotType SlotTypes { get; private set; }
 
         public CarbonDb()
         {
@@ -92,11 +92,11 @@ namespace NfsCore.Database
         /// <summary>
         /// Adds <see cref="Collision"/> block to the database memory.
         /// </summary>
-        /// <param name="CName">Collection Name of the <see cref="Collision"/> block.</param>
+        /// <param name="collectionName">Collection Name of the <see cref="Collision"/> block.</param>
         /// <param name="filepath">Filepath of the <see cref="Collision"/> block to be imported.</param>
         /// <param name="error">Error occured when trying to add collision.</param>
         /// <returns>True if adding was successful; false otherwise.</returns>
-        public override unsafe bool TryAddCollision(string CName, string filepath, out string error)
+        public override unsafe bool TryAddCollision(string collectionName, string filepath, out string error)
         {
             error = null;
             try
@@ -104,24 +104,24 @@ namespace NfsCore.Database
                 if (!File.Exists(filepath))
                     throw new FileNotFoundException();
 
-                if (Map.CollisionMap.Any(pair => CName == pair.Value))
+                if (Map.CollisionMap.Any(pair => collectionName == pair.Value))
                 {
                     throw new Exception("Collision with the same collection name already exists.");
                 }
 
                 var data = File.ReadAllBytes(filepath);
-                fixed (byte* dataptr_t = &data[0])
+                fixed (byte* dataPtrT = &data[0])
                 {
-                    if (*(uint*) dataptr_t != CarParts.Collision)
+                    if (*(uint*) dataPtrT != CarParts.Collision)
                         throw new Exception("File specified is not a collision file.");
-                    if (*(int*) (dataptr_t + 4) != data.Length - 8)
+                    if (*(int*) (dataPtrT + 4) != data.Length - 8)
                         throw new Exception("File has incorrect length parameters.");
-                    var key = Vlt.Hash(CName);
-                    *(uint*) (dataptr_t + 8) = key;
-                    *(uint*) (dataptr_t + 16) = 0xFFFFFFFF;
-                    var collision = new Collision(data, CName);
+                    var key = Vlt.Hash(collectionName);
+                    *(uint*) (dataPtrT + 8) = key;
+                    *(uint*) (dataPtrT + 16) = 0xFFFFFFFF;
+                    var collision = new Collision(data, collectionName);
                     SlotTypes.Collisions[key] = collision;
-                    Map.CollisionMap[key] = CName;
+                    Map.CollisionMap[key] = collectionName;
                 }
 
                 return true;
@@ -135,7 +135,7 @@ namespace NfsCore.Database
         }
 
         /// <summary>
-        /// Gets information about <see cref="Carbon"/> database.
+        /// Gets information about <see cref="CarbonDb"/> database.
         /// </summary>
         /// <returns></returns>
         public override string GetDatabaseInfo()

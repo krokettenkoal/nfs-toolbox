@@ -17,7 +17,7 @@ namespace NfsCore.Global
         /// <summary>
         /// Watermark that will be written in the files on saving.
         /// </summary>
-        public static string Watermark { get; set; } = $"NFS Core API by MaxHwoy & krokettenkoal";
+        public static string Watermark { get; set; } = "NfsCore API by MaxHwoy & krokettenkoal";
 
         /// <summary>
         /// Loads data from Global files in the directory chosen.
@@ -48,7 +48,7 @@ namespace NfsCore.Global
                     return done;
 
                 case GameINT.Underground2:
-                    Initialize.InitUG2();
+                    Initialize.InitUg2();
                     done &= Support.Underground2.LoadData.LoadLanguage(dir, (Database.Underground2Db)db);
                     done &= Support.Underground2.LoadData.LoadAudios(dir);
                     done &= Support.Underground2.LoadData.LoadWheels(dir);

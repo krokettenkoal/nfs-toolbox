@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using NfsCore.Reflection.Enum;
 using NfsCore.Support.MostWanted.Parts.CarParts;
 
@@ -14,21 +14,11 @@ namespace NfsCore.Support.MostWanted
         /// <param name="bw">BinaryWriter for writing data.</param>
         private static void I_SlotType(Database.MostWantedDb db, BinaryWriter bw)
         {
-            var SetList = new List<CarSpoilerType>();
-
-            // Get all cartypeinfos with non-base spoilers
-            foreach (var info in db.CarTypeInfos.Collections)
-            {
-                if (info.Spoiler != eSpoiler.SPOILER)
-                {
-                    var Class = new CarSpoilerType();
-                    Class.CarTypeInfo = info.CollectionName;
-                    Class.Spoiler = info.Spoiler;
-                    SetList.Add(Class);
-                }
-            }
-
-            bw.Write(db.SlotTypes.Spoilers.SetSpoilers(SetList));
+            // Get all CarTypeInfos with non-base spoilers
+            var setList = (from info in db.CarTypeInfos.Collections
+                where info.Spoiler != eSpoiler.SPOILER
+                select new CarSpoilerType {CarTypeInfo = info.CollectionName, Spoiler = info.Spoiler}).ToList();
+            bw.Write(db.SlotTypes.Spoilers.SetSpoilers(setList));
         }
     }
 }

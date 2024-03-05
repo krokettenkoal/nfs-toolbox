@@ -17,7 +17,7 @@ namespace NfsCore.Support.Shared.Parts.FNGParts
 
         public FEngColor(FNGroup fng)
         {
-            this.ThisFNGroup = fng;
+            ThisFNGroup = fng;
         }
 
         public override bool Equals(object obj)
@@ -27,7 +27,7 @@ namespace NfsCore.Support.Shared.Parts.FNGParts
 
         public override int GetHashCode()
         {
-            return Tuple.Create(this.Alpha, this.Red, this.Green, this.Blue, this.Offset).GetHashCode();
+            return Tuple.Create(Alpha, Red, Green, Blue, Offset).GetHashCode();
         }
 
         public static bool operator== (FEngColor c1, FEngColor c2)
@@ -44,8 +44,8 @@ namespace NfsCore.Support.Shared.Parts.FNGParts
 
         public override string ToString()
         {
-            return $"Offset: {this.Offset:X8} | Color: " +
-                $"{SAT.ColorToHex(this.Alpha, this.Red, this.Green, this.Blue)}";
+            return $"Offset: {Offset:X8} | Color: " +
+                $"{SAT.ColorToHex(Alpha, Red, Green, Blue)}";
         }
     }
 }

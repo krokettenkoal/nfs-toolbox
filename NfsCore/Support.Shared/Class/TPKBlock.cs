@@ -4,17 +4,15 @@ using NfsCore.Global;
 using NfsCore.Reflection.Abstract;
 using NfsCore.Reflection.Enum;
 using NfsCore.Support.Shared.Parts.TPKParts;
-using NfsCore.Utils;
 
 namespace NfsCore.Support.Shared.Class
 {
-    public class TPKBlock : Collectable
+    public abstract class TPKBlock : Collectable
     {
         #region Private Fields
 
-        protected string _collection_name;
         protected int Version { get; set; } = 8; // 8 for C, 5 for MW and UG2
-        protected string filename { get; set; } // 0x40 bytes max
+        protected string FileName { get; set; } // 0x40 bytes max
         protected uint FilenameHash { get; set; } // Bin.Hash(this.filename)
         protected uint PermBlockByteOffset { get; set; } = 0; // usually 0
         protected uint PermBlockByteSize { get; set; } = 0; // usually 0
@@ -28,29 +26,9 @@ namespace NfsCore.Support.Shared.Class
         #region Main Properties
 
         /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get => this._collection_name; set => this._collection_name = value; }
-
-        /// <summary>
         /// Game to which the class belongs to.
         /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
-        /// Binary memory hash of the collection name.
-        /// </summary>
-        public uint BinKey { get => Bin.Hash(this._collection_name); }
-
-        /// <summary>
-        /// Vault memory hash of the collection name.
-        /// </summary>
-        public uint VltKey { get => Vlt.Hash(this._collection_name); }
+        public override GameINT GameINT => GameINT.None;
 
         /// <summary>
         /// Index of the TPK in the Global data.
@@ -78,9 +56,9 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
             throw new NotImplementedException();
         }
@@ -88,20 +66,20 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Sorts <see cref="Texture"/> by their CollectionNames or BinKeys.
         /// </summary>
-        /// <param name="by_name">True if sort by name; false is sort by hash.</param>
-        public virtual void SortTexturesByType(bool by_name) { }
+        /// <param name="byName">True if sort by name; false is sort by hash.</param>
+        public virtual void SortTexturesByType(bool byName) { }
 
         /// <summary>
         /// Assembles <see cref="TPKBlock"/> into a byte array.
         /// </summary>
         /// <returns>Byte array of the tpk block.</returns>
-        public virtual unsafe byte[] Assemble() { return null; }
+        public virtual byte[] Assemble() { return null; }
 
         /// <summary>
         /// Disassembles <see cref="TPKBlock"/> array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
-        protected virtual unsafe void Disassemble(byte* byteptr_t) { }
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
+        protected virtual unsafe void Disassemble(byte* bytePtrT) { }
 
         /// <summary>
         /// Tries to find <see cref="Texture"/> based on the key passed.
@@ -122,19 +100,19 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Attempts to add <see cref="Texture"/> to the <see cref="TPKBlock"/> data.
         /// </summary>
-        /// <param name="CName">Collection Name of the new <see cref="Texture"/>.</param>
-        /// <param name="filename">Path of the texture to be imported.</param>
+        /// <param name="collectionName">Collection Name of the new <see cref="Texture"/>.</param>
+        /// <param name="fileName">Path of the texture to be imported.</param>
         /// <returns>True if texture adding was successful, false otherwise.</returns>
-        public virtual bool TryAddTexture(string CName, string filename) { return false; }
+        public virtual bool TryAddTexture(string collectionName, string fileName) { return false; }
 
         /// <summary>
         /// Attempts to add <see cref="Texture"/> to the <see cref="TPKBlock"/> data.
         /// </summary>
-        /// <param name="CName">Collection Name of the new <see cref="Texture"/>.</param>
-        /// <param name="filename">Path of the texture to be imported.</param>
+        /// <param name="collectionName">Collection Name of the new <see cref="Texture"/>.</param>
+        /// <param name="fileName">Path of the texture to be imported.</param>
         /// <param name="error">Error occured when trying to add a texture.</param>
         /// <returns>True if texture adding was successful, false otherwise.</returns>
-        public virtual bool TryAddTexture(string CName, string filename, out string error)
+        public virtual bool TryAddTexture(string collectionName, string fileName, out string error)
         {
             error = null;
             return false;
@@ -164,21 +142,21 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Attempts to clone <see cref="Texture"/> specified in the <see cref="TPKBlock"/> data.
         /// </summary>
-        /// <param name="newname">Collection Name of the new <see cref="Texture"/>.</param>
+        /// <param name="newName">Collection Name of the new <see cref="Texture"/>.</param>
         /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to clone.</param>
         /// <param name="type">Type of the key passed.</param>
         /// <returns>True if texture cloning was successful, false otherwise.</returns>
-        public virtual bool TryCloneTexture(string newname, uint key, eKeyType type) { return false; }
+        public virtual bool TryCloneTexture(string newName, uint key, eKeyType type) { return false; }
 
         /// <summary>
         /// Attempts to clone <see cref="Texture"/> specified in the <see cref="TPKBlock"/> data.
         /// </summary>
-        /// <param name="newname">Collection Name of the new <see cref="Texture"/>.</param>
+        /// <param name="newName">Collection Name of the new <see cref="Texture"/>.</param>
         /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to clone.</param>
         /// <param name="type">Type of the key passed.</param>
         /// <param name="error">Error occured when trying to clone a texture.</param>
         /// <returns>True if texture cloning was successful, false otherwise.</returns>
-        public virtual bool TryCloneTexture(string newname, uint key, eKeyType type, out string error)
+        public virtual bool TryCloneTexture(string newName, uint key, eKeyType type, out string error)
         {
             error = null;
             return false;
@@ -189,19 +167,19 @@ namespace NfsCore.Support.Shared.Class
         /// </summary>
         /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to be replaced.</param>
         /// <param name="type">Type of the key passed.</param>
-        /// <param name="filename">Path of the texture that replaces the current one.</param>
+        /// <param name="fileName">Path of the texture that replaces the current one.</param>
         /// <returns>True if texture replacing was successful, false otherwise.</returns>
-        public virtual bool TryReplaceTexture(uint key, eKeyType type, string filename) { return false; }
+        public virtual bool TryReplaceTexture(uint key, eKeyType type, string fileName) { return false; }
 
         /// <summary>
         /// Attemps to replace <see cref="Texture"/> specified in the <see cref="TPKBlock"/> data with a new one.
         /// </summary>
         /// <param name="key">Key of the Collection Name of the <see cref="Texture"/> to be replaced.</param>
         /// <param name="type">Type of the key passed.</param>
-        /// <param name="filename">Path of the texture that replaces the current one.</param>
+        /// <param name="fileName">Path of the texture that replaces the current one.</param>
         /// <param name="error">Error occured when trying to replace a texture.</param>
         /// <returns>True if texture replacing was successful, false otherwise.</returns>
-        public virtual bool TryReplaceTexture(uint key, eKeyType type, string filename, out string error)
+        public virtual bool TryReplaceTexture(uint key, eKeyType type, string fileName, out string error)
         {
             error = null;
             return false;
@@ -214,61 +192,61 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Finds offsets of all partials and its parts in the tpk block.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <returns>Array of all offsets.</returns>
-        protected virtual unsafe int[] FindOffsets(byte* byteptr_t) { return null; }
+        protected virtual unsafe int[] FindOffsets(byte* bytePtrT) { return null; }
 
         /// <summary>
         /// Gets amount of textures in the tpk block.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part2 offset in the tpk block array.</param>
         /// <returns>Number of textures in the tpk block.</returns>
-        protected virtual unsafe int GetTextureCount(byte* byteptr_t, int offset) { return 0; }
+        protected virtual unsafe int GetTextureCount(byte* bytePtrT, int offset) { return 0; }
 
         /// <summary>
         /// Gets tpk header information.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part1 offset in the tpk block array.</param>
-        protected virtual unsafe void GetHeaderInfo(byte* byteptr_t, int offset) { }
+        protected virtual unsafe void GetHeaderInfo(byte* bytePtrT, int offset) { }
 
         /// <summary>
         /// Gets list of keys of the textures in the tpk block array.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part2 offset in the tpk block array.</param>
-        protected virtual unsafe void GetKeyList(byte* byteptr_t, int offset) { }
+        protected virtual unsafe void GetKeyList(byte* bytePtrT, int offset) { }
 
         /// <summary>
         /// Gets list of offset slots of the textures in the tpk block array.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part3 offset in the tpk block array.</param>
-        protected virtual unsafe void GetOffsetSlots(byte* byteptr_t, int offset) { }
+        protected virtual unsafe void GetOffsetSlots(byte* bytePtrT, int offset) { }
 
         /// <summary>
         /// Gets list of compressions of the textures in the tpk block array.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part5 offset in the tpk block array.</param>
-        protected virtual unsafe void GetCompressionList(byte* byteptr_t, int offset) { }
+        protected virtual unsafe void GetCompressionList(byte* bytePtrT, int offset) { }
 
         /// <summary>
         /// Gets list of offsets and sizes of the texture headers in the tpk block array.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part4 offset in the tpk block array.</param>
         /// <returns>Array of offsets and sizes of texture headers.</returns>
-        protected virtual unsafe int[,] GetTextureHeaders(byte* byteptr_t, int offset) { return null; }
+        protected virtual unsafe int[,] GetTextureHeaders(byte* bytePtrT, int offset) { return null; }
 
         /// <summary>
         /// Parses compressed texture and returns it on the output.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
-        /// <param name="offslot">Offslot of the texture to be parsed</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
+        /// <param name="offSlot">Off-slot of the texture to be parsed</param>
         /// <returns>Decompressed texture valid to the current support.</returns>
-        protected virtual unsafe void ParseCompTexture(byte* byteptr_t, OffSlot offslot) { }
+        protected virtual unsafe void ParseCompTexture(byte* bytePtrT, OffSlot offSlot) { }
 
         #endregion
 
@@ -277,53 +255,53 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Sorts textures by their binary memory hashes.
         /// </summary>
-        protected virtual unsafe void TextureSort() { }
+        protected virtual void TextureSort() { }
 
         /// <summary>
         /// Checks texture keys and tpk keys for matching.
         /// </summary>
-        protected virtual unsafe void CheckKeys() { }
+        protected virtual void CheckKeys() { }
 
         /// <summary>
         /// Checks texture compressions and tpk compressions for matching.
         /// </summary>
-        protected virtual unsafe void CheckComps() { }
+        protected virtual void CheckComps() { }
 
         /// <summary>
         /// Assembles partial 1 part1 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 1 part1.</returns>
-        protected virtual unsafe byte[] Get1Part1() { return null; }
+        protected virtual byte[] Get1Part1() { return null; }
 
         /// <summary>
         /// Assembles partial 1 part2 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 1 part2.</returns>
-        protected virtual unsafe byte[] Get1Part2() { return null; }
+        protected virtual byte[] Get1Part2() { return null; }
 
         /// <summary>
         /// Assembles partial 1 part4 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 1 part4.</returns>
-        protected virtual unsafe byte[] Get1Part4() { return null; }
+        protected virtual byte[] Get1Part4() { return null; }
 
         /// <summary>
         /// Assembles partial 1 part5 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 1 part5.</returns>
-        protected virtual unsafe byte[] Get1Part5() { return null; }
+        protected virtual byte[] Get1Part5() { return null; }
 
         /// <summary>
         /// Assembles partial 2 part1 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 2 part1.</returns>
-        protected virtual unsafe byte[] Get2Part1() { return null; }
+        protected virtual byte[] Get2Part1() { return null; }
 
         /// <summary>
         /// Assembles partial 2 part2 of the tpk block.
         /// </summary>
         /// <returns>Byte array of the partial 2 part2.</returns>
-        protected virtual unsafe byte[] Get2Part2() { return null; }
+        protected virtual byte[] Get2Part2() { return null; }
 
         #endregion
     }

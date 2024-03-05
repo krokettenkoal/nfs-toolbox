@@ -18,10 +18,10 @@ namespace NfsCore.Database
         /// </summary>
         public override GameINT GameINT => GameINT.MostWanted;
 
-        public Root<Material> Materials { get; set; }
-        public Root<CarTypeInfo> CarTypeInfos { get; set; }
-        public Root<PresetRide> PresetRides { get; set; }
-        public SlotType SlotTypes { get; set; }
+        public Root<Material> Materials { get; private set; }
+        public Root<CarTypeInfo> CarTypeInfos { get; private set; }
+        public Root<PresetRide> PresetRides { get; private set; }
+        public SlotType SlotTypes { get; private set; }
 
         public MostWantedDb()
         {

@@ -9,82 +9,81 @@ using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Parts.CarParts
 {
-	public class CarSkin : SubPart, ICopyable<CarSkin>
-	{
-		private string _skin_description = "Silver";
-		private string _materialused = BaseArguments.NULL;
-		private eCarSkinClass _skin_class_key = eCarSkinClass.Racing; 
+    public class CarSkin : SubPart, ICopyable<CarSkin>
+    {
+        private string _skinDescription = "Silver";
+        private string _materialUsed = BaseArguments.NULL;
+        private eCarSkinClass _skinClassKey = eCarSkinClass.Racing;
 
-		public string SkinDescription
-		{
-			get => this._skin_description;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._skin_description = value;
-			}
-		}
+        public string SkinDescription
+        {
+            get => _skinDescription;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _skinDescription = value;
+            }
+        }
 
-		public string MaterialUsed
-		{
-			get => this._materialused;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._materialused = value;
-			}
-		}
+        public string MaterialUsed
+        {
+            get => _materialUsed;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _materialUsed = value;
+            }
+        }
 
-		public eCarSkinClass SkinClassKey
-		{
-			get => this._skin_class_key;
-			set
-			{
-				if (!Enum.IsDefined(typeof(eCarSkinClass), value))
-					throw new MappingFailException();
-				else
-					this._skin_class_key = value;
-			}
-		}
+        public eCarSkinClass SkinClassKey
+        {
+            get => _skinClassKey;
+            set
+            {
+                if (!Enum.IsDefined(typeof(eCarSkinClass), value))
+                    throw new MappingFailException();
+                _skinClassKey = value;
+            }
+        }
 
-		/// <summary>
-		/// Creates a plain copy of the objects that contains same values.
-		/// </summary>
-		/// <returns>Exact plain copy of the object.</returns>
-		public CarSkin PlainCopy()
-		{
-			var result = new CarSkin();
-			var ThisType = this.GetType();
-			var ResultType = result.GetType();
-			foreach (var ThisProperty in ThisType.GetProperties())
-			{
-				var ResultField = ResultType.GetProperty(ThisProperty.Name);
-				ResultField.SetValue(result, ThisProperty.GetValue(this));
-			}
-			return result;
-		}
+        /// <summary>
+        /// Creates a plain copy of the objects that contains same values.
+        /// </summary>
+        /// <returns>Exact plain copy of the object.</returns>
+        public CarSkin PlainCopy()
+        {
+            var result = new CarSkin();
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
+            {
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
+            }
 
-		public unsafe void Read(byte* byteptr_t, out int id, out int index)
-		{
-			uint key = 0;
-			id = *(int*)byteptr_t;
-			index = *(int*)(byteptr_t + 4);
-			this._skin_description = ScriptX.NullTerminatedString(byteptr_t + 8, 0x20);
-			key = *(uint*)(byteptr_t + 0x2C);
-			this._materialused = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			this._skin_class_key = (eCarSkinClass)(*(uint*)(byteptr_t + 0x30));
-		}
+            return result;
+        }
 
-		public unsafe void Write(byte* byteptr_t, int id, int index)
-		{
-			*(int*)byteptr_t = id;
-			*(int*)(byteptr_t + 4) = index;
-			for (int a1 = 0; a1 < this._skin_description.Length; ++a1)
-				*(byteptr_t + 8 + a1) = (byte)this._skin_description[a1];
-			*(uint*)(byteptr_t + 0x2C) = Bin.SmartHash(this._materialused);
-			*(uint*)(byteptr_t + 0x30) = (uint)this._skin_class_key;
-		}
-	}
+        public unsafe void Read(byte* bytePtrT, out int id, out int index)
+        {
+            id = *(int*) bytePtrT;
+            index = *(int*) (bytePtrT + 4);
+            _skinDescription = ScriptX.NullTerminatedString(bytePtrT + 8, 0x20);
+            var key = *(uint*) (bytePtrT + 0x2C);
+            _materialUsed = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            _skinClassKey = (eCarSkinClass) (*(uint*) (bytePtrT + 0x30));
+        }
+
+        public unsafe void Write(byte* bytePtrT, int id, int index)
+        {
+            *(int*) bytePtrT = id;
+            *(int*) (bytePtrT + 4) = index;
+            for (var a1 = 0; a1 < _skinDescription.Length; ++a1)
+                *(bytePtrT + 8 + a1) = (byte) _skinDescription[a1];
+            *(uint*) (bytePtrT + 0x2C) = Bin.SmartHash(_materialUsed);
+            *(uint*) (bytePtrT + 0x30) = (uint) _skinClassKey;
+        }
+    }
 }

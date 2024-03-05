@@ -5,15 +5,15 @@
         /// <summary>
         /// Gets list of keys of the textures in the tpk block array.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
         /// <param name="offset">Partial 1 part2 offset in the tpk block array.</param>
-        protected override unsafe void GetKeyList(byte* byteptr_t, int offset)
+        protected override unsafe void GetKeyList(byte* bytePtrT, int offset)
         {
-            int ReaderSize = 8 + *(int*)(byteptr_t + offset + 4);
-            int current = 8;
-            while (current < ReaderSize)
+            var readerSize = 8 + *(int*) (bytePtrT + offset + 4);
+            var current = 8;
+            while (current < readerSize)
             {
-                this.keys.Add(*(uint*)(byteptr_t + offset + current));
+                _keys.Add(*(uint*) (bytePtrT + offset + current));
                 current += 8;
             }
         }

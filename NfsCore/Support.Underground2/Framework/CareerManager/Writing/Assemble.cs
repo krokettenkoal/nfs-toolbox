@@ -6,74 +6,74 @@ using NfsCore.Utils.EA;
 
 namespace NfsCore.Support.Underground2.Framework
 {
-	public static partial class CareerManager
-	{
-		public static unsafe void Assemble(BinaryWriter bw, Database.Underground2Db db)
-		{
-			// Initialize MemoryWriter for string block to its maximum size
-			var mw = new MemoryWriter(0xFFFF);
-			mw.Write((byte)0); // write null-termination
-			mw.WriteNullTerminated(Process.Watermark);
+    public static partial class CareerManager
+    {
+        public static void Assemble(BinaryWriter bw, Database.Underground2Db db)
+        {
+            // Initialize MemoryWriter for string block to its maximum size
+            var mw = new MemoryWriter(0xFFFF);
+            mw.Write((byte) 0); // write null-termination
+            mw.WriteNullTerminated(Process.Watermark);
 
-			// Get arrays of all blocks
-			var GCareerRacesBlock = WriteGCareerRaces(mw, db);
-			var WorldShopBlock = WriteWorldShops(mw, db);
-			var GCareerBrandsBlock = WriteGCareerBrands(mw, db);
-			var PartPerformancesBlock = WritePartPerformances(db);
-			var GShowcasesBlock = WriteGShowcases(mw, db);
-			var SMSMessagesBlock = WriteSMSMessages(mw, db);
-			var SponsorsBlock = WriteSponsors(mw, db);
-			var GCareerStagesBlock = WriteGCareerStages(db);
-			var PerfSliderTuningsBlock = WritePerfSliderTunings(db);
-			var WorldChallengesBlock = WriteWorldChallenges(mw, db);
-			var PartUnlockablesBlock = WritePartUnlockables(db);
-			var BankTriggersBlock = WriteBankTriggers(db);
-			var GCarUnlocksBlock = WriteGCarUnlocks(db);
+            // Get arrays of all blocks
+            var gCareerRacesBlock = WriteGCareerRaces(mw, db);
+            var worldShopBlock = WriteWorldShops(mw, db);
+            var gCareerBrandsBlock = WriteGCareerBrands(mw, db);
+            var partPerformancesBlock = WritePartPerformances(db);
+            var gShowcasesBlock = WriteGShowcases(mw, db);
+            var smsMessagesBlock = WriteSMSMessages(mw, db);
+            var sponsorsBlock = WriteSponsors(mw, db);
+            var gCareerStagesBlock = WriteGCareerStages(db);
+            var perfSliderTuningsBlock = WritePerfSliderTunings(db);
+            var worldChallengesBlock = WriteWorldChallenges(mw, db);
+            var partUnlockablesBlock = WritePartUnlockables(db);
+            var bankTriggersBlock = WriteBankTriggers(db);
+            var gCarUnlocksBlock = WriteGCarUnlocks(db);
 
-			// Compress to the position
-			mw.Position += 4 - (mw.Position % 4);
-			mw.CompressToPosition();
+            // Compress to the position
+            mw.Position += 4 - (mw.Position % 4);
+            mw.CompressToPosition();
 
-			// Pre-calculate size
-			var size = 8 + mw.Length;
-			size += GCareerRacesBlock.Length;
-			size += WorldShopBlock.Length;
-			size += GCareerBrandsBlock.Length;
-			size += PartPerformancesBlock.Length;
-			size += GShowcasesBlock.Length;
-			size += SMSMessagesBlock.Length;
-			size += SponsorsBlock.Length;
-			size += GCareerStagesBlock.Length;
-			size += PerfSliderTuningsBlock.Length;
-			size += WorldChallengesBlock.Length;
-			size += PartUnlockablesBlock.Length;
-			size += BankTriggersBlock.Length;
-			size += GCarUnlocksBlock.Length;
+            // Pre-calculate size
+            var size = 8 + mw.Length;
+            size += gCareerRacesBlock.Length;
+            size += worldShopBlock.Length;
+            size += gCareerBrandsBlock.Length;
+            size += partPerformancesBlock.Length;
+            size += gShowcasesBlock.Length;
+            size += smsMessagesBlock.Length;
+            size += sponsorsBlock.Length;
+            size += gCareerStagesBlock.Length;
+            size += perfSliderTuningsBlock.Length;
+            size += worldChallengesBlock.Length;
+            size += partUnlockablesBlock.Length;
+            size += bankTriggersBlock.Length;
+            size += gCarUnlocksBlock.Length;
 
-			// Pre-calculate padding
-			var padding = Resolve.GetPaddingArray(size + 0x50, 0x80);
-			size += padding.Length;
+            // Pre-calculate padding
+            var padding = Resolve.GetPaddingArray(size + 0x50, 0x80);
+            size += padding.Length;
 
-			// Finally, write entire Career Block
-			bw.Write(CareerInfo.MAINID);
-			bw.Write(size);
-			bw.Write(CareerInfo.STRING_BLOCK);
-			bw.Write(mw.Length);
-			bw.Write(mw.Data);
-			bw.Write(GCareerRacesBlock);
-			bw.Write(WorldShopBlock);
-			bw.Write(GCareerBrandsBlock);
-			bw.Write(PartPerformancesBlock);
-			bw.Write(GShowcasesBlock);
-			bw.Write(SMSMessagesBlock);
-			bw.Write(SponsorsBlock);
-			bw.Write(GCareerStagesBlock);
-			bw.Write(PerfSliderTuningsBlock);
-			bw.Write(WorldChallengesBlock);
-			bw.Write(PartUnlockablesBlock);
-			bw.Write(BankTriggersBlock);
-			bw.Write(GCarUnlocksBlock);
-			bw.Write(padding);
-		}
-	}
+            // Finally, write entire Career Block
+            bw.Write(CareerInfo.MAINID);
+            bw.Write(size);
+            bw.Write(CareerInfo.STRING_BLOCK);
+            bw.Write(mw.Length);
+            bw.Write(mw.Data);
+            bw.Write(gCareerRacesBlock);
+            bw.Write(worldShopBlock);
+            bw.Write(gCareerBrandsBlock);
+            bw.Write(partPerformancesBlock);
+            bw.Write(gShowcasesBlock);
+            bw.Write(smsMessagesBlock);
+            bw.Write(sponsorsBlock);
+            bw.Write(gCareerStagesBlock);
+            bw.Write(perfSliderTuningsBlock);
+            bw.Write(worldChallengesBlock);
+            bw.Write(partUnlockablesBlock);
+            bw.Write(bankTriggersBlock);
+            bw.Write(gCarUnlocksBlock);
+            bw.Write(padding);
+        }
+    }
 }

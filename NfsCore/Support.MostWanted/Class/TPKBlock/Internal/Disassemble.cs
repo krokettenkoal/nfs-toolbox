@@ -5,36 +5,36 @@
         /// <summary>
         /// Disassembles tpk block array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the tpk block array.</param>
-        protected override unsafe void Disassemble(byte* byteptr_t)
+        /// <param name="bytePtrT">Pointer to the tpk block array.</param>
+        protected override unsafe void Disassemble(byte* bytePtrT)
         {
-            var PartOffsets = this.FindOffsets(byteptr_t);
-            var TextureCount = this.GetTextureCount(byteptr_t, PartOffsets[1]);
-            if (TextureCount == 0) return; // if no textures allocated
+            var partOffsets = FindOffsets(bytePtrT);
+            var textureCount = GetTextureCount(bytePtrT, partOffsets[1]);
+            if (textureCount == 0) return; // if no textures allocated
 
-            this.GetHeaderInfo(byteptr_t, PartOffsets[0]);
-            this.GetKeyList(byteptr_t, PartOffsets[1]);
-            this.GetCompressionList(byteptr_t, PartOffsets[4]);
-            var TextureList = this.GetTextureHeaders(byteptr_t, PartOffsets[3]);
+            GetHeaderInfo(bytePtrT, partOffsets[0]);
+            GetKeyList(bytePtrT, partOffsets[1]);
+            GetCompressionList(bytePtrT, partOffsets[4]);
+            var textureList = GetTextureHeaders(bytePtrT, partOffsets[3]);
 
             // Check if number of keys is equal to number of texture headers, pick the least one
-            if (TextureCount != TextureList.Length)
-                TextureCount = (TextureCount > TextureList.Length) ? TextureList.Length : TextureCount;
+            if (textureCount != textureList.Length)
+                textureCount = (textureCount > textureList.Length) ? textureList.Length : textureCount;
 
             // Add textures to the list
-            for (int i = 0; i < TextureCount; ++i)
+            for (var i = 0; i < textureCount; ++i)
             {
-                var Read = new Texture(byteptr_t, TextureList[i, 0], TextureList[i, 1], this._collection_name, this.Database);
-                this.Textures.Add(Read);
+                var read = new Texture(bytePtrT, textureList[i, 0], textureList[i, 1], CollName, Database);
+                Textures.Add(read);
             }
 
             // Finally, build all .dds files
-            for (int i = 0; i < TextureCount; ++i)
+            for (var i = 0; i < textureCount; ++i)
             {
-                this.Textures[i].CompVal1 = this.compressions[i].var1;
-                this.Textures[i].CompVal2 = this.compressions[i].var2;
-                this.Textures[i].CompVal3 = this.compressions[i].var3;
-                this.Textures[i].ReadData(byteptr_t, PartOffsets[6] + 0x80, false);
+                Textures[i].CompVal1 = _compressions[i].var1;
+                Textures[i].CompVal2 = _compressions[i].var2;
+                Textures[i].CompVal3 = _compressions[i].var3;
+                Textures[i].ReadData(bytePtrT, partOffsets[6] + 0x80, false);
             }
         }
     }

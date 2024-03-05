@@ -6,121 +6,112 @@ namespace NfsCore.Support.Carbon.Parts.PresetParts
 {
     public class Autosculpt : SubPart, ICopyable<Autosculpt>
     {
-        private byte _zone1 = 0;
-        private byte _zone2 = 0;
-        private byte _zone3 = 0;
-        private byte _zone4 = 0;
-        private byte _zone5 = 0;
-        private byte _zone6 = 0;
-        private byte _zone7 = 0;
-        private byte _zone8 = 0;
-        private byte _zone9 = 0;
+        private byte _zone1;
+        private byte _zone2;
+        private byte _zone3;
+        private byte _zone4;
+        private byte _zone5;
+        private byte _zone6;
+        private byte _zone7;
+        private byte _zone8;
+        private byte _zone9;
 
         public byte AutosculptZone1
         {
-            get => this._zone1;
+            get => _zone1;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone1 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone1 = value;
             }
         }
 
         public byte AutosculptZone2
         {
-            get => this._zone2;
+            get => _zone2;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone2 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone2 = value;
             }
         }
 
         public byte AutosculptZone3
         {
-            get => this._zone3;
+            get => _zone3;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone3 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone3 = value;
             }
         }
 
         public byte AutosculptZone4
         {
-            get => this._zone4;
+            get => _zone4;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone4 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone4 = value;
             }
         }
 
         public byte AutosculptZone5
         {
-            get => this._zone5;
+            get => _zone5;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone5 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone5 = value;
             }
         }
 
         public byte AutosculptZone6
         {
-            get => this._zone6;
+            get => _zone6;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone6 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone6 = value;
             }
         }
 
         public byte AutosculptZone7
         {
-            get => this._zone7;
+            get => _zone7;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone7 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone7 = value;
             }
         }
 
         public byte AutosculptZone8
         {
-            get => this._zone8;
+            get => _zone8;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone8 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone8 = value;
             }
         }
 
         public byte AutosculptZone9
         {
-            get => this._zone9;
+            get => _zone9;
             set
             {
                 if (value > 100)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 100.");
-                else
-                    this._zone9 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 100.");
+                _zone9 = value;
             }
         }
 
@@ -131,13 +122,14 @@ namespace NfsCore.Support.Carbon.Parts.PresetParts
         public Autosculpt PlainCopy()
         {
             var result = new Autosculpt();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

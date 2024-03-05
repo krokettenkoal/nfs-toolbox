@@ -12,9 +12,9 @@ namespace NfsCore.Support.Carbon.Class
         /// <returns>True if texture removing was successful, false otherwise.</returns>
         public override bool TryRemoveTexture(uint key, eKeyType type)
         {
-            var index = this.GetTextureIndex(key, type);
+            var index = GetTextureIndex(key, type);
             if (index == -1) return false;
-            this.Textures.RemoveAt(index);
+            Textures.RemoveAt(index);
             return true;
         }
 
@@ -28,13 +28,14 @@ namespace NfsCore.Support.Carbon.Class
         public override bool TryRemoveTexture(uint key, eKeyType type, out string error)
         {
             error = null;
-            var index = this.GetTextureIndex(key, type);
+            var index = GetTextureIndex(key, type);
             if (index == -1)
             {
                 error = $"Texture with key 0x{key:X8} does not exist.";
                 return false;
             }
-            this.Textures.RemoveAt(index);
+
+            Textures.RemoveAt(index);
             return true;
         }
     }

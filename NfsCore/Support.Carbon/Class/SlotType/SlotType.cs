@@ -3,7 +3,7 @@ using NfsCore.Support.Carbon.Parts.CarParts;
 
 namespace NfsCore.Support.Carbon.Class
 {
-    public partial class SlotType : Shared.Class.SlotType
+    public class SlotType : Shared.Class.SlotType
     {
         public List<Part56> Part56 { get; set; }
         public Spoilers Spoilers { get; set; }

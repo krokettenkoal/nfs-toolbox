@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using NfsCore.Reflection;
 using NfsCore.Reflection.ID;
 using NfsCore.Utils;
@@ -16,28 +17,27 @@ namespace NfsCore.Support.MostWanted
         {
             bw.Write(GlobalId.Collisions);
             bw.Write(0xFFFFFFFF); // write temp size
-            int initial_size = (int)bw.BaseStream.Position;
+            var initialSize = (int) bw.BaseStream.Position;
 
             // Copy all collisions by the internal names
             foreach (var info in db.CarTypeInfos.Collections)
             {
                 if (info.CollisionExternalName == BaseArguments.NULL) continue;
-                uint extkey = Vlt.Hash(info.CollisionExternalName);
-                uint intkey = Vlt.Hash(info.CollisionInternalName);
-                if (db.SlotTypes.Collisions.TryGetValue(intkey, out var collision))
-                    bw.Write(collision.GetData(extkey));
+                var extKey = Vlt.Hash(info.CollisionExternalName);
+                var intKey = Vlt.Hash(info.CollisionInternalName);
+                if (db.SlotTypes.Collisions.TryGetValue(intKey, out var collision))
+                    bw.Write(collision.GetData(extKey));
             }
 
             // Copy all unknown collisions
-            foreach (var collision in db.SlotTypes.Collisions)
+            foreach (var collision in db.SlotTypes.Collisions.Where(collision => collision.Value.Unknown))
             {
-                if (collision.Value.Unknown)
-                    bw.Write(collision.Value.GetData(0));
+                bw.Write(collision.Value.GetData(0));
             }
 
             // Fix size
-            bw.BaseStream.Position = initial_size - 4;
-            bw.Write((int)bw.BaseStream.Length - initial_size);
+            bw.BaseStream.Position = initialSize - 4;
+            bw.Write((int) bw.BaseStream.Length - initialSize);
             bw.BaseStream.Position = bw.BaseStream.Length;
         }
     }

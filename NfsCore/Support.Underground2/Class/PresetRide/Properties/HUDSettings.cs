@@ -6,75 +6,75 @@ using NfsCore.Reflection.Exception;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-		private string _custom_hud_style = BaseArguments.STOCK;
-		private string _hud_backing_color = BaseArguments.WHITE;
-		private string _hud_needle_color = BaseArguments.WHITE;
-		private string _hud_character_color = BaseArguments.WHITE;
+    public partial class PresetRide
+    {
+        private string _customHudStyle = BaseArguments.STOCK;
+        private string _hudBackingColor = BaseArguments.WHITE;
+        private string _hudNeedleColor = BaseArguments.WHITE;
+        private string _hudCharacterColor = BaseArguments.WHITE;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
-		public string CustomHUDStyle
-		{
-			get => this._custom_hud_style;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				if (!Map.BinKeys.ContainsValue(value))
-					throw new MappingFailException();
-				this._custom_hud_style = value;
-				this.Modified = true;
-			}
-		}
+        [AccessModifiable]
+        [StaticModifiable]
+        public string CustomHUDStyle
+        {
+            get => _customHudStyle;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (!Map.BinKeys.ContainsValue(value))
+                    throw new MappingFailException();
+                _customHudStyle = value;
+                Modified = true;
+            }
+        }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
-		public string HUDBackingColor
-		{
-			get => this._hud_backing_color;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				if (!Map.BinKeys.ContainsValue(value))
-					throw new MappingFailException();
-				this._hud_backing_color = value;
-				this.Modified = true;
-			}
-		}
+        [AccessModifiable]
+        [StaticModifiable]
+        public string HUDBackingColor
+        {
+            get => _hudBackingColor;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (!Map.BinKeys.ContainsValue(value))
+                    throw new MappingFailException();
+                _hudBackingColor = value;
+                Modified = true;
+            }
+        }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
-		public string HUDNeedleColor
-		{
-			get => this._hud_needle_color;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				if (!Map.BinKeys.ContainsValue(value))
-					throw new MappingFailException();
-				this._hud_needle_color = value;
-				this.Modified = true;
-			}
-		}
+        [AccessModifiable]
+        [StaticModifiable]
+        public string HUDNeedleColor
+        {
+            get => _hudNeedleColor;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (!Map.BinKeys.ContainsValue(value))
+                    throw new MappingFailException();
+                _hudNeedleColor = value;
+                Modified = true;
+            }
+        }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
-		public string HUDCharacterColor
-		{
-			get => this._hud_character_color;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				if (!Map.BinKeys.ContainsValue(value))
-					throw new MappingFailException();
-				this._hud_character_color = value;
-				this.Modified = true;
-			}
-		}
-	}
+        [AccessModifiable]
+        [StaticModifiable]
+        public string HUDCharacterColor
+        {
+            get => _hudCharacterColor;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                if (!Map.BinKeys.ContainsValue(value))
+                    throw new MappingFailException();
+                _hudCharacterColor = value;
+                Modified = true;
+            }
+        }
+    }
 }

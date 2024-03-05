@@ -5,23 +5,22 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class PresetRide
     {
-        private float _brightness = 0;
+        private float _brightness;
 
         /// <summary>
         /// Brightness value of the paint of the preset ride. Range: (float)0-1.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float PaintBrightness
         {
-            get => this._brightness;
+            get => _brightness;
             set
             {
-                if (value > 1 || value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 1.");
-                else
-                    this._brightness = value;
-                this.Modified = true;
+                if (value is > 1 or < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 1.");
+                _brightness = value;
+                Modified = true;
             }
         }
     }

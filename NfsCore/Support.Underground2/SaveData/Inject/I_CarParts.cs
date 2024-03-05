@@ -12,24 +12,24 @@ namespace NfsCore.Support.Underground2
         /// <param name="bw">BinaryWriter for writing data.</param>
         private static void I_CarParts(Database.Underground2Db db, BinaryWriter bw)
         {
-            var _part1 = CPI_Part1(db);
-            var _part2 = CPI_Part2(db);
-            var _part3 = CPI_Part3(db);
-            var _part4 = CPI_Part4(db);
-            var _part56 = CPI_Part56(db);
-            var _part0 = db.SlotTypes.Part0.Data;
+            var part1 = CPI_Part1(db);
+            var part2 = CPI_Part2(db);
+            var part3 = CPI_Part3(db);
+            var part4 = CPI_Part4(db);
+            var part56 = CPI_Part56(db);
+            var part0 = db.SlotTypes.Part0.Data;
 
-            int size = _part0.Length + _part1.Length + _part2.Length;
-            size += _part3.Length + _part4.Length + _part56.Length;
+            var size = part0.Length + part1.Length + part2.Length;
+            size += part3.Length + part4.Length + part56.Length;
 
             bw.Write(GlobalId.CarParts);
             bw.Write(size);
-            bw.Write(_part0);
-            bw.Write(_part1);
-            bw.Write(_part2);
-            bw.Write(_part3);
-            bw.Write(_part4);
-            bw.Write(_part56);
+            bw.Write(part0);
+            bw.Write(part1);
+            bw.Write(part2);
+            bw.Write(part3);
+            bw.Write(part4);
+            bw.Write(part56);
         }
     }
 }

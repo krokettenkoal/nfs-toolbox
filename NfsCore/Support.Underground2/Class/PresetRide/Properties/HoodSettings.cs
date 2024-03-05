@@ -4,65 +4,64 @@ using NfsCore.Reflection.Enum;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-        private byte _hood_style = 0;
-        private eBoolean _is_carbonfibre_hood = eBoolean.False;
-        private byte _under_hood_style = 0;
+    public partial class PresetRide
+    {
+        private byte _hoodStyle;
+        private eBoolean _isCarbonFibreHood = eBoolean.False;
+        private byte _underHoodStyle;
 
         /// <summary>
         /// Hood style value of the preset ride. Range: 0-28.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte HoodStyle
         {
-            get => this._hood_style;
+            get => _hoodStyle;
             set
             {
                 if (value > 28)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 28.");
-                else
-                    this._hood_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 28.");
+                _hoodStyle = value;
+                Modified = true;
             }
         }
 
         /// <summary>
         /// True if hood is carbonfibre, false otherwise.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eBoolean IsCarbonfibreHood
         {
-            get => this._is_carbonfibre_hood;
+            get => _isCarbonFibreHood;
             set
             {
                 if (Enum.IsDefined(typeof(eBoolean), value))
                 {
-                    this._is_carbonfibre_hood = value;
-                    this.Modified = true;
+                    _isCarbonFibreHood = value;
+                    Modified = true;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
             }
         }
 
         /// <summary>
         /// Under hood style value of the preset ride. Range: 21-25 or 0.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte UnderHoodStyle
         {
-            get => this._under_hood_style;
+            get => _underHoodStyle;
             set
             {
-                if (value != 0 && value < 21 && value > 25)
-                    throw new ArgumentOutOfRangeException("This value should be in range 21 to 25 or 0.");
-                else
-                    this._hood_style = value;
-                this.Modified = true;
+                if (value != 0 && value is < 21 or > 25)
+                    throw new ArgumentOutOfRangeException(nameof(value),
+                        "This value should be in range 21 to 25 or 0.");
+                _hoodStyle = value;
+                Modified = true;
             }
         }
     }

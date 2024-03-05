@@ -6,22 +6,22 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private string _vinylname = BaseArguments.NULL;
+        private string _vinylName = BaseArguments.NULL;
 
         /// <summary>
         /// Vinyl name value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string VinylName
         {
-            get => this._vinylname;
+            get => _vinylName;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._vinylname = value;
-                this.Modified = true;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _vinylName = value;
+                Modified = true;
             }
         }
     }

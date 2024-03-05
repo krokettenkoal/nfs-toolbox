@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 
-
-
 namespace NfsCore.Support.Underground2.Framework
 {
 	public static class PartCNames
 	{
-        public static List<string> PartUnlockablesList { get; set; } = new List<string>(0x56)
+        public static List<string> PartUnlockablesList { get; set; } = new(0x56)
         {
             "Engine",                // 0x01
             "ECU",                   // 0x02

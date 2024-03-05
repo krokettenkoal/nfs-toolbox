@@ -2,24 +2,26 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class SMSMessage
-	{
-		public override Collectable MemoryCast(string CName)
-		{
-			var result = new SMSMessage(CName, this.Database);
-			result.b0x02 = this.b0x02;
-			result.b0x03 = this.b0x03;
-			result.b0x04 = this.b0x04;
-			result.b0x05 = this.b0x05;
-			result.b0x06 = this.b0x06;
-			result.b0x07 = this.b0x07;
-			result.b0x08 = this.b0x08;
-			result.b0x09 = this.b0x09;
-			result.b0x0A = this.b0x0A;
-			result.b0x0B = this.b0x0B;
-			result.CashValue = this.CashValue;
-			result._message_label = this._message_label;
-			return result;
-		}
-	}
+    public partial class SmsMessage
+    {
+        public override Collectable MemoryCast(string collectionName)
+        {
+            var result = new SmsMessage(collectionName, Database)
+            {
+                _b0X02 = _b0X02,
+                _b0X03 = _b0X03,
+                _b0X04 = _b0X04,
+                _b0X05 = _b0X05,
+                _b0X06 = _b0X06,
+                _b0X07 = _b0X07,
+                _b0X08 = _b0X08,
+                _b0X09 = _b0X09,
+                _b0X0A = _b0X0A,
+                _b0X0B = _b0X0B,
+                CashValue = CashValue,
+                _messageLabel = _messageLabel
+            };
+            return result;
+        }
+    }
 }

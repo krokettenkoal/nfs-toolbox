@@ -36,12 +36,12 @@
         
         /* Default constructor */ public DDS_HEADER()
         {
-            for (int _loop_ = 0; _loop_ < 11; ++_loop_) this.dwReserved1[_loop_] = 0; // unused
-            this.dwCaps2 = 0; // usually it is not a 3D texture
-            this.dwCaps3 = 0; // unused
-            this.dwCaps4 = 0; // unused
-            this.dwReserved2 = 0; // unused
-            this.dwSize = 0x7C; // always const, unless stated otherwise
+            for (int _loop_ = 0; _loop_ < 11; ++_loop_) dwReserved1[_loop_] = 0; // unused
+            dwCaps2 = 0; // usually it is not a 3D texture
+            dwCaps3 = 0; // unused
+            dwCaps4 = 0; // unused
+            dwReserved2 = 0; // unused
+            dwSize = 0x7C; // always const, unless stated otherwise
         }
         /* Default destructor  */ ~DDS_HEADER() { }
     }

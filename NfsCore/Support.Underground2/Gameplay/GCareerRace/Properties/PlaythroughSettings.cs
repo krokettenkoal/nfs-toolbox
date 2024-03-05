@@ -5,82 +5,79 @@ using NfsCore.Reflection.Enum;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCareerRace
-	{
-		private string _intro_movie = BaseArguments.NULL;
-		private string _outro_movie = BaseArguments.NULL;
-		private string _gps_destination = BaseArguments.NULL;
+    public partial class GCareerRace
+    {
+        private string _introMovie = BaseArguments.NULL;
+        private string _outroMovie = BaseArguments.NULL;
+        private string _gpsDestination = BaseArguments.NULL;
 
-		[AccessModifiable()]
-		public string IntroMovie
-		{
-			get => this._intro_movie;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._intro_movie = value;
-			}
-		}
+        [AccessModifiable]
+        public string IntroMovie
+        {
+            get => _introMovie;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _introMovie = value;
+            }
+        }
 
-		[AccessModifiable()]
-		public string OutroMovie
-		{
-			get => this._outro_movie;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._outro_movie = value;
-			}
-		}
+        [AccessModifiable]
+        public string OutroMovie
+        {
+            get => _outroMovie;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _outroMovie = value;
+            }
+        }
 
-		[AccessModifiable()]
-		public byte NumMapItems { get; set; }
+        [AccessModifiable] public byte NumMapItems { get; set; }
 
-		[AccessModifiable()]
-		public byte Unknown0x3A { get; set; }
+        [AccessModifiable] public byte Unknown0x3A { get; set; }
 
-		[AccessModifiable()]
-		public byte Unknown0x3B { get; set; }
+        [AccessModifiable] public byte Unknown0x3B { get; set; }
 
-		[AccessModifiable()]
-		public string GPSDestination
-		{
-			get => this._gps_destination;
-			set
-			{
-				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._gps_destination = value;
-			}
-		}
+        [AccessModifiable]
+        public string GPSDestination
+        {
+            get => _gpsDestination;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _gpsDestination = value;
+            }
+        }
 
-		private eDriftType DriftTypeIfDriftRace
-		{
-			get
-			{
-				if (this.EventBehaviorType != eEventBehaviorType.Drift)
-					return eDriftType.VS_AI;
+        private eDriftType DriftTypeIfDriftRace
+        {
+            get
+            {
+                if (EventBehaviorType != eEventBehaviorType.Drift)
+                    return eDriftType.VS_AI;
 
-				var track1 = this.Database.Tracks.FindCollection($"Track_{this.TrackID_Stage1}");
-				var track2 = this.Database.Tracks.FindCollection($"Track_{this.TrackID_Stage2}");
-				var track3 = this.Database.Tracks.FindCollection($"Track_{this.TrackID_Stage3}");
-				var track4 = this.Database.Tracks.FindCollection($"Track_{this.TrackID_Stage4}");
+                var track1 = Database.Tracks.FindCollection($"Track_{TrackID_Stage1}");
+                var track2 = Database.Tracks.FindCollection($"Track_{TrackID_Stage2}");
+                var track3 = Database.Tracks.FindCollection($"Track_{TrackID_Stage3}");
+                var track4 = Database.Tracks.FindCollection($"Track_{TrackID_Stage4}");
 
-				var drift1 = (track1 != null) ? track1.DriftType : eDriftType.VS_AI;
-				var drift2 = (track2 != null) ? track2.DriftType : eDriftType.VS_AI;
-				var drift3 = (track3 != null) ? track3.DriftType : eDriftType.VS_AI;
-				var drift4 = (track4 != null) ? track4.DriftType : eDriftType.VS_AI;
+                var drift1 = track1?.DriftType ?? eDriftType.VS_AI;
+                var drift2 = track2?.DriftType ?? eDriftType.VS_AI;
+                var drift3 = track3?.DriftType ?? eDriftType.VS_AI;
+                var drift4 = track4?.DriftType ?? eDriftType.VS_AI;
 
-				if (drift1 == eDriftType.DOWNHILL ||
-					drift2 == eDriftType.DOWNHILL ||
-					drift3 == eDriftType.DOWNHILL ||
-					drift4 == eDriftType.DOWNHILL)
-					return eDriftType.DOWNHILL;
-				else
-					return eDriftType.VS_AI;
-			}
-		}
-	}
+                if (drift1 == eDriftType.DOWNHILL ||
+                    drift2 == eDriftType.DOWNHILL ||
+                    drift3 == eDriftType.DOWNHILL ||
+                    drift4 == eDriftType.DOWNHILL)
+                    return eDriftType.DOWNHILL;
+
+                return eDriftType.VS_AI;
+            }
+        }
+    }
 }

@@ -9,53 +9,54 @@ namespace NfsCore.Support.MostWanted.Class
     {
         protected override unsafe void Disassemble(byte[] data)
         {
-            this._DATA = new byte[data.Length];
-            Buffer.BlockCopy(data, 0, this._DATA, 0, data.Length);
+            _data = new byte[data.Length];
+            Buffer.BlockCopy(data, 0, _data, 0, data.Length);
 
-            fixed (byte* byteptr_t = &this._DATA[0])
+            fixed (byte* bytePtrT = &_data[0])
             {
-                this.Size = *(uint*)(byteptr_t + 4);
+                Size = *(uint*) (bytePtrT + 4);
 
                 // For some reason HUFF compression has the same ID as FEng files
-                if (*(uint*)(byteptr_t + 8) == 0x46465548)
+                if (*(uint*) (bytePtrT + 8) == 0x46465548)
                 {
-                    this.Destroy = true;
+                    Destroy = true;
                     return;
                 }
 
                 // Read CollectionName
-                this.CollectionName = ScriptX.NullTerminatedString(byteptr_t + 0x30, this._DATA.Length - 0x30);
-                if (this.CollectionName.EndsWith(".fng"))
-                    this.CollectionName = FormatX.GetString(this.CollectionName, "{X}.fng");
+                CollectionName = ScriptX.NullTerminatedString(bytePtrT + 0x30, _data.Length - 0x30);
+                if (CollectionName.EndsWith(".fng"))
+                    CollectionName = FormatX.GetString(CollectionName, "{X}.fng");
 
-                for (uint offset = 0x30; offset < this._DATA.Length; offset += 4)
+                for (uint offset = 0x30; offset < _data.Length; offset += 4)
                 {
-                    byte b1 = *(byteptr_t + offset);
-                    byte b2 = *(byteptr_t + offset + 1);
-                    byte b3 = *(byteptr_t + offset + 2);
-                    byte b4 = *(byteptr_t + offset + 3);
+                    var b1 = *(bytePtrT + offset);
+                    var b2 = *(bytePtrT + offset + 1);
+                    var b3 = *(bytePtrT + offset + 2);
+                    var b4 = *(bytePtrT + offset + 3);
 
                     // SAT, SAD, SA(0x90) or 1111
-                    if ((b1 == 'S' && b2 == 'A') || (b1 == 0xFF && b2 == 0xFF && b3 == 0xFF && b4 == 0xFF))
-                    {
-                        uint Blue = *(uint*)(byteptr_t + offset + 4);
-                        uint Green = *(uint*)(byteptr_t + offset + 8);
-                        uint Red = *(uint*)(byteptr_t + offset + 12);
-                        uint Alpha = *(uint*)(byteptr_t + offset + 16);
+                    if ((b1 != 'S' || b2 != 'A') && (b1 != 0xFF || b2 != 0xFF || b3 != 0xFF || b4 != 0xFF)) continue;
+                    var blueVal = *(uint*) (bytePtrT + offset + 4);
+                    var greenVal = *(uint*) (bytePtrT + offset + 8);
+                    var redVal = *(uint*) (bytePtrT + offset + 12);
+                    var alphaVal = *(uint*) (bytePtrT + offset + 16);
 
-                        // If it is a color, add to the list
-                        if (Resolve.IsColor(Alpha, Red, Green, Blue))
+                    // If it is a color, add to the list
+                    if (Resolve.IsColor(alphaVal, redVal, greenVal, blueVal))
+                    {
+                        var tempColor = new FEngColor(this)
                         {
-                            var TempColor = new FEngColor(this);
-                            TempColor.Offset = offset;
-                            TempColor.Alpha = (byte)Alpha;
-                            TempColor.Red = (byte)Red;
-                            TempColor.Green = (byte)Green;
-                            TempColor.Blue = (byte)Blue;
-                            this._colorinfo.Add(TempColor);
-                        }
-                        offset += 0x14;
+                            Offset = offset,
+                            Alpha = (byte) alphaVal,
+                            Red = (byte) redVal,
+                            Green = (byte) greenVal,
+                            Blue = (byte) blueVal
+                        };
+                        ColorInfo.Add(tempColor);
                     }
+
+                    offset += 0x14;
                 }
             }
         }

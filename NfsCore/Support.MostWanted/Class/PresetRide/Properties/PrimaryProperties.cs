@@ -4,9 +4,9 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private byte[] data;
-        private uint _Frontend_Hash = 0;
-        private uint _Pvehicle_Hash = 0;
+        private readonly byte[] _data;
+        private uint _frontendHash;
+        private uint _pvehicleHash;
 
         /// <summary>
         /// Provides info on whether this preset ride already exists in Global data.
@@ -21,13 +21,13 @@ namespace NfsCore.Support.MostWanted.Class
         /// <summary>
         /// Represents frontend name of the preset ride.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public override string Frontend { get => base.Frontend; set => base.Frontend = value; }
 
         /// <summary>
         /// Represents pvehicle name of the preset ride.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public override string Pvehicle { get => base.Pvehicle; set => base.Pvehicle = value; }
     }
 }

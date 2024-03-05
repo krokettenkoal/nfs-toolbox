@@ -6,35 +6,27 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private sbyte _aftermarket_bodykit = 0;
+        private sbyte _aftermarketBodyKit;
 
         /// <summary>
         /// Aftermarket bodykit value of the preset ride. Range: 0-5, NULL.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string AftermarketBodykit
         {
-            get
-            {
-                if (this._aftermarket_bodykit == -1)
-                    return BaseArguments.NULL;
-                else
-                    return this._aftermarket_bodykit.ToString();
-            }
+            get => _aftermarketBodyKit == -1 ? BaseArguments.NULL : _aftermarketBodyKit.ToString();
             set
             {
                 if (value == BaseArguments.NULL)
-                    this._aftermarket_bodykit = -1;
+                    _aftermarketBodyKit = -1;
                 else
                 {
-                    if (!byte.TryParse(value, out byte result) || result > 5)
-                        throw new ArgumentOutOfRangeException("This value should be in range 0 to 5, or NULL.");
-                    else
-                    {
-                        this._aftermarket_bodykit = (sbyte)result;
-                    }
-                    this.Modified = true;
+                    if (!byte.TryParse(value, out var result) || result > 5)
+                        throw new ArgumentOutOfRangeException(nameof(value),
+                            "This value should be in range 0 to 5, or NULL.");
+                    _aftermarketBodyKit = (sbyte) result;
+                    Modified = true;
                 }
             }
         }

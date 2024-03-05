@@ -2,15 +2,15 @@
 {
     internal interface IOperative
     {
-        bool TryAddCollection(string CName, string root);
-        bool TryAddCollection(string CName, string root, out string error);
-        bool TryRemoveCollection(string CName, string root);
-        bool TryRemoveCollection(string CName, string root, out string error);
-        bool TryCloneCollection(string newname, string copyfrom, string root);
-        bool TryCloneCollection(string newname, string copyfrom, string root, out string error);
+        bool TryAddCollection(string collectionName, string root);
+        bool TryAddCollection(string collectionName, string root, out string error);
+        bool TryRemoveCollection(string collectionName, string root);
+        bool TryRemoveCollection(string collectionName, string root, out string error);
+        bool TryCloneCollection(string newName, string copyFrom, string root);
+        bool TryCloneCollection(string newName, string copyFrom, string root, out string error);
         bool TryImportCollection(string root, string filepath);
         bool TryImportCollection(string root, string filepath, out string error);
-        bool TryExportCollection(string CName, string root, string filepath);
-        bool TryExportCollection(string CName, string root, string filepath, out string error);
+        bool TryExportCollection(string collectionName, string root, string filepath);
+        bool TryExportCollection(string collectionName, string root, string filepath, out string error);
     }
 }

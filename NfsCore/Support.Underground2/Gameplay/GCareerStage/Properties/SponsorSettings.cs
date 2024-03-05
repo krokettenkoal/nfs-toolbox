@@ -6,69 +6,69 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class GCareerStage
 	{
-		private string _stage_sponsor1 = BaseArguments.NULL;
-		private string _stage_sponsor2 = BaseArguments.NULL;
-		private string _stage_sponsor3 = BaseArguments.NULL;
-		private string _stage_sponsor4 = BaseArguments.NULL;
-		private string _stage_sponsor5 = BaseArguments.NULL;
+		private string _stageSponsor1 = BaseArguments.NULL;
+		private string _stageSponsor2 = BaseArguments.NULL;
+		private string _stageSponsor3 = BaseArguments.NULL;
+		private string _stageSponsor4 = BaseArguments.NULL;
+		private string _stageSponsor5 = BaseArguments.NULL;
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string StageSponsor1
 		{
-			get => this._stage_sponsor1;
+			get => _stageSponsor1;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._stage_sponsor1 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_stageSponsor1 = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string StageSponsor2
 		{
-			get => this._stage_sponsor2;
+			get => _stageSponsor2;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._stage_sponsor2 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_stageSponsor2 = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string StageSponsor3
 		{
-			get => this._stage_sponsor3;
+			get => _stageSponsor3;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._stage_sponsor3 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_stageSponsor3 = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string StageSponsor4
 		{
-			get => this._stage_sponsor4;
+			get => _stageSponsor4;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._stage_sponsor4 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_stageSponsor4 = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string StageSponsor5
 		{
-			get => this._stage_sponsor5;
+			get => _stageSponsor5;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._stage_sponsor5 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_stageSponsor5 = value;
 			}
 		}
 	}

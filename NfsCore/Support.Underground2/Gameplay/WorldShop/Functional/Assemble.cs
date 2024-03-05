@@ -4,35 +4,35 @@ using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class WorldShop
-	{
-		public unsafe void Assemble(byte* byteptr_t, MemoryWriter mw)
-		{
-			mw.WriteNullTerminated(this._collection_name);
-			mw.WriteNullTerminated(this._shop_filename);
-			mw.WriteNullTerminated(this._shop_trigger);
+    public partial class WorldShop
+    {
+        public unsafe void Assemble(byte* bytePtrT, MemoryWriter mw)
+        {
+            mw.WriteNullTerminated(CollName);
+            mw.WriteNullTerminated(_shopFilename);
+            mw.WriteNullTerminated(_shopTrigger);
 
-			for (int a1 = 0; a1 < this._collection_name.Length; ++a1)
-				*(byteptr_t + a1) = (byte)this._collection_name[a1];
+            for (var a1 = 0; a1 < CollName.Length; ++a1)
+                *(bytePtrT + a1) = (byte) CollName[a1];
 
-			if (this._intro_movie != BaseArguments.NULL)
-			{
-				mw.WriteNullTerminated(this.IntroMovie);
-				for (int a1 = 0; a1 < this.IntroMovie.Length; ++a1)
-					*(byteptr_t + 0x20 + a1) = (byte)this.IntroMovie[a1];
-			}
+            if (_introMovie != BaseArguments.NULL)
+            {
+                mw.WriteNullTerminated(IntroMovie);
+                for (var a1 = 0; a1 < IntroMovie.Length; ++a1)
+                    *(bytePtrT + 0x20 + a1) = (byte) IntroMovie[a1];
+            }
 
-			*(uint*)(byteptr_t + 0x38) = this.BinKey;
-			*(uint*)(byteptr_t + 0x3C) = Bin.SmartHash(this._shop_trigger);
+            *(uint*) (bytePtrT + 0x38) = BinKey;
+            *(uint*) (bytePtrT + 0x3C) = Bin.SmartHash(_shopTrigger);
 
-			for (int a1 = 0; a1 < this._shop_filename.Length; ++a1)
-				*(byteptr_t + 0x40 + a1) = (byte)this._shop_filename[a1];
+            for (var a1 = 0; a1 < _shopFilename.Length; ++a1)
+                *(bytePtrT + 0x40 + a1) = (byte) _shopFilename[a1];
 
-			*(byteptr_t + 0x50) = (byte)this.ShopType;
-			*(byteptr_t + 0x51) = (this.InitiallyHidden == eBoolean.True) ? (byte)1 : (byte)0;
-			*(uint*)(byteptr_t + 0x74) = Bin.SmartHash(this._event_to_complete);
-			*(byteptr_t + 0x9C) = (byte)this.RequiresEventCompleted;
-			*(byteptr_t + 0x9D) = this.BelongsToStage;
-		}
-	}
+            *(bytePtrT + 0x50) = (byte) ShopType;
+            *(bytePtrT + 0x51) = InitiallyHidden == eBoolean.True ? (byte) 1 : (byte) 0;
+            *(uint*) (bytePtrT + 0x74) = Bin.SmartHash(_eventToComplete);
+            *(bytePtrT + 0x9C) = (byte) RequiresEventCompleted;
+            *(bytePtrT + 0x9D) = BelongsToStage;
+        }
+    }
 }

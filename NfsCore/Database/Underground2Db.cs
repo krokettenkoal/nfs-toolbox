@@ -16,27 +16,26 @@ namespace NfsCore.Database
 
         #region Properties
     
-        public Root<Material> Materials { get; set; }
-        public Root<CarTypeInfo> CarTypeInfos { get; set; }
-        public Root<PresetRide> PresetRides { get; set; }
-        public Root<SunInfo> SunInfos { get; set; }
-        public Root<Track> Tracks { get; set; }
-        public Root<GCareerRace> GCareerRaces { get; set; }
-        public Root<WorldShop> WorldShops { get; set; }
-        public Root<GCareerBrand> GCareerBrands { get; set; }
-        public Root<PartPerformance> PartPerformances { get; set; }
-        public Root<GShowcase> GShowcases { get; set; }
-        public Root<SMSMessage> SMSMessages { get; set; }
-        public Root<Sponsor> Sponsors { get; set; }
-        public Root<GCareerStage> GCareerStages { get; set; }
-        public Root<PerfSliderTuning> PerfSliderTunings { get; set; }
-        public Root<WorldChallenge> WorldChallenges { get; set; }
-        public Root<PartUnlockable> PartUnlockables { get; set; }
-        public Root<BankTrigger> BankTriggers { get; set; }
-        public Root<GCarUnlock> GCarUnlocks { get; set; }
-        public Root<AcidEffect> AcidEffects { get; set; }
-
-        public SlotType SlotTypes { get; set; }
+        public Root<Material> Materials { get; private set; }
+        public Root<CarTypeInfo> CarTypeInfos { get; private set; }
+        public Root<PresetRide> PresetRides { get; private set; }
+        public Root<SunInfo> SunInfos { get; private set; }
+        public Root<Track> Tracks { get; private set; }
+        public Root<GCareerRace> GCareerRaces { get; private set; }
+        public Root<WorldShop> WorldShops { get; private set; }
+        public Root<GCareerBrand> GCareerBrands { get; private set; }
+        public Root<PartPerformance> PartPerformances { get; private set; }
+        public Root<GShowcase> GShowcases { get; private set; }
+        public Root<SmsMessage> SMSMessages { get; private set; }
+        public Root<Sponsor> Sponsors { get; private set; }
+        public Root<GCareerStage> GCareerStages { get; private set; }
+        public Root<PerfSliderTuning> PerfSliderTunings { get; private set; }
+        public Root<WorldChallenge> WorldChallenges { get; private set; }
+        public Root<PartUnlockable> PartUnlockables { get; private set; }
+        public Root<BankTrigger> BankTriggers { get; private set; }
+        public Root<GCarUnlock> GCarUnlocks { get; private set; }
+        public Root<AcidEffect> AcidEffects { get; private set; }
+        public SlotType SlotTypes { get; private set; }
 
         #endregion
 
@@ -152,7 +151,7 @@ namespace NfsCore.Database
                 this
             );
 
-            SMSMessages = new Root<SMSMessage>
+            SMSMessages = new Root<SmsMessage>
             (
                 "SMSMessages",
                 -1,
@@ -288,7 +287,7 @@ namespace NfsCore.Database
         /// <summary>
         /// Throws <see cref="NotImplementedException"/>.
         /// </summary>
-        public override bool TryAddCollision(string CName, string filename, out string error)
+        public override bool TryAddCollision(string collectionName, string filename, out string error)
         {
             throw new NotImplementedException("Import of collisions is not supported for Underground 2");
         }

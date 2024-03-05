@@ -6,120 +6,120 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class PartPerformance
 	{
-		private string _perf_brand_1 = BaseArguments.NULL;
-		private string _perf_brand_2 = BaseArguments.NULL;
-		private string _perf_brand_3 = BaseArguments.NULL;
-		private string _perf_brand_4 = BaseArguments.NULL;
-		private string _perf_brand_5 = BaseArguments.NULL;
-		private string _perf_brand_6 = BaseArguments.NULL;
-		private string _perf_brand_7 = BaseArguments.NULL;
-		private string _perf_brand_8 = BaseArguments.NULL;
+		private string _perfBrand1 = BaseArguments.NULL;
+		private string _perfBrand2 = BaseArguments.NULL;
+		private string _perfBrand3 = BaseArguments.NULL;
+		private string _perfBrand4 = BaseArguments.NULL;
+		private string _perfBrand5 = BaseArguments.NULL;
+		private string _perfBrand6 = BaseArguments.NULL;
+		private string _perfBrand7 = BaseArguments.NULL;
+		private string _perfBrand8 = BaseArguments.NULL;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public int NumberOfBrands { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand1
 		{
-			get => this._perf_brand_1;
+			get => _perfBrand1;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_1 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand1 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand2
 		{
-			get => this._perf_brand_2;
+			get => _perfBrand2;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_2 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand2 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand3
 		{
-			get => this._perf_brand_3;
+			get => _perfBrand3;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_3 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand3 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand4
 		{
-			get => this._perf_brand_4;
+			get => _perfBrand4;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_4 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand4 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand5
 		{
-			get => this._perf_brand_5;
+			get => _perfBrand5;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_5 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand5 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand6
 		{
-			get => this._perf_brand_6;
+			get => _perfBrand6;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_6 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand6 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand7
 		{
-			get => this._perf_brand_7;
+			get => _perfBrand7;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_7 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand7 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public string PerfPartBrand8
 		{
-			get => this._perf_brand_8;
+			get => _perfBrand8;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._perf_brand_8 = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_perfBrand8 = value;
 			}
 		}
 	}

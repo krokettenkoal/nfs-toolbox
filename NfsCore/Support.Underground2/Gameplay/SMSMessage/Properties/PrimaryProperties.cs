@@ -4,35 +4,34 @@ using NfsCore.Reflection.Attributes;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class SMSMessage
+	public partial class SmsMessage
 	{
-		private string _message_label = BaseArguments.NULL;
+		private string _messageLabel = BaseArguments.NULL;
+		private byte _b0X02;
+		private byte _b0X03;
+		private byte _b0X04;
+		private byte _b0X05;
+		private byte _b0X06;
+		private byte _b0X07;
+		private byte _b0X08;
+		private byte _b0X09;
+		private byte _b0X0A;
+		private byte _b0X0B;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public int CashValue { get; set; }
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string MessageSenderLabel
 		{
-			get => this._message_label;
+			get => _messageLabel;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._message_label = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_messageLabel = value;
 			}
 		}
-
-		private byte b0x02;
-		private byte b0x03;
-		private byte b0x04;
-		private byte b0x05;
-		private byte b0x06;
-		private byte b0x07;
-		private byte b0x08;
-		private byte b0x09;
-		private byte b0x0A;
-		private byte b0x0B;
 	}
 }

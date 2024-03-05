@@ -14,7 +14,9 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public float DriftAdditionalYawControl7 { get; set; } = 0.05F;
         public float DriftAdditionalYawControl8 { get; set; } = 0.05F;
 
-        public DriftControl() { }
+        public DriftControl()
+        {
+        }
 
         /// <summary>
         /// Creates a plain copy of the objects that contains same values.
@@ -23,13 +25,14 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public DriftControl PlainCopy()
         {
             var result = new DriftControl();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

@@ -8,8 +8,8 @@
         // Default constructor: disassemble frontend group
         public FNGroup(byte[] data, Database.Underground1Db db)
         {
-            this.Database = db;
-            this.Disassemble(data);
+            Database = db;
+            Disassemble(data);
         }
 
         ~FNGroup() { }

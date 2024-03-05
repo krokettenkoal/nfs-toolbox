@@ -3,25 +3,24 @@ using NfsCore.Reflection.Attributes;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-        private byte _exhaust_style = 0;
+    public partial class PresetRide
+    {
+        private byte _exhaustStyle;
 
         /// <summary>
         /// Exhaust style value of the preset ride. Range: 0-10.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte ExhaustStyle
         {
-            get => this._exhaust_style;
+            get => _exhaustStyle;
             set
             {
                 if (value > 10)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 10.");
-                else
-                    this._exhaust_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 10.");
+                _exhaustStyle = value;
+                Modified = true;
             }
         }
     }

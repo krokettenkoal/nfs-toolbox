@@ -16,16 +16,15 @@ namespace NfsCore.Support.Underground2.Class
         public override unsafe void Reload(string filename)
         {
             var data = File.ReadAllBytes(filename);
-            byte[] cdata;
-            fixed (byte* byteptr_t = &data[0])
+            fixed (byte* bytePtrT = &data[0])
             {
-                Height = (short)*(uint*)(byteptr_t + 0xC);
-                Width = (short)*(uint*)(byteptr_t + 0x10);
-                Mipmaps = (byte)*(uint*)(byteptr_t + 0x1C);
-                if (*(uint*)(byteptr_t + 0x50) == DDS_TYPE.RGBA)
+                Height = (short) *(uint*) (bytePtrT + 0xC);
+                Width = (short) *(uint*) (bytePtrT + 0x10);
+                Mipmaps = (byte) *(uint*) (bytePtrT + 0x1C);
+                if (*(uint*) (bytePtrT + 0x50) == DDS_TYPE.RGBA)
                 {
-                    cdata = Palette.RGBAtoP8(data);
-                    if (cdata == null)
+                    var cData = Palette.RGBAtoP8(data);
+                    if (cData == null)
                     {
                         CompressionId = EAComp.RGBA_08;
                         _area = Width * Height * 4;
@@ -40,13 +39,13 @@ namespace NfsCore.Support.Underground2.Class
                         _area = Width * Height * 4;
                         Size = (data.Length - 0x80) / 4;
                         PaletteSize = 0x400;
-                        Data = new byte[cdata.Length];
-                        Buffer.BlockCopy(cdata, 0, Data, 0, Size + PaletteSize);
+                        Data = new byte[cData.Length];
+                        Buffer.BlockCopy(cData, 0, Data, 0, Size + PaletteSize);
                     }
                 }
                 else
                 {
-                    CompressionId = Comp.GetByte(*(uint*)(byteptr_t + 0x54));
+                    CompressionId = Comp.GetByte(*(uint*) (bytePtrT + 0x54));
                     Size = data.Length - 0x80;
                     _area = Comp.FlipToBase(Size);
                     Data = new byte[Size];
@@ -54,7 +53,7 @@ namespace NfsCore.Support.Underground2.Class
                 }
 
                 // Default palette
-                _num_palettes = (short)(PaletteSize / 4);
+                _numPalettes = (short) (PaletteSize / 4);
             }
         }
     }

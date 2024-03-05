@@ -14,30 +14,35 @@ namespace NfsCore.Support.Underground2
         /// <param name="bw">BinaryWriter for writing data.</param>
         private static void I_SlotType(Database.Underground2Db db, BinaryWriter bw)
         {
-            var SetList = new List<CarSpoilMirrType>();
+            var setList = new List<CarSpoilMirrType>();
 
-			// Get all cartypeinfos with non-base spoilers and mirrors
-			foreach (var car in db.CarTypeInfos.Collections)
-			{
-				if (car.Spoiler != eSpoiler.SPOILER)
-				{
-					var add = new CarSpoilMirrType();
-					add.CarTypeInfo = car.CollectionName;
-					add.Spoiler = car.Spoiler;
-					add.SpoilerNoMirror = true;
-					SetList.Add(add);
-				}
-				if (car.Mirrors != eMirrorTypes.MIRRORS)
-				{
-					var add = new CarSpoilMirrType();
-					add.CarTypeInfo = car.CollectionName;
-					add.Mirrors = car.Mirrors;
-					add.SpoilerNoMirror = false;
-					SetList.Add(add);
-				}
-			}
+            // Get all cartypeinfos with non-base spoilers and mirrors
+            foreach (var car in db.CarTypeInfos.Collections)
+            {
+                if (car.Spoiler != eSpoiler.SPOILER)
+                {
+                    var add = new CarSpoilMirrType
+                    {
+                        CarTypeInfo = car.CollectionName,
+                        Spoiler = car.Spoiler,
+                        SpoilerNoMirror = true
+                    };
+                    setList.Add(add);
+                }
 
-			bw.Write(db.SlotTypes.SpoilMirrs.SetSpoilMirrs(SetList));
+                if (car.Mirrors == eMirrorTypes.MIRRORS) continue;
+                {
+                    var add = new CarSpoilMirrType
+                    {
+                        CarTypeInfo = car.CollectionName,
+                        Mirrors = car.Mirrors,
+                        SpoilerNoMirror = false
+                    };
+                    setList.Add(add);
+                }
+            }
+
+            bw.Write(db.SlotTypes.SpoilMirrs.SetSpoilMirrs(setList));
         }
     }
 }

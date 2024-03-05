@@ -14,8 +14,8 @@ namespace NfsCore.Database
         /// </summary>
         public override GameINT GameINT => GameINT.Underground1;
 
-        public Root<Material> Materials { get; set; }
-        public Root<SunInfo> SunInfos { get; set; }
+        public Root<Material> Materials { get; private set; }
+        public Root<SunInfo> SunInfos { get; private set; }
 
         public Underground1Db()
         {
@@ -54,11 +54,11 @@ namespace NfsCore.Database
             TPKBlocks = null;
             STRBlocks = null;
         }
-        
+
         /// <summary>
         /// Throws <see cref="NotImplementedException"/>.
         /// </summary>
-        public override bool TryAddCollision(string CName, string filename, out string error)
+        public override bool TryAddCollision(string collectionName, string filename, out string error)
         {
             throw new NotImplementedException("Import of collisions is not supported for Underground 1");
         }

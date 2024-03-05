@@ -2,15 +2,12 @@
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-		private bool ValidateSpinning()
-		{
-			string rim = $"{this._rim_brand}_STYLE{this._rim_style:00}_{this._rim_size}_{this._rim_outer_max}_SPI";
-			if (Map.RimBrands.Contains(rim))
-				return true;
-			else
-				return false;
-		}
-	}
+    public partial class PresetRide
+    {
+        private bool ValidateSpinning()
+        {
+            var rim = $"{_rimBrand}_STYLE{_rimStyle:00}_{_rimSize}_{_rimOuterMax}_SPI";
+            return Map.RimBrands.Contains(rim);
+        }
+    }
 }

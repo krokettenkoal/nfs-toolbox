@@ -4,64 +4,63 @@ using NfsCore.Reflection.Enum;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class PartUnlockable
-	{
-		private unsafe void Disassemble(byte* byteptr_t)
-		{
-			uint key = 0;
-			string show = string.Empty;
+    public partial class PartUnlockable
+    {
+        private unsafe void Disassemble(byte* bytePtrT)
+        {
+            uint key;
 
-			// CollectionName
-			this._collection_name = this.GetValidCollectionName(*(int*)byteptr_t);
+            // CollectionName
+            CollName = GetValidCollectionName(*(int*) bytePtrT);
 
-			// Visual Ratings
-			this.VisualRating_Level1 = (float)(((float)*(short*)(byteptr_t + 0x04)) * 0.002);
-			this.VisualRating_Level2 = (float)(((float)*(short*)(byteptr_t + 0x10)) * 0.002);
-			this.VisualRating_Level3 = (float)(((float)*(short*)(byteptr_t + 0x1C)) * 0.002);
+            // Visual Ratings
+            VisualRating_Level1 = (float) ((float) *(short*) (bytePtrT + 0x04) * 0.002);
+            VisualRating_Level2 = (float) ((float) *(short*) (bytePtrT + 0x10) * 0.002);
+            VisualRating_Level3 = (float) ((float) *(short*) (bytePtrT + 0x1C) * 0.002);
 
-			// Part Prices
-			this.PartPrice_Level1 = *(short*)(byteptr_t + 0x06);
-			this.PartPrice_Level2 = *(short*)(byteptr_t + 0x12);
-			this.PartPrice_Level3 = *(short*)(byteptr_t + 0x1E);
+            // Part Prices
+            PartPrice_Level1 = *(short*) (bytePtrT + 0x06);
+            PartPrice_Level2 = *(short*) (bytePtrT + 0x12);
+            PartPrice_Level3 = *(short*) (bytePtrT + 0x1E);
 
-			// Required Stages Done
-			this._unlock_method_level1 = (ePartUnlockReq)(*(byteptr_t + 0x08));
-			this._unlock_method_level2 = (ePartUnlockReq)(*(byteptr_t + 0x14));
-			this._unlock_method_level3 = (ePartUnlockReq)(*(byteptr_t + 0x20));
+            // Required Stages Done
+            _unlockMethodLevel1 = (ePartUnlockReq) (*(bytePtrT + 0x08));
+            _unlockMethodLevel2 = (ePartUnlockReq) (*(bytePtrT + 0x14));
+            _unlockMethodLevel3 = (ePartUnlockReq) (*(bytePtrT + 0x20));
 
-			// Unlocking Requirements
-			if (this._unlock_method_level1 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
-			{
-				key = *(uint*)(byteptr_t + 0x0C);
-				this.UnlocksInShop_Level1 = Map.Lookup(key, true) ?? BaseArguments.NULL;
-			}
-			else
-			{
-				this.RequiredRacesWon_Level1 = *(byteptr_t + 0x0C);
-				this.BelongsToStage_Level1 = *(byteptr_t + 0x0E);
-			}
+            // Unlocking Requirements
+            if (_unlockMethodLevel1 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
+            {
+                key = *(uint*) (bytePtrT + 0x0C);
+                UnlocksInShop_Level1 = Map.Lookup(key, true) ?? BaseArguments.NULL;
+            }
+            else
+            {
+                RequiredRacesWon_Level1 = *(bytePtrT + 0x0C);
+                BelongsToStage_Level1 = *(bytePtrT + 0x0E);
+            }
 
-			if (this._unlock_method_level2 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
-			{
-				key = *(uint*)(byteptr_t + 0x18);
-				this.UnlocksInShop_Level2 = Map.Lookup(key, true) ?? BaseArguments.NULL;
-			}
-			else
-			{
-				this.RequiredRacesWon_Level2 = *(byteptr_t + 0x18);
-				this.BelongsToStage_Level2 = *(byteptr_t + 0x1A);
-			}
+            if (_unlockMethodLevel2 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
+            {
+                key = *(uint*) (bytePtrT + 0x18);
+                UnlocksInShop_Level2 = Map.Lookup(key, true) ?? BaseArguments.NULL;
+            }
+            else
+            {
+                RequiredRacesWon_Level2 = *(bytePtrT + 0x18);
+                BelongsToStage_Level2 = *(bytePtrT + 0x1A);
+            }
 
-			if (this._unlock_method_level3 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
-			{
-				key = *(uint*)(byteptr_t + 0x24);
-				this.UnlocksInShop_Level3 = Map.Lookup(key, true) ?? BaseArguments.NULL;
-			}
-			else
-			{
-				this.RequiredRacesWon_Level3 = *(byteptr_t + 0x24);
-				this.BelongsToStage_Level3 = *(byteptr_t + 0x26);
-			}
-		}
-	}
+            if (_unlockMethodLevel3 == ePartUnlockReq.SPECIFIC_SHOP_FOUND)
+            {
+                key = *(uint*) (bytePtrT + 0x24);
+                UnlocksInShop_Level3 = Map.Lookup(key, true) ?? BaseArguments.NULL;
+            }
+            else
+            {
+                RequiredRacesWon_Level3 = *(bytePtrT + 0x24);
+                BelongsToStage_Level3 = *(bytePtrT + 0x26);
+            }
+        }
+    }
 }

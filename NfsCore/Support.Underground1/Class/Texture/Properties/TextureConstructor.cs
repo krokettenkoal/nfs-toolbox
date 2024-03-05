@@ -1,58 +1,58 @@
-﻿using NfsCore.Utils;
-
-namespace NfsCore.Support.Underground1.Class
+﻿namespace NfsCore.Support.Underground1.Class
 {
     public partial class Texture : Shared.Class.Texture
     {
-        public Texture() { }
+        public Texture()
+        {
+        }
 
         // Default constructor: create new texture for memory cast
-        public Texture(string CName, string _TPK, Database.Underground1Db db)
+        public Texture(string collectionName, string parentTpk, Database.Underground1Db db)
         {
             Database = db;
-            _collectionName = CName;
-            _parent_TPK = _TPK;
-            BinKey = Bin.Hash(CName);
+            CollName = collectionName;
+            ParentTpkName = parentTpk;
             PaletteOffset = 0;
             _padding = 1;
         }
 
         // Default constructor: create new texture from file.
-        public Texture(string CName, string _TPK, string filename, Database.Underground1Db db)
+        public Texture(string collectionName, string parentTpk, string filename, Database.Underground1Db db)
         {
             Database = db;
-            _collectionName = CName;
-            _parent_TPK = _TPK;
-            BinKey = Bin.Hash(CName);
+            CollName = collectionName;
+            ParentTpkName = parentTpk;
             PaletteOffset = 0;
             _padding = 1;
             Initialize(filename);
         }
 
         // Default constructor: disassemble texture
-        public unsafe Texture(byte* byteptr_t, int offset, int size, string _TPK, Database.Underground1Db db)
+        public unsafe Texture(byte* bytePtrT, int offset, int size, string parentTpk, Database.Underground1Db db)
         {
             Database = db;
-            _located_at = offset;
-            _size_of_block = size;
-            _parent_TPK = _TPK;
+            HeaderLocationOffset = offset;
+            HeaderBlockSize = size;
+            ParentTpkName = parentTpk;
             PaletteOffset = 0;
             _padding = 1;
-            Disassemble(byteptr_t + _located_at);
+            Disassemble(bytePtrT + HeaderLocationOffset);
         }
 
         // Default constructor: disassemble texture
-        public unsafe Texture(byte* byteptr_t, uint offset, uint size, string _TPK, Database.Underground1Db db)
+        public unsafe Texture(byte* bytePtrT, uint offset, uint size, string parentTpk, Database.Underground1Db db)
         {
             Database = db;
-            _located_at = (int)offset;
-            _size_of_block = (int)size;
-            _parent_TPK = _TPK;
+            HeaderLocationOffset = (int) offset;
+            HeaderBlockSize = (int) size;
+            ParentTpkName = parentTpk;
             PaletteOffset = 0;
             _padding = 1;
-            Disassemble(byteptr_t + _located_at);
+            Disassemble(bytePtrT + HeaderLocationOffset);
         }
 
-        ~Texture() { }
+        ~Texture()
+        {
+        }
     }
 }

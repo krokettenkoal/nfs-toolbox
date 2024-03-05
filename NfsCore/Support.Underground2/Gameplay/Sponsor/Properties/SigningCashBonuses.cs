@@ -4,16 +4,16 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class Sponsor
 	{
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short CashValuePerWin { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short SignCashBonus { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short PotentialCashBonus { get; set; }
 	}
 }

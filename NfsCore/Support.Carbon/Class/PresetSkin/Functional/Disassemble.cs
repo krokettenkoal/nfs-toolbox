@@ -10,49 +10,47 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Disassembles preset skin array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the preset skin array.</param>
-        protected override unsafe void Disassemble(byte* byteptr_t)
+        /// <param name="bytePtrT">Pointer to the preset skin array.</param>
+        protected override unsafe void Disassemble(byte* bytePtrT)
         {
-            uint key = 0; // for reading hashes
-
-            key = *(uint*)(byteptr_t + 0x28);
+            var key = *(uint*) (bytePtrT + 0x28);
             if (Enum.IsDefined(typeof(eCarbonPaint), key))
-                this.PaintType = (eCarbonPaint)key;
+                PaintType = (eCarbonPaint) key;
             else
-                this.PaintType = eCarbonPaint.GLOSS;
+                PaintType = eCarbonPaint.GLOSS;
 
             // Paint Swatch
-            this.PaintSwatch = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x2C), false));
+            PaintSwatch = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x2C), false));
 
             // Saturation and Brightness
-            this.PaintSaturation = *(float*)(byteptr_t + 0x30);
-            this.PaintBrightness = *(float*)(byteptr_t + 0x34);
+            PaintSaturation = *(float*) (bytePtrT + 0x30);
+            PaintBrightness = *(float*) (bytePtrT + 0x34);
 
             // Generic vinyl
-            key = *(uint*)(byteptr_t + 0x38);
-            this._genericvinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x38);
+            _genericVinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
 
             // Vinyl
-            key = *(uint*)(byteptr_t + 0x3C);
-            this._vectorvinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
-            this.PositionY = *(short*)(byteptr_t + 0x40);
-            this.PositionX = *(short*)(byteptr_t + 0x42);
-            this.Rotation = *(sbyte*)(byteptr_t + 0x44);
-            this.Skew = *(sbyte*)(byteptr_t + 0x45);
-            this.ScaleY = *(sbyte*)(byteptr_t + 0x46);
-            this.ScaleX = *(sbyte*)(byteptr_t + 0x47);
-            this.SwatchColor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x48), false));
-            this.SwatchColor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x50), false));
-            this.SwatchColor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x58), false));
-            this.SwatchColor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x60), false));
-            this.Saturation1 = *(byteptr_t + 0x4C);
-            this.Saturation2 = *(byteptr_t + 0x54);
-            this.Saturation3 = *(byteptr_t + 0x5C);
-            this.Saturation4 = *(byteptr_t + 0x64);
-            this.Brightness1 = *(byteptr_t + 0x4D);
-            this.Brightness2 = *(byteptr_t + 0x55);
-            this.Brightness3 = *(byteptr_t + 0x5D);
-            this.Brightness4 = *(byteptr_t + 0x65);
+            key = *(uint*) (bytePtrT + 0x3C);
+            _vectorVinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            PositionY = *(short*) (bytePtrT + 0x40);
+            PositionX = *(short*) (bytePtrT + 0x42);
+            Rotation = *(sbyte*) (bytePtrT + 0x44);
+            Skew = *(sbyte*) (bytePtrT + 0x45);
+            ScaleY = *(sbyte*) (bytePtrT + 0x46);
+            ScaleX = *(sbyte*) (bytePtrT + 0x47);
+            SwatchColor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x48), false));
+            SwatchColor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x50), false));
+            SwatchColor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x58), false));
+            SwatchColor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x60), false));
+            Saturation1 = *(bytePtrT + 0x4C);
+            Saturation2 = *(bytePtrT + 0x54);
+            Saturation3 = *(bytePtrT + 0x5C);
+            Saturation4 = *(bytePtrT + 0x64);
+            Brightness1 = *(bytePtrT + 0x4D);
+            Brightness2 = *(bytePtrT + 0x55);
+            Brightness3 = *(bytePtrT + 0x5D);
+            Brightness4 = *(bytePtrT + 0x65);
         }
     }
 }

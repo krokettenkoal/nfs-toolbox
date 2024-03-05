@@ -4,30 +4,28 @@ using NfsCore.Utils;
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GShowcase
-	{
-		private unsafe void Disassemble(byte* byteptr_t)
-		{
-			uint key = 0;
+    public partial class GShowcase
+    {
+        private unsafe void Disassemble(byte* bytePtrT)
+        {
+            // Collection Name
+            CollName = ScriptX.NullTerminatedString(bytePtrT, 0x20);
 
-			// Collection Name
-			this._collection_name = ScriptX.NullTerminatedString(byteptr_t, 0x20);
+            // Take Photo Settings
+            _takePhoto = (eTakePhotoMethod) (*(bytePtrT + 0x24));
+            BelongsToStage = *(bytePtrT + 0x25);
+            CashValue = *(short*) (bytePtrT + 0x26);
+            Unknown0x34 = *(bytePtrT + 0x34);
+            Unknown0x35 = *(bytePtrT + 0x35);
+            RequiredVisualRating = *(float*) (bytePtrT + 0x3C);
 
-			// Take Photo Settings
-			this._take_photo = (eTakePhotoMethod)(*(byteptr_t + 0x24));
-			this.BelongsToStage = *(byteptr_t + 0x25);
-			this.CashValue = *(short*)(byteptr_t + 0x26);
-			this.Unknown0x34 = *(byteptr_t + 0x34);
-			this.Unknown0x35 = *(byteptr_t + 0x35);
-			this.RequiredVisualRating = *(float*)(byteptr_t + 0x3C);
-
-			// Showcase Strings
-			key = *(uint*)(byteptr_t + 0x28);
-			this._desc_string_label = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x2C);
-			this._destination_point = Map.Lookup(key, true) ?? $"0x{key:X8}";
-			key = *(uint*)(byteptr_t + 0x38);
-			this._desc_attrib = Map.Lookup(key, true) ?? $"0x{key:X8}";
-		}
-	}
+            // Showcase Strings
+            var key = *(uint*) (bytePtrT + 0x28);
+            _descStringLabel = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x2C);
+            _destinationPoint = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            key = *(uint*) (bytePtrT + 0x38);
+            _descAttrib = Map.Lookup(key, true) ?? $"0x{key:X8}";
+        }
+    }
 }

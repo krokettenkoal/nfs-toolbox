@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NfsCore.Reflection.ID;
 
 namespace NfsCore.Support.MostWanted
@@ -9,62 +8,60 @@ namespace NfsCore.Support.MostWanted
         /// <summary>
         /// Saves database data into GlobalA file.
         /// </summary>
-        /// <param name="GlobalA_dir">Game directory.</param>
+        /// <param name="globalADir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalA(string GlobalA_dir, Database.MostWantedDb db)
+        public static bool SaveGlobalA(string globalADir, Database.MostWantedDb db)
         {
-            GlobalA_dir += @"\GLOBAL\GlobalA.bun";
+            globalADir += @"\GLOBAL\GlobalA.bun";
 
-            using (var br = new BinaryReader(new MemoryStream(db._GlobalABUN)))
-            using (var bw = new BinaryWriter(File.Open(GlobalA_dir, FileMode.Create)))
+            using var br = new BinaryReader(new MemoryStream(db._GlobalABUN));
+            using var bw = new BinaryWriter(File.Open(globalADir, FileMode.Create));
+            var tpkIndex = 0;
+
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
-                int tpkindex = 0;
+                // Set Offset, ID and Size values, read starting in the beginning of the file
+                var writerSlotOffset = (uint) br.BaseStream.Position;
+                var writerSlotId = br.ReadUInt32();
+                var writerSlotSize = br.ReadInt32();
 
-                while (br.BaseStream.Position < br.BaseStream.Length)
+                // If one of the necessary slots is reached, replace it
+                switch (writerSlotId)
                 {
-                    // Set Offset, ID and Size values, read starting in the beginning of the file
-                    uint WriterSlotOffset = (uint)br.BaseStream.Position;
-                    uint WriterSlotID = br.ReadUInt32();
-                    int WriterSlotSize = br.ReadInt32();
-
-                    // If one of the necessary slots is reached, replace it
-                    switch (WriterSlotID)
-                    {
-                        case 0:
-                            uint key = br.ReadUInt32();
-                            br.BaseStream.Position -= 4;
-                            if (key == GlobalId.GlobalLib)
-                            {
-                                br.BaseStream.Position += WriterSlotSize;
-                                break;
-                            }
-                            else
-                                goto default;
-
-                        case GlobalId.TPKBlocks:
-                            while (!db.TPKBlocks[tpkindex].InGlobalA)
-                                ++tpkindex;
-                            I_TPKBlock(db, bw, ref tpkindex);
-                            br.BaseStream.Position += WriterSlotSize;
+                    case 0:
+                        var key = br.ReadUInt32();
+                        br.BaseStream.Position -= 4;
+                        if (key == GlobalId.GlobalLib)
+                        {
+                            br.BaseStream.Position += writerSlotSize;
                             break;
+                        }
+                        else
+                            goto default;
 
-                        case GlobalId.FEngFiles:
-                        case GlobalId.FNGCompress:
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.TPKBlocks:
+                        while (!db.TPKBlocks[tpkIndex].InGlobalA)
+                            ++tpkIndex;
+                        I_TPKBlock(db, bw, ref tpkIndex);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        default:
-                            bw.Write(WriterSlotID);
-                            bw.Write(WriterSlotSize);
-                            bw.Write(br.ReadBytes(WriterSlotSize));
-                            break;
-                    }
+                    case GlobalId.FEngFiles:
+                    case GlobalId.FNGCompress:
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
+
+                    default:
+                        bw.Write(writerSlotId);
+                        bw.Write(writerSlotSize);
+                        bw.Write(br.ReadBytes(writerSlotSize));
+                        break;
                 }
-
-                // Write all FEng files
-                I_FNGroup(db, bw);
             }
+
+            // Write all FEng files
+            I_FNGroup(db, bw);
             return true;
         }
     }

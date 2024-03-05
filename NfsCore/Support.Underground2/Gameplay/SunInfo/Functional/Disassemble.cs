@@ -1,26 +1,26 @@
 ﻿namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class SunInfo
-	{
-		/// <summary>
-		/// Disassembles suninfo block into separate properties.
-		/// </summary>
-		/// <param name="byteptr_t">Pointer to the suninfo block.</param
-		protected unsafe void Disassemble(byte* byteptr_t)
-		{
-			this.Version = *(int*)byteptr_t;
-			this.PositionX = *(float*)(byteptr_t + 0x20);
-			this.PositionY = *(float*)(byteptr_t + 0x24);
-			this.PositionZ = *(float*)(byteptr_t + 0x28);
-			this.CarShadowPositionX = *(float*)(byteptr_t + 0x2C);
-			this.CarShadowPositionY = *(float*)(byteptr_t + 0x30);
-			this.CarShadowPositionZ = *(float*)(byteptr_t + 0x34);
-			this.SUNLAYER1.Read(byteptr_t + 0x38 + 0x24 * 0);
-			this.SUNLAYER2.Read(byteptr_t + 0x38 + 0x24 * 1);
-			this.SUNLAYER3.Read(byteptr_t + 0x38 + 0x24 * 2);
-			this.SUNLAYER4.Read(byteptr_t + 0x38 + 0x24 * 3);
-			this.SUNLAYER5.Read(byteptr_t + 0x38 + 0x24 * 4);
-			this.SUNLAYER6.Read(byteptr_t + 0x38 + 0x24 * 5);
-		}
-	}
+    public partial class SunInfo
+    {
+        /// <summary>
+        /// Disassembles suninfo block into separate properties.
+        /// </summary>
+        /// <param name="bytePtrT">Pointer to the suninfo block.</param
+        protected unsafe void Disassemble(byte* bytePtrT)
+        {
+            Version = *(int*) bytePtrT;
+            PositionX = *(float*) (bytePtrT + 0x20);
+            PositionY = *(float*) (bytePtrT + 0x24);
+            PositionZ = *(float*) (bytePtrT + 0x28);
+            CarShadowPositionX = *(float*) (bytePtrT + 0x2C);
+            CarShadowPositionY = *(float*) (bytePtrT + 0x30);
+            CarShadowPositionZ = *(float*) (bytePtrT + 0x34);
+            SUNLAYER1.Read(bytePtrT + 0x38 + 0x24 * 0);
+            SUNLAYER2.Read(bytePtrT + 0x38 + 0x24 * 1);
+            SUNLAYER3.Read(bytePtrT + 0x38 + 0x24 * 2);
+            SUNLAYER4.Read(bytePtrT + 0x38 + 0x24 * 3);
+            SUNLAYER5.Read(bytePtrT + 0x38 + 0x24 * 4);
+            SUNLAYER6.Read(bytePtrT + 0x38 + 0x24 * 5);
+        }
+    }
 }

@@ -11,14 +11,15 @@ namespace NfsCore.Support.Underground2.Class
         protected override unsafe byte[] Get2Part1()
         {
             var result = new byte[0x78];
-            fixed (byte* byteptr_t = &result[0])
+            fixed (byte* bytePtrT = &result[0])
             {
-                *(uint*)byteptr_t = TPK.DATA_PART1_BLOCKID; // write ID
-                *(int*)(byteptr_t + 4) = 0x18; // write size
-                *(int*)(byteptr_t + 0x10) = 1;
-                *(uint*)(byteptr_t + 0x14) = this.FilenameHash;
-                *(int*)(byteptr_t + 0x24) = 0x50;
+                *(uint*) bytePtrT = TPK.DATA_PART1_BLOCKID; // write ID
+                *(int*) (bytePtrT + 4) = 0x18; // write size
+                *(int*) (bytePtrT + 0x10) = 1;
+                *(uint*) (bytePtrT + 0x14) = FilenameHash;
+                *(int*) (bytePtrT + 0x24) = 0x50;
             }
+
             return result;
         }
     }

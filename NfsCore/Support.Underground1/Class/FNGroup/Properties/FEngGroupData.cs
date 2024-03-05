@@ -2,7 +2,7 @@
 
 namespace NfsCore.Support.Underground1.Class
 {
-    public partial class FNGroup : Shared.Class.FNGroup
+    public partial class FNGroup
     {
         private byte[] _DATA;
 
@@ -11,13 +11,12 @@ namespace NfsCore.Support.Underground1.Class
         /// </summary>
         public byte[] Data
         {
-            get => this._DATA;
+            get => _DATA;
             set
             {
                 if (value == null || value.Length == 0)
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                else
-                    this._DATA = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _DATA = value;
             }
         }
     }

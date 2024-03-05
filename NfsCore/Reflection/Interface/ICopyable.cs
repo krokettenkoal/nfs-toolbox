@@ -1,7 +1,7 @@
 ﻿namespace NfsCore.Reflection.Interface
 {
-    public interface ICopyable<TypeID>
+    public interface ICopyable<out T>
     {
-        TypeID PlainCopy();
+        T PlainCopy();
     }
 }

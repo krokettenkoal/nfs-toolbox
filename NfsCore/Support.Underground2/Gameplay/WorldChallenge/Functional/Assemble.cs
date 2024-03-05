@@ -2,28 +2,28 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class WorldChallenge
-	{
-		public unsafe void Assemble(byte* byteptr_t, MemoryWriter mw)
-		{
-			ushort pointer = (ushort)mw.Position;
-			mw.WriteNullTerminated(this._collection_name);
-			*(ushort*)byteptr_t = pointer;
+    public partial class WorldChallenge
+    {
+        public unsafe void Assemble(byte* bytePtrT, MemoryWriter mw)
+        {
+            var pointer = (ushort) mw.Position;
+            mw.WriteNullTerminated(CollName);
+            *(ushort*) bytePtrT = pointer;
 
-			pointer = (ushort)mw.Position;
-			mw.WriteNullTerminated(this._world_trigger);
-			*(ushort*)(byteptr_t + 0x02) = pointer;
+            pointer = (ushort) mw.Position;
+            mw.WriteNullTerminated(_worldTrigger);
+            *(ushort*) (bytePtrT + 0x02) = pointer;
 
-			*(byteptr_t + 0x04) = this.BelongsToStage;
-			*(byteptr_t + 0x06) = (byte)((byte)this.UseOutrunsAsReqRaces * 2);
-			*(byteptr_t + 0x07) = this.RequiredRacesWon;
-			*(uint*)(byteptr_t + 0x08) = Bin.SmartHash(this.ChallengeSMSLabel);
-			*(uint*)(byteptr_t + 0x0C) = Bin.SmartHash(this.ChallengeParent);
-			*(int*)(byteptr_t + 0x10) = this.TimeLimit;
-			*(byteptr_t + 0x14) = (byte)this.WorldChallengeType;
-			*(byteptr_t + 0x15) = this.UnlockablePart1_Index;
-			*(byteptr_t + 0x16) = this.UnlockablePart2_Index;
-			*(byteptr_t + 0x17) = this.UnlockablePart3_Index;
-		}
-	}
+            *(bytePtrT + 0x04) = BelongsToStage;
+            *(bytePtrT + 0x06) = (byte) ((byte) UseOutrunsAsReqRaces * 2);
+            *(bytePtrT + 0x07) = RequiredRacesWon;
+            *(uint*) (bytePtrT + 0x08) = Bin.SmartHash(ChallengeSMSLabel);
+            *(uint*) (bytePtrT + 0x0C) = Bin.SmartHash(ChallengeParent);
+            *(int*) (bytePtrT + 0x10) = TimeLimit;
+            *(bytePtrT + 0x14) = (byte) WorldChallengeType;
+            *(bytePtrT + 0x15) = UnlockablePart1_Index;
+            *(bytePtrT + 0x16) = UnlockablePart2_Index;
+            *(bytePtrT + 0x17) = UnlockablePart3_Index;
+        }
+    }
 }

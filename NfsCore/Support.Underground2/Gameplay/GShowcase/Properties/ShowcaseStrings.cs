@@ -6,50 +6,50 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class GShowcase
 	{
-		private string _desc_string_label = BaseArguments.NULL;
-		private string _destination_point = BaseArguments.NULL;
-		private string _desc_attrib = BaseArguments.NULL;
+		private string _descStringLabel = BaseArguments.NULL;
+		private string _destinationPoint = BaseArguments.NULL;
+		private string _descAttrib = BaseArguments.NULL;
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string DescStringLabel
 		{
-			get => this._desc_string_label;
+			get => _descStringLabel;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._desc_string_label = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_descStringLabel = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string DestinationPoint
 		{
-			get => this._destination_point;
+			get => _destinationPoint;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._destination_point = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_destinationPoint = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public string DescAttrib
 		{
-			get => this._desc_attrib;
+			get => _descAttrib;
 			set
 			{
 				if (string.IsNullOrWhiteSpace(value))
-					throw new ArgumentNullException("This value cannot be left empty.");
-				this._desc_attrib = value;
+					throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+				_descAttrib = value;
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public byte Unknown0x34 { get; set; }
 		
-		[AccessModifiable()]
+		[AccessModifiable]
 		public byte Unknown0x35 { get; set; }
 	}
 }

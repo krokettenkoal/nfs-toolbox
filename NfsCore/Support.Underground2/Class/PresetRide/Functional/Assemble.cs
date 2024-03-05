@@ -5,275 +5,269 @@ using NfsCore.Support.Shared.Parts.PresetParts;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-		public override unsafe byte[] Assemble()
-		{
-			var result = new byte[this.data.Length];
-			Buffer.BlockCopy(this.data, 0, result, 0, this.data.Length);
-			fixed (byte* byteptr_t = &result[0])
-			{
-				var parts = new Concatenator();
-				var add_on = new Add_On();
+    public partial class PresetRide
+    {
+        public override unsafe byte[] Assemble()
+        {
+            var result = new byte[_data.Length];
+            Buffer.BlockCopy(_data, 0, result, 0, _data.Length);
+            fixed (byte* bytePtrT = &result[0])
+            {
+                var parts = new Concatenator();
+                var addOn = new Add_On();
 
-				// BASE PARTS
-				parts._BASE = MODEL + parts._BASE;
+                // BASE PARTS
+                parts._BASE = MODEL + parts._BASE;
 
-				// _FRONT_BUMPER
-				if (this._autosculpt_frontbumper == -1)
-					parts._FRONT_BUMPER = string.Empty;
-				else
-					parts._FRONT_BUMPER = MODEL + add_on._K10 + this._autosculpt_frontbumper.ToString("00") + parts._FRONT_BUMPER;
+                // _FRONT_BUMPER
+                if (_autosculptFrontBumper == -1)
+                    parts._FRONT_BUMPER = string.Empty;
+                else
+                    parts._FRONT_BUMPER =
+                        MODEL + addOn._K10 + _autosculptFrontBumper.ToString("00") + parts._FRONT_BUMPER;
 
-				// _REAR_BUMPER
-				if (this._autosculpt_rearbumper == -1)
-					parts._REAR_BUMPER = string.Empty;
-				else
-					parts._REAR_BUMPER = MODEL + add_on._K10 + this._autosculpt_rearbumper.ToString("00") + parts._REAR_BUMPER;
-				
-				// _BODY
-				parts._BASE_KIT = MODEL + add_on._KIT + add_on._0 + parts._BASE_KIT;
+                // _REAR_BUMPER
+                if (_autoSculptRearBumper == -1)
+                    parts._REAR_BUMPER = string.Empty;
+                else
+                    parts._REAR_BUMPER = MODEL + addOn._K10 + _autoSculptRearBumper.ToString("00") + parts._REAR_BUMPER;
 
-				// _KITW_BODY
-				if (this._aftermarket_bodykit == -1)
-					parts._KITW_BODY = string.Empty;
-				else
-					parts._KITW_BODY = MODEL + add_on._KITW + this._aftermarket_bodykit.ToString() + parts._KITW_BODY;
+                // _BODY
+                parts._BASE_KIT = MODEL + addOn._KIT + addOn._0 + parts._BASE_KIT;
 
-				// ROOF_STYLE
-				if (this._roofscoop_style == 0)
-					parts.ROOF_STYLE += add_on._0 + add_on._0;
-				else
-				{
-					parts.ROOF_STYLE += this._roofscoop_style.ToString("00");
-					if (this._is_dual_roofscoop == eBoolean.True)
-						parts.ROOF_STYLE += add_on._DUAL;
-					if (this._is_offset_roofscoop == eBoolean.True && this._is_dual_roofscoop == eBoolean.False)
-						parts.ROOF_STYLE += add_on._OFFSET;
-					if (this._is_carbonfibre_roofscoop == eBoolean.True)
-						parts.ROOF_STYLE += add_on._CF;
-				}
+                // _KITW_BODY
+                if (_aftermarketBodyKit == -1)
+                    parts._KITW_BODY = string.Empty;
+                else
+                    parts._KITW_BODY = MODEL + addOn._KITW + _aftermarketBodyKit + parts._KITW_BODY;
 
-				// _HOOD
-				if (this._hood_style == 0)
-					parts._HOOD = MODEL + add_on._KIT + add_on._0 + parts._HOOD;
-				else
-				{
-					parts._HOOD = MODEL + add_on._STYLE + this._hood_style.ToString("00") + parts._HOOD;
-					if (this._is_carbonfibre_hood == eBoolean.True)
-						parts._HOOD += add_on._CF;
-				}
+                // ROOF_STYLE
+                if (_roofScoopStyle == 0)
+                    parts.ROOF_STYLE += addOn._0 + addOn._0;
+                else
+                {
+                    parts.ROOF_STYLE += _roofScoopStyle.ToString("00");
+                    if (_isDualRoofScoop == eBoolean.True)
+                        parts.ROOF_STYLE += addOn._DUAL;
+                    if (_isOffsetRoofScoop == eBoolean.True && _isDualRoofScoop == eBoolean.False)
+                        parts.ROOF_STYLE += addOn._OFFSET;
+                    if (_isCarbonFibreRoofScoop == eBoolean.True)
+                        parts.ROOF_STYLE += addOn._CF;
+                }
 
-				// _TRUNK
-				parts._TRUNK = MODEL + add_on._KIT + add_on._0 + parts._TRUNK;
+                // _HOOD
+                if (_hoodStyle == 0)
+                    parts._HOOD = MODEL + addOn._KIT + addOn._0 + parts._HOOD;
+                else
+                {
+                    parts._HOOD = MODEL + addOn._STYLE + _hoodStyle.ToString("00") + parts._HOOD;
+                    if (_isCarbonFibreHood == eBoolean.True)
+                        parts._HOOD += addOn._CF;
+                }
 
-				// _SKIRT
-				if (this._autosculpt_skirt == -1)
-					parts._SKIRT = string.Empty;
-				else
-					parts._SKIRT = MODEL + add_on._K10 + this._autosculpt_skirt.ToString("00") + parts._SKIRT;
+                // _TRUNK
+                parts._TRUNK = MODEL + addOn._KIT + addOn._0 + parts._TRUNK;
 
-				// _SPOILER
-				if (this._spoiler_type == eSTypes.NULL)
-					parts._SPOILER = string.Empty;
-				else if (this._spoiler_style == 0 || this._spoiler_type == eSTypes.STOCK)
-					parts._SPOILER = MODEL + add_on._KIT + add_on._0 + parts._SPOILER;
-				else
-				{
-					parts._SPOILER = add_on.SPOILER + add_on._STYLE + this._spoiler_style.ToString("00");
-					if (this._spoiler_type != eSTypes.BASE)
-						parts._SPOILER += this._spoiler_type.ToString();
-					if (this._is_carbonfibre_spoiler == eBoolean.True)
-						parts._SPOILER += add_on._CF;
-				}
+                // _SKIRT
+                if (_autoSculptSkirt == -1)
+                    parts._SKIRT = string.Empty;
+                else
+                    parts._SKIRT = MODEL + addOn._K10 + _autoSculptSkirt.ToString("00") + parts._SKIRT;
 
-				// _ENGINE
-				if (this._engine_style == 0)
-					parts._ENGINE = MODEL + add_on._KIT + add_on._0 + parts._ENGINE;
-				else
-					parts._ENGINE = MODEL + add_on._STYLE + this._exhaust_style.ToString("00") + parts._ENGINE;
+                // _SPOILER
+                if (_spoilerType == eSTypes.NULL)
+                    parts._SPOILER = string.Empty;
+                else if (_spoilerStyle == 0 || _spoilerType == eSTypes.STOCK)
+                    parts._SPOILER = MODEL + addOn._KIT + addOn._0 + parts._SPOILER;
+                else
+                {
+                    parts._SPOILER = addOn.SPOILER + addOn._STYLE + _spoilerStyle.ToString("00");
+                    if (_spoilerType != eSTypes.BASE)
+                        parts._SPOILER += _spoilerType.ToString();
+                    if (_isCarbonFibreSpoiler == eBoolean.True)
+                        parts._SPOILER += addOn._CF;
+                }
 
-				// _HEADLIGHT
-				if (this._headlight_style == 0)
-					parts._HEADLIGHT = MODEL + add_on._KIT + add_on._0 + parts._HEADLIGHT;
-				else
-					parts._HEADLIGHT = MODEL + add_on._STYLE + this._headlight_style.ToString("00") + parts._HEADLIGHT;
+                // _ENGINE
+                if (_engineStyle == 0)
+                    parts._ENGINE = MODEL + addOn._KIT + addOn._0 + parts._ENGINE;
+                else
+                    parts._ENGINE = MODEL + addOn._STYLE + _exhaustStyle.ToString("00") + parts._ENGINE;
 
-				// _BRAKELIGHT
-				if (this._brakelight_style == 0)
-					parts._BRAKELIGHT = MODEL + add_on._KIT + add_on._0 + parts._BRAKELIGHT;
-				else
-					parts._BRAKELIGHT = MODEL + add_on._STYLE + this._brakelight_style.ToString("00") + parts._BRAKELIGHT;
+                // _HEADLIGHT
+                if (_headlightStyle == 0)
+                    parts._HEADLIGHT = MODEL + addOn._KIT + addOn._0 + parts._HEADLIGHT;
+                else
+                    parts._HEADLIGHT = MODEL + addOn._STYLE + _headlightStyle.ToString("00") + parts._HEADLIGHT;
 
-				// _EXHAUST
-				if (this._exhaust_style == 0)
-					parts._KIT00_EXHAUST = MODEL + parts._KIT00_EXHAUST;
-				else
-					parts._KIT00_EXHAUST = add_on.EXHAUST + add_on._STYLE + this._exhaust_style.ToString("00") + add_on._LEVEL1;
+                // _BRAKELIGHT
+                if (_brakeLightStyle == 0)
+                    parts._BRAKELIGHT = MODEL + addOn._KIT + addOn._0 + parts._BRAKELIGHT;
+                else
+                    parts._BRAKELIGHT = MODEL + addOn._STYLE + _brakeLightStyle.ToString("00") + parts._BRAKELIGHT;
 
-				// _DOOR / _PANEL / _SILL
-				if (this._aftermarket_bodykit == -1 || this._aftermarket_bodykit == 0)
-				{
-					string KIT = MODEL + add_on._KIT + add_on._0;
-					parts._DOOR_LEFT = KIT + parts._DOOR_LEFT;
-					parts._DOOR_RIGHT = KIT + parts._DOOR_RIGHT;
-					parts._DOOR_PANEL_LEFT = KIT + parts._DOOR_PANEL_LEFT;
-					parts._DOOR_PANEL_RIGHT = KIT + parts._DOOR_PANEL_RIGHT;
-					parts._DOOR_SILL_LEFT = KIT + parts._DOOR_SILL_LEFT;
-					parts._DOOR_SILL_RIGHT = KIT + parts._DOOR_SILL_RIGHT;
-				}
-				else
-				{
-					string KITW = MODEL + add_on._KITW + this._aftermarket_bodykit.ToString();
-					parts._DOOR_LEFT = KITW + parts._DOOR_LEFT;
-					parts._DOOR_RIGHT = KITW + parts._DOOR_RIGHT;
-					parts._DOOR_PANEL_LEFT = KITW + parts._DOOR_PANEL_LEFT;
-					parts._DOOR_PANEL_RIGHT = KITW + parts._DOOR_PANEL_RIGHT;
-					parts._DOOR_SILL_LEFT = KITW + parts._DOOR_SILL_LEFT;
-					parts._DOOR_SILL_RIGHT = KITW + parts._DOOR_SILL_RIGHT;
-				}
+                // _EXHAUST
+                if (_exhaustStyle == 0)
+                    parts._KIT00_EXHAUST = MODEL + parts._KIT00_EXHAUST;
+                else
+                    parts._KIT00_EXHAUST = addOn.EXHAUST + addOn._STYLE + _exhaustStyle.ToString("00") + addOn._LEVEL1;
 
-				// _HOOD_UNDER
-				parts._HOOD_UNDER = MODEL + add_on._K10 + this._under_hood_style.ToString("00") + parts._HOOD_UNDER;
+                // _DOOR / _PANEL / _SILL
+                if (_aftermarketBodyKit == -1 || _aftermarketBodyKit == 0)
+                {
+                    var kit = MODEL + addOn._KIT + addOn._0;
+                    parts._DOOR_LEFT = kit + parts._DOOR_LEFT;
+                    parts._DOOR_RIGHT = kit + parts._DOOR_RIGHT;
+                    parts._DOOR_PANEL_LEFT = kit + parts._DOOR_PANEL_LEFT;
+                    parts._DOOR_PANEL_RIGHT = kit + parts._DOOR_PANEL_RIGHT;
+                    parts._DOOR_SILL_LEFT = kit + parts._DOOR_SILL_LEFT;
+                    parts._DOOR_SILL_RIGHT = kit + parts._DOOR_SILL_RIGHT;
+                }
+                else
+                {
+                    var kitW = MODEL + addOn._KITW + _aftermarketBodyKit;
+                    parts._DOOR_LEFT = kitW + parts._DOOR_LEFT;
+                    parts._DOOR_RIGHT = kitW + parts._DOOR_RIGHT;
+                    parts._DOOR_PANEL_LEFT = kitW + parts._DOOR_PANEL_LEFT;
+                    parts._DOOR_PANEL_RIGHT = kitW + parts._DOOR_PANEL_RIGHT;
+                    parts._DOOR_SILL_LEFT = kitW + parts._DOOR_SILL_LEFT;
+                    parts._DOOR_SILL_RIGHT = kitW + parts._DOOR_SILL_RIGHT;
+                }
 
-				// _TRUNK_UNDER
-				parts._TRUNK_UNDER = MODEL + add_on._KIT + add_on._0 + parts._TRUNK_UNDER;
+                // _HOOD_UNDER
+                parts._HOOD_UNDER = MODEL + addOn._K10 + _underHoodStyle.ToString("00") + parts._HOOD_UNDER;
 
-				// _REAR_BRAKE
-				if (this._rear_brake_style == 0)
-					parts._REAR_BRAKE = MODEL + add_on._KIT + add_on._0 + parts._FRONT_BRAKE;
-				else
-					parts._REAR_BRAKE = add_on.BRAKE + add_on._STYLE + this._rear_brake_style.ToString("00");
+                // _TRUNK_UNDER
+                parts._TRUNK_UNDER = MODEL + addOn._KIT + addOn._0 + parts._TRUNK_UNDER;
 
-				// _FRONT_BRAKE
-				if (this._front_brake_style == 0)
-					parts._FRONT_BRAKE = MODEL + add_on._KIT + add_on._0 + parts._FRONT_BRAKE;
-				else
-					parts._FRONT_BRAKE = add_on.BRAKE + add_on._STYLE + this._front_brake_style.ToString("00");
+                // _REAR_BRAKE
+                if (_rearBrakeStyle == 0)
+                    parts._REAR_BRAKE = MODEL + addOn._KIT + addOn._0 + parts._FRONT_BRAKE;
+                else
+                    parts._REAR_BRAKE = addOn.BRAKE + addOn._STYLE + _rearBrakeStyle.ToString("00");
 
-				// _WHEEL
-				parts._WHEEL = this.GetValidRimString();
+                // _FRONT_BRAKE
+                if (_frontBrakeStyle == 0)
+                    parts._FRONT_BRAKE = MODEL + addOn._KIT + addOn._0 + parts._FRONT_BRAKE;
+                else
+                    parts._FRONT_BRAKE = addOn.BRAKE + addOn._STYLE + _frontBrakeStyle.ToString("00");
 
-				// _MIRROR
-				if (this._wing_mirror_style == BaseArguments.NULL || this._wing_mirror_style == BaseArguments.STOCK)
-					parts._WING_MIRROR = MODEL + add_on._KIT + add_on._0 + parts._WING_MIRROR;
-				else
-					parts._WING_MIRROR = this._wing_mirror_style;
+                // _WHEEL
+                parts._WHEEL = GetValidRimString();
 
-				// _TRUNK_AUDIO
-				parts._TRUNK_AUDIO = MODEL + add_on._KIT + this._trunk_audio_style.ToString() + parts._TRUNK_AUDIO;
+                // _MIRROR
+                if (_wingMirrorStyle == BaseArguments.NULL || _wingMirrorStyle == BaseArguments.STOCK)
+                    parts._WING_MIRROR = MODEL + addOn._KIT + addOn._0 + parts._WING_MIRROR;
+                else
+                    parts._WING_MIRROR = _wingMirrorStyle;
 
-				// _DECAL_RECT
-				parts._DECAL_HOOD_RECT_ = MODEL + parts._DECAL_HOOD_RECT_ + this._decaltype_hood.ToString();
-				parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM;
-				parts._DECAL_REAR_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_REAR_WINDOW_WIDE_MEDIUM;
-				parts._DECAL_LEFT_DOOR_RECT_= MODEL + parts._DECAL_LEFT_DOOR_RECT_;
-				parts._DECAL_RIGHT_DOOR_RECT_ = MODEL + parts._DECAL_RIGHT_DOOR_RECT_;
-				parts._DECAL_LEFT_QUARTER_RECT_ = MODEL + parts._DECAL_LEFT_QUARTER_RECT_ + this._decaltype_leftquarter.ToString();
-				parts._DECAL_RIGHT_QUARTER_RECT_ = MODEL + parts._DECAL_RIGHT_QUARTER_RECT_ + this._decaltype_rightquarter.ToString();
-				parts._DECAL_LEFT_DOOR_RECT_MEDIUM = MODEL + "_" + this._decalwide_leftdoor.ToString() + parts._DECAL_LEFT_DOOR_RECT_MEDIUM;
-				parts._DECAL_RIGHT_DOOR_RECT_MEDIUM = MODEL + "_" + this._decalwide_rightdoor.ToString() + parts._DECAL_RIGHT_DOOR_RECT_MEDIUM;
-				parts._DECAL_LEFT_QUARTER_RECT_MEDIUM = MODEL + "_" + this._decalwide_leftquarter.ToString() + parts._DECAL_LEFT_QUARTER_RECT_MEDIUM;
-				parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM = MODEL + "_" + this._decalwide_rightquarter.ToString() + parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM;
+                // _TRUNK_AUDIO
+                parts._TRUNK_AUDIO = MODEL + addOn._KIT + _trunkAudioStyle + parts._TRUNK_AUDIO;
 
-				// KIT_CARBON
-				if (this._carbon_body == eBoolean.True)
-					parts.KIT_CARBON = parts.CARBON_FIBRE;
-				else
-					parts.KIT_CARBON = parts.CARBON_FIBRE_NONE;
+                // _DECAL_RECT
+                parts._DECAL_HOOD_RECT_ = MODEL + parts._DECAL_HOOD_RECT_ + _decalTypeHood;
+                parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_FRONT_WINDOW_WIDE_MEDIUM;
+                parts._DECAL_REAR_WINDOW_WIDE_MEDIUM = MODEL + parts._DECAL_REAR_WINDOW_WIDE_MEDIUM;
+                parts._DECAL_LEFT_DOOR_RECT_ = MODEL + parts._DECAL_LEFT_DOOR_RECT_;
+                parts._DECAL_RIGHT_DOOR_RECT_ = MODEL + parts._DECAL_RIGHT_DOOR_RECT_;
+                parts._DECAL_LEFT_QUARTER_RECT_ = MODEL + parts._DECAL_LEFT_QUARTER_RECT_ + _decalTypeLeftQuarter;
+                parts._DECAL_RIGHT_QUARTER_RECT_ = MODEL + parts._DECAL_RIGHT_QUARTER_RECT_ + _decalTypeRightQuarter;
+                parts._DECAL_LEFT_DOOR_RECT_MEDIUM =
+                    MODEL + "_" + _decalWideLeftDoor + parts._DECAL_LEFT_DOOR_RECT_MEDIUM;
+                parts._DECAL_RIGHT_DOOR_RECT_MEDIUM =
+                    MODEL + "_" + _decalWideRightDoor + parts._DECAL_RIGHT_DOOR_RECT_MEDIUM;
+                parts._DECAL_LEFT_QUARTER_RECT_MEDIUM =
+                    MODEL + "_" + _decalWideLeftQuarter + parts._DECAL_LEFT_QUARTER_RECT_MEDIUM;
+                parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM =
+                    MODEL + "_" + _decalWideRightQuarter + parts._DECAL_RIGHT_QUARTER_RECT_MEDIUM;
 
-				// HOOD_CARBON
-				if (this._carbon_hood == eBoolean.True)
-					parts.HOOD_CARBON = parts.CARBON_FIBRE;
-				else
-					parts.HOOD_CARBON = parts.CARBON_FIBRE_NONE;
+                // KIT_CARBON
+                parts.KIT_CARBON = _carbonBody == eBoolean.True ? parts.CARBON_FIBRE : parts.CARBON_FIBRE_NONE;
 
-				// DOOR_CARBON
-				if (this._carbon_doors == eBoolean.True)
-					parts.DOOR_CARBON = parts.CARBON_FIBRE;
-				else
-					parts.DOOR_CARBON = parts.CARBON_FIBRE_NONE;
+                // HOOD_CARBON
+                parts.HOOD_CARBON = _carbonHood == eBoolean.True ? parts.CARBON_FIBRE : parts.CARBON_FIBRE_NONE;
 
-				// TRUNK_CARBON
-				if (this._carbon_trunk == eBoolean.True)
-					parts.TRUNK_CARBON = parts.CARBON_FIBRE;
-				else
-					parts.TRUNK_CARBON = parts.CARBON_FIBRE_NONE;
+                // DOOR_CARBON
+                parts.DOOR_CARBON = _carbonDoors == eBoolean.True ? parts.CARBON_FIBRE : parts.CARBON_FIBRE_NONE;
 
-				// WINDOW_TINT
-				if (this._window_tint_type != BaseArguments.STOCK)
-					parts.WINDOW_TINT_STOCK = this._window_tint_type;
+                // TRUNK_CARBON
+                parts.TRUNK_CARBON = _carbonTrunk == eBoolean.True ? parts.CARBON_FIBRE : parts.CARBON_FIBRE_NONE;
 
-				// CABIN_NEON
-				parts.CABIN_NEON_STYLE0 += this.SPECIALTIES.NeonCabinStyle.ToString();
+                // WINDOW_TINT
+                if (_windowTintType != BaseArguments.STOCK)
+                    parts.WINDOW_TINT_STOCK = _windowTintType;
 
-				// _CV
-				if (this._cv_misc_style == 0)
-					parts._CV = MODEL + parts._CV;
-				else
-					parts._CV = MODEL + add_on._KITW + this._cv_misc_style.ToString() + parts._CV;
+                // CABIN_NEON
+                parts.CABIN_NEON_STYLE0 += SPECIALTIES.NeonCabinStyle.ToString();
 
-				// Hash all strings to keys
-				var keys = this.StringToKey(parts);
+                // _CV
+                if (_cvMiscStyle == 0)
+                    parts._CV = MODEL + parts._CV;
+                else
+                    parts._CV = MODEL + addOn._KITW + _cvMiscStyle + parts._CV;
 
-				// In UG2 support it does not matter if a car exists/was modified, we still
-				// can write all the strings in it b/c all of them are known
-				*(uint*)byteptr_t = this._unknown1;
-				*(uint*)(byteptr_t + 4) = this._unknown2;
+                // Hash all strings to keys
+                var keys = StringToKey(parts);
 
-				// Write MODEL
-				for (int a1 = 8; a1 < 0x28; ++a1)
-					*(byteptr_t + a1) = (byte)0;
-				for (int a1 = 0; a1 < this.MODEL.Length; ++a1)
-					*(byteptr_t + 8 + a1) = (byte)this.MODEL[a1];
+                // In UG2 support it does not matter if a car exists/was modified, we still
+                // can write all the strings in it b/c all of them are known
+                *(uint*) bytePtrT = _unknown1;
+                *(uint*) (bytePtrT + 4) = _unknown2;
 
-				// Write CollectionName
-				for (int a1 = 0x28; a1 < 0x48; ++a1)
-					*(byteptr_t + a1) = (byte)0;
-				for (int a1 = 0; a1 < this._collection_name.Length; ++a1)
-					*(byteptr_t + 0x28 + a1) = (byte)this._collection_name[a1];
+                // Write MODEL
+                for (var a1 = 8; a1 < 0x28; ++a1)
+                    *(bytePtrT + a1) = 0;
+                for (var a1 = 0; a1 < MODEL.Length; ++a1)
+                    *(bytePtrT + 8 + a1) = (byte) MODEL[a1];
 
-				// Performance Level
-				*(int*)(byteptr_t + 0x48) = this._performance_level;
+                // Write CollectionName
+                for (var a1 = 0x28; a1 < 0x48; ++a1)
+                    *(bytePtrT + a1) = 0;
+                for (var a1 = 0; a1 < CollName.Length; ++a1)
+                    *(bytePtrT + 0x28 + a1) = (byte) CollName[a1];
 
-				// Begin Writing Keys
-				*(uint*)(byteptr_t + 0x4C) = keys[0];
-				*(uint*)(byteptr_t + 0x50) = keys[1];
-				*(uint*)(byteptr_t + 0x54) = keys[2];
-				*(uint*)(byteptr_t + 0x60) = keys[3];
-				*(uint*)(byteptr_t + 0x64) = keys[4];
-				*(uint*)(byteptr_t + 0x68) = keys[5];
+                // Performance Level
+                *(int*) (bytePtrT + 0x48) = _performanceLevel;
 
-				for (int a1 = 0; a1 < 14; ++a1)
-					*(uint*)(byteptr_t + 0x70 + a1 * 4) = keys[6 + a1];
+                // Begin Writing Keys
+                *(uint*) (bytePtrT + 0x4C) = keys[0];
+                *(uint*) (bytePtrT + 0x50) = keys[1];
+                *(uint*) (bytePtrT + 0x54) = keys[2];
+                *(uint*) (bytePtrT + 0x60) = keys[3];
+                *(uint*) (bytePtrT + 0x64) = keys[4];
+                *(uint*) (bytePtrT + 0x68) = keys[5];
 
-				for (int a1 = 0; a1 < 5; ++a1)
-					*(uint*)(byteptr_t + 0xB0 + a1 * 4) = keys[20 + a1];
+                for (var a1 = 0; a1 < 14; ++a1)
+                    *(uint*) (bytePtrT + 0x70 + a1 * 4) = keys[6 + a1];
 
-				*(uint*)(byteptr_t + 0xC4) = keys[24];
+                for (var a1 = 0; a1 < 5; ++a1)
+                    *(uint*) (bytePtrT + 0xB0 + a1 * 4) = keys[20 + a1];
 
-				for (int a1 = 0; a1 < 15; ++a1)
-					*(uint*)(byteptr_t + 0xCC + a1 * 4) = keys[25 + a1];
+                *(uint*) (bytePtrT + 0xC4) = keys[24];
 
-				for (int a1 = 0; a1 < 45; ++a1)
-					*(uint*)(byteptr_t + 0x11C + a1 * 4) = keys[40 + a1];
+                for (var a1 = 0; a1 < 15; ++a1)
+                    *(uint*) (bytePtrT + 0xCC + a1 * 4) = keys[25 + a1];
 
-				// Write Decals
-				this.DECALS_HOOD.Write(byteptr_t + 0x1D0);
-				this.DECALS_FRONT_WINDOW.Write(byteptr_t + 0x1F0);
-				this.DECALS_REAR_WINDOW.Write(byteptr_t + 0x210);
-				this.DECALS_LEFT_DOOR.Write(byteptr_t + 0x230);
-				this.DECALS_RIGHT_DOOR.Write(byteptr_t + 0x250);
-				this.DECALS_LEFT_QUARTER.Write(byteptr_t + 0x270);
-				this.DECALS_RIGHT_QUARTER.Write(byteptr_t + 0x290);
+                for (var a1 = 0; a1 < 45; ++a1)
+                    *(uint*) (bytePtrT + 0x11C + a1 * 4) = keys[40 + a1];
 
-				// Finish Writing Keys
-				for (int a1 = 0; a1 < 14; ++a1)
-					*(uint*)(byteptr_t + 0x2B0 + a1 * 4) = keys[85 + a1];
+                // Write Decals
+                DECALS_HOOD.Write(bytePtrT + 0x1D0);
+                DECALS_FRONT_WINDOW.Write(bytePtrT + 0x1F0);
+                DECALS_REAR_WINDOW.Write(bytePtrT + 0x210);
+                DECALS_LEFT_DOOR.Write(bytePtrT + 0x230);
+                DECALS_RIGHT_DOOR.Write(bytePtrT + 0x250);
+                DECALS_LEFT_QUARTER.Write(bytePtrT + 0x270);
+                DECALS_RIGHT_QUARTER.Write(bytePtrT + 0x290);
 
-				*(uint*)(byteptr_t + 0x2F0) = keys[99];
-			}
-			return result;
-		}
-	}
+                // Finish Writing Keys
+                for (var a1 = 0; a1 < 14; ++a1)
+                    *(uint*) (bytePtrT + 0x2B0 + a1 * 4) = keys[85 + a1];
+
+                *(uint*) (bytePtrT + 0x2F0) = keys[99];
+            }
+
+            return result;
+        }
+    }
 }

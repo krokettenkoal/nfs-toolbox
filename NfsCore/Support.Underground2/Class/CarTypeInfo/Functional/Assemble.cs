@@ -9,575 +9,576 @@ namespace NfsCore.Support.Underground2.Class
     public partial class CarTypeInfo
     {
         /// <summary>
-        /// Assembles cartypeinfo into a byte array.
+        /// Assembles CarTypeInfo into a byte array.
         /// </summary>
-        /// <param name="index">Index of the cartypeinfo.</param>
-        /// <returns>Byte array of the cartypeinfo.</returns>
+        /// <returns>Byte array of the CarTypeInfo.</returns>
         public override unsafe byte[] Assemble()
         {
             var result = new byte[0x890];
-            fixed (byte* byteptr_t = &result[0])
+            fixed (byte* bytePtrT = &result[0])
             {
                 // Write CollectionName
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + a1) = (byte) CollectionName[a1];
 
                 // Write BaseModelName
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + 0x20 + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + 0x20 + a1) = (byte) CollectionName[a1];
 
                 // Write GeometryBINFileName
-                string pathbin = Path.Combine("CARS", this.CollectionName, "GEOMETRY.BIN");
-                for (int a1 = 0; a1 < pathbin.Length; ++a1)
-                    *(byteptr_t + 0x40 + a1) = (byte)pathbin[a1];
+                var pathBin = Path.Combine("CARS", CollectionName, "GEOMETRY.BIN");
+                for (var a1 = 0; a1 < pathBin.Length; ++a1)
+                    *(bytePtrT + 0x40 + a1) = (byte) pathBin[a1];
 
                 // Write GeometryLZCFileName
-                string pathlzc = Path.Combine("CARS", this.CollectionName, "GEOMETRY.LZC");
-                for (int a1 = 0; a1 < pathbin.Length; ++a1)
-                    *(byteptr_t + 0x60 + a1) = (byte)pathlzc[a1];
+                var pathLzc = Path.Combine("CARS", CollectionName, "GEOMETRY.LZC");
+                for (var a1 = 0; a1 < pathBin.Length; ++a1)
+                    *(bytePtrT + 0x60 + a1) = (byte) pathLzc[a1];
 
                 // Write ManufacturerName
-                if (this.ManufacturerName != BaseArguments.NULL)
+                if (ManufacturerName != BaseArguments.NULL)
                 {
-                    for (int a1 = 0; a1 < this.ManufacturerName.Length; ++a1)
-                        *(byteptr_t + 0xC0 + a1) = (byte)this.ManufacturerName[a1];
+                    for (var a1 = 0; a1 < ManufacturerName.Length; ++a1)
+                        *(bytePtrT + 0xC0 + a1) = (byte) ManufacturerName[a1];
                 }
 
                 // Secondary Properties
-                *(uint*)(byteptr_t + 0xD0) = this.BinKey;
-                *(float*)(byteptr_t + 0xD4) = this.HeadlightFOV;
-                *(byteptr_t + 0xD8) = this.PadHighPerformance;
-                *(byteptr_t + 0xD9) = this.NumAvailableSkinNumbers;
-                *(byteptr_t + 0xDA) = this.WhatGame;
-                *(byteptr_t + 0xDB) = this.ConvertibleFlag;
-                *(byteptr_t + 0xDC) = this.WheelOuterRadius;
-                *(byteptr_t + 0xDD) = this.WheelInnerRadiusMin;
-                *(byteptr_t + 0xDE) = this.WheelInnerRadiusMax;
-                *(byteptr_t + 0xDF) = this.Padding0;
+                *(uint*) (bytePtrT + 0xD0) = BinKey;
+                *(float*) (bytePtrT + 0xD4) = HeadlightFOV;
+                *(bytePtrT + 0xD8) = PadHighPerformance;
+                *(bytePtrT + 0xD9) = NumAvailableSkinNumbers;
+                *(bytePtrT + 0xDA) = WhatGame;
+                *(bytePtrT + 0xDB) = ConvertibleFlag;
+                *(bytePtrT + 0xDC) = WheelOuterRadius;
+                *(bytePtrT + 0xDD) = WheelInnerRadiusMin;
+                *(bytePtrT + 0xDE) = WheelInnerRadiusMax;
+                *(bytePtrT + 0xDF) = Padding0;
 
                 // Vectors
-                *(float*)(byteptr_t + 0xE0) = this.HeadlightPositionX;
-                *(float*)(byteptr_t + 0xE4) = this.HeadlightPositionY;
-                *(float*)(byteptr_t + 0xE8) = this.HeadlightPositionZ;
-                *(float*)(byteptr_t + 0xEC) = this.HeadlightPositionW;
-                *(float*)(byteptr_t + 0xF0) = this.DriverRenderingOffsetX;
-                *(float*)(byteptr_t + 0xF4) = this.DriverRenderingOffsetY;
-                *(float*)(byteptr_t + 0xF8) = this.DriverRenderingOffsetZ;
-                *(float*)(byteptr_t + 0xFC) = this.DriverRenderingOffsetW;
-                *(float*)(byteptr_t + 0x100) = this.SteeringWheelRenderingX;
-                *(float*)(byteptr_t + 0x104) = this.SteeringWheelRenderingY;
-                *(float*)(byteptr_t + 0x108) = this.SteeringWheelRenderingZ;
-                *(float*)(byteptr_t + 0x10C) = this.SteeringWheelRenderingW;
-                *(float*)(byteptr_t + 0x110) = this.UnknownVectorValX;
-                *(float*)(byteptr_t + 0x114) = this.UnknownVectorValY;
-                *(float*)(byteptr_t + 0x118) = this.UnknownVectorValZ;
-                *(float*)(byteptr_t + 0x11C) = this.UnknownVectorValW;
+                *(float*) (bytePtrT + 0xE0) = HeadlightPositionX;
+                *(float*) (bytePtrT + 0xE4) = HeadlightPositionY;
+                *(float*) (bytePtrT + 0xE8) = HeadlightPositionZ;
+                *(float*) (bytePtrT + 0xEC) = HeadlightPositionW;
+                *(float*) (bytePtrT + 0xF0) = DriverRenderingOffsetX;
+                *(float*) (bytePtrT + 0xF4) = DriverRenderingOffsetY;
+                *(float*) (bytePtrT + 0xF8) = DriverRenderingOffsetZ;
+                *(float*) (bytePtrT + 0xFC) = DriverRenderingOffsetW;
+                *(float*) (bytePtrT + 0x100) = SteeringWheelRenderingX;
+                *(float*) (bytePtrT + 0x104) = SteeringWheelRenderingY;
+                *(float*) (bytePtrT + 0x108) = SteeringWheelRenderingZ;
+                *(float*) (bytePtrT + 0x10C) = SteeringWheelRenderingW;
+                *(float*) (bytePtrT + 0x110) = UnknownVectorValX;
+                *(float*) (bytePtrT + 0x114) = UnknownVectorValY;
+                *(float*) (bytePtrT + 0x118) = UnknownVectorValZ;
+                *(float*) (bytePtrT + 0x11C) = UnknownVectorValW;
 
                 // Front Left Wheel
-                *(float*)(byteptr_t + 0x120) = this.WHEEL_FRONT_LEFT.XValue;
-                *(float*)(byteptr_t + 0x124) = this.WHEEL_FRONT_LEFT.Springs;
-                *(float*)(byteptr_t + 0x128) = this.WHEEL_FRONT_LEFT.RideHeight;
-                *(float*)(byteptr_t + 0x12C) = this.WHEEL_FRONT_LEFT.UnknownVal;
-                *(float*)(byteptr_t + 0x130) = this.WHEEL_FRONT_LEFT.Diameter;
-                *(float*)(byteptr_t + 0x134) = this.WHEEL_FRONT_LEFT.TireSkidWidth;
-                *(int*)(byteptr_t + 0x138) = this.WHEEL_FRONT_LEFT.WheelID;
-                *(float*)(byteptr_t + 0x13C) = this.WHEEL_FRONT_LEFT.YValue;
-                *(float*)(byteptr_t + 0x140) = this.WHEEL_FRONT_LEFT.WideBodyYValue;
+                *(float*) (bytePtrT + 0x120) = WHEEL_FRONT_LEFT.XValue;
+                *(float*) (bytePtrT + 0x124) = WHEEL_FRONT_LEFT.Springs;
+                *(float*) (bytePtrT + 0x128) = WHEEL_FRONT_LEFT.RideHeight;
+                *(float*) (bytePtrT + 0x12C) = WHEEL_FRONT_LEFT.UnknownVal;
+                *(float*) (bytePtrT + 0x130) = WHEEL_FRONT_LEFT.Diameter;
+                *(float*) (bytePtrT + 0x134) = WHEEL_FRONT_LEFT.TireSkidWidth;
+                *(int*) (bytePtrT + 0x138) = WHEEL_FRONT_LEFT.WheelID;
+                *(float*) (bytePtrT + 0x13C) = WHEEL_FRONT_LEFT.YValue;
+                *(float*) (bytePtrT + 0x140) = WHEEL_FRONT_LEFT.WideBodyYValue;
 
                 // Front Left Wheel
-                *(float*)(byteptr_t + 0x150) = this.WHEEL_FRONT_RIGHT.XValue;
-                *(float*)(byteptr_t + 0x154) = this.WHEEL_FRONT_RIGHT.Springs;
-                *(float*)(byteptr_t + 0x158) = this.WHEEL_FRONT_RIGHT.RideHeight;
-                *(float*)(byteptr_t + 0x15C) = this.WHEEL_FRONT_RIGHT.UnknownVal;
-                *(float*)(byteptr_t + 0x160) = this.WHEEL_FRONT_RIGHT.Diameter;
-                *(float*)(byteptr_t + 0x164) = this.WHEEL_FRONT_RIGHT.TireSkidWidth;
-                *(int*)(byteptr_t + 0x168) = this.WHEEL_FRONT_RIGHT.WheelID;
-                *(float*)(byteptr_t + 0x16C) = this.WHEEL_FRONT_RIGHT.YValue;
-                *(float*)(byteptr_t + 0x170) = this.WHEEL_FRONT_RIGHT.WideBodyYValue;
+                *(float*) (bytePtrT + 0x150) = WHEEL_FRONT_RIGHT.XValue;
+                *(float*) (bytePtrT + 0x154) = WHEEL_FRONT_RIGHT.Springs;
+                *(float*) (bytePtrT + 0x158) = WHEEL_FRONT_RIGHT.RideHeight;
+                *(float*) (bytePtrT + 0x15C) = WHEEL_FRONT_RIGHT.UnknownVal;
+                *(float*) (bytePtrT + 0x160) = WHEEL_FRONT_RIGHT.Diameter;
+                *(float*) (bytePtrT + 0x164) = WHEEL_FRONT_RIGHT.TireSkidWidth;
+                *(int*) (bytePtrT + 0x168) = WHEEL_FRONT_RIGHT.WheelID;
+                *(float*) (bytePtrT + 0x16C) = WHEEL_FRONT_RIGHT.YValue;
+                *(float*) (bytePtrT + 0x170) = WHEEL_FRONT_RIGHT.WideBodyYValue;
 
                 // Front Left Wheel
-                *(float*)(byteptr_t + 0x180) = this.WHEEL_REAR_RIGHT.XValue;
-                *(float*)(byteptr_t + 0x184) = this.WHEEL_REAR_RIGHT.Springs;
-                *(float*)(byteptr_t + 0x188) = this.WHEEL_REAR_RIGHT.RideHeight;
-                *(float*)(byteptr_t + 0x18C) = this.WHEEL_REAR_RIGHT.UnknownVal;
-                *(float*)(byteptr_t + 0x190) = this.WHEEL_REAR_RIGHT.Diameter;
-                *(float*)(byteptr_t + 0x194) = this.WHEEL_REAR_RIGHT.TireSkidWidth;
-                *(int*)(byteptr_t + 0x198) = this.WHEEL_REAR_RIGHT.WheelID;
-                *(float*)(byteptr_t + 0x19C) = this.WHEEL_REAR_RIGHT.YValue;
-                *(float*)(byteptr_t + 0x1A0) = this.WHEEL_REAR_RIGHT.WideBodyYValue;
+                *(float*) (bytePtrT + 0x180) = WHEEL_REAR_RIGHT.XValue;
+                *(float*) (bytePtrT + 0x184) = WHEEL_REAR_RIGHT.Springs;
+                *(float*) (bytePtrT + 0x188) = WHEEL_REAR_RIGHT.RideHeight;
+                *(float*) (bytePtrT + 0x18C) = WHEEL_REAR_RIGHT.UnknownVal;
+                *(float*) (bytePtrT + 0x190) = WHEEL_REAR_RIGHT.Diameter;
+                *(float*) (bytePtrT + 0x194) = WHEEL_REAR_RIGHT.TireSkidWidth;
+                *(int*) (bytePtrT + 0x198) = WHEEL_REAR_RIGHT.WheelID;
+                *(float*) (bytePtrT + 0x19C) = WHEEL_REAR_RIGHT.YValue;
+                *(float*) (bytePtrT + 0x1A0) = WHEEL_REAR_RIGHT.WideBodyYValue;
 
                 // Front Left Wheel
-                *(float*)(byteptr_t + 0x1B0) = this.WHEEL_REAR_LEFT.XValue;
-                *(float*)(byteptr_t + 0x1B4) = this.WHEEL_REAR_LEFT.Springs;
-                *(float*)(byteptr_t + 0x1B8) = this.WHEEL_REAR_LEFT.RideHeight;
-                *(float*)(byteptr_t + 0x1BC) = this.WHEEL_REAR_LEFT.UnknownVal;
-                *(float*)(byteptr_t + 0x1C0) = this.WHEEL_REAR_LEFT.Diameter;
-                *(float*)(byteptr_t + 0x1C4) = this.WHEEL_REAR_LEFT.TireSkidWidth;
-                *(int*)(byteptr_t + 0x1C8) = this.WHEEL_REAR_LEFT.WheelID;
-                *(float*)(byteptr_t + 0x1CC) = this.WHEEL_REAR_LEFT.YValue;
-                *(float*)(byteptr_t + 0x1D0) = this.WHEEL_REAR_LEFT.WideBodyYValue;
+                *(float*) (bytePtrT + 0x1B0) = WHEEL_REAR_LEFT.XValue;
+                *(float*) (bytePtrT + 0x1B4) = WHEEL_REAR_LEFT.Springs;
+                *(float*) (bytePtrT + 0x1B8) = WHEEL_REAR_LEFT.RideHeight;
+                *(float*) (bytePtrT + 0x1BC) = WHEEL_REAR_LEFT.UnknownVal;
+                *(float*) (bytePtrT + 0x1C0) = WHEEL_REAR_LEFT.Diameter;
+                *(float*) (bytePtrT + 0x1C4) = WHEEL_REAR_LEFT.TireSkidWidth;
+                *(int*) (bytePtrT + 0x1C8) = WHEEL_REAR_LEFT.WheelID;
+                *(float*) (bytePtrT + 0x1CC) = WHEEL_REAR_LEFT.YValue;
+                *(float*) (bytePtrT + 0x1D0) = WHEEL_REAR_LEFT.WideBodyYValue;
 
                 // Base Tires Performance
-                *(float*)(byteptr_t + 0x1E0) = this.BASE_TIRES.StaticGripScale;
-                *(float*)(byteptr_t + 0x1E4) = this.BASE_TIRES.YawSpeedScale;
-                *(float*)(byteptr_t + 0x1E8) = this.BASE_TIRES.SteeringAmplifier;
-                *(float*)(byteptr_t + 0x1EC) = this.BASE_TIRES.DynamicGripScale;
-                *(float*)(byteptr_t + 0x1F0) = this.BASE_TIRES.SteeringResponse;
-                *(float*)(byteptr_t + 0x200) = this.BASE_TIRES.DriftYawControl;
-                *(float*)(byteptr_t + 0x204) = this.BASE_TIRES.DriftCounterSteerBuildUp;
-                *(float*)(byteptr_t + 0x208) = this.BASE_TIRES.DriftCounterSteerReduction;
-                *(float*)(byteptr_t + 0x20C) = this.BASE_TIRES.PowerSlideBreakThru1;
-                *(float*)(byteptr_t + 0x210) = this.BASE_TIRES.PowerSlideBreakThru2;
+                *(float*) (bytePtrT + 0x1E0) = BASE_TIRES.StaticGripScale;
+                *(float*) (bytePtrT + 0x1E4) = BASE_TIRES.YawSpeedScale;
+                *(float*) (bytePtrT + 0x1E8) = BASE_TIRES.SteeringAmplifier;
+                *(float*) (bytePtrT + 0x1EC) = BASE_TIRES.DynamicGripScale;
+                *(float*) (bytePtrT + 0x1F0) = BASE_TIRES.SteeringResponse;
+                *(float*) (bytePtrT + 0x200) = BASE_TIRES.DriftYawControl;
+                *(float*) (bytePtrT + 0x204) = BASE_TIRES.DriftCounterSteerBuildUp;
+                *(float*) (bytePtrT + 0x208) = BASE_TIRES.DriftCounterSteerReduction;
+                *(float*) (bytePtrT + 0x20C) = BASE_TIRES.PowerSlideBreakThru1;
+                *(float*) (bytePtrT + 0x210) = BASE_TIRES.PowerSlideBreakThru2;
 
                 // Pvehicle Values
-                *(float*)(byteptr_t + 0x220) = this.PVEHICLE.Massx1000Multiplier;
-                *(float*)(byteptr_t + 0x224) = this.PVEHICLE.TensorScaleX;
-                *(float*)(byteptr_t + 0x228) = this.PVEHICLE.TensorScaleY;
-                *(float*)(byteptr_t + 0x22C) = this.PVEHICLE.TensorScaleZ;
-                *(float*)(byteptr_t + 0x230) = this.PVEHICLE.TensorScaleW;
-                *(float*)(byteptr_t + 0x270) = this.PVEHICLE.InitialHandlingRating;
-                *(float*)(byteptr_t + 0x370) = this.PVEHICLE.TopSpeedUnderflow;
-                *(float*)(byteptr_t + 0x3A0) = this.PVEHICLE.StockTopSpeedLimiter;
+                *(float*) (bytePtrT + 0x220) = PVEHICLE.Massx1000Multiplier;
+                *(float*) (bytePtrT + 0x224) = PVEHICLE.TensorScaleX;
+                *(float*) (bytePtrT + 0x228) = PVEHICLE.TensorScaleY;
+                *(float*) (bytePtrT + 0x22C) = PVEHICLE.TensorScaleZ;
+                *(float*) (bytePtrT + 0x230) = PVEHICLE.TensorScaleW;
+                *(float*) (bytePtrT + 0x270) = PVEHICLE.InitialHandlingRating;
+                *(float*) (bytePtrT + 0x370) = PVEHICLE.TopSpeedUnderflow;
+                *(float*) (bytePtrT + 0x3A0) = PVEHICLE.StockTopSpeedLimiter;
 
                 // Ecar Values
-                *(float*)(byteptr_t + 0x244) = this.ECAR.EcarUnknown1;
-                *(float*)(byteptr_t + 0x258) = this.ECAR.EcarUnknown2;
-                *(float*)(byteptr_t + 0x26C) = _float_1pt0;
-                *(float*)(byteptr_t + 0x394) = _float_2pt5;
-                *(float*)(byteptr_t + 0x398) = _float_17pt0;
-                *(float*)(byteptr_t + 0x710) = this.ECAR.HandlingBuffer;
-                *(float*)(byteptr_t + 0x714) = this.ECAR.TopSuspFrontHeightReduce;
-                *(float*)(byteptr_t + 0x718) = this.ECAR.TopSuspRearHeightReduce;
-                *(int*)(byteptr_t + 0x720) = this.ECAR.NumPlayerCameras;
-                *(int*)(byteptr_t + 0x724) = this.ECAR.NumAICameras;
-                *(int*)(byteptr_t + 0x87C) = this.ECAR.Cost;
+                *(float*) (bytePtrT + 0x244) = ECAR.EcarUnknown1;
+                *(float*) (bytePtrT + 0x258) = ECAR.EcarUnknown2;
+                *(float*) (bytePtrT + 0x26C) = Float1Pt0;
+                *(float*) (bytePtrT + 0x394) = Float2Pt5;
+                *(float*) (bytePtrT + 0x398) = Float17Pt0;
+                *(float*) (bytePtrT + 0x710) = ECAR.HandlingBuffer;
+                *(float*) (bytePtrT + 0x714) = ECAR.TopSuspFrontHeightReduce;
+                *(float*) (bytePtrT + 0x718) = ECAR.TopSuspRearHeightReduce;
+                *(int*) (bytePtrT + 0x720) = ECAR.NumPlayerCameras;
+                *(int*) (bytePtrT + 0x724) = ECAR.NumAICameras;
+                *(int*) (bytePtrT + 0x87C) = ECAR.Cost;
 
                 // Base Suspension Performance
-                *(float*)(byteptr_t + 0x280) = this.BASE_SUSPENSION.ShockStiffnessFront;
-                *(float*)(byteptr_t + 0x284) = this.BASE_SUSPENSION.ShockExtStiffnessFront;
-                *(float*)(byteptr_t + 0x288) = this.BASE_SUSPENSION.SpringProgressionFront;
-                *(float*)(byteptr_t + 0x28C) = this.BASE_SUSPENSION.ShockValvingFront;
-                *(float*)(byteptr_t + 0x290) = this.BASE_SUSPENSION.SwayBarFront;
-                *(float*)(byteptr_t + 0x294) = this.BASE_SUSPENSION.TrackWidthFront;
-                *(float*)(byteptr_t + 0x298) = this.BASE_SUSPENSION.CounterBiasFront;
-                *(float*)(byteptr_t + 0x29C) = this.BASE_SUSPENSION.ShockDigressionFront;
-                *(float*)(byteptr_t + 0x2A0) = this.BASE_SUSPENSION.ShockStiffnessRear;
-                *(float*)(byteptr_t + 0x2A4) = this.BASE_SUSPENSION.ShockExtStiffnessRear;
-                *(float*)(byteptr_t + 0x2A8) = this.BASE_SUSPENSION.SpringProgressionRear;
-                *(float*)(byteptr_t + 0x2AC) = this.BASE_SUSPENSION.ShockValvingRear;
-                *(float*)(byteptr_t + 0x2B0) = this.BASE_SUSPENSION.SwayBarRear;
-                *(float*)(byteptr_t + 0x2B4) = this.BASE_SUSPENSION.TrackWidthRear;
-                *(float*)(byteptr_t + 0x2B8) = this.BASE_SUSPENSION.CounterBiasRear;
-                *(float*)(byteptr_t + 0x2BC) = this.BASE_SUSPENSION.ShockDigressionRear;
+                *(float*) (bytePtrT + 0x280) = BASE_SUSPENSION.ShockStiffnessFront;
+                *(float*) (bytePtrT + 0x284) = BASE_SUSPENSION.ShockExtStiffnessFront;
+                *(float*) (bytePtrT + 0x288) = BASE_SUSPENSION.SpringProgressionFront;
+                *(float*) (bytePtrT + 0x28C) = BASE_SUSPENSION.ShockValvingFront;
+                *(float*) (bytePtrT + 0x290) = BASE_SUSPENSION.SwayBarFront;
+                *(float*) (bytePtrT + 0x294) = BASE_SUSPENSION.TrackWidthFront;
+                *(float*) (bytePtrT + 0x298) = BASE_SUSPENSION.CounterBiasFront;
+                *(float*) (bytePtrT + 0x29C) = BASE_SUSPENSION.ShockDigressionFront;
+                *(float*) (bytePtrT + 0x2A0) = BASE_SUSPENSION.ShockStiffnessRear;
+                *(float*) (bytePtrT + 0x2A4) = BASE_SUSPENSION.ShockExtStiffnessRear;
+                *(float*) (bytePtrT + 0x2A8) = BASE_SUSPENSION.SpringProgressionRear;
+                *(float*) (bytePtrT + 0x2AC) = BASE_SUSPENSION.ShockValvingRear;
+                *(float*) (bytePtrT + 0x2B0) = BASE_SUSPENSION.SwayBarRear;
+                *(float*) (bytePtrT + 0x2B4) = BASE_SUSPENSION.TrackWidthRear;
+                *(float*) (bytePtrT + 0x2B8) = BASE_SUSPENSION.CounterBiasRear;
+                *(float*) (bytePtrT + 0x2BC) = BASE_SUSPENSION.ShockDigressionRear;
 
                 // Base Transmission Performance
-                *(float*)(byteptr_t + 0x2C0) = this.BASE_TRANSMISSION.ClutchSlip;
-                *(float*)(byteptr_t + 0x2C4) = this.BASE_TRANSMISSION.OptimalShift;
-                *(float*)(byteptr_t + 0x2C8) = this.BASE_TRANSMISSION.FinalDriveRatio;
-                *(float*)(byteptr_t + 0x2CC) = this.BASE_TRANSMISSION.FinalDriveRatio2;
-                *(float*)(byteptr_t + 0x2D0) = this.BASE_TRANSMISSION.TorqueSplit;
-                *(float*)(byteptr_t + 0x2D4) = this.BASE_TRANSMISSION.BurnoutStrength;
-                *(int*)(byteptr_t + 0x2D8) = this.BASE_TRANSMISSION.NumberOfGears;
-                *(float*)(byteptr_t + 0x2DC) = this.BASE_TRANSMISSION.GearEfficiency;
-                *(float*)(byteptr_t + 0x2E0) = this.BASE_TRANSMISSION.GearRatioR;
-                *(float*)(byteptr_t + 0x2E4) = this.BASE_TRANSMISSION.GearRatioN;
-                *(float*)(byteptr_t + 0x2E8) = this.BASE_TRANSMISSION.GearRatio1;
-                *(float*)(byteptr_t + 0x2EC) = this.BASE_TRANSMISSION.GearRatio2;
-                *(float*)(byteptr_t + 0x2F0) = this.BASE_TRANSMISSION.GearRatio3;
-                *(float*)(byteptr_t + 0x2F4) = this.BASE_TRANSMISSION.GearRatio4;
-                *(float*)(byteptr_t + 0x2F8) = this.BASE_TRANSMISSION.GearRatio5;
-                *(float*)(byteptr_t + 0x2FC) = this.BASE_TRANSMISSION.GearRatio6;
+                *(float*) (bytePtrT + 0x2C0) = BASE_TRANSMISSION.ClutchSlip;
+                *(float*) (bytePtrT + 0x2C4) = BASE_TRANSMISSION.OptimalShift;
+                *(float*) (bytePtrT + 0x2C8) = BASE_TRANSMISSION.FinalDriveRatio;
+                *(float*) (bytePtrT + 0x2CC) = BASE_TRANSMISSION.FinalDriveRatio2;
+                *(float*) (bytePtrT + 0x2D0) = BASE_TRANSMISSION.TorqueSplit;
+                *(float*) (bytePtrT + 0x2D4) = BASE_TRANSMISSION.BurnoutStrength;
+                *(int*) (bytePtrT + 0x2D8) = BASE_TRANSMISSION.NumberOfGears;
+                *(float*) (bytePtrT + 0x2DC) = BASE_TRANSMISSION.GearEfficiency;
+                *(float*) (bytePtrT + 0x2E0) = BASE_TRANSMISSION.GearRatioR;
+                *(float*) (bytePtrT + 0x2E4) = BASE_TRANSMISSION.GearRatioN;
+                *(float*) (bytePtrT + 0x2E8) = BASE_TRANSMISSION.GearRatio1;
+                *(float*) (bytePtrT + 0x2EC) = BASE_TRANSMISSION.GearRatio2;
+                *(float*) (bytePtrT + 0x2F0) = BASE_TRANSMISSION.GearRatio3;
+                *(float*) (bytePtrT + 0x2F4) = BASE_TRANSMISSION.GearRatio4;
+                *(float*) (bytePtrT + 0x2F8) = BASE_TRANSMISSION.GearRatio5;
+                *(float*) (bytePtrT + 0x2FC) = BASE_TRANSMISSION.GearRatio6;
 
                 // Base RPM Performance
-                *(float*)(byteptr_t + 0x300) = this.BASE_RPM.IdleRPMAdd;
-                *(float*)(byteptr_t + 0x304) = this.BASE_RPM.RedLineRPMAdd;
-                *(float*)(byteptr_t + 0x308) = this.BASE_RPM.MaxRPMAdd;
+                *(float*) (bytePtrT + 0x300) = BASE_RPM.IdleRPMAdd;
+                *(float*) (bytePtrT + 0x304) = BASE_RPM.RedLineRPMAdd;
+                *(float*) (bytePtrT + 0x308) = BASE_RPM.MaxRPMAdd;
 
                 // Base Engine Performance
-                *(float*)(byteptr_t + 0x30C) = this.BASE_ENGINE.SpeedRefreshRate;
-                *(float*)(byteptr_t + 0x310) = this.BASE_ENGINE.EngineTorque1;
-                *(float*)(byteptr_t + 0x314) = this.BASE_ENGINE.EngineTorque2;
-                *(float*)(byteptr_t + 0x318) = this.BASE_ENGINE.EngineTorque3;
-                *(float*)(byteptr_t + 0x31C) = this.BASE_ENGINE.EngineTorque4;
-                *(float*)(byteptr_t + 0x320) = this.BASE_ENGINE.EngineTorque5;
-                *(float*)(byteptr_t + 0x324) = this.BASE_ENGINE.EngineTorque6;
-                *(float*)(byteptr_t + 0x328) = this.BASE_ENGINE.EngineTorque7;
-                *(float*)(byteptr_t + 0x32C) = this.BASE_ENGINE.EngineTorque8;
-                *(float*)(byteptr_t + 0x330) = this.BASE_ENGINE.EngineTorque9;
-                *(float*)(byteptr_t + 0x334) = this.BASE_ENGINE.EngineBraking1;
-                *(float*)(byteptr_t + 0x338) = this.BASE_ENGINE.EngineBraking2;
-                *(float*)(byteptr_t + 0x33C) = this.BASE_ENGINE.EngineBraking3;
+                *(float*) (bytePtrT + 0x30C) = BASE_ENGINE.SpeedRefreshRate;
+                *(float*) (bytePtrT + 0x310) = BASE_ENGINE.EngineTorque1;
+                *(float*) (bytePtrT + 0x314) = BASE_ENGINE.EngineTorque2;
+                *(float*) (bytePtrT + 0x318) = BASE_ENGINE.EngineTorque3;
+                *(float*) (bytePtrT + 0x31C) = BASE_ENGINE.EngineTorque4;
+                *(float*) (bytePtrT + 0x320) = BASE_ENGINE.EngineTorque5;
+                *(float*) (bytePtrT + 0x324) = BASE_ENGINE.EngineTorque6;
+                *(float*) (bytePtrT + 0x328) = BASE_ENGINE.EngineTorque7;
+                *(float*) (bytePtrT + 0x32C) = BASE_ENGINE.EngineTorque8;
+                *(float*) (bytePtrT + 0x330) = BASE_ENGINE.EngineTorque9;
+                *(float*) (bytePtrT + 0x334) = BASE_ENGINE.EngineBraking1;
+                *(float*) (bytePtrT + 0x338) = BASE_ENGINE.EngineBraking2;
+                *(float*) (bytePtrT + 0x33C) = BASE_ENGINE.EngineBraking3;
 
                 // Base Turbo Performance
-                *(float*)(byteptr_t + 0x340) = this.BASE_TURBO.TurboBraking;
-                *(float*)(byteptr_t + 0x344) = this.BASE_TURBO.TurboVacuum;
-                *(float*)(byteptr_t + 0x348) = this.BASE_TURBO.TurboHeatHigh;
-                *(float*)(byteptr_t + 0x34C) = this.BASE_TURBO.TurboHeatLow;
-                *(float*)(byteptr_t + 0x350) = this.BASE_TURBO.TurboHighBoost;
-                *(float*)(byteptr_t + 0x354) = this.BASE_TURBO.TurboLowBoost;
-                *(float*)(byteptr_t + 0x358) = this.BASE_TURBO.TurboSpool;
-                *(float*)(byteptr_t + 0x35C) = this.BASE_TURBO.TurboSpoolTimeDown;
-                *(float*)(byteptr_t + 0x360) = this.BASE_TURBO.TurboSpoolTimeUp;
+                *(float*) (bytePtrT + 0x340) = BASE_TURBO.TurboBraking;
+                *(float*) (bytePtrT + 0x344) = BASE_TURBO.TurboVacuum;
+                *(float*) (bytePtrT + 0x348) = BASE_TURBO.TurboHeatHigh;
+                *(float*) (bytePtrT + 0x34C) = BASE_TURBO.TurboHeatLow;
+                *(float*) (bytePtrT + 0x350) = BASE_TURBO.TurboHighBoost;
+                *(float*) (bytePtrT + 0x354) = BASE_TURBO.TurboLowBoost;
+                *(float*) (bytePtrT + 0x358) = BASE_TURBO.TurboSpool;
+                *(float*) (bytePtrT + 0x35C) = BASE_TURBO.TurboSpoolTimeDown;
+                *(float*) (bytePtrT + 0x360) = BASE_TURBO.TurboSpoolTimeUp;
 
                 // Base Brakes Performance
-                *(float*)(byteptr_t + 0x374) = this.BASE_BRAKES.FrontDownForce;
-                *(float*)(byteptr_t + 0x378) = this.BASE_BRAKES.RearDownForce;
-                *(float*)(byteptr_t + 0x37C) = this.BASE_BRAKES.BumpJumpForce;
-                *(float*)(byteptr_t + 0x380) = this.BASE_BRAKES.SteeringRatio;
-                *(float*)(byteptr_t + 0x384) = this.BASE_BRAKES.BrakeStrength;
-                *(float*)(byteptr_t + 0x388) = this.BASE_BRAKES.HandBrakeStrength;
-                *(float*)(byteptr_t + 0x38C) = this.BASE_BRAKES.BrakeBias;
+                *(float*) (bytePtrT + 0x374) = BASE_BRAKES.FrontDownForce;
+                *(float*) (bytePtrT + 0x378) = BASE_BRAKES.RearDownForce;
+                *(float*) (bytePtrT + 0x37C) = BASE_BRAKES.BumpJumpForce;
+                *(float*) (bytePtrT + 0x380) = BASE_BRAKES.SteeringRatio;
+                *(float*) (bytePtrT + 0x384) = BASE_BRAKES.BrakeStrength;
+                *(float*) (bytePtrT + 0x388) = BASE_BRAKES.HandBrakeStrength;
+                *(float*) (bytePtrT + 0x38C) = BASE_BRAKES.BrakeBias;
 
                 // DriftAdditionalYawControl Performance
-                *(float*)(byteptr_t + 0x3C0) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl1;
-                *(float*)(byteptr_t + 0x3C4) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl2;
-                *(float*)(byteptr_t + 0x3C8) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl3;
-                *(float*)(byteptr_t + 0x3CC) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl4;
-                *(float*)(byteptr_t + 0x3D0) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl5;
-                *(float*)(byteptr_t + 0x3D4) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl6;
-                *(float*)(byteptr_t + 0x3D8) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl7;
-                *(float*)(byteptr_t + 0x3DC) = this.DRIFT_ADD_CONTROL.DriftAdditionalYawControl8;
+                *(float*) (bytePtrT + 0x3C0) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl1;
+                *(float*) (bytePtrT + 0x3C4) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl2;
+                *(float*) (bytePtrT + 0x3C8) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl3;
+                *(float*) (bytePtrT + 0x3CC) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl4;
+                *(float*) (bytePtrT + 0x3D0) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl5;
+                *(float*) (bytePtrT + 0x3D4) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl6;
+                *(float*) (bytePtrT + 0x3D8) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl7;
+                *(float*) (bytePtrT + 0x3DC) = DRIFT_ADD_CONTROL.DriftAdditionalYawControl8;
 
                 // Skip Street + Pro Engine and Street Turbo, 0x03E0 - 0x0450
-                *(float*)(byteptr_t + 0x3E0) = this.TOP_ENGINE.EngineTorque1 / 3;
-                *(float*)(byteptr_t + 0x3E4) = this.TOP_ENGINE.EngineTorque2 / 3;
-                *(float*)(byteptr_t + 0x3E8) = this.TOP_ENGINE.EngineTorque3 / 3;
-                *(float*)(byteptr_t + 0x3EC) = this.TOP_ENGINE.EngineTorque4 / 3;
-                *(float*)(byteptr_t + 0x3F0) = this.TOP_ENGINE.EngineTorque5 / 3;
-                *(float*)(byteptr_t + 0x3F4) = this.TOP_ENGINE.EngineTorque6 / 3;
-                *(float*)(byteptr_t + 0x3F8) = this.TOP_ENGINE.EngineTorque7 / 3;
-                *(float*)(byteptr_t + 0x3FC) = this.TOP_ENGINE.EngineTorque8 / 3;
-                *(float*)(byteptr_t + 0x400) = this.TOP_ENGINE.EngineTorque9 / 3;
-                *(float*)(byteptr_t + 0x404) = this.TOP_ENGINE.EngineTorque1 / 3;
-                *(float*)(byteptr_t + 0x408) = this.TOP_ENGINE.EngineTorque2 / 3;
-                *(float*)(byteptr_t + 0x40C) = this.TOP_ENGINE.EngineTorque3 / 3;
-                *(float*)(byteptr_t + 0x410) = this.TOP_ENGINE.EngineTorque4 / 3;
-                *(float*)(byteptr_t + 0x414) = this.TOP_ENGINE.EngineTorque5 / 3;
-                *(float*)(byteptr_t + 0x418) = this.TOP_ENGINE.EngineTorque6 / 3;
-                *(float*)(byteptr_t + 0x41C) = this.TOP_ENGINE.EngineTorque7 / 3;
-                *(float*)(byteptr_t + 0x420) = this.TOP_ENGINE.EngineTorque8 / 3;
-                *(float*)(byteptr_t + 0x424) = this.TOP_ENGINE.EngineTorque9 / 3;
-                *(float*)(byteptr_t + 0x428) = this.TOP_TURBO.TurboBraking / 10;
-                *(float*)(byteptr_t + 0x42C) = this.TOP_TURBO.TurboVacuum / 10;
-                *(float*)(byteptr_t + 0x430) = this.TOP_TURBO.TurboHeatHigh / 10;
-                *(float*)(byteptr_t + 0x434) = this.TOP_TURBO.TurboHeatLow / 10;
-                *(float*)(byteptr_t + 0x438) = this.TOP_TURBO.TurboHighBoost / 10;
-                *(float*)(byteptr_t + 0x43C) = this.TOP_TURBO.TurboLowBoost / 10;
-                *(float*)(byteptr_t + 0x440) = this.TOP_TURBO.TurboSpool / 10;
-                *(float*)(byteptr_t + 0x444) = this.TOP_TURBO.TurboSpoolTimeDown / 10;
-                *(float*)(byteptr_t + 0x448) = this.TOP_TURBO.TurboSpoolTimeUp / 10;
+                *(float*) (bytePtrT + 0x3E0) = TOP_ENGINE.EngineTorque1 / 3;
+                *(float*) (bytePtrT + 0x3E4) = TOP_ENGINE.EngineTorque2 / 3;
+                *(float*) (bytePtrT + 0x3E8) = TOP_ENGINE.EngineTorque3 / 3;
+                *(float*) (bytePtrT + 0x3EC) = TOP_ENGINE.EngineTorque4 / 3;
+                *(float*) (bytePtrT + 0x3F0) = TOP_ENGINE.EngineTorque5 / 3;
+                *(float*) (bytePtrT + 0x3F4) = TOP_ENGINE.EngineTorque6 / 3;
+                *(float*) (bytePtrT + 0x3F8) = TOP_ENGINE.EngineTorque7 / 3;
+                *(float*) (bytePtrT + 0x3FC) = TOP_ENGINE.EngineTorque8 / 3;
+                *(float*) (bytePtrT + 0x400) = TOP_ENGINE.EngineTorque9 / 3;
+                *(float*) (bytePtrT + 0x404) = TOP_ENGINE.EngineTorque1 / 3;
+                *(float*) (bytePtrT + 0x408) = TOP_ENGINE.EngineTorque2 / 3;
+                *(float*) (bytePtrT + 0x40C) = TOP_ENGINE.EngineTorque3 / 3;
+                *(float*) (bytePtrT + 0x410) = TOP_ENGINE.EngineTorque4 / 3;
+                *(float*) (bytePtrT + 0x414) = TOP_ENGINE.EngineTorque5 / 3;
+                *(float*) (bytePtrT + 0x418) = TOP_ENGINE.EngineTorque6 / 3;
+                *(float*) (bytePtrT + 0x41C) = TOP_ENGINE.EngineTorque7 / 3;
+                *(float*) (bytePtrT + 0x420) = TOP_ENGINE.EngineTorque8 / 3;
+                *(float*) (bytePtrT + 0x424) = TOP_ENGINE.EngineTorque9 / 3;
+                *(float*) (bytePtrT + 0x428) = TOP_TURBO.TurboBraking / 10;
+                *(float*) (bytePtrT + 0x42C) = TOP_TURBO.TurboVacuum / 10;
+                *(float*) (bytePtrT + 0x430) = TOP_TURBO.TurboHeatHigh / 10;
+                *(float*) (bytePtrT + 0x434) = TOP_TURBO.TurboHeatLow / 10;
+                *(float*) (bytePtrT + 0x438) = TOP_TURBO.TurboHighBoost / 10;
+                *(float*) (bytePtrT + 0x43C) = TOP_TURBO.TurboLowBoost / 10;
+                *(float*) (bytePtrT + 0x440) = TOP_TURBO.TurboSpool / 10;
+                *(float*) (bytePtrT + 0x444) = TOP_TURBO.TurboSpoolTimeDown / 10;
+                *(float*) (bytePtrT + 0x448) = TOP_TURBO.TurboSpoolTimeUp / 10;
 
                 // Top Weight Reduction Performance
-                *(float*)(byteptr_t + 0x450) = this.TOP_WEIGHT_REDUCTION.WeightReductionMassMultiplier;
-                *(float*)(byteptr_t + 0x454) = this.TOP_WEIGHT_REDUCTION.WeightReductionGripAddon;
-                *(float*)(byteptr_t + 0x458) = this.TOP_WEIGHT_REDUCTION.WeightReductionHandlingRating;
+                *(float*) (bytePtrT + 0x450) = TOP_WEIGHT_REDUCTION.WeightReductionMassMultiplier;
+                *(float*) (bytePtrT + 0x454) = TOP_WEIGHT_REDUCTION.WeightReductionGripAddon;
+                *(float*) (bytePtrT + 0x458) = TOP_WEIGHT_REDUCTION.WeightReductionHandlingRating;
 
                 // Street Transmission Performance
-                *(float*)(byteptr_t + 0x460) = this.STREET_TRANSMISSION.ClutchSlip;
-                *(float*)(byteptr_t + 0x464) = this.STREET_TRANSMISSION.OptimalShift;
-                *(float*)(byteptr_t + 0x468) = this.STREET_TRANSMISSION.FinalDriveRatio;
-                *(float*)(byteptr_t + 0x46C) = this.STREET_TRANSMISSION.FinalDriveRatio2;
-                *(float*)(byteptr_t + 0x470) = this.STREET_TRANSMISSION.TorqueSplit;
-                *(float*)(byteptr_t + 0x474) = this.STREET_TRANSMISSION.BurnoutStrength;
-                *(int*)(byteptr_t + 0x478) = this.STREET_TRANSMISSION.NumberOfGears;
-                *(float*)(byteptr_t + 0x47C) = this.STREET_TRANSMISSION.GearEfficiency;
-                *(float*)(byteptr_t + 0x480) = this.STREET_TRANSMISSION.GearRatioR;
-                *(float*)(byteptr_t + 0x484) = this.STREET_TRANSMISSION.GearRatioN;
-                *(float*)(byteptr_t + 0x488) = this.STREET_TRANSMISSION.GearRatio1;
-                *(float*)(byteptr_t + 0x48C) = this.STREET_TRANSMISSION.GearRatio2;
-                *(float*)(byteptr_t + 0x490) = this.STREET_TRANSMISSION.GearRatio3;
-                *(float*)(byteptr_t + 0x494) = this.STREET_TRANSMISSION.GearRatio4;
-                *(float*)(byteptr_t + 0x498) = this.STREET_TRANSMISSION.GearRatio5;
-                *(float*)(byteptr_t + 0x49C) = this.STREET_TRANSMISSION.GearRatio6;
+                *(float*) (bytePtrT + 0x460) = STREET_TRANSMISSION.ClutchSlip;
+                *(float*) (bytePtrT + 0x464) = STREET_TRANSMISSION.OptimalShift;
+                *(float*) (bytePtrT + 0x468) = STREET_TRANSMISSION.FinalDriveRatio;
+                *(float*) (bytePtrT + 0x46C) = STREET_TRANSMISSION.FinalDriveRatio2;
+                *(float*) (bytePtrT + 0x470) = STREET_TRANSMISSION.TorqueSplit;
+                *(float*) (bytePtrT + 0x474) = STREET_TRANSMISSION.BurnoutStrength;
+                *(int*) (bytePtrT + 0x478) = STREET_TRANSMISSION.NumberOfGears;
+                *(float*) (bytePtrT + 0x47C) = STREET_TRANSMISSION.GearEfficiency;
+                *(float*) (bytePtrT + 0x480) = STREET_TRANSMISSION.GearRatioR;
+                *(float*) (bytePtrT + 0x484) = STREET_TRANSMISSION.GearRatioN;
+                *(float*) (bytePtrT + 0x488) = STREET_TRANSMISSION.GearRatio1;
+                *(float*) (bytePtrT + 0x48C) = STREET_TRANSMISSION.GearRatio2;
+                *(float*) (bytePtrT + 0x490) = STREET_TRANSMISSION.GearRatio3;
+                *(float*) (bytePtrT + 0x494) = STREET_TRANSMISSION.GearRatio4;
+                *(float*) (bytePtrT + 0x498) = STREET_TRANSMISSION.GearRatio5;
+                *(float*) (bytePtrT + 0x49C) = STREET_TRANSMISSION.GearRatio6;
 
                 // Pro Transmission Performance
-                *(float*)(byteptr_t + 0x4A0) = this.PRO_TRANSMISSION.ClutchSlip;
-                *(float*)(byteptr_t + 0x4A4) = this.PRO_TRANSMISSION.OptimalShift;
-                *(float*)(byteptr_t + 0x4A8) = this.PRO_TRANSMISSION.FinalDriveRatio;
-                *(float*)(byteptr_t + 0x4AC) = this.PRO_TRANSMISSION.FinalDriveRatio2;
-                *(float*)(byteptr_t + 0x4B0) = this.PRO_TRANSMISSION.TorqueSplit;
-                *(float*)(byteptr_t + 0x4B4) = this.PRO_TRANSMISSION.BurnoutStrength;
-                *(int*)(byteptr_t + 0x4B8) = this.PRO_TRANSMISSION.NumberOfGears;
-                *(float*)(byteptr_t + 0x4BC) = this.PRO_TRANSMISSION.GearEfficiency;
-                *(float*)(byteptr_t + 0x4C0) = this.PRO_TRANSMISSION.GearRatioR;
-                *(float*)(byteptr_t + 0x4C4) = this.PRO_TRANSMISSION.GearRatioN;
-                *(float*)(byteptr_t + 0x4C8) = this.PRO_TRANSMISSION.GearRatio1;
-                *(float*)(byteptr_t + 0x4CC) = this.PRO_TRANSMISSION.GearRatio2;
-                *(float*)(byteptr_t + 0x4D0) = this.PRO_TRANSMISSION.GearRatio3;
-                *(float*)(byteptr_t + 0x4D4) = this.PRO_TRANSMISSION.GearRatio4;
-                *(float*)(byteptr_t + 0x4D8) = this.PRO_TRANSMISSION.GearRatio5;
-                *(float*)(byteptr_t + 0x4DC) = this.PRO_TRANSMISSION.GearRatio6;
+                *(float*) (bytePtrT + 0x4A0) = PRO_TRANSMISSION.ClutchSlip;
+                *(float*) (bytePtrT + 0x4A4) = PRO_TRANSMISSION.OptimalShift;
+                *(float*) (bytePtrT + 0x4A8) = PRO_TRANSMISSION.FinalDriveRatio;
+                *(float*) (bytePtrT + 0x4AC) = PRO_TRANSMISSION.FinalDriveRatio2;
+                *(float*) (bytePtrT + 0x4B0) = PRO_TRANSMISSION.TorqueSplit;
+                *(float*) (bytePtrT + 0x4B4) = PRO_TRANSMISSION.BurnoutStrength;
+                *(int*) (bytePtrT + 0x4B8) = PRO_TRANSMISSION.NumberOfGears;
+                *(float*) (bytePtrT + 0x4BC) = PRO_TRANSMISSION.GearEfficiency;
+                *(float*) (bytePtrT + 0x4C0) = PRO_TRANSMISSION.GearRatioR;
+                *(float*) (bytePtrT + 0x4C4) = PRO_TRANSMISSION.GearRatioN;
+                *(float*) (bytePtrT + 0x4C8) = PRO_TRANSMISSION.GearRatio1;
+                *(float*) (bytePtrT + 0x4CC) = PRO_TRANSMISSION.GearRatio2;
+                *(float*) (bytePtrT + 0x4D0) = PRO_TRANSMISSION.GearRatio3;
+                *(float*) (bytePtrT + 0x4D4) = PRO_TRANSMISSION.GearRatio4;
+                *(float*) (bytePtrT + 0x4D8) = PRO_TRANSMISSION.GearRatio5;
+                *(float*) (bytePtrT + 0x4DC) = PRO_TRANSMISSION.GearRatio6;
 
                 // Top Transmission Performance
-                *(float*)(byteptr_t + 0x4E0) = this.TOP_TRANSMISSION.ClutchSlip;
-                *(float*)(byteptr_t + 0x4E4) = this.TOP_TRANSMISSION.OptimalShift;
-                *(float*)(byteptr_t + 0x4E8) = this.TOP_TRANSMISSION.FinalDriveRatio;
-                *(float*)(byteptr_t + 0x4EC) = this.TOP_TRANSMISSION.FinalDriveRatio2;
-                *(float*)(byteptr_t + 0x4F0) = this.TOP_TRANSMISSION.TorqueSplit;
-                *(float*)(byteptr_t + 0x4F4) = this.TOP_TRANSMISSION.BurnoutStrength;
-                *(int*)(byteptr_t + 0x4F8) = this.TOP_TRANSMISSION.NumberOfGears;
-                *(float*)(byteptr_t + 0x4FC) = this.TOP_TRANSMISSION.GearEfficiency;
-                *(float*)(byteptr_t + 0x500) = this.TOP_TRANSMISSION.GearRatioR;
-                *(float*)(byteptr_t + 0x504) = this.TOP_TRANSMISSION.GearRatioN;
-                *(float*)(byteptr_t + 0x508) = this.TOP_TRANSMISSION.GearRatio1;
-                *(float*)(byteptr_t + 0x50C) = this.TOP_TRANSMISSION.GearRatio2;
-                *(float*)(byteptr_t + 0x510) = this.TOP_TRANSMISSION.GearRatio3;
-                *(float*)(byteptr_t + 0x514) = this.TOP_TRANSMISSION.GearRatio4;
-                *(float*)(byteptr_t + 0x518) = this.TOP_TRANSMISSION.GearRatio5;
-                *(float*)(byteptr_t + 0x51C) = this.TOP_TRANSMISSION.GearRatio6;
+                *(float*) (bytePtrT + 0x4E0) = TOP_TRANSMISSION.ClutchSlip;
+                *(float*) (bytePtrT + 0x4E4) = TOP_TRANSMISSION.OptimalShift;
+                *(float*) (bytePtrT + 0x4E8) = TOP_TRANSMISSION.FinalDriveRatio;
+                *(float*) (bytePtrT + 0x4EC) = TOP_TRANSMISSION.FinalDriveRatio2;
+                *(float*) (bytePtrT + 0x4F0) = TOP_TRANSMISSION.TorqueSplit;
+                *(float*) (bytePtrT + 0x4F4) = TOP_TRANSMISSION.BurnoutStrength;
+                *(int*) (bytePtrT + 0x4F8) = TOP_TRANSMISSION.NumberOfGears;
+                *(float*) (bytePtrT + 0x4FC) = TOP_TRANSMISSION.GearEfficiency;
+                *(float*) (bytePtrT + 0x500) = TOP_TRANSMISSION.GearRatioR;
+                *(float*) (bytePtrT + 0x504) = TOP_TRANSMISSION.GearRatioN;
+                *(float*) (bytePtrT + 0x508) = TOP_TRANSMISSION.GearRatio1;
+                *(float*) (bytePtrT + 0x50C) = TOP_TRANSMISSION.GearRatio2;
+                *(float*) (bytePtrT + 0x510) = TOP_TRANSMISSION.GearRatio3;
+                *(float*) (bytePtrT + 0x514) = TOP_TRANSMISSION.GearRatio4;
+                *(float*) (bytePtrT + 0x518) = TOP_TRANSMISSION.GearRatio5;
+                *(float*) (bytePtrT + 0x51C) = TOP_TRANSMISSION.GearRatio6;
 
                 // Top Engine Performance
-                *(float*)(byteptr_t + 0x52C) = this.TOP_ENGINE.SpeedRefreshRate;
-                *(float*)(byteptr_t + 0x530) = this.TOP_ENGINE.EngineTorque1;
-                *(float*)(byteptr_t + 0x534) = this.TOP_ENGINE.EngineTorque2;
-                *(float*)(byteptr_t + 0x538) = this.TOP_ENGINE.EngineTorque3;
-                *(float*)(byteptr_t + 0x53C) = this.TOP_ENGINE.EngineTorque4;
-                *(float*)(byteptr_t + 0x540) = this.TOP_ENGINE.EngineTorque5;
-                *(float*)(byteptr_t + 0x544) = this.TOP_ENGINE.EngineTorque6;
-                *(float*)(byteptr_t + 0x548) = this.TOP_ENGINE.EngineTorque7;
-                *(float*)(byteptr_t + 0x54C) = this.TOP_ENGINE.EngineTorque8;
-                *(float*)(byteptr_t + 0x550) = this.TOP_ENGINE.EngineTorque9;
-                *(float*)(byteptr_t + 0x554) = this.TOP_ENGINE.EngineBraking1;
-                *(float*)(byteptr_t + 0x558) = this.TOP_ENGINE.EngineBraking2;
-                *(float*)(byteptr_t + 0x55C) = this.TOP_ENGINE.EngineBraking3;
+                *(float*) (bytePtrT + 0x52C) = TOP_ENGINE.SpeedRefreshRate;
+                *(float*) (bytePtrT + 0x530) = TOP_ENGINE.EngineTorque1;
+                *(float*) (bytePtrT + 0x534) = TOP_ENGINE.EngineTorque2;
+                *(float*) (bytePtrT + 0x538) = TOP_ENGINE.EngineTorque3;
+                *(float*) (bytePtrT + 0x53C) = TOP_ENGINE.EngineTorque4;
+                *(float*) (bytePtrT + 0x540) = TOP_ENGINE.EngineTorque5;
+                *(float*) (bytePtrT + 0x544) = TOP_ENGINE.EngineTorque6;
+                *(float*) (bytePtrT + 0x548) = TOP_ENGINE.EngineTorque7;
+                *(float*) (bytePtrT + 0x54C) = TOP_ENGINE.EngineTorque8;
+                *(float*) (bytePtrT + 0x550) = TOP_ENGINE.EngineTorque9;
+                *(float*) (bytePtrT + 0x554) = TOP_ENGINE.EngineBraking1;
+                *(float*) (bytePtrT + 0x558) = TOP_ENGINE.EngineBraking2;
+                *(float*) (bytePtrT + 0x55C) = TOP_ENGINE.EngineBraking3;
 
                 // Street RPM Performance
-                *(float*)(byteptr_t + 0x560) = this.STREET_RPM.IdleRPMAdd;
-                *(float*)(byteptr_t + 0x564) = this.STREET_RPM.RedLineRPMAdd;
-                *(float*)(byteptr_t + 0x568) = this.STREET_RPM.MaxRPMAdd;
-                *(float*)(byteptr_t + 0x56C) = this.TOP_ENGINE.SpeedRefreshRate / 3;
+                *(float*) (bytePtrT + 0x560) = STREET_RPM.IdleRPMAdd;
+                *(float*) (bytePtrT + 0x564) = STREET_RPM.RedLineRPMAdd;
+                *(float*) (bytePtrT + 0x568) = STREET_RPM.MaxRPMAdd;
+                *(float*) (bytePtrT + 0x56C) = TOP_ENGINE.SpeedRefreshRate / 3;
 
                 // Street ECU Performance
-                *(float*)(byteptr_t + 0x570) = this.STREET_ECU.ECUx1000Add;
-                *(float*)(byteptr_t + 0x574) = this.STREET_ECU.ECUx2000Add;
-                *(float*)(byteptr_t + 0x578) = this.STREET_ECU.ECUx3000Add;
-                *(float*)(byteptr_t + 0x57C) = this.STREET_ECU.ECUx4000Add;
-                *(float*)(byteptr_t + 0x580) = this.STREET_ECU.ECUx5000Add;
-                *(float*)(byteptr_t + 0x584) = this.STREET_ECU.ECUx6000Add;
-                *(float*)(byteptr_t + 0x588) = this.STREET_ECU.ECUx7000Add;
-                *(float*)(byteptr_t + 0x58C) = this.STREET_ECU.ECUx8000Add;
-                *(float*)(byteptr_t + 0x590) = this.STREET_ECU.ECUx9000Add;
-                *(float*)(byteptr_t + 0x594) = this.STREET_ECU.ECUx10000Add;
-                *(float*)(byteptr_t + 0x598) = this.STREET_ECU.ECUx11000Add;
-                *(float*)(byteptr_t + 0x59C) = this.STREET_ECU.ECUx12000Add;
+                *(float*) (bytePtrT + 0x570) = STREET_ECU.ECUx1000Add;
+                *(float*) (bytePtrT + 0x574) = STREET_ECU.ECUx2000Add;
+                *(float*) (bytePtrT + 0x578) = STREET_ECU.ECUx3000Add;
+                *(float*) (bytePtrT + 0x57C) = STREET_ECU.ECUx4000Add;
+                *(float*) (bytePtrT + 0x580) = STREET_ECU.ECUx5000Add;
+                *(float*) (bytePtrT + 0x584) = STREET_ECU.ECUx6000Add;
+                *(float*) (bytePtrT + 0x588) = STREET_ECU.ECUx7000Add;
+                *(float*) (bytePtrT + 0x58C) = STREET_ECU.ECUx8000Add;
+                *(float*) (bytePtrT + 0x590) = STREET_ECU.ECUx9000Add;
+                *(float*) (bytePtrT + 0x594) = STREET_ECU.ECUx10000Add;
+                *(float*) (bytePtrT + 0x598) = STREET_ECU.ECUx11000Add;
+                *(float*) (bytePtrT + 0x59C) = STREET_ECU.ECUx12000Add;
 
                 // Pro RPM Performance
-                *(float*)(byteptr_t + 0x5A0) = this.PRO_RPM.IdleRPMAdd;
-                *(float*)(byteptr_t + 0x5A4) = this.PRO_RPM.RedLineRPMAdd;
-                *(float*)(byteptr_t + 0x5A8) = this.PRO_RPM.MaxRPMAdd;
-                *(float*)(byteptr_t + 0x5AC) = this.TOP_ENGINE.SpeedRefreshRate * 2 / 3;
+                *(float*) (bytePtrT + 0x5A0) = PRO_RPM.IdleRPMAdd;
+                *(float*) (bytePtrT + 0x5A4) = PRO_RPM.RedLineRPMAdd;
+                *(float*) (bytePtrT + 0x5A8) = PRO_RPM.MaxRPMAdd;
+                *(float*) (bytePtrT + 0x5AC) = TOP_ENGINE.SpeedRefreshRate * 2 / 3;
 
                 // Pro ECU Performance
-                *(float*)(byteptr_t + 0x5B0) = this.PRO_ECU.ECUx1000Add;
-                *(float*)(byteptr_t + 0x5B4) = this.PRO_ECU.ECUx2000Add;
-                *(float*)(byteptr_t + 0x5B8) = this.PRO_ECU.ECUx3000Add;
-                *(float*)(byteptr_t + 0x5BC) = this.PRO_ECU.ECUx4000Add;
-                *(float*)(byteptr_t + 0x5C0) = this.PRO_ECU.ECUx5000Add;
-                *(float*)(byteptr_t + 0x5C4) = this.PRO_ECU.ECUx6000Add;
-                *(float*)(byteptr_t + 0x5C8) = this.PRO_ECU.ECUx7000Add;
-                *(float*)(byteptr_t + 0x5CC) = this.PRO_ECU.ECUx8000Add;
-                *(float*)(byteptr_t + 0x5D0) = this.PRO_ECU.ECUx9000Add;
-                *(float*)(byteptr_t + 0x5D4) = this.PRO_ECU.ECUx10000Add;
-                *(float*)(byteptr_t + 0x5D8) = this.PRO_ECU.ECUx11000Add;
-                *(float*)(byteptr_t + 0x5DC) = this.PRO_ECU.ECUx12000Add;
+                *(float*) (bytePtrT + 0x5B0) = PRO_ECU.ECUx1000Add;
+                *(float*) (bytePtrT + 0x5B4) = PRO_ECU.ECUx2000Add;
+                *(float*) (bytePtrT + 0x5B8) = PRO_ECU.ECUx3000Add;
+                *(float*) (bytePtrT + 0x5BC) = PRO_ECU.ECUx4000Add;
+                *(float*) (bytePtrT + 0x5C0) = PRO_ECU.ECUx5000Add;
+                *(float*) (bytePtrT + 0x5C4) = PRO_ECU.ECUx6000Add;
+                *(float*) (bytePtrT + 0x5C8) = PRO_ECU.ECUx7000Add;
+                *(float*) (bytePtrT + 0x5CC) = PRO_ECU.ECUx8000Add;
+                *(float*) (bytePtrT + 0x5D0) = PRO_ECU.ECUx9000Add;
+                *(float*) (bytePtrT + 0x5D4) = PRO_ECU.ECUx10000Add;
+                *(float*) (bytePtrT + 0x5D8) = PRO_ECU.ECUx11000Add;
+                *(float*) (bytePtrT + 0x5DC) = PRO_ECU.ECUx12000Add;
 
                 // Top RPM Performance
-                *(float*)(byteptr_t + 0x5E0) = this.TOP_RPM.IdleRPMAdd;
-                *(float*)(byteptr_t + 0x5E4) = this.TOP_RPM.RedLineRPMAdd;
-                *(float*)(byteptr_t + 0x5E8) = this.TOP_RPM.MaxRPMAdd;
-                *(float*)(byteptr_t + 0x5EC) = this.TOP_ENGINE.SpeedRefreshRate;
+                *(float*) (bytePtrT + 0x5E0) = TOP_RPM.IdleRPMAdd;
+                *(float*) (bytePtrT + 0x5E4) = TOP_RPM.RedLineRPMAdd;
+                *(float*) (bytePtrT + 0x5E8) = TOP_RPM.MaxRPMAdd;
+                *(float*) (bytePtrT + 0x5EC) = TOP_ENGINE.SpeedRefreshRate;
 
                 // Top ECU Performance
-                *(float*)(byteptr_t + 0x5F0) = this.TOP_ECU.ECUx1000Add;
-                *(float*)(byteptr_t + 0x5F4) = this.TOP_ECU.ECUx2000Add;
-                *(float*)(byteptr_t + 0x5F8) = this.TOP_ECU.ECUx3000Add;
-                *(float*)(byteptr_t + 0x5FC) = this.TOP_ECU.ECUx4000Add;
-                *(float*)(byteptr_t + 0x600) = this.TOP_ECU.ECUx5000Add;
-                *(float*)(byteptr_t + 0x604) = this.TOP_ECU.ECUx6000Add;
-                *(float*)(byteptr_t + 0x608) = this.TOP_ECU.ECUx7000Add;
-                *(float*)(byteptr_t + 0x60C) = this.TOP_ECU.ECUx8000Add;
-                *(float*)(byteptr_t + 0x610) = this.TOP_ECU.ECUx9000Add;
-                *(float*)(byteptr_t + 0x614) = this.TOP_ECU.ECUx10000Add;
-                *(float*)(byteptr_t + 0x618) = this.TOP_ECU.ECUx11000Add;
-                *(float*)(byteptr_t + 0x61C) = this.TOP_ECU.ECUx12000Add;
+                *(float*) (bytePtrT + 0x5F0) = TOP_ECU.ECUx1000Add;
+                *(float*) (bytePtrT + 0x5F4) = TOP_ECU.ECUx2000Add;
+                *(float*) (bytePtrT + 0x5F8) = TOP_ECU.ECUx3000Add;
+                *(float*) (bytePtrT + 0x5FC) = TOP_ECU.ECUx4000Add;
+                *(float*) (bytePtrT + 0x600) = TOP_ECU.ECUx5000Add;
+                *(float*) (bytePtrT + 0x604) = TOP_ECU.ECUx6000Add;
+                *(float*) (bytePtrT + 0x608) = TOP_ECU.ECUx7000Add;
+                *(float*) (bytePtrT + 0x60C) = TOP_ECU.ECUx8000Add;
+                *(float*) (bytePtrT + 0x610) = TOP_ECU.ECUx9000Add;
+                *(float*) (bytePtrT + 0x614) = TOP_ECU.ECUx10000Add;
+                *(float*) (bytePtrT + 0x618) = TOP_ECU.ECUx11000Add;
+                *(float*) (bytePtrT + 0x61C) = TOP_ECU.ECUx12000Add;
 
                 // Top Turbo Performance
-                *(float*)(byteptr_t + 0x620) = this.TOP_TURBO.TurboBraking;
-                *(float*)(byteptr_t + 0x624) = this.TOP_TURBO.TurboVacuum;
-                *(float*)(byteptr_t + 0x628) = this.TOP_TURBO.TurboHeatHigh;
-                *(float*)(byteptr_t + 0x62C) = this.TOP_TURBO.TurboHeatLow;
-                *(float*)(byteptr_t + 0x630) = this.TOP_TURBO.TurboHighBoost;
-                *(float*)(byteptr_t + 0x634) = this.TOP_TURBO.TurboLowBoost;
-                *(float*)(byteptr_t + 0x638) = this.TOP_TURBO.TurboSpool;
-                *(float*)(byteptr_t + 0x63C) = this.TOP_TURBO.TurboSpoolTimeDown;
-                *(float*)(byteptr_t + 0x640) = this.TOP_TURBO.TurboSpoolTimeUp;
+                *(float*) (bytePtrT + 0x620) = TOP_TURBO.TurboBraking;
+                *(float*) (bytePtrT + 0x624) = TOP_TURBO.TurboVacuum;
+                *(float*) (bytePtrT + 0x628) = TOP_TURBO.TurboHeatHigh;
+                *(float*) (bytePtrT + 0x62C) = TOP_TURBO.TurboHeatLow;
+                *(float*) (bytePtrT + 0x630) = TOP_TURBO.TurboHighBoost;
+                *(float*) (bytePtrT + 0x634) = TOP_TURBO.TurboLowBoost;
+                *(float*) (bytePtrT + 0x638) = TOP_TURBO.TurboSpool;
+                *(float*) (bytePtrT + 0x63C) = TOP_TURBO.TurboSpoolTimeDown;
+                *(float*) (bytePtrT + 0x640) = TOP_TURBO.TurboSpoolTimeUp;
 
                 // Top Tires Performance
-                *(float*)(byteptr_t + 0x650) = this.TOP_TIRES.StaticGripScale;
-                *(float*)(byteptr_t + 0x654) = this.TOP_TIRES.YawSpeedScale;
-                *(float*)(byteptr_t + 0x658) = this.TOP_TIRES.SteeringAmplifier;
-                *(float*)(byteptr_t + 0x65C) = this.TOP_TIRES.DynamicGripScale;
-                *(float*)(byteptr_t + 0x660) = this.TOP_TIRES.SteeringResponse;
-                *(float*)(byteptr_t + 0x670) = this.TOP_TIRES.DriftYawControl;
-                *(float*)(byteptr_t + 0x674) = this.TOP_TIRES.DriftCounterSteerBuildUp;
-                *(float*)(byteptr_t + 0x678) = this.TOP_TIRES.DriftCounterSteerReduction;
-                *(float*)(byteptr_t + 0x67C) = this.TOP_TIRES.PowerSlideBreakThru1;
-                *(float*)(byteptr_t + 0x680) = this.TOP_TIRES.PowerSlideBreakThru2;
+                *(float*) (bytePtrT + 0x650) = TOP_TIRES.StaticGripScale;
+                *(float*) (bytePtrT + 0x654) = TOP_TIRES.YawSpeedScale;
+                *(float*) (bytePtrT + 0x658) = TOP_TIRES.SteeringAmplifier;
+                *(float*) (bytePtrT + 0x65C) = TOP_TIRES.DynamicGripScale;
+                *(float*) (bytePtrT + 0x660) = TOP_TIRES.SteeringResponse;
+                *(float*) (bytePtrT + 0x670) = TOP_TIRES.DriftYawControl;
+                *(float*) (bytePtrT + 0x674) = TOP_TIRES.DriftCounterSteerBuildUp;
+                *(float*) (bytePtrT + 0x678) = TOP_TIRES.DriftCounterSteerReduction;
+                *(float*) (bytePtrT + 0x67C) = TOP_TIRES.PowerSlideBreakThru1;
+                *(float*) (bytePtrT + 0x680) = TOP_TIRES.PowerSlideBreakThru2;
 
                 // Top Nitrous Performance
-                *(float*)(byteptr_t + 0x690) = this.TOP_NITROUS.NOSCapacity;
-                *(int*)(byteptr_t + 0x694) = _int32_6;
-                *(float*)(byteptr_t + 0x69C) = this.TOP_NITROUS.NOSTorqueBoost;
+                *(float*) (bytePtrT + 0x690) = TOP_NITROUS.NOSCapacity;
+                *(int*) (bytePtrT + 0x694) = Int326;
+                *(float*) (bytePtrT + 0x69C) = TOP_NITROUS.NOSTorqueBoost;
 
                 // Top Brakes Performance
-                *(float*)(byteptr_t + 0x6A0) = 0;
-                *(float*)(byteptr_t + 0x6A4) = this.TOP_BRAKES.RearDownForce;
-                *(float*)(byteptr_t + 0x6A8) = this.TOP_BRAKES.BumpJumpForce;
-                *(float*)(byteptr_t + 0x6B0) = this.TOP_BRAKES.FrontDownForce;
-                *(float*)(byteptr_t + 0x6B4) = this.TOP_BRAKES.RearDownForce;
-                *(float*)(byteptr_t + 0x6B8) = this.TOP_BRAKES.BumpJumpForce;
-                *(float*)(byteptr_t + 0x6C0) = this.TOP_BRAKES.BrakeStrength;
-                *(float*)(byteptr_t + 0x6C4) = this.TOP_BRAKES.HandBrakeStrength;
-                *(float*)(byteptr_t + 0x6C8) = this.TOP_BRAKES.BrakeBias;
-                *(float*)(byteptr_t + 0x6CC) = this.TOP_BRAKES.SteeringRatio;
+                *(float*) (bytePtrT + 0x6A0) = 0;
+                *(float*) (bytePtrT + 0x6A4) = TOP_BRAKES.RearDownForce;
+                *(float*) (bytePtrT + 0x6A8) = TOP_BRAKES.BumpJumpForce;
+                *(float*) (bytePtrT + 0x6B0) = TOP_BRAKES.FrontDownForce;
+                *(float*) (bytePtrT + 0x6B4) = TOP_BRAKES.RearDownForce;
+                *(float*) (bytePtrT + 0x6B8) = TOP_BRAKES.BumpJumpForce;
+                *(float*) (bytePtrT + 0x6C0) = TOP_BRAKES.BrakeStrength;
+                *(float*) (bytePtrT + 0x6C4) = TOP_BRAKES.HandBrakeStrength;
+                *(float*) (bytePtrT + 0x6C8) = TOP_BRAKES.BrakeBias;
+                *(float*) (bytePtrT + 0x6CC) = TOP_BRAKES.SteeringRatio;
 
                 // Top Suspension Performance
-                *(float*)(byteptr_t + 0x6D0) = this.TOP_SUSPENSION.ShockStiffnessFront;
-                *(float*)(byteptr_t + 0x6D4) = this.TOP_SUSPENSION.ShockExtStiffnessFront;
-                *(float*)(byteptr_t + 0x6D8) = this.TOP_SUSPENSION.SpringProgressionFront;
-                *(float*)(byteptr_t + 0x6DC) = this.TOP_SUSPENSION.ShockValvingFront;
-                *(float*)(byteptr_t + 0x6E0) = this.TOP_SUSPENSION.SwayBarFront;
-                *(float*)(byteptr_t + 0x6E4) = this.TOP_SUSPENSION.TrackWidthFront;
-                *(float*)(byteptr_t + 0x6E8) = this.TOP_SUSPENSION.CounterBiasFront;
-                *(float*)(byteptr_t + 0x6EC) = this.TOP_SUSPENSION.ShockDigressionFront;
-                *(float*)(byteptr_t + 0x6F0) = this.TOP_SUSPENSION.ShockStiffnessRear;
-                *(float*)(byteptr_t + 0x6F4) = this.TOP_SUSPENSION.ShockExtStiffnessRear;
-                *(float*)(byteptr_t + 0x6F8) = this.TOP_SUSPENSION.SpringProgressionRear;
-                *(float*)(byteptr_t + 0x6FC) = this.TOP_SUSPENSION.ShockValvingRear;
-                *(float*)(byteptr_t + 0x700) = this.TOP_SUSPENSION.SwayBarRear;
-                *(float*)(byteptr_t + 0x704) = this.TOP_SUSPENSION.TrackWidthRear;
-                *(float*)(byteptr_t + 0x708) = this.TOP_SUSPENSION.CounterBiasRear;
-                *(float*)(byteptr_t + 0x70C) = this.TOP_SUSPENSION.ShockDigressionRear;
+                *(float*) (bytePtrT + 0x6D0) = TOP_SUSPENSION.ShockStiffnessFront;
+                *(float*) (bytePtrT + 0x6D4) = TOP_SUSPENSION.ShockExtStiffnessFront;
+                *(float*) (bytePtrT + 0x6D8) = TOP_SUSPENSION.SpringProgressionFront;
+                *(float*) (bytePtrT + 0x6DC) = TOP_SUSPENSION.ShockValvingFront;
+                *(float*) (bytePtrT + 0x6E0) = TOP_SUSPENSION.SwayBarFront;
+                *(float*) (bytePtrT + 0x6E4) = TOP_SUSPENSION.TrackWidthFront;
+                *(float*) (bytePtrT + 0x6E8) = TOP_SUSPENSION.CounterBiasFront;
+                *(float*) (bytePtrT + 0x6EC) = TOP_SUSPENSION.ShockDigressionFront;
+                *(float*) (bytePtrT + 0x6F0) = TOP_SUSPENSION.ShockStiffnessRear;
+                *(float*) (bytePtrT + 0x6F4) = TOP_SUSPENSION.ShockExtStiffnessRear;
+                *(float*) (bytePtrT + 0x6F8) = TOP_SUSPENSION.SpringProgressionRear;
+                *(float*) (bytePtrT + 0x6FC) = TOP_SUSPENSION.ShockValvingRear;
+                *(float*) (bytePtrT + 0x700) = TOP_SUSPENSION.SwayBarRear;
+                *(float*) (bytePtrT + 0x704) = TOP_SUSPENSION.TrackWidthRear;
+                *(float*) (bytePtrT + 0x708) = TOP_SUSPENSION.CounterBiasRear;
+                *(float*) (bytePtrT + 0x70C) = TOP_SUSPENSION.ShockDigressionRear;
 
                 // Player Cameras
-                *(short*)(byteptr_t + 0x730) = (short)eCameraType.FAR;
-                *(short*)(byteptr_t + 0x732) = (short)(this.PLAYER_CAMERA_FAR.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x734) = this.PLAYER_CAMERA_FAR.CameraLag;
-                *(float*)(byteptr_t + 0x738) = this.PLAYER_CAMERA_FAR.CameraHeight;
-                *(float*)(byteptr_t + 0x73C) = this.PLAYER_CAMERA_FAR.CameraLatOffset;
-                *(short*)(byteptr_t + 0x740) = (short)eCameraType.CLOSE;
-                *(short*)(byteptr_t + 0x742) = (short)(this.PLAYER_CAMERA_CLOSE.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x744) = this.PLAYER_CAMERA_CLOSE.CameraLag;
-                *(float*)(byteptr_t + 0x748) = this.PLAYER_CAMERA_CLOSE.CameraHeight;
-                *(float*)(byteptr_t + 0x74C) = this.PLAYER_CAMERA_CLOSE.CameraLatOffset;
-                *(short*)(byteptr_t + 0x750) = (short)eCameraType.BUMPER;
-                *(short*)(byteptr_t + 0x752) = (short)(this.PLAYER_CAMERA_BUMPER.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x754) = this.PLAYER_CAMERA_BUMPER.CameraLag;
-                *(float*)(byteptr_t + 0x758) = this.PLAYER_CAMERA_BUMPER.CameraHeight;
-                *(float*)(byteptr_t + 0x75C) = this.PLAYER_CAMERA_BUMPER.CameraLatOffset;
-                *(short*)(byteptr_t + 0x760) = (short)eCameraType.DRIVER;
-                *(short*)(byteptr_t + 0x762) = (short)(this.PLAYER_CAMERA_DRIVER.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x764) = this.PLAYER_CAMERA_DRIVER.CameraLag;
-                *(float*)(byteptr_t + 0x768) = this.PLAYER_CAMERA_DRIVER.CameraHeight;
-                *(float*)(byteptr_t + 0x76C) = this.PLAYER_CAMERA_DRIVER.CameraLatOffset;
-                *(short*)(byteptr_t + 0x770) = (short)eCameraType.HOOD;
-                *(short*)(byteptr_t + 0x772) = (short)(this.PLAYER_CAMERA_HOOD.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x774) = this.PLAYER_CAMERA_HOOD.CameraLag;
-                *(float*)(byteptr_t + 0x778) = this.PLAYER_CAMERA_HOOD.CameraHeight;
-                *(float*)(byteptr_t + 0x77C) = this.PLAYER_CAMERA_HOOD.CameraLatOffset;
-                *(short*)(byteptr_t + 0x780) = (short)eCameraType.DRIFT;
-                *(short*)(byteptr_t + 0x782) = (short)(this.PLAYER_CAMERA_DRIFT.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x784) = this.PLAYER_CAMERA_DRIFT.CameraLag;
-                *(float*)(byteptr_t + 0x788) = this.PLAYER_CAMERA_DRIFT.CameraHeight;
-                *(float*)(byteptr_t + 0x78C) = this.PLAYER_CAMERA_DRIFT.CameraLatOffset;
+                *(short*) (bytePtrT + 0x730) = (short) eCameraType.FAR;
+                *(short*) (bytePtrT + 0x732) = (short) (PLAYER_CAMERA_FAR.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x734) = PLAYER_CAMERA_FAR.CameraLag;
+                *(float*) (bytePtrT + 0x738) = PLAYER_CAMERA_FAR.CameraHeight;
+                *(float*) (bytePtrT + 0x73C) = PLAYER_CAMERA_FAR.CameraLatOffset;
+                *(short*) (bytePtrT + 0x740) = (short) eCameraType.CLOSE;
+                *(short*) (bytePtrT + 0x742) = (short) (PLAYER_CAMERA_CLOSE.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x744) = PLAYER_CAMERA_CLOSE.CameraLag;
+                *(float*) (bytePtrT + 0x748) = PLAYER_CAMERA_CLOSE.CameraHeight;
+                *(float*) (bytePtrT + 0x74C) = PLAYER_CAMERA_CLOSE.CameraLatOffset;
+                *(short*) (bytePtrT + 0x750) = (short) eCameraType.BUMPER;
+                *(short*) (bytePtrT + 0x752) = (short) (PLAYER_CAMERA_BUMPER.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x754) = PLAYER_CAMERA_BUMPER.CameraLag;
+                *(float*) (bytePtrT + 0x758) = PLAYER_CAMERA_BUMPER.CameraHeight;
+                *(float*) (bytePtrT + 0x75C) = PLAYER_CAMERA_BUMPER.CameraLatOffset;
+                *(short*) (bytePtrT + 0x760) = (short) eCameraType.DRIVER;
+                *(short*) (bytePtrT + 0x762) = (short) (PLAYER_CAMERA_DRIVER.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x764) = PLAYER_CAMERA_DRIVER.CameraLag;
+                *(float*) (bytePtrT + 0x768) = PLAYER_CAMERA_DRIVER.CameraHeight;
+                *(float*) (bytePtrT + 0x76C) = PLAYER_CAMERA_DRIVER.CameraLatOffset;
+                *(short*) (bytePtrT + 0x770) = (short) eCameraType.HOOD;
+                *(short*) (bytePtrT + 0x772) = (short) (PLAYER_CAMERA_HOOD.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x774) = PLAYER_CAMERA_HOOD.CameraLag;
+                *(float*) (bytePtrT + 0x778) = PLAYER_CAMERA_HOOD.CameraHeight;
+                *(float*) (bytePtrT + 0x77C) = PLAYER_CAMERA_HOOD.CameraLatOffset;
+                *(short*) (bytePtrT + 0x780) = (short) eCameraType.DRIFT;
+                *(short*) (bytePtrT + 0x782) = (short) (PLAYER_CAMERA_DRIFT.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x784) = PLAYER_CAMERA_DRIFT.CameraLag;
+                *(float*) (bytePtrT + 0x788) = PLAYER_CAMERA_DRIFT.CameraHeight;
+                *(float*) (bytePtrT + 0x78C) = PLAYER_CAMERA_DRIFT.CameraLatOffset;
 
                 // AI Cameras
-                *(short*)(byteptr_t + 0x790) = (short)eCameraType.FAR;
-                *(short*)(byteptr_t + 0x792) = (short)(this.AI_CAMERA_FAR.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x794) = this.AI_CAMERA_FAR.CameraLag;
-                *(float*)(byteptr_t + 0x798) = this.AI_CAMERA_FAR.CameraHeight;
-                *(float*)(byteptr_t + 0x79C) = this.AI_CAMERA_FAR.CameraLatOffset;
-                *(short*)(byteptr_t + 0x7A0) = (short)eCameraType.CLOSE;
-                *(short*)(byteptr_t + 0x7A2) = (short)(this.AI_CAMERA_CLOSE.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x7A4) = this.AI_CAMERA_CLOSE.CameraLag;
-                *(float*)(byteptr_t + 0x7A8) = this.AI_CAMERA_CLOSE.CameraHeight;
-                *(float*)(byteptr_t + 0x7AC) = this.AI_CAMERA_CLOSE.CameraLatOffset;
-                *(short*)(byteptr_t + 0x7B0) = (short)eCameraType.BUMPER;
-                *(short*)(byteptr_t + 0x7B2) = (short)(this.AI_CAMERA_BUMPER.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x7B4) = this.AI_CAMERA_BUMPER.CameraLag;
-                *(float*)(byteptr_t + 0x7B8) = this.AI_CAMERA_BUMPER.CameraHeight;
-                *(float*)(byteptr_t + 0x7BC) = this.AI_CAMERA_BUMPER.CameraLatOffset;
-                *(short*)(byteptr_t + 0x7C0) = (short)eCameraType.DRIVER;
-                *(short*)(byteptr_t + 0x7C2) = (short)(this.AI_CAMERA_DRIVER.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x7C4) = this.AI_CAMERA_DRIVER.CameraLag;
-                *(float*)(byteptr_t + 0x7C8) = this.AI_CAMERA_DRIVER.CameraHeight;
-                *(float*)(byteptr_t + 0x7CC) = this.AI_CAMERA_DRIVER.CameraLatOffset;
-                *(short*)(byteptr_t + 0x7D0) = (short)eCameraType.HOOD;
-                *(short*)(byteptr_t + 0x7D2) = (short)(this.AI_CAMERA_HOOD.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x7D4) = this.AI_CAMERA_HOOD.CameraLag;
-                *(float*)(byteptr_t + 0x7D8) = this.AI_CAMERA_HOOD.CameraHeight;
-                *(float*)(byteptr_t + 0x7DC) = this.AI_CAMERA_HOOD.CameraLatOffset;
-                *(short*)(byteptr_t + 0x7E0) = (short)eCameraType.DRIFT;
-                *(short*)(byteptr_t + 0x7E2) = (short)(this.AI_CAMERA_DRIFT.CameraAngle / 180 * 32768);
-                *(float*)(byteptr_t + 0x7E4) = this.AI_CAMERA_DRIFT.CameraLag;
-                *(float*)(byteptr_t + 0x7E8) = this.AI_CAMERA_DRIFT.CameraHeight;
-                *(float*)(byteptr_t + 0x7EC) = this.AI_CAMERA_DRIFT.CameraLatOffset;
+                *(short*) (bytePtrT + 0x790) = (short) eCameraType.FAR;
+                *(short*) (bytePtrT + 0x792) = (short) (AI_CAMERA_FAR.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x794) = AI_CAMERA_FAR.CameraLag;
+                *(float*) (bytePtrT + 0x798) = AI_CAMERA_FAR.CameraHeight;
+                *(float*) (bytePtrT + 0x79C) = AI_CAMERA_FAR.CameraLatOffset;
+                *(short*) (bytePtrT + 0x7A0) = (short) eCameraType.CLOSE;
+                *(short*) (bytePtrT + 0x7A2) = (short) (AI_CAMERA_CLOSE.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x7A4) = AI_CAMERA_CLOSE.CameraLag;
+                *(float*) (bytePtrT + 0x7A8) = AI_CAMERA_CLOSE.CameraHeight;
+                *(float*) (bytePtrT + 0x7AC) = AI_CAMERA_CLOSE.CameraLatOffset;
+                *(short*) (bytePtrT + 0x7B0) = (short) eCameraType.BUMPER;
+                *(short*) (bytePtrT + 0x7B2) = (short) (AI_CAMERA_BUMPER.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x7B4) = AI_CAMERA_BUMPER.CameraLag;
+                *(float*) (bytePtrT + 0x7B8) = AI_CAMERA_BUMPER.CameraHeight;
+                *(float*) (bytePtrT + 0x7BC) = AI_CAMERA_BUMPER.CameraLatOffset;
+                *(short*) (bytePtrT + 0x7C0) = (short) eCameraType.DRIVER;
+                *(short*) (bytePtrT + 0x7C2) = (short) (AI_CAMERA_DRIVER.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x7C4) = AI_CAMERA_DRIVER.CameraLag;
+                *(float*) (bytePtrT + 0x7C8) = AI_CAMERA_DRIVER.CameraHeight;
+                *(float*) (bytePtrT + 0x7CC) = AI_CAMERA_DRIVER.CameraLatOffset;
+                *(short*) (bytePtrT + 0x7D0) = (short) eCameraType.HOOD;
+                *(short*) (bytePtrT + 0x7D2) = (short) (AI_CAMERA_HOOD.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x7D4) = AI_CAMERA_HOOD.CameraLag;
+                *(float*) (bytePtrT + 0x7D8) = AI_CAMERA_HOOD.CameraHeight;
+                *(float*) (bytePtrT + 0x7DC) = AI_CAMERA_HOOD.CameraLatOffset;
+                *(short*) (bytePtrT + 0x7E0) = (short) eCameraType.DRIFT;
+                *(short*) (bytePtrT + 0x7E2) = (short) (AI_CAMERA_DRIFT.CameraAngle / 180 * 32768);
+                *(float*) (bytePtrT + 0x7E4) = AI_CAMERA_DRIFT.CameraLag;
+                *(float*) (bytePtrT + 0x7E8) = AI_CAMERA_DRIFT.CameraHeight;
+                *(float*) (bytePtrT + 0x7EC) = AI_CAMERA_DRIFT.CameraLatOffset;
 
-                // Rigid Controls (if an added car, or usagetype modified, or rigid controls are missing or broken
-                if (this.Deletable || this.Modified || this._rigid_controls == null || this._rigid_controls.Length != 40)
+                // Rigid Controls (if an added car, or usage type modified, or rigid controls are missing or broken
+                if (Deletable || Modified || _rigidControls is not {Length: 40})
                 {
-                    if (this.UsageType == eUsageType.Traffic)
+                    if (UsageType == eUsageType.Traffic)
                     {
-                        for (int a1 = 0; a1 < 40; ++a1)
-                            *(ushort*)(byteptr_t + 0x7F0 + a1 * 2) = RigidControls.RigidTrafControls[a1];
+                        for (var a1 = 0; a1 < 40; ++a1)
+                            *(ushort*) (bytePtrT + 0x7F0 + a1 * 2) = RigidControls.RigidTrafControls[a1];
                     }
                     else
                     {
-                        for (int a1 = 0; a1 < 40; ++a1)
-                            *(ushort*)(byteptr_t + 0x7F0 + a1 * 2) = RigidControls.RigidRacerControls[a1];
+                        for (var a1 = 0; a1 < 40; ++a1)
+                            *(ushort*) (bytePtrT + 0x7F0 + a1 * 2) = RigidControls.RigidRacerControls[a1];
                     }
                 }
                 else
                 {
-                    for (int a1 = 0; a1 < 40; ++a1)
-                        *(ushort*)(byteptr_t + 0x7F0 + a1 * 2) = this._rigid_controls[a1];
+                    for (var a1 = 0; a1 < 40; ++a1)
+                        *(ushort*) (bytePtrT + 0x7F0 + a1 * 2) = _rigidControls[a1];
                 }
-                 // Secondary Properties
-                *(int*)(byteptr_t + 0x840) = this.Index;
-                *(int*)(byteptr_t + 0x844) = (int)this.UsageType;
-                *(uint*)(byteptr_t + 0x84C) = Bin.Hash(this._defaultbasepaint);
-                *(uint*)(byteptr_t + 0x850) = Bin.Hash(this._defaultbasepaint2);
-                *(byteptr_t + 0x854) = this.MaxInstances1;
-                *(byteptr_t + 0x855) = this.MaxInstances2;
-                *(byteptr_t + 0x856) = this.MaxInstances3;
-                *(byteptr_t + 0x857) = this.MaxInstances4;
-                *(byteptr_t + 0x858) = this.MaxInstances5;
-                *(byteptr_t + 0x859) = this.KeepLoaded1;
-                *(byteptr_t + 0x85A) = this.KeepLoaded1;
-                *(byteptr_t + 0x85B) = this.KeepLoaded1;
-                *(byteptr_t + 0x85C) = this.KeepLoaded1;
-                *(byteptr_t + 0x85D) = this.KeepLoaded1;
-                *(short*)(byteptr_t + 0x85E) = this.Padding1;
-                *(float*)(byteptr_t + 0x860) = this.MinTimeBetweenUses1;
-                *(float*)(byteptr_t + 0x864) = this.MinTimeBetweenUses2;
-                *(float*)(byteptr_t + 0x868) = this.MinTimeBetweenUses3;
-                *(float*)(byteptr_t + 0x86C) = this.MinTimeBetweenUses4;
-                *(float*)(byteptr_t + 0x870) = this.MinTimeBetweenUses5;
-                *(byteptr_t + 0x874) = this.DefaultSkinNumber;
-                *(int*)(byteptr_t + 0x878) = this.Padding2;
-                *(byteptr_t + 0x880) = this.AvailableSkinNumbers01;
-                *(byteptr_t + 0x881) = this.AvailableSkinNumbers02;
-                *(byteptr_t + 0x882) = this.AvailableSkinNumbers03;
-                *(byteptr_t + 0x883) = this.AvailableSkinNumbers04;
-                *(byteptr_t + 0x884) = this.AvailableSkinNumbers05;
-                *(byteptr_t + 0x885) = this.AvailableSkinNumbers06;
-                *(byteptr_t + 0x886) = this.AvailableSkinNumbers07;
-                *(byteptr_t + 0x887) = this.AvailableSkinNumbers08;
-                *(byteptr_t + 0x888) = this.AvailableSkinNumbers09;
-                *(byteptr_t + 0x889) = this.AvailableSkinNumbers10;
-                *(byteptr_t + 0x88A) = (byte)this._is_suv;
-                *(byteptr_t + 0x88C) = (byte)this.IsSkinnable;
+
+                // Secondary Properties
+                *(int*) (bytePtrT + 0x840) = Index;
+                *(int*) (bytePtrT + 0x844) = (int) UsageType;
+                *(uint*) (bytePtrT + 0x84C) = Bin.Hash(_defaultBasePaint);
+                *(uint*) (bytePtrT + 0x850) = Bin.Hash(_defaultBasePaint2);
+                *(bytePtrT + 0x854) = MaxInstances1;
+                *(bytePtrT + 0x855) = MaxInstances2;
+                *(bytePtrT + 0x856) = MaxInstances3;
+                *(bytePtrT + 0x857) = MaxInstances4;
+                *(bytePtrT + 0x858) = MaxInstances5;
+                *(bytePtrT + 0x859) = KeepLoaded1;
+                *(bytePtrT + 0x85A) = KeepLoaded1;
+                *(bytePtrT + 0x85B) = KeepLoaded1;
+                *(bytePtrT + 0x85C) = KeepLoaded1;
+                *(bytePtrT + 0x85D) = KeepLoaded1;
+                *(short*) (bytePtrT + 0x85E) = Padding1;
+                *(float*) (bytePtrT + 0x860) = MinTimeBetweenUses1;
+                *(float*) (bytePtrT + 0x864) = MinTimeBetweenUses2;
+                *(float*) (bytePtrT + 0x868) = MinTimeBetweenUses3;
+                *(float*) (bytePtrT + 0x86C) = MinTimeBetweenUses4;
+                *(float*) (bytePtrT + 0x870) = MinTimeBetweenUses5;
+                *(bytePtrT + 0x874) = DefaultSkinNumber;
+                *(int*) (bytePtrT + 0x878) = Padding2;
+                *(bytePtrT + 0x880) = AvailableSkinNumbers01;
+                *(bytePtrT + 0x881) = AvailableSkinNumbers02;
+                *(bytePtrT + 0x882) = AvailableSkinNumbers03;
+                *(bytePtrT + 0x883) = AvailableSkinNumbers04;
+                *(bytePtrT + 0x884) = AvailableSkinNumbers05;
+                *(bytePtrT + 0x885) = AvailableSkinNumbers06;
+                *(bytePtrT + 0x886) = AvailableSkinNumbers07;
+                *(bytePtrT + 0x887) = AvailableSkinNumbers08;
+                *(bytePtrT + 0x888) = AvailableSkinNumbers09;
+                *(bytePtrT + 0x889) = AvailableSkinNumbers10;
+                *(bytePtrT + 0x88A) = (byte) _isSuv;
+                *(bytePtrT + 0x88C) = (byte) IsSkinnable;
             }
+
             return result;
         }
     }

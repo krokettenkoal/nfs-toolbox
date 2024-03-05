@@ -1,7 +1,6 @@
 ﻿using NfsCore.Reflection.Enum;
 using NfsCore.Reflection.Interface;
 
-
 namespace NfsCore.Reflection.Abstract
 {
     /// <summary>
@@ -9,8 +8,8 @@ namespace NfsCore.Reflection.Abstract
     /// in itself all functions inherited from <see cref="IGetValue"/> and 
     /// <see cref="ISetValue"/> interfaces.
     /// </summary>
-	public abstract class Primitive : IGetValue, ISetValue
-	{
+    public abstract class Primitive : IGetValue, ISetValue
+    {
         /// <summary>
         /// Checks if the property is of <see cref="System.Enum"/> type.
         /// </summary>
@@ -18,7 +17,8 @@ namespace NfsCore.Reflection.Abstract
         /// <returns>True if property is enum; false otherwise.</returns>
         public virtual bool OfEnumerableType(string property)
         {
-            return this.GetType().GetProperty(property).PropertyType.IsEnum;
+            var propertyInfo = GetType().GetProperty(property);
+            return propertyInfo != null && propertyInfo.PropertyType.IsEnum;
         }
 
         /// <summary>
@@ -28,12 +28,12 @@ namespace NfsCore.Reflection.Abstract
         /// <returns>Array of strings.</returns>
         public virtual string[] GetPropertyEnumerableTypes(string property)
         {
-            return this.GetType().GetProperty(property).PropertyType.GetEnumNames();
+            return GetType().GetProperty(property)?.PropertyType.GetEnumNames();
         }
 
         public abstract object[] GetAccessibles(eGetInfoType type);
-        public abstract string GetValue(string PropertyName);
-        public abstract bool SetValue(string PropertyName, object value);
-        public abstract bool SetValue(string PropertyName, object value, ref string error);
+        public abstract string GetValue(string propertyName);
+        public abstract bool SetValue(string propertyName, object value);
+        public abstract bool SetValue(string propertyName, object value, ref string error);
     }
 }

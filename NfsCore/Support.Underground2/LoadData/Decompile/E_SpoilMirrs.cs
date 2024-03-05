@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace NfsCore.Support.Underground2
 {
@@ -11,23 +12,19 @@ namespace NfsCore.Support.Underground2
         private static void E_SpoilMirrs(Database.Underground2Db db)
         {
             if (db.SlotTypes.SpoilMirrs == null) return;
-            var CNameList = new List<string>(db.CarTypeInfos.Length);
-            foreach (var car in db.CarTypeInfos.Collections)
-                CNameList.Add(car.CollectionName);
+            var collectionNames = new List<string>(db.CarTypeInfos.Length);
+            collectionNames.AddRange(db.CarTypeInfos.Collections.Select(car => car.CollectionName));
+            var allSlots = db.SlotTypes.SpoilMirrs.GetSpoilMirrs(collectionNames);
+            if (allSlots == null || allSlots.Count == 0) return;
 
-            var AllSlots = db.SlotTypes.SpoilMirrs.GetSpoilMirrs(CNameList);
-            if (AllSlots == null || AllSlots.Count == 0) return;
-
-            foreach (var Slot in AllSlots)
+            foreach (var slot in allSlots)
             {
-                var car = db.CarTypeInfos.FindCollection(Slot.CarTypeInfo);
-                if (car != null)
-                {
-                    if (Slot.SpoilerNoMirror)
-                        car.Spoiler = Slot.Spoiler;
-                    else
-                        car.Mirrors = Slot.Mirrors;
-                }
+                var car = db.CarTypeInfos.FindCollection(slot.CarTypeInfo);
+                if (car == null) continue;
+                if (slot.SpoilerNoMirror)
+                    car.Spoiler = slot.Spoiler;
+                else
+                    car.Mirrors = slot.Mirrors;
             }
         }
     }

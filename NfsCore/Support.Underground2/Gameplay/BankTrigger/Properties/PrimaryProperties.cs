@@ -8,29 +8,29 @@ namespace NfsCore.Support.Underground2.Gameplay
 	{
 		private eBoolean _initially_unlocked = eBoolean.False;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public ushort CashValue { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public eBoolean InitiallyUnlocked
 		{
-			get => this._initially_unlocked;
+			get => _initially_unlocked;
 			set
 			{
 				if (Enum.IsDefined(typeof(eBoolean), value))
-					this._initially_unlocked = value;
+					_initially_unlocked = value;
 				else
-					throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+					throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
 			}
 		}
 
-		[AccessModifiable()]
+		[AccessModifiable]
 		public byte BankIndex { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public int RequiredStagesCompleted { get; set; }
 	}
 }

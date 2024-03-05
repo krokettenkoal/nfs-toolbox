@@ -6,17 +6,17 @@ namespace NfsCore.Support.Underground2.Class
 	{
 		private void Initialize()
 		{
-			this.AUDIO_COMP = new AudioBuffers();
-			this.DECALS_FRONT_WINDOW = new DecalArray();
-			this.DECALS_HOOD = new DecalArray();
-			this.DECALS_LEFT_DOOR = new DecalArray();
-			this.DECALS_LEFT_QUARTER = new DecalArray();
-			this.DECALS_REAR_WINDOW = new DecalArray();
-			this.DECALS_RIGHT_DOOR = new DecalArray();
-			this.DECALS_RIGHT_QUARTER = new DecalArray();
-			this.PAINT_TYPES = new PaintTypes();
-			this.SPECIALTIES = new Specialties();
-			this.VINYL_SETS = new VinylSets();
+			AUDIO_COMP = new AudioBuffers();
+			DECALS_FRONT_WINDOW = new DecalArray();
+			DECALS_HOOD = new DecalArray();
+			DECALS_LEFT_DOOR = new DecalArray();
+			DECALS_LEFT_QUARTER = new DecalArray();
+			DECALS_REAR_WINDOW = new DecalArray();
+			DECALS_RIGHT_DOOR = new DecalArray();
+			DECALS_RIGHT_QUARTER = new DecalArray();
+			PAINT_TYPES = new PaintTypes();
+			SPECIALTIES = new Specialties();
+			VINYL_SETS = new VinylSets();
 		}
 	}
 }

@@ -5,19 +5,23 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class TPKBlock : Shared.Class.TPKBlock
     {
-        private bool _use_current_cname;
-        private List<uint> keys = new(); // Part2
-        private List<OffSlot> offslots = new(); // Part3
-        private List<uint> compressions = new(); // Part5
+        private readonly bool _useCurrentCname;
+        private readonly List<uint> _keys = new(); // Part2
+        private readonly List<OffSlot> _offSlots = new(); // Part3
+        private readonly List<uint> _compressions = new(); // Part5
 
-        public TPKBlock() { _use_current_cname = true; Version = 8; }
-
-        public unsafe TPKBlock(byte* byteptr_t, int index, Database.CarbonDb db)
+        public TPKBlock()
         {
-            if (index < 0) _use_current_cname = true;
+            _useCurrentCname = true;
+            Version = 8;
+        }
+
+        public unsafe TPKBlock(byte* bytePtrT, int index, Database.CarbonDb db)
+        {
+            if (index < 0) _useCurrentCname = true;
             Database = db;
             Index = index;
-            Disassemble(byteptr_t);
+            Disassemble(bytePtrT);
         }
     }
 }

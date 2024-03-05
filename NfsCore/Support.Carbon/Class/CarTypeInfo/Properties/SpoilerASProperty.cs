@@ -7,20 +7,20 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class CarTypeInfo
     {
-        private eSpoilerAS2 _spoilerAS = eSpoilerAS2.SPOILER_AS2;
+        private eSpoilerAS2 _spoilerAs = eSpoilerAS2.SPOILER_AS2;
 
         /// <summary>
         /// Aftermarket spoiler type of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eSpoilerAS2 SpoilerAS
         {
-            get => this._spoilerAS;
+            get => _spoilerAs;
             set
             {
                 if (Enum.IsDefined(typeof(eSpoilerAS2), value))
-                    this._spoilerAS = value;
+                    _spoilerAs = value;
                 else
                     throw new MappingFailException();
             }

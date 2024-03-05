@@ -6,10 +6,9 @@ using NfsCore.Reflection.Enum;
 using NfsCore.Reflection.Exception;
 using NfsCore.Utils;
 
-
 namespace NfsCore.Support.Shared.Class
 {
-    public partial class PresetSkin : Collectable
+    public class PresetSkin : Collectable
     {
         #region Private Fields
 
@@ -20,49 +19,20 @@ namespace NfsCore.Support.Shared.Class
 
         #endregion
 
-        #region Main Properties
-
-        /// <summary>
-        /// Collection name of the variable.
-        /// </summary>
-        public override string CollectionName { get; set; }
-
-        /// <summary>
-        /// Game to which the class belongs to.
-        /// </summary>
-        public override GameINT GameINT { get => GameINT.None; }
-
-        /// <summary>
-        /// Game string to which the class belongs to.
-        /// </summary>
-        public override string GameSTR { get => GameINT.None.ToString(); }
-
-        /// <summary>
-        /// Binary memory hash of the collection name.
-        /// </summary>
-        public virtual uint BinKey { get => Bin.Hash(this.CollectionName); }
-
-        /// <summary>
-        /// Vault memory hash of the collection name.
-        /// </summary>
-        public virtual uint VltKey { get => Vlt.Hash(this.CollectionName); }
-
-        #endregion
-
         #region AccessModifiable Properties
 
         /// <summary>
         /// Paint type value of the preset skin.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eCarbonPaint PaintType
         {
-            get => this._painttype;
+            get => _painttype;
             set
             {
                 if (Enum.IsDefined(typeof(eCarbonPaint), value))
-                    this._painttype = value;
+                    _painttype = value;
                 else
                     throw new MappingFailException();
             }
@@ -71,51 +41,48 @@ namespace NfsCore.Support.Shared.Class
         /// <summary>
         /// Gradient color value of the paint of the preset skin. Range: 0-90.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte PaintSwatch
         {
-            get => this._paintswatch;
+            get => _paintswatch;
             set
             {
                 if (value > 90)
-                    throw new ArgumentOutOfRangeException("Value passed should be in range 0 to 90.");
-                else
-                    this._paintswatch = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be in range 0 to 90.");
+                _paintswatch = value;
             }
         }
 
         /// <summary>
         /// Saturation value of the paint of the preset skin. Range: (float)0-1.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float PaintSaturation
         {
-            get => this._paintsaturation;
+            get => _paintsaturation;
             set
             {
-                if (value > 1 || value < 0)
-                    throw new ArgumentOutOfRangeException("Value passed should be in range 0 to 1.");
-                else
-                    this._paintsaturation = value;
+                if (value is > 1 or < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be in range 0 to 1.");
+                _paintsaturation = value;
             }
         }
 
         /// <summary>
         /// Brightness value of the paint of the preset skin. Range: (float)0-1.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float PaintBrightness
         {
-            get => this._paintbrightness;
+            get => _paintbrightness;
             set
             {
-                if (value > 1 || value < 0)
-                    throw new ArgumentOutOfRangeException("Value passed should be in range 0 to 1.");
-                else
-                    this._paintbrightness = value;
+                if (value is > 1 or < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed should be in range 0 to 1.");
+                _paintbrightness = value;
             }
         }
 
@@ -127,20 +94,20 @@ namespace NfsCore.Support.Shared.Class
         /// Assembles preset skin into a byte array.
         /// </summary>
         /// <returns>Byte array of the preset skin.</returns>
-        public virtual unsafe byte[] Assemble() { return null; }
+        public virtual byte[] Assemble() { return null; }
 
         /// <summary>
         /// Disassembles preset skin array into separate properties.
         /// </summary>
-        /// <param name="byteptr_t">Pointer to the preset skin array.</param>
-        protected virtual unsafe void Disassemble(byte* byteptr_t) { }
+        /// <param name="bytePtrT">Pointer to the preset skin array.</param>
+        protected virtual unsafe void Disassemble(byte* bytePtrT) { }
 
         /// <summary>
         /// Casts all attributes from this object to another one.
         /// </summary>
-        /// <param name="CName">CollectionName of the new created object.</param>
+        /// <param name="collectionName">CollectionName of the new created object.</param>
         /// <returns>Memory casted copy of the object.</returns>
-        public override Collectable MemoryCast(string CName)
+        public override Collectable MemoryCast(string collectionName)
         {
             throw new NotImplementedException();
         }

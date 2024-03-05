@@ -5,44 +5,43 @@ using NfsCore.Reflection.Exception;
 
 namespace NfsCore.Support.Underground2.Class
 {
-	public partial class PresetRide
-	{
-        private byte _spoiler_style = 0;
-        private eSTypes _spoiler_type = eSTypes.STOCK;
-        private eBoolean _is_carbonfibre_spoiler = eBoolean.False;
+    public partial class PresetRide
+    {
+        private byte _spoilerStyle = 0;
+        private eSTypes _spoilerType = eSTypes.STOCK;
+        private eBoolean _isCarbonFibreSpoiler = eBoolean.False;
 
         /// <summary>
         /// Spoiler style of the preset ride. Range: 0-40.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte SpoilerStyle
         {
-            get => this._spoiler_style;
+            get => _spoilerStyle;
             set
             {
                 if (value > 40)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 40.");
-                else
-                    this._spoiler_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 40.");
+                _spoilerStyle = value;
+                Modified = true;
             }
         }
 
         /// <summary>
         /// Spoiler type of the preset ride. Range: STOCK, BASE, _HATCH, _SUV, NULL.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eSTypes SpoilerType
         {
-            get => this._spoiler_type;
+            get => _spoilerType;
             set
             {
                 if (Enum.IsDefined(typeof(eSTypes), value))
                 {
-                    this._spoiler_type = value;
-                    this.Modified = true;
+                    _spoilerType = value;
+                    Modified = true;
                 }
                 else
                     throw new MappingFailException();
@@ -52,20 +51,20 @@ namespace NfsCore.Support.Underground2.Class
         /// <summary>
         /// True if spoiler is carbonfibre, false otherwise.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eBoolean IsCarbonfibreSpoiler
         {
-            get => this._is_carbonfibre_spoiler;
+            get => _isCarbonFibreSpoiler;
             set
             {
                 if (Enum.IsDefined(typeof(eBoolean), value))
                 {
-                    this._is_carbonfibre_spoiler = value;
-                    this.Modified = true;
+                    _isCarbonFibreSpoiler = value;
+                    Modified = true;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
             }
         }
     }

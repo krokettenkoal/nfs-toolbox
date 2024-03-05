@@ -6,28 +6,32 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class CarTypeInfo
     {
-        private string _collision_external_name = BaseArguments.NULL;
+        private string _collisionExternalName = BaseArguments.NULL;
 
         /// <summary>
         /// Represents external collision name of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
+        [AccessModifiable]
         public string CollisionExternalName
         {
-            get => this._collision_external_name;
+            get => _collisionExternalName;
             set
             {
-                if (value != BaseArguments.NULL && value != this._collection_name)
-                    throw new MappingFailException("Value passed should be either equal to CollectionName, or be NULL.");
-                else
-                    this._collision_external_name = value;
+                if (value != BaseArguments.NULL && value != CollName)
+                    throw new MappingFailException(
+                        "Value passed should be either equal to CollectionName, or be NULL.");
+                _collisionExternalName = value;
             }
         }
 
         /// <summary>
         /// Represents internal collision name of the cartypeinfo.
         /// </summary>
-        [AccessModifiable()]
-        public override string CollisionInternalName { get => base.CollisionInternalName; set => base.CollisionInternalName = value; }
+        [AccessModifiable]
+        public override string CollisionInternalName
+        {
+            get => base.CollisionInternalName;
+            set => base.CollisionInternalName = value;
+        }
     }
 }

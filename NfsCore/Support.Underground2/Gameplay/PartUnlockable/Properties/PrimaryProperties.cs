@@ -7,73 +7,73 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class PartUnlockable
 	{
-		private ePartUnlockReq _unlock_method_level1 = ePartUnlockReq.INITIALLY_UNLOCKED;
-		private ePartUnlockReq _unlock_method_level2 = ePartUnlockReq.INITIALLY_UNLOCKED;
-		private ePartUnlockReq _unlock_method_level3 = ePartUnlockReq.INITIALLY_UNLOCKED;
+		private ePartUnlockReq _unlockMethodLevel1 = ePartUnlockReq.INITIALLY_UNLOCKED;
+		private ePartUnlockReq _unlockMethodLevel2 = ePartUnlockReq.INITIALLY_UNLOCKED;
+		private ePartUnlockReq _unlockMethodLevel3 = ePartUnlockReq.INITIALLY_UNLOCKED;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public float VisualRating_Level1 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public float VisualRating_Level2 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public float VisualRating_Level3 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short PartPrice_Level1 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short PartPrice_Level2 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public short PartPrice_Level3 { get; set; }
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public ePartUnlockReq UnlockMethod_Level1
 		{
-			get => this._unlock_method_level1;
+			get => _unlockMethodLevel1;
 			set
 			{
 				if (!Enum.IsDefined(typeof(ePartUnlockReq), value))
 					throw new MappingFailException();
 				else
-					this._unlock_method_level1 = value;
+					_unlockMethodLevel1 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public ePartUnlockReq UnlockMethod_Level2
 		{
-			get => this._unlock_method_level2;
+			get => _unlockMethodLevel2;
 			set
 			{
 				if (!Enum.IsDefined(typeof(ePartUnlockReq), value))
 					throw new MappingFailException();
 				else
-					this._unlock_method_level2 = value;
+					_unlockMethodLevel2 = value;
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public ePartUnlockReq UnlockMethod_Level3
 		{
-			get => this._unlock_method_level3;
+			get => _unlockMethodLevel3;
 			set
 			{
 				if (!Enum.IsDefined(typeof(ePartUnlockReq), value))
 					throw new MappingFailException();
 				else
-					this._unlock_method_level3 = value;
+					_unlockMethodLevel3 = value;
 			}
 		}
 	}

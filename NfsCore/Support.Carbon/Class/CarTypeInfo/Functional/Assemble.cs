@@ -10,101 +10,103 @@ namespace NfsCore.Support.Carbon.Class
         /// <summary>
         /// Assembles cartypeinfo into a byte array.
         /// </summary>
-        /// <param name="index">Index of the cartypeinfo.</param>
         /// <returns>Byte array of the cartypeinfo.</returns>
         public override unsafe byte[] Assemble()
         {
-            byte[] result = new byte[0xD0];
-            fixed (byte* byteptr_t = &result[0])
+            var result = new byte[0xD0];
+            fixed (byte* bytePtrT = &result[0])
             {
                 // Write CollectionName
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + a1) = (byte) CollectionName[a1];
 
                 // Write BaseModelName
-                for (int a1 = 0; a1 < this.CollectionName.Length; ++a1)
-                    *(byteptr_t + 0x10 + a1) = (byte)this.CollectionName[a1];
+                for (var a1 = 0; a1 < CollectionName.Length; ++a1)
+                    *(bytePtrT + 0x10 + a1) = (byte) CollectionName[a1];
 
                 // Write GeometryFileName
-                string path = Path.Combine("CARS", this.CollectionName, "GEOMETRY.BIN");
-                for (int a1 = 0; a1 < path.Length; ++a1)
-                    *(byteptr_t + 0x20 + a1) = (byte)path[a1];
+                var path = Path.Combine("CARS", CollectionName, "GEOMETRY.BIN");
+                for (var a1 = 0; a1 < path.Length; ++a1)
+                    *(bytePtrT + 0x20 + a1) = (byte) path[a1];
 
                 // Write ManufacturerName
-                if (this.ManufacturerName != BaseArguments.NULL)
+                if (ManufacturerName != BaseArguments.NULL)
                 {
-                    for (int a1 = 0; a1 < this.ManufacturerName.Length; ++a1)
-                        *(byteptr_t + 0x40 + a1) = (byte)this.ManufacturerName[a1];
+                    for (var a1 = 0; a1 < ManufacturerName.Length; ++a1)
+                        *(bytePtrT + 0x40 + a1) = (byte) ManufacturerName[a1];
                 }
 
                 // Write all settings
-                *(uint*)(byteptr_t + 0x50) = this.BinKey;
-                *(float*)(byteptr_t + 0x54) = this.HeadlightFOV;
-                *(byteptr_t + 0x58) = this.PadHighPerformance;
-                *(byteptr_t + 0x59) = this.NumAvailableSkinNumbers;
-                *(byteptr_t + 0x5A) = this.WhatGame;
-                *(byteptr_t + 0x5B) = this.ConvertibleFlag;
-                *(byteptr_t + 0x5C) = this.WheelOuterRadius;
-                *(byteptr_t + 0x5D) = this.WheelInnerRadiusMin;
-                *(byteptr_t + 0x5E) = this.WheelInnerRadiusMax;
-                *(byteptr_t + 0x5F) = this.Padding0;
-                *(float*)(byteptr_t + 0x60) = this.HeadlightPositionX;
-                *(float*)(byteptr_t + 0x64) = this.HeadlightPositionY;
-                *(float*)(byteptr_t + 0x68) = this.HeadlightPositionZ;
-                *(float*)(byteptr_t + 0x6C) = this.HeadlightPositionW;
-                *(float*)(byteptr_t + 0x70) = this.DriverRenderingOffsetX;
-                *(float*)(byteptr_t + 0x74) = this.DriverRenderingOffsetY;
-                *(float*)(byteptr_t + 0x78) = this.DriverRenderingOffsetZ;
-                *(float*)(byteptr_t + 0x7C) = this.DriverRenderingOffsetW;
-                *(float*)(byteptr_t + 0x80) = this.SteeringWheelRenderingX;
-                *(float*)(byteptr_t + 0x84) = this.SteeringWheelRenderingY;
-                *(float*)(byteptr_t + 0x88) = this.SteeringWheelRenderingZ;
-                *(float*)(byteptr_t + 0x8C) = this.SteeringWheelRenderingW;
+                *(uint*) (bytePtrT + 0x50) = BinKey;
+                *(float*) (bytePtrT + 0x54) = HeadlightFOV;
+                *(bytePtrT + 0x58) = PadHighPerformance;
+                *(bytePtrT + 0x59) = NumAvailableSkinNumbers;
+                *(bytePtrT + 0x5A) = WhatGame;
+                *(bytePtrT + 0x5B) = ConvertibleFlag;
+                *(bytePtrT + 0x5C) = WheelOuterRadius;
+                *(bytePtrT + 0x5D) = WheelInnerRadiusMin;
+                *(bytePtrT + 0x5E) = WheelInnerRadiusMax;
+                *(bytePtrT + 0x5F) = Padding0;
+                *(float*) (bytePtrT + 0x60) = HeadlightPositionX;
+                *(float*) (bytePtrT + 0x64) = HeadlightPositionY;
+                *(float*) (bytePtrT + 0x68) = HeadlightPositionZ;
+                *(float*) (bytePtrT + 0x6C) = HeadlightPositionW;
+                *(float*) (bytePtrT + 0x70) = DriverRenderingOffsetX;
+                *(float*) (bytePtrT + 0x74) = DriverRenderingOffsetY;
+                *(float*) (bytePtrT + 0x78) = DriverRenderingOffsetZ;
+                *(float*) (bytePtrT + 0x7C) = DriverRenderingOffsetW;
+                *(float*) (bytePtrT + 0x80) = SteeringWheelRenderingX;
+                *(float*) (bytePtrT + 0x84) = SteeringWheelRenderingY;
+                *(float*) (bytePtrT + 0x88) = SteeringWheelRenderingZ;
+                *(float*) (bytePtrT + 0x8C) = SteeringWheelRenderingW;
 
-                *(int*)(byteptr_t + 0x90) = this.Index;
-                *(int*)(byteptr_t + 0x94) = (int)this.UsageType;
-                *(uint*)(byteptr_t + 0x98) = (uint)this.MemoryType;
+                *(int*) (bytePtrT + 0x90) = Index;
+                *(int*) (bytePtrT + 0x94) = (int) UsageType;
+                *(uint*) (bytePtrT + 0x98) = (uint) MemoryType;
 
-                *(byteptr_t + 0x9C) = this.MaxInstances1;
-                *(byteptr_t + 0x9D) = this.MaxInstances2;
-                *(byteptr_t + 0x9E) = this.MaxInstances3;
-                *(byteptr_t + 0x9F) = this.MaxInstances4;
-                *(byteptr_t + 0xA0) = this.MaxInstances5;
-                *(byteptr_t + 0xA1) = this.KeepLoaded1;
-                *(byteptr_t + 0xA2) = this.KeepLoaded2;
-                *(byteptr_t + 0xA3) = this.KeepLoaded3;
-                *(byteptr_t + 0xA4) = this.KeepLoaded4;
-                *(byteptr_t + 0xA5) = this.KeepLoaded5;
-                *(short*)(byteptr_t + 0xA6) = this.Padding1;
-                *(float*)(byteptr_t + 0xA8) = this.MinTimeBetweenUses1;
-                *(float*)(byteptr_t + 0xAC) = this.MinTimeBetweenUses2;
-                *(float*)(byteptr_t + 0xB0) = this.MinTimeBetweenUses3;
-                *(float*)(byteptr_t + 0xB4) = this.MinTimeBetweenUses4;
-                *(float*)(byteptr_t + 0xB8) = this.MinTimeBetweenUses5;
-                *(byteptr_t + 0xBC) = this.AvailableSkinNumbers01;
-                *(byteptr_t + 0xBD) = this.AvailableSkinNumbers02;
-                *(byteptr_t + 0xBE) = this.AvailableSkinNumbers03;
-                *(byteptr_t + 0xBF) = this.AvailableSkinNumbers04;
-                *(byteptr_t + 0xC0) = this.AvailableSkinNumbers05;
-                *(byteptr_t + 0xC1) = this.AvailableSkinNumbers06;
-                *(byteptr_t + 0xC2) = this.AvailableSkinNumbers07;
-                *(byteptr_t + 0xC3) = this.AvailableSkinNumbers08;
-                *(byteptr_t + 0xC4) = this.AvailableSkinNumbers09;
-                *(byteptr_t + 0xC5) = this.AvailableSkinNumbers10;
+                *(bytePtrT + 0x9C) = MaxInstances1;
+                *(bytePtrT + 0x9D) = MaxInstances2;
+                *(bytePtrT + 0x9E) = MaxInstances3;
+                *(bytePtrT + 0x9F) = MaxInstances4;
+                *(bytePtrT + 0xA0) = MaxInstances5;
+                *(bytePtrT + 0xA1) = KeepLoaded1;
+                *(bytePtrT + 0xA2) = KeepLoaded2;
+                *(bytePtrT + 0xA3) = KeepLoaded3;
+                *(bytePtrT + 0xA4) = KeepLoaded4;
+                *(bytePtrT + 0xA5) = KeepLoaded5;
+                *(short*) (bytePtrT + 0xA6) = Padding1;
+                *(float*) (bytePtrT + 0xA8) = MinTimeBetweenUses1;
+                *(float*) (bytePtrT + 0xAC) = MinTimeBetweenUses2;
+                *(float*) (bytePtrT + 0xB0) = MinTimeBetweenUses3;
+                *(float*) (bytePtrT + 0xB4) = MinTimeBetweenUses4;
+                *(float*) (bytePtrT + 0xB8) = MinTimeBetweenUses5;
+                *(bytePtrT + 0xBC) = AvailableSkinNumbers01;
+                *(bytePtrT + 0xBD) = AvailableSkinNumbers02;
+                *(bytePtrT + 0xBE) = AvailableSkinNumbers03;
+                *(bytePtrT + 0xBF) = AvailableSkinNumbers04;
+                *(bytePtrT + 0xC0) = AvailableSkinNumbers05;
+                *(bytePtrT + 0xC1) = AvailableSkinNumbers06;
+                *(bytePtrT + 0xC2) = AvailableSkinNumbers07;
+                *(bytePtrT + 0xC3) = AvailableSkinNumbers08;
+                *(bytePtrT + 0xC4) = AvailableSkinNumbers09;
+                *(bytePtrT + 0xC5) = AvailableSkinNumbers10;
 
-                *(byteptr_t + 0xC6) = this.DefaultSkinNumber;
-                *(byteptr_t + 0xC7) = (this.IsSkinnable == eBoolean.True) ? (byte)1 : (byte)0;
-                *(int*)(byteptr_t + 0xC8) = this.Padding2;
+                *(bytePtrT + 0xC6) = DefaultSkinNumber;
+                *(bytePtrT + 0xC7) = (IsSkinnable == eBoolean.True) ? (byte) 1 : (byte) 0;
+                *(int*) (bytePtrT + 0xC8) = Padding2;
 
-                if (string.IsNullOrWhiteSpace(this.DefaultBasePaint)) { }
-                else if (this.DefaultBasePaint.StartsWith("0x"))
-                    *(uint*)(byteptr_t + 0xCC) = ConvertX.ToUInt32(this.DefaultBasePaint);
+                if (string.IsNullOrWhiteSpace(DefaultBasePaint))
+                {
+                }
+                else if (DefaultBasePaint.StartsWith("0x"))
+                    *(uint*) (bytePtrT + 0xCC) = ConvertX.ToUInt32(DefaultBasePaint);
                 else
-                    *(uint*)(byteptr_t + 0xCC) = Bin.Hash(this.DefaultBasePaint);
+                    *(uint*) (bytePtrT + 0xCC) = Bin.Hash(DefaultBasePaint);
 
-                if (*(uint*)(byteptr_t + 0xCC) == 0)
-                    *(uint*)(byteptr_t + 0xCC) = Bin.Hash(BaseArguments.BPAINT);
+                if (*(uint*) (bytePtrT + 0xCC) == 0)
+                    *(uint*) (bytePtrT + 0xCC) = Bin.Hash(BaseArguments.BPAINT);
             }
+
             return result;
         }
     }

@@ -7,19 +7,17 @@ namespace NfsCore.Support.Underground2.Gameplay
 		private void SwitchUpgradeLevel(int level)
 		{
 			// Clear slot
-			int index = (int)this._part_perf_type;
-			this.ClearPartTableSlot();
+			var index = (int)_partPerfType;
+			ClearPartTableSlot();
 
 			// Move to another
-			this._upgrade_level = level;
-			for (int a1 = 0; a1 < 4; ++a1)
+			_upgradeLevel = level;
+			for (var a1 = 0; a1 < 4; ++a1)
 			{
-				if (Map.PerfPartTable[index, level, a1] == 0)
-				{
-					Map.PerfPartTable[index, level, a1] = this.BinKey;
-					this._upgrade_part_index = a1;
-					return;
-				}
+				if (Map.PerfPartTable[index, level, a1] != 0) continue;
+				Map.PerfPartTable[index, level, a1] = BinKey;
+				_upgradePartIndex = a1;
+				return;
 			}
 		}
 	}

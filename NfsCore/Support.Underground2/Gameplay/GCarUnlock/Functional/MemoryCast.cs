@@ -2,14 +2,16 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class GCarUnlock
-	{
-		public override Collectable MemoryCast(string CName)
-		{
-			var result = new GCarUnlock(CName, this.Database);
-			result._req_event_completed1 = this._req_event_completed1;
-			result._req_event_completed2 = this._req_event_completed2;
-			return result;
-		}
-	}
+    public partial class GCarUnlock
+    {
+        public override Collectable MemoryCast(string collectionName)
+        {
+            var result = new GCarUnlock(collectionName, Database)
+            {
+                _reqEventCompleted1 = _reqEventCompleted1,
+                _reqEventCompleted2 = _reqEventCompleted2
+            };
+            return result;
+        }
+    }
 }

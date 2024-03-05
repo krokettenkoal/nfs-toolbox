@@ -2,7 +2,7 @@
 {
     public partial class Texture
     {
-        private int _area = 0;
-        private short _num_palettes = 0;
+        private int _area;
+        private short _numPalettes;
     }
 }

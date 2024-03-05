@@ -1,7 +1,7 @@
 ﻿namespace NfsCore.Reflection.Interface
 {
-    public interface ICastable<TypeID>
+    public interface ICastable<out T>
     {
-        unsafe TypeID MemoryCast(string CName);
+        T MemoryCast(string collectionName);
     }
 }

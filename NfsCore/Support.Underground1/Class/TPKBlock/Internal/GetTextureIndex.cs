@@ -16,25 +16,29 @@ namespace NfsCore.Support.Underground1.Class
             switch (type)
             {
                 case eKeyType.BINKEY:
-                    for (int a1 = 0; a1 < this.Textures.Count; ++a1)
+                    for (var a1 = 0; a1 < Textures.Count; ++a1)
                     {
-                        if (this.Textures[a1].BinKey == key) return a1;
+                        if (Textures[a1].BinKey == key) return a1;
                     }
+
                     break;
 
                 case eKeyType.VLTKEY:
-                    for (int a1 = 0; a1 < this.Textures.Count; ++a1)
+                    for (var a1 = 0; a1 < Textures.Count; ++a1)
                     {
-                        if (this.Textures[a1].VltKey == key) return a1;
+                        if (Textures[a1].VltKey == key) return a1;
                     }
+
                     break;
 
                 case eKeyType.CUSTOM:
                     throw new NotImplementedException();
-
-                default:
+                case eKeyType.DEFAULT:
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
+
             return -1;
         }
     }

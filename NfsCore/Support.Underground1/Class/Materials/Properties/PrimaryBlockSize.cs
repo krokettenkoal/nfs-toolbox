@@ -7,6 +7,6 @@
         /// </summary>
         public int Size { get; } = 0xA0;
 
-        private const uint _class_key = 0x004114C5;
+        private const uint ClassKey = 0x004114C5;
     }
 }

@@ -10,20 +10,21 @@ namespace NfsCore.Support.Carbon.Class
         /// <returns>Byte array of the frontend group.</returns>
         public override unsafe byte[] Assemble()
         {
-            fixed (byte* byteptr_t = &this._DATA[0])
+            fixed (byte* bytePtrT = &_data[0])
             {
-                *(uint*)byteptr_t = GlobalId.FEngFiles;
-                *(uint*)(byteptr_t + 4) = this.Size;
+                *(uint*) bytePtrT = GlobalId.FEngFiles;
+                *(uint*) (bytePtrT + 4) = Size;
 
-                foreach (var color in this._colorinfo)
+                foreach (var color in ColorInfo)
                 {
-                    *(uint*)(byteptr_t + color.Offset + 4) = (uint)color.Blue;
-                    *(uint*)(byteptr_t + color.Offset + 8) = (uint)color.Green;
-                    *(uint*)(byteptr_t + color.Offset + 12) = (uint)color.Red;
-                    *(uint*)(byteptr_t + color.Offset + 16) = (uint)color.Alpha;
+                    *(uint*) (bytePtrT + color.Offset + 4) = (uint) color.Blue;
+                    *(uint*) (bytePtrT + color.Offset + 8) = (uint) color.Green;
+                    *(uint*) (bytePtrT + color.Offset + 12) = (uint) color.Red;
+                    *(uint*) (bytePtrT + color.Offset + 16) = (uint) color.Alpha;
                 }
             }
-            return this._DATA;
+
+            return _data;
         }
     }
 }

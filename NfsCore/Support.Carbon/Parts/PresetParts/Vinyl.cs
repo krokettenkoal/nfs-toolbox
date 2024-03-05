@@ -10,83 +10,79 @@ namespace NfsCore.Support.Carbon.Parts.PresetParts
 {
     public class Vinyl : SubPart, ICopyable<Vinyl>
     {
-        private string _vectorvinyl = BaseArguments.NULL;
-        private byte _swatch1 = 0;
-        private byte _swatch2 = 0;
-        private byte _swatch3 = 0;
-        private byte _swatch4 = 0;
+        private string _vectorVinyl = BaseArguments.NULL;
+        private byte _swatch1;
+        private byte _swatch2;
+        private byte _swatch3;
+        private byte _swatch4;
 
         public string VectorVinyl
         {
-            get => this._vectorvinyl;
+            get => _vectorVinyl;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._vectorvinyl = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _vectorVinyl = value;
             }
         }
 
-        public short PositionY  { get; set; } = 0;
-        public short PositionX  { get; set; } = 0;
-        public sbyte Rotation   { get; set; } = 0;
-        public sbyte Skew       { get; set; } = 0;
-        public sbyte ScaleY     { get; set; } = 0;
-        public sbyte ScaleX     { get; set; } = 0;
-        public byte Saturation1 { get; set; } = 0;
-        public byte Brightness1 { get; set; } = 0;
-        public byte Saturation2 { get; set; } = 0;
-        public byte Brightness2 { get; set; } = 0;
-        public byte Saturation3 { get; set; } = 0;
-        public byte Brightness3 { get; set; } = 0;
-        public byte Saturation4 { get; set; } = 0;
-        public byte Brightness4 { get; set; } = 0;
+        public short PositionY { get; set; }
+        public short PositionX { get; set; }
+        public sbyte Rotation { get; set; }
+        public sbyte Skew { get; set; }
+        public sbyte ScaleY { get; set; }
+        public sbyte ScaleX { get; set; }
+        public byte Saturation1 { get; set; }
+        public byte Brightness1 { get; set; }
+        public byte Saturation2 { get; set; }
+        public byte Brightness2 { get; set; }
+        public byte Saturation3 { get; set; }
+        public byte Brightness3 { get; set; }
+        public byte Saturation4 { get; set; }
+        public byte Brightness4 { get; set; }
 
         public byte SwatchColor1
         {
-            get => this._swatch1;
+            get => _swatch1;
             set
             {
                 if (value > 90)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 90.");
-                else
-                    this._swatch1 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 90.");
+                _swatch1 = value;
             }
         }
 
         public byte SwatchColor2
         {
-            get => this._swatch2;
+            get => _swatch2;
             set
             {
                 if (value > 90)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 90.");
-                else
-                    this._swatch2 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 90.");
+                _swatch2 = value;
             }
         }
 
         public byte SwatchColor3
         {
-            get => this._swatch3;
+            get => _swatch3;
             set
             {
                 if (value > 90)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 90.");
-                else
-                    this._swatch3 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 90.");
+                _swatch3 = value;
             }
         }
 
         public byte SwatchColor4
         {
-            get => this._swatch4;
+            get => _swatch4;
             set
             {
                 if (value > 90)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 90.");
-                else
-                    this._swatch4 = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 90.");
+                _swatch4 = value;
             }
         }
 
@@ -97,61 +93,62 @@ namespace NfsCore.Support.Carbon.Parts.PresetParts
         public Vinyl PlainCopy()
         {
             var result = new Vinyl();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
-    
-        public unsafe void Read(byte* byteptr_t)
+
+        public unsafe void Read(byte* bytePtrT)
         {
-            var key = *(uint*)byteptr_t;
-            this._vectorvinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
-            this.PositionY = *(short*)(byteptr_t + 0x04);
-            this.PositionX = *(short*)(byteptr_t + 0x06);
-            this.Rotation = *(sbyte*)(byteptr_t + 0x08);
-            this.Skew = *(sbyte*)(byteptr_t + 0x09);
-            this.ScaleY = *(sbyte*)(byteptr_t + 0x0A);
-            this.ScaleX = *(sbyte*)(byteptr_t + 0x0B);
-            this.SwatchColor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x0C), false));
-            this.SwatchColor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x14), false));
-            this.SwatchColor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x1C), false));
-            this.SwatchColor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*)(byteptr_t + 0x24), false));
-            this.Saturation1 = *(byteptr_t + 0x10);
-            this.Saturation2 = *(byteptr_t + 0x18);
-            this.Saturation3 = *(byteptr_t + 0x20);
-            this.Saturation4 = *(byteptr_t + 0x28);
-            this.Brightness1 = *(byteptr_t + 0x11);
-            this.Brightness2 = *(byteptr_t + 0x19);
-            this.Brightness3 = *(byteptr_t + 0x21);
-            this.Brightness4 = *(byteptr_t + 0x29);
+            var key = *(uint*) bytePtrT;
+            _vectorVinyl = Map.Lookup(key, true) ?? $"0x{key:X8}";
+            PositionY = *(short*) (bytePtrT + 0x04);
+            PositionX = *(short*) (bytePtrT + 0x06);
+            Rotation = *(sbyte*) (bytePtrT + 0x08);
+            Skew = *(sbyte*) (bytePtrT + 0x09);
+            ScaleY = *(sbyte*) (bytePtrT + 0x0A);
+            ScaleX = *(sbyte*) (bytePtrT + 0x0B);
+            SwatchColor1 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x0C), false));
+            SwatchColor2 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x14), false));
+            SwatchColor3 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x1C), false));
+            SwatchColor4 = Resolve.GetSwatchIndex(Map.Lookup(*(uint*) (bytePtrT + 0x24), false));
+            Saturation1 = *(bytePtrT + 0x10);
+            Saturation2 = *(bytePtrT + 0x18);
+            Saturation3 = *(bytePtrT + 0x20);
+            Saturation4 = *(bytePtrT + 0x28);
+            Brightness1 = *(bytePtrT + 0x11);
+            Brightness2 = *(bytePtrT + 0x19);
+            Brightness3 = *(bytePtrT + 0x21);
+            Brightness4 = *(bytePtrT + 0x29);
         }
 
-        public unsafe void Write(byte* byteptr_t)
+        public unsafe void Write(byte* bytePtrT)
         {
-            *(uint*)byteptr_t = Bin.SmartHash(this.VectorVinyl);
-            *(short*)(byteptr_t + 0x04) = this.PositionY;
-            *(short*)(byteptr_t + 0x06) = this.PositionX;
-            *(byteptr_t + 0x08) = (byte)this.Rotation;
-            *(byteptr_t + 0x09) = (byte)this.Skew;
-            *(byteptr_t + 0x0A) = (byte)this.ScaleY;
-            *(byteptr_t + 0x0B) = (byte)this.ScaleX;
-            *(uint*)(byteptr_t + 0x0C) = Bin.Hash(Resolve.GetVinylString(this.SwatchColor1));
-            *(uint*)(byteptr_t + 0x14) = Bin.Hash(Resolve.GetVinylString(this.SwatchColor2));
-            *(uint*)(byteptr_t + 0x1C) = Bin.Hash(Resolve.GetVinylString(this.SwatchColor3));
-            *(uint*)(byteptr_t + 0x24) = Bin.Hash(Resolve.GetVinylString(this.SwatchColor4));
-            *(byteptr_t + 0x10) = this.Saturation1;
-            *(byteptr_t + 0x18) = this.Saturation2;
-            *(byteptr_t + 0x20) = this.Saturation3;
-            *(byteptr_t + 0x28) = this.Saturation4;
-            *(byteptr_t + 0x11) = this.Brightness1;
-            *(byteptr_t + 0x19) = this.Brightness2;
-            *(byteptr_t + 0x21) = this.Brightness3;
-            *(byteptr_t + 0x29) = this.Brightness4;
+            *(uint*) bytePtrT = Bin.SmartHash(VectorVinyl);
+            *(short*) (bytePtrT + 0x04) = PositionY;
+            *(short*) (bytePtrT + 0x06) = PositionX;
+            *(bytePtrT + 0x08) = (byte) Rotation;
+            *(bytePtrT + 0x09) = (byte) Skew;
+            *(bytePtrT + 0x0A) = (byte) ScaleY;
+            *(bytePtrT + 0x0B) = (byte) ScaleX;
+            *(uint*) (bytePtrT + 0x0C) = Bin.Hash(Resolve.GetVinylString(SwatchColor1));
+            *(uint*) (bytePtrT + 0x14) = Bin.Hash(Resolve.GetVinylString(SwatchColor2));
+            *(uint*) (bytePtrT + 0x1C) = Bin.Hash(Resolve.GetVinylString(SwatchColor3));
+            *(uint*) (bytePtrT + 0x24) = Bin.Hash(Resolve.GetVinylString(SwatchColor4));
+            *(bytePtrT + 0x10) = Saturation1;
+            *(bytePtrT + 0x18) = Saturation2;
+            *(bytePtrT + 0x20) = Saturation3;
+            *(bytePtrT + 0x28) = Saturation4;
+            *(bytePtrT + 0x11) = Brightness1;
+            *(bytePtrT + 0x19) = Brightness2;
+            *(bytePtrT + 0x21) = Brightness3;
+            *(bytePtrT + 0x29) = Brightness4;
         }
     }
 }

@@ -5,76 +5,72 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class Material
     {
-        private float _brightcolor1_level = 0;
-        private float _brightcolor1_red = 0;
-        private float _brightcolor1_green = 0;
-        private float _brightcolor1_blue = 0;
+        private float _brightColor1Level;
+        private float _brightColor1Red;
+        private float _brightColor1Green;
+        private float _brightColor1Blue;
 
         /// <summary>
         /// Level value of the first bright color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float BrightColor1Level
         {
-            get => this._brightcolor1_level;
+            get => _brightColor1Level;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._brightcolor1_level = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _brightColor1Level = value;
             }
         }
 
         /// <summary>
         /// Red value of the first bright color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float BrightColor1Red
         {
-            get => this._brightcolor1_red;
+            get => _brightColor1Red;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._brightcolor1_red = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _brightColor1Red = value;
             }
         }
 
         /// <summary>
         /// Green value of the first bright color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float BrightColor1Green
         {
-            get => this._brightcolor1_green;
+            get => _brightColor1Green;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._brightcolor1_green = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _brightColor1Green = value;
             }
         }
 
         /// <summary>
         /// Blue value of the first bright color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float BrightColor1Blue
         {
-            get => this._brightcolor1_blue;
+            get => _brightColor1Blue;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._brightcolor1_blue = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _brightColor1Blue = value;
             }
         }
     }

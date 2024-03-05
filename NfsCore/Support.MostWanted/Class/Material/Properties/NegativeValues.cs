@@ -5,40 +5,38 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class Material
     {
-        private float _linear_negative = 0;
-        private float _gradient_negative = 0;
+        private float _linearNegative;
+        private float _gradientNegative;
 
         /// <summary>
         /// Linear negativity of the material colors.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float LinearNegative
         {
-            get => this._linear_negative;
+            get => _linearNegative;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._linear_negative = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _linearNegative = value;
             }
         }
 
         /// <summary>
         /// Gradient negativity of the material colors.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float GradientNegative
         {
-            get => this._gradient_negative;
+            get => _gradientNegative;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._gradient_negative = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _gradientNegative = value;
             }
         }
     }

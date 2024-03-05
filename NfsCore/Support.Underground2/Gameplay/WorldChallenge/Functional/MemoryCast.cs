@@ -2,24 +2,26 @@
 
 namespace NfsCore.Support.Underground2.Gameplay
 {
-	public partial class WorldChallenge
-	{
-		public override Collectable MemoryCast(string CName)
-		{
-			var result = new WorldChallenge(CName, this.Database);
-			result._world_trigger = this._world_trigger;
-			result._use_outruns = this._use_outruns;
-			result._sms_label = this._sms_label;
-			result._padding0 = this._padding0;
-			result._chal_type = this._chal_type;
-			result._chal_parent = this._chal_parent;
-			result.UnlockablePart1_Index = this.UnlockablePart1_Index;
-			result.UnlockablePart2_Index = this.UnlockablePart2_Index;
-			result.UnlockablePart3_Index = this.UnlockablePart3_Index;
-			result.TimeLimit = this.TimeLimit;
-			result.RequiredRacesWon = this.RequiredRacesWon;
-			result.BelongsToStage = this.BelongsToStage;
-			return result;
-		}
-	}
+    public partial class WorldChallenge
+    {
+        public override Collectable MemoryCast(string collectionName)
+        {
+            var result = new WorldChallenge(collectionName, Database)
+            {
+                _worldTrigger = _worldTrigger,
+                _useOutruns = _useOutruns,
+                _smsLabel = _smsLabel,
+                _padding0 = _padding0,
+                _challengeType = _challengeType,
+                _challengeParent = _challengeParent,
+                UnlockablePart1_Index = UnlockablePart1_Index,
+                UnlockablePart2_Index = UnlockablePart2_Index,
+                UnlockablePart3_Index = UnlockablePart3_Index,
+                TimeLimit = TimeLimit,
+                RequiredRacesWon = RequiredRacesWon,
+                BelongsToStage = BelongsToStage
+            };
+            return result;
+        }
+    }
 }

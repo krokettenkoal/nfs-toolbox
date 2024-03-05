@@ -7,47 +7,47 @@ namespace NfsCore.Support.Underground2.Gameplay
 {
 	public partial class Sponsor
 	{
-		private eSponsorRaceType _sponsor_race1 = eSponsorRaceType.Circuit;
-		private eSponsorRaceType _sponsor_race2 = eSponsorRaceType.Circuit;
-		private eSponsorRaceType _sponsor_race3 = eSponsorRaceType.Circuit;
+		private eSponsorRaceType _sponsorRace1 = eSponsorRaceType.Circuit;
+		private eSponsorRaceType _sponsorRace2 = eSponsorRaceType.Circuit;
+		private eSponsorRaceType _sponsorRace3 = eSponsorRaceType.Circuit;
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public eSponsorRaceType ReqSponsorRace1
 		{
-			get => this._sponsor_race1;
+			get => _sponsorRace1;
 			set
 			{
 				if (Enum.IsDefined(typeof(eSponsorRaceType), value))
-					this._sponsor_race1 = value;
+					_sponsorRace1 = value;
 				else
 					throw new MappingFailException();
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public eSponsorRaceType ReqSponsorRace2
 		{
-			get => this._sponsor_race2;
+			get => _sponsorRace2;
 			set
 			{
 				if (Enum.IsDefined(typeof(eSponsorRaceType), value))
-					this._sponsor_race2 = value;
+					_sponsorRace2 = value;
 				else
 					throw new MappingFailException();
 			}
 		}
 
-		[AccessModifiable()]
-		[StaticModifiable()]
+		[AccessModifiable]
+		[StaticModifiable]
 		public eSponsorRaceType ReqSponsorRace3
 		{
-			get => this._sponsor_race3;
+			get => _sponsorRace3;
 			set
 			{
 				if (Enum.IsDefined(typeof(eSponsorRaceType), value))
-					this._sponsor_race3 = value;
+					_sponsorRace3 = value;
 				else
 					throw new MappingFailException();
 			}

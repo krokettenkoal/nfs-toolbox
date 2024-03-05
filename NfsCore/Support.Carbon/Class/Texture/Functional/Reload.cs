@@ -18,22 +18,22 @@ namespace NfsCore.Support.Carbon.Class
             fixed (byte* bytePtrT = &data[0])
             {
                 Size = data.Length - 0x80;
-                Height = (short)*(uint*)(bytePtrT + 0xC);
-                Width = (short)*(uint*)(bytePtrT + 0x10);
-                Mipmaps = (byte)*(uint*)(bytePtrT + 0x1C);
-                if (*(uint*)(bytePtrT + 0x50) == DDS_TYPE.RGBA)
+                Height = (short) *(uint*) (bytePtrT + 0xC);
+                Width = (short) *(uint*) (bytePtrT + 0x10);
+                Mipmaps = (byte) *(uint*) (bytePtrT + 0x1C);
+                if (*(uint*) (bytePtrT + 0x50) == DDS_TYPE.RGBA)
                 {
                     CompressionId = EAComp.RGBA_08;
                     _area = Width * Height * 4;
                 }
                 else
                 {
-                    CompressionId = Comp.GetByte(*(uint*)(bytePtrT + 0x54));
+                    CompressionId = Comp.GetByte(*(uint*) (bytePtrT + 0x54));
                     _area = Comp.FlipToBase(Size);
                 }
 
                 // Default palette
-                _num_palettes = 0;
+                _numPalettes = 0;
                 PaletteOffset = -1;
                 PaletteSize = 0;
             }

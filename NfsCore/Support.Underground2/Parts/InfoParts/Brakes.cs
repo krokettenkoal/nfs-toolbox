@@ -3,17 +3,19 @@ using NfsCore.Reflection.Interface;
 
 namespace NfsCore.Support.Underground2.Parts.InfoParts
 {
-	public class Brakes : SubPart, ICopyable<Brakes>
-	{
-		public float FrontDownForce { get; set; }
-		public float RearDownForce { get; set; } 
-		public float BumpJumpForce { get; set; }
-		public float SteeringRatio { get; set; }
-		public float BrakeStrength { get; set; }
+    public class Brakes : SubPart, ICopyable<Brakes>
+    {
+        public float FrontDownForce { get; set; }
+        public float RearDownForce { get; set; }
+        public float BumpJumpForce { get; set; }
+        public float SteeringRatio { get; set; }
+        public float BrakeStrength { get; set; }
         public float HandBrakeStrength { get; set; }
         public float BrakeBias { get; set; }
 
-        public Brakes() { }
+        public Brakes()
+        {
+        }
 
         /// <summary>
         /// Creates a plain copy of the objects that contains same values.
@@ -22,13 +24,14 @@ namespace NfsCore.Support.Underground2.Parts.InfoParts
         public Brakes PlainCopy()
         {
             var result = new Brakes();
-            var ThisType = this.GetType();
-            var ResultType = result.GetType();
-            foreach (var ThisProperty in ThisType.GetProperties())
+            var thisType = GetType();
+            var resultType = result.GetType();
+            foreach (var thisProperty in thisType.GetProperties())
             {
-                var ResultField = ResultType.GetProperty(ThisProperty.Name);
-                ResultField.SetValue(result, ThisProperty.GetValue(this));
+                var resultField = resultType.GetProperty(thisProperty.Name);
+                resultField?.SetValue(result, thisProperty.GetValue(this));
             }
+
             return result;
         }
     }

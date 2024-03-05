@@ -11,8 +11,8 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 		public uint Key { get; set; }
 		public string Label { get; set; }
 		public string Text { get; set; }
-		public int NulledLabelLength { get => (this.Label == null) ? 0 : this.Label.Length + 1; }
-		public int NulledTextLength { get => (this.Text == null) ? 0 : this.Text.Length + 1; }
+		public int NulledLabelLength { get => (Label == null) ? 0 : Label.Length + 1; }
+		public int NulledTextLength { get => (Text == null) ? 0 : Text.Length + 1; }
 		public const string key = "Key";
 		public const string label = "Label";
 		public const string text = "Text";
@@ -22,8 +22,8 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 		// Default constructor: make label empty
 		public StringRecord(STRBlock block)
 		{
-			this.Label = string.Empty;
-			this.ThisSTRBlock = block;
+			Label = string.Empty;
+			ThisSTRBlock = block;
 		}
 
 		public override bool Equals(object obj)
@@ -33,7 +33,7 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 
 		public override int GetHashCode()
 		{
-			return Tuple.Create(this.Key, this.Label ?? string.Empty, this.Text ?? string.Empty).GetHashCode();
+			return Tuple.Create(Key, Label ?? string.Empty, Text ?? string.Empty).GetHashCode();
 		}
 
 		public static bool operator== (StringRecord s1, StringRecord s2)
@@ -50,7 +50,7 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 
 		public override string ToString()
 		{
-			return $"Bin{key}: {this.Key.ToString("X8")} | {label}: {this.Label} | {text}: {this.Text}";
+			return $"Bin{key}: {Key.ToString("X8")} | {label}: {Label} | {text}: {Text}";
 		}
 
 		public bool TrySetValue(string PropertyName, string value)
@@ -60,14 +60,14 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 				case key:
 					var hash = ConvertX.ToUInt32(value);
 					if (hash == 0) return false;
-					if (this.ThisSTRBlock.GetRecord(hash) != null) return false;
-					this.Key = hash;
+					if (ThisSTRBlock.GetRecord(hash) != null) return false;
+					Key = hash;
 					return true;
 				case label:
-					this.Label = value;
+					Label = value;
 					return true;
 				case text:
-					this.Text = value;
+					Text = value;
 					return true;
 				default:
 					return false;
@@ -86,18 +86,18 @@ namespace NfsCore.Support.Shared.Parts.STRParts
 						error = $"Unable to convert key passed to a hex-hash, or it equals 0.";
 						return false;
 					}
-					if (this.ThisSTRBlock.GetRecord(hash) != null)
+					if (ThisSTRBlock.GetRecord(hash) != null)
 					{
 						error = $"StringRecord with key {value} already exist.";
 						return false;
 					}
-					this.Key = hash;
+					Key = hash;
 					return true;
 				case label:
-					this.Label = value;
+					Label = value;
 					return true;
 				case text:
-					this.Text = value;
+					Text = value;
 					return true;
 				default:
 					error = $"Field named {PropertyName} does not exist.";

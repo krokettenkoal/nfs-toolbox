@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using NfsCore.Reflection.Abstract;
 
 namespace NfsCore.Support.Carbon
 {
@@ -9,9 +10,9 @@ namespace NfsCore.Support.Carbon
         /// </summary>
         /// <param name="db">Database with classes.</param>
         /// <param name="bw">BinaryWriter for writing data.</param>
-        private static void I_FNGroup(Database.CarbonDb db, BinaryWriter bw)
+        private static void I_FNGroup(BasicBase db, BinaryWriter bw)
         {
-            for (int a1 = 0; a1 < db.FNGroups.Length; ++a1)
+            for (var a1 = 0; a1 < db.FNGroups.Length; ++a1)
             {
                 I_GlobalLibBlock(bw);
                 bw.Write(db.FNGroups[a1].Assemble());

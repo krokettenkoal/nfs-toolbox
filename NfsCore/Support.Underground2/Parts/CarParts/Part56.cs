@@ -8,9 +8,9 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
 {
     public class Part56
     {
-        private uint _key = 0;
-        private string _collection_name;
-        public bool IsCar { get; set; } = false;
+        private uint _key;
+        private string _collectionName;
+        public bool IsCar { get; set; }
         public byte[] Data { get; private set; }
         public byte Index { get; private set; } = 0xFF;
         public eUsageType Usage { get; set; } = eUsageType.Racer;
@@ -18,28 +18,25 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
         /// <summary>
         /// Game index to which the class belongs to.
         /// </summary>
-        public int GameINT { get => (int)Global.GameINT.Carbon; }
+        public int GameINT => (int) Global.GameINT.Underground2;
 
         /// <summary>
         /// Game string to which the class belongs to.
         /// </summary>
-        public string GameSTR { get => Global.GameSTR.Carbon; }
+        public string GameSTR => Global.GameSTR.Underground2;
 
         /// <summary>
         /// Key of the cartypeinfo of the carpart.
         /// </summary>
         public uint Key
         {
-            get => this._key;
+            get => _key;
             set
             {
                 if (!Map.BinKeys.ContainsKey(_key))
                     throw new MappingFailException();
-                else
-                {
-                    this._key = value;
-                    this._collection_name = Map.BinKeys[value];
-                }
+                _key = value;
+                _collectionName = Map.BinKeys[value];
             }
         }
 
@@ -48,17 +45,14 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
         /// </summary>
         public string BelongsTo
         {
-            get => this._collection_name;
+            get => _collectionName;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentNullException();
-                else
-                {
-                    this._collection_name = value;
-                    uint temp = Bin.Hash(value);
-                    this._key = temp;
-                }
+                _collectionName = value;
+                var temp = Bin.Hash(value);
+                _key = temp;
             }
         }
 
@@ -66,104 +60,126 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
         /// Sets new index in the part56.
         /// </summary>
         /// <param name="index">New index to be set.</param>
-        public unsafe void SetIndex(byte index)
+        public void SetIndex(byte index)
         {
-            this.Index = index;
-            for (int a1 = 7; a1 < this.Data.Length; a1 += 0xE)
-                this.Data[a1] = index;
+            Index = index;
+            for (var a1 = 7; a1 < Data.Length; a1 += 0xE)
+                Data[a1] = index;
         }
 
-        public Part56() { }
+        public Part56()
+        {
+        }
 
         // Default constructor: initialize new part56
-        public unsafe Part56(string CName, eUsageType type, int entries, int racers, int trafs)
+        public unsafe Part56(string collectionName, eUsageType type, int entries, int racers, int trafficCars)
         {
-            this._key = Bin.Hash(CName);
-            this._collection_name = CName;
-            this.IsCar = true;
-            this.Usage = type;
+            _key = Bin.Hash(collectionName);
+            _collectionName = collectionName;
+            IsCar = true;
+            Usage = type;
 
-            if (type == eUsageType.Racer)
+            switch (type)
             {
-                this.Data = new byte[0xEC4];
-                fixed (byte* byteptr_t = &this.Data[0])
+                case eUsageType.Racer:
                 {
-                    for (int a1 = 0, a2 = 0; a1 < 0x10E; ++a1, a2 += 0xE)
+                    Data = new byte[0xEC4];
+                    fixed (byte* bytePtrT = &Data[0])
                     {
-                        *(uint*)(byteptr_t + a2) = Bin.Hash(CName + UsageType.PartName[a1]);
-                        *(byteptr_t + a2 + 4) = UsageType.CarSlotID[a1];
-                        *(ushort*)(byteptr_t + a2 + 5) = UsageType.Unknown1[a1];
-                        *(byteptr_t + a2 + 7) = this.Index;
-                        *(ushort*)(byteptr_t + a2 + 8) = UsageType.CarPart1Offset[a1];
-                        *(ushort*)(byteptr_t + a2 + 10) = (a1 == 63 || (a1 >= 65 && a1 <= 68) ||
-                            (a1 >= 94 && a1 <= 98) || (a1 >= 122 && a1 <= 126) || (a1 >= 160 && a1 <= 193))
-                            ? (ushort)(UsageType.Unknown2[a1] + 0x8F * (racers + 1) + 1)
-                            : UsageType.Unknown2[a1];
-                        * (ushort*)(byteptr_t + a2 + 12) = (a1 == 232 || a1 > 264)
-                            ? (ushort)(entries + UsageType.FeCustRecID[a1] + (trafs * 2) + (racers * 6))
-                            : UsageType.FeCustRecID[a1];
+                        for (int a1 = 0, a2 = 0; a1 < 0x10E; ++a1, a2 += 0xE)
+                        {
+                            *(uint*) (bytePtrT + a2) = Bin.Hash(collectionName + UsageType.PartName[a1]);
+                            *(bytePtrT + a2 + 4) = UsageType.CarSlotID[a1];
+                            *(ushort*) (bytePtrT + a2 + 5) = UsageType.Unknown1[a1];
+                            *(bytePtrT + a2 + 7) = Index;
+                            *(ushort*) (bytePtrT + a2 + 8) = UsageType.CarPart1Offset[a1];
+                            *(ushort*) (bytePtrT + a2 + 10) = a1 is 63 or >= 65 and <= 68 or >= 94 and <= 98
+                                or >= 122 and <= 126 or >= 160 and <= 193
+                                ? (ushort) (UsageType.Unknown2[a1] + 0x8F * (racers + 1) + 1)
+                                : UsageType.Unknown2[a1];
+                            *(ushort*) (bytePtrT + a2 + 12) = a1 is 232 or > 264
+                                ? (ushort) (entries + UsageType.FeCustRecID[a1] + trafficCars * 2 + racers * 6)
+                                : UsageType.FeCustRecID[a1];
+                        }
                     }
+
+                    break;
                 }
-            }
-            else if (type == eUsageType.Traffic)
-            {
-                this.Data = new byte[0x2A];
-                fixed (byte* byteptr_t = &this.Data[0])
+                case eUsageType.Traffic:
                 {
-                    for (int a1 = 0, a2 = 0; a1 < 3; ++a1, a2 += 0xE)
+                    Data = new byte[0x2A];
+                    fixed (byte* bytePtrT = &Data[0])
                     {
-                        *(uint*)(byteptr_t + a2) = Bin.Hash(CName + UsageType.TrafficPartName[a1]);
-                        *(byteptr_t + a2 + 4) = UsageType.CarSlotID[a1];
-                        *(ushort*)(byteptr_t + a2 + 5) = UsageType.TrafficUnknown1[a1];
-                        *(byteptr_t + a2 + 7) = this.Index;
-                        *(ushort*)(byteptr_t + a2 + 8) = UsageType.TrafficCarPart1Offset[a1];
-                        *(ushort*)(byteptr_t + a2 + 10) = UsageType.TrafficUnknown2[a2];
-                        *(ushort*)(byteptr_t + a2 + 12) = (a1 == 0)
-                            ? UsageType.TrafficFeCustRecID[a1]
-                            : (ushort)(entries + (trafs * 2) + (racers * 6) + UsageType.TrafficFeCustRecID[a1]);
+                        for (int a1 = 0, a2 = 0; a1 < 3; ++a1, a2 += 0xE)
+                        {
+                            *(uint*) (bytePtrT + a2) = Bin.Hash(collectionName + UsageType.TrafficPartName[a1]);
+                            *(bytePtrT + a2 + 4) = UsageType.CarSlotID[a1];
+                            *(ushort*) (bytePtrT + a2 + 5) = UsageType.TrafficUnknown1[a1];
+                            *(bytePtrT + a2 + 7) = Index;
+                            *(ushort*) (bytePtrT + a2 + 8) = UsageType.TrafficCarPart1Offset[a1];
+                            *(ushort*) (bytePtrT + a2 + 10) = UsageType.TrafficUnknown2[a2];
+                            *(ushort*) (bytePtrT + a2 + 12) = a1 == 0
+                                ? UsageType.TrafficFeCustRecID[a1]
+                                : (ushort) (entries + trafficCars * 2 + racers * 6 + UsageType.TrafficFeCustRecID[a1]);
+                        }
                     }
+
+                    break;
                 }
+                case eUsageType.Cop:
+                    break;
+                case eUsageType.Wheels:
+                    break;
+                case eUsageType.Universal:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
 
         // Default constructor: initialize from Global data.
-        public unsafe Part56(uint key, byte* part6ptr_t, int length, bool IsCar)
+        public unsafe Part56(uint key, byte* part6PtrT, int length, bool isCar)
         {
-            this.Data = new byte[length];
-            this._key = key; // get part 5 key
-            this.Index = *(part6ptr_t + 7); // get index of the part
-            this.IsCar = IsCar;
-            if (IsCar)
-                this._collection_name = Map.Lookup(key, false);
+            Data = new byte[length];
+            _key = key; // get part 5 key
+            Index = *(part6PtrT + 7); // get index of the part
+            IsCar = isCar;
+            if (isCar)
+                _collectionName = Map.Lookup(key, false);
 
             // Copy part6 into memory
-            for (int a1 = 0; a1 < length; ++a1)
-                this.Data[a1] = *(part6ptr_t + a1);
+            for (var a1 = 0; a1 < length; ++a1)
+                Data[a1] = *(part6PtrT + a1);
 
-            if (length == 0x2A && IsCar) this.Usage = eUsageType.Traffic;
-            else if (length == 0xEC4 && IsCar) this.Usage = eUsageType.Racer;
+            Usage = length switch
+            {
+                0x2A when isCar => eUsageType.Traffic,
+                0xEC4 when isCar => eUsageType.Racer,
+                _ => Usage
+            };
         }
 
         public override string ToString()
         {
-            string str = this._collection_name ?? string.Empty;
-            return $"BelongsTo: {str} | Index: {this.Index}";
+            var str = _collectionName ?? string.Empty;
+            return $"BelongsTo: {str} | Index: {Index}";
         }
 
         /// <summary>
         /// Returns new class with casted memory of this class.
         /// </summary>
-        /// <param name="CName">Collection Name of the classes, null by default.</param>
         /// <returns>Copy of this class.</returns>
-        public unsafe Part56 MemoryCast(string CName = null)
+        public Part56 MemoryCast()
         {
-            var result = new Part56();
-            result.Data = new byte[this.Data.Length];
-            Buffer.BlockCopy(this.Data, 0, result.Data, 0, this.Data.Length);
-            result._collection_name = this._collection_name;
-            result._key = this._key;
-            result.IsCar = this.IsCar;
-            result.Index = this.Index;
+            var result = new Part56
+            {
+                Data = new byte[Data.Length]
+            };
+            Buffer.BlockCopy(Data, 0, result.Data, 0, Data.Length);
+            result._collectionName = _collectionName;
+            result._key = _key;
+            result.IsCar = IsCar;
+            result.Index = Index;
             return result;
         }
 
@@ -171,41 +187,44 @@ namespace NfsCore.Support.Underground2.Parts.CarParts
         /// Casts all record and parts IDs of one carpart to another, while changing part hashes
         /// to have new collection name prefix and changing index of the part.
         /// </summary>
-        /// <param name="CName">Collection Name of the new carpart.</param>
-        /// <param name="index">Index of the new carpart.</param>
-        /// <returns></returns>
-        public unsafe Part56 SmartMemoryCast(string CName, int entries, int racers, int trafs)
+        /// <param name="collectionName">Collection Name of the new carpart.</param>
+        /// <param name="entries">The number of entries to cast</param>
+        /// <param name="racers">The number of racers in this part</param>
+        /// <param name="trafficCars">The number of traffic cars in this part</param>
+        /// <returns>A new part instance</returns>
+        public unsafe Part56 SmartMemoryCast(string collectionName, int entries, int racers, int trafficCars)
         {
-            var result = this.MemoryCast();
-            result.BelongsTo = CName;
+            var result = MemoryCast();
+            result.BelongsTo = collectionName;
 
-            fixed (byte* byteptr_t = &result.Data[0])
+            fixed (byte* bytePtrT = &result.Data[0])
             {
-                if (this.Usage == eUsageType.Racer)
+                if (Usage == eUsageType.Racer)
                 {
                     for (int a1 = 0, a2 = 0; a1 < 0x10E; ++a1, a2 += 0xE)
                     {
-                        *(uint*)(byteptr_t + a2) = Bin.Hash(CName + UsageType.PartName[a1]);
-                        *(ushort*)(byteptr_t + a2 + 10) = (a1 == 63 || (a1 >= 65 && a1 <= 68) ||
-                            (a1 >= 94 && a1 <= 98) || (a1 >= 122 && a1 <= 126) || (a1 >= 160 && a1 <= 193))
-                            ? (ushort)(UsageType.Unknown2[a1] + 0x8F * (racers + 1) + 1)
+                        *(uint*) (bytePtrT + a2) = Bin.Hash(collectionName + UsageType.PartName[a1]);
+                        *(ushort*) (bytePtrT + a2 + 10) = a1 is 63 or >= 65 and <= 68 or >= 94 and <= 98
+                            or >= 122 and <= 126 or >= 160 and <= 193
+                            ? (ushort) (UsageType.Unknown2[a1] + 0x8F * (racers + 1) + 1)
                             : UsageType.Unknown2[a1];
-                        *(ushort*)(byteptr_t + a2 + 12) = (a1 == 232 || a1 > 264)
-                            ? (ushort)(entries + UsageType.FeCustRecID[a1] + (trafs * 2) + (racers * 6))
+                        *(ushort*) (bytePtrT + a2 + 12) = a1 is 232 or > 264
+                            ? (ushort) (entries + UsageType.FeCustRecID[a1] + trafficCars * 2 + racers * 6)
                             : UsageType.FeCustRecID[a1];
                     }
                 }
-                else if (this.Usage == eUsageType.Traffic)
+                else if (Usage == eUsageType.Traffic)
                 {
                     for (int a1 = 0, a2 = 0; a1 < 3; ++a1, a2 += 0xE)
                     {
-                        *(uint*)(byteptr_t + a2) = Bin.Hash(CName + UsageType.TrafficPartName[a1]);
-                        *(ushort*)(byteptr_t + a2 + 12) = (a1 == 0)
+                        *(uint*) (bytePtrT + a2) = Bin.Hash(collectionName + UsageType.TrafficPartName[a1]);
+                        *(ushort*) (bytePtrT + a2 + 12) = a1 == 0
                             ? UsageType.TrafficFeCustRecID[a1]
-                            : (ushort)(entries + (trafs * 2) + (racers * 6) + UsageType.TrafficFeCustRecID[a1]);
+                            : (ushort) (entries + trafficCars * 2 + racers * 6 + UsageType.TrafficFeCustRecID[a1]);
                     }
                 }
             }
+
             return result;
         }
     }

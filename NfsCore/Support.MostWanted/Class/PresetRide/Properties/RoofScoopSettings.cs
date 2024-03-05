@@ -6,86 +6,85 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private byte _roofscoop_style = 0;
-        private eBoolean _is_offset_roofscoop = eBoolean.False;
-        private eBoolean _is_dual_roofscoop = eBoolean.False;
-        private eBoolean _is_carbonfibre_roofscoop = eBoolean.False;
+        private byte _roofScoopStyle = 0;
+        private eBoolean _isOffsetRoofScoop = eBoolean.False;
+        private eBoolean _isDualRoofScoop = eBoolean.False;
+        private eBoolean _isCarbonFibreRoofScoop = eBoolean.False;
 
         /// <summary>
         /// RoofScoop style value of the preset ride. Range: 0-18.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte RoofScoopStyle
         {
-            get => this._roofscoop_style;
+            get => _roofScoopStyle;
             set
             {
                 if (value > 18)
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 18.");
-                else
-                    this._roofscoop_style = value;
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 18.");
+                _roofScoopStyle = value;
+                Modified = true;
             }
         }
 
         /// <summary>
         /// True if roof scoop is offset, false otherwise.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eBoolean IsOffsetRoofScoop
         {
-            get => this._is_offset_roofscoop;
+            get => _isOffsetRoofScoop;
             set
             {
                 if (Enum.IsDefined(typeof(eBoolean), value))
                 {
-                    this._is_offset_roofscoop = value;
-                    this.Modified = true;
+                    _isOffsetRoofScoop = value;
+                    Modified = true;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
             }
         }
 
         /// <summary>
         /// True if roof scoop is dual, false otherwise.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eBoolean IsDualRoofScoop
         {
-            get => this._is_dual_roofscoop;
+            get => _isDualRoofScoop;
             set
             {
                 if (Enum.IsDefined(typeof(eBoolean), value))
                 {
-                    this._is_dual_roofscoop = value;
-                    this.Modified = true;
+                    _isDualRoofScoop = value;
+                    Modified = true;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
             }
         }
 
         /// <summary>
         /// True if roof scoop is carbonfibre, false otherwise.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public eBoolean IsCarbonfibreRoofScoop
         {
-            get => this._is_carbonfibre_roofscoop;
+            get => _isCarbonFibreRoofScoop;
             set
             {
                 if (Enum.IsDefined(typeof(eBoolean), value))
                 {
-                    this._is_carbonfibre_roofscoop = value;
-                    this.Modified = true;
+                    _isCarbonFibreRoofScoop = value;
+                    Modified = true;
                 }
                 else
-                    throw new ArgumentOutOfRangeException("Value passed is not of boolean type.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Value passed is not of boolean type.");
             }
         }
     }

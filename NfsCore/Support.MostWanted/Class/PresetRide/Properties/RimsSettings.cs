@@ -8,74 +8,70 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private string _rim_brand = BaseArguments.STOCK;
-        private byte _rim_style = 0;
-        private byte _rim_size = 17;
+        private string _rimBrand = BaseArguments.STOCK;
+        private byte _rimStyle = 0;
+        private byte _rimSize = 17;
 
         /// <summary>
         /// Rim brand value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string RimBrand
         {
-            get => this._rim_brand;
+            get => _rimBrand;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
                 switch (value)
                 {
                     case BaseArguments.NULL:
                     case BaseArguments.STOCK:
-                        this._rim_brand = value;
+                        _rimBrand = value;
                         break;
                     default:
-                        if (Map.RimBrands.Contains(value))
-                        {
-                            this._rim_brand = value;
-                            break;
-                        }
-                        else
-                            throw new MappingFailException();
+                        if (!Map.RimBrands.Contains(value)) throw new MappingFailException();
+                        _rimBrand = value;
+                        break;
                 }
-                this.Modified = true;
+
+                Modified = true;
             }
         }
 
         /// <summary>
         /// Rim style value of the preset ride. Range: 0-6.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte RimStyle
         {
-            get => this._rim_style;
+            get => _rimStyle;
             set
             {
                 if (value < 7)
-                    this._rim_style = value;
+                    _rimStyle = value;
                 else
-                    throw new ArgumentOutOfRangeException("This value should be in range 0 to 6.");
-                this.Modified = true;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 0 to 6.");
+                Modified = true;
             }
         }
 
         /// <summary>
         /// Rim size value of the preset ride. Range: 17-20.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public byte RimSize
         {
-            get => this._rim_size;
+            get => _rimSize;
             set
             {
-                if (value > 20 || value < 17)
-                    throw new ArgumentOutOfRangeException("This value should be in range 17 to 20.");
-                else
-                    this._rim_size = value;
-                this.Modified = true;
+                if (value is > 20 or < 17)
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be in range 17 to 20.");
+                _rimSize = value;
+                Modified = true;
             }
         }
     }

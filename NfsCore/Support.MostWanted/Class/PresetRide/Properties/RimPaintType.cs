@@ -8,25 +8,25 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class PresetRide
     {
-        private string _rim_paint = BaseArguments.NULL;
+        private string _rimPaint = BaseArguments.NULL;
 
         /// <summary>
         /// Rim paint value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string RimPaint
         {
-            get => this._rim_paint;
+            get => _rimPaint;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
                 if (value == BaseArguments.NULL || Map.BinKeys.ContainsValue(value))
-                    this._rim_paint = value;
+                    _rimPaint = value;
                 else
                     throw new MappingFailException();
-                this.Modified = true;
+                Modified = true;
             }
         }
     }

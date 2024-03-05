@@ -4,20 +4,19 @@ namespace NfsCore.Support.MostWanted.Class
 {
     public partial class FNGroup
     {
-        private byte[] _DATA;
+        private byte[] _data;
 
         /// <summary>
         /// Data of the FEng file.
         /// </summary>
         public byte[] Data
         {
-            get => this._DATA;
+            get => _data;
             set
             {
                 if (value == null || value.Length == 0)
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                else
-                    this._DATA = value;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _data = value;
             }
         }
     }

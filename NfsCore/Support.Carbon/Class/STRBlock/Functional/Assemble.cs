@@ -3,57 +3,58 @@ using NfsCore.Reflection.ID;
 
 namespace NfsCore.Support.Carbon.Class
 {
-	public partial class STRBlock
-	{
-		/// <summary>
-		/// Assembles string block into a byte array.
-		/// </summary>
-		/// <returns>Byte array of the string block.</returns>
-		public override unsafe byte[] Assemble()
-		{
-			// Precalculate size
-			this._size = 0x3C + this._stringinfo.Count * 8;
-			foreach (var info in this._stringinfo)
-				this._size += info.NulledTextLength;
-			int padding = 0x10 - ((this._size + 8) % 0x10);
-			if (padding != 0x10) this._size += padding;
+    public partial class STRBlock
+    {
+        /// <summary>
+        /// Assembles string block into a byte array.
+        /// </summary>
+        /// <returns>Byte array of the string block.</returns>
+        public override unsafe byte[] Assemble()
+        {
+            // Precalculate size
+            _size = 0x3C + _stringInfo.Count * 8;
+            foreach (var info in _stringInfo)
+                _size += info.NulledTextLength;
+            var padding = 0x10 - ((_size + 8) % 0x10);
+            if (padding != 0x10) _size += padding;
 
-			var mark = "GlobalLib by MaxHwoy " + DateTime.Today.ToString("dd-MM-yyyy");
-			this._key_offset = 0x3C;
-			this._text_offset = 0x3C + this._stringinfo.Count * 8;
+            var mark = "NfsCore by MaxHwoy & krokettenkoal " + DateTime.Today.ToString("dd-MM-yyyy");
+            _keyOffset = 0x3C;
+            _textOffset = 0x3C + _stringInfo.Count * 8;
 
-			// Sort records by keys
-			this._stringinfo.Sort((a, b) => a.Key.CompareTo(b.Key));
+            // Sort records by keys
+            _stringInfo.Sort((a, b) => a.Key.CompareTo(b.Key));
 
-			// Begin writing
-			var result = new byte[this._size + 8];
-			fixed (byte* byteptr_t = &result[0])
-			{
-				// Write header
-				*(uint*)byteptr_t = GlobalId.STRBlocks;
-				*(int*)(byteptr_t + 0x4) = this._size;
-				*(int*)(byteptr_t + 0x8) = this._stringinfo.Count;
-				*(int*)(byteptr_t + 0xC) = this._key_offset;
-				*(int*)(byteptr_t + 0x10) = this._text_offset;
-				for (int a1 = 0; a1 < this._category.Length; ++a1)
-					*(byteptr_t + 0x14 + a1) = (byte)this._category[a1];
-				for (int a1 = 0; a1 < mark.Length; ++a1)
-					*(byteptr_t + 0x24 + a1) = (byte)mark[a1];
+            // Begin writing
+            var result = new byte[_size + 8];
+            fixed (byte* bytePtrT = &result[0])
+            {
+                // Write header
+                *(uint*) bytePtrT = GlobalId.STRBlocks;
+                *(int*) (bytePtrT + 0x4) = _size;
+                *(int*) (bytePtrT + 0x8) = _stringInfo.Count;
+                *(int*) (bytePtrT + 0xC) = _keyOffset;
+                *(int*) (bytePtrT + 0x10) = _textOffset;
+                for (var a1 = 0; a1 < _category.Length; ++a1)
+                    *(bytePtrT + 0x14 + a1) = (byte) _category[a1];
+                for (var a1 = 0; a1 < mark.Length; ++a1)
+                    *(bytePtrT + 0x24 + a1) = (byte) mark[a1];
 
-				// Write hashes and offsets
-				int textoff = 0;
-				var keyptr_t = byteptr_t + 8 + this._key_offset;
-				var textptr_t = byteptr_t + 8 + this._text_offset;
-				for (int a1 = 0; a1 < this._stringinfo.Count; ++a1)
-				{
-					*(uint*)(keyptr_t + a1 * 8) = this._stringinfo[a1].Key;
-					*(int*)(keyptr_t + a1 * 8 + 4) = textoff;
-					for (int a2 = 0; a2 < this._stringinfo[a1].Text.Length; ++a2)
-						*(textptr_t + textoff + a2) = (byte)this._stringinfo[a1].Text[a2];
-					textoff += this._stringinfo[a1].NulledTextLength;
-				}
-			}
-			return result;
-		}
-	}
+                // Write hashes and offsets
+                var textOff = 0;
+                var keyPtrT = bytePtrT + 8 + _keyOffset;
+                var textPtrT = bytePtrT + 8 + _textOffset;
+                for (var a1 = 0; a1 < _stringInfo.Count; ++a1)
+                {
+                    *(uint*) (keyPtrT + a1 * 8) = _stringInfo[a1].Key;
+                    *(int*) (keyPtrT + a1 * 8 + 4) = textOff;
+                    for (var a2 = 0; a2 < _stringInfo[a1].Text.Length; ++a2)
+                        *(textPtrT + textOff + a2) = (byte) _stringInfo[a1].Text[a2];
+                    textOff += _stringInfo[a1].NulledTextLength;
+                }
+            }
+
+            return result;
+        }
+    }
 }

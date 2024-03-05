@@ -3,7 +3,7 @@
     /// <summary>
     /// Contains game process enumeration.
     /// </summary>
-    public enum GameINT : int
+    public enum GameINT
     {
         None = 0,
         Carbon = 1,

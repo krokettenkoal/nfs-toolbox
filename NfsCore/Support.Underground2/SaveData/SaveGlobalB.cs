@@ -10,120 +10,119 @@ namespace NfsCore.Support.Underground2
         /// <summary>
         /// Saves database data into GlobalB file.
         /// </summary>
-        /// <param name="GlobalB_dir">Game directory.</param>
+        /// <param name="globalBDir">Game directory.</param>
         /// <param name="db">Database of classes.</param>
         /// <returns>True if success.</returns>
-        public static bool SaveGlobalB(string GlobalB_dir, Database.Underground2Db db)
+        public static bool SaveGlobalB(string globalBDir, Database.Underground2Db db)
         {
-            GlobalB_dir += @"\GLOBAL\GlobalB.lzc";
+            globalBDir += @"\GLOBAL\GlobalB.lzc";
 
-            using (var br = new BinaryReader(new MemoryStream(db._GlobalBLZC)))
-            using (var bw = new BinaryWriter(File.Open(GlobalB_dir, FileMode.Create)))
+            using var br = new BinaryReader(new MemoryStream(db._GlobalBLZC));
+            using var bw = new BinaryWriter(File.Open(globalBDir, FileMode.Create));
+            var careerDone = false;
+            var tpkIndex = 0;
+            I_Materials(db, bw);
+
+            while (br.BaseStream.Position < br.BaseStream.Length)
             {
-                bool careerdone = false;
-                int tpkindex = 0;
-                I_Materials(db, bw);
+                // Set Offset, ID and Size values, read starting in the beginning of the file
+                var writerSlotOffset = (uint) br.BaseStream.Position;
+                var writerSlotId = br.ReadUInt32();
+                var writerSlotSize = br.ReadInt32();
 
-                while (br.BaseStream.Position < br.BaseStream.Length)
+                // If one of the necessary slots is reached, replace it
+                switch (writerSlotId)
                 {
-                    // Set Offset, ID and Size values, read starting in the beginning of the file
-                    uint WriterSlotOffset = (uint)br.BaseStream.Position;
-                    uint WriterSlotID = br.ReadUInt32();
-                    int WriterSlotSize = br.ReadInt32();
-
-                    // If one of the necessary slots is reached, replace it
-                    switch (WriterSlotID)
-                    {
-                        case 0:
-                            uint key = br.ReadUInt32();
-                            br.BaseStream.Position -= 4;
-                            if (key == GlobalId.GlobalLib)
-                            {
-                                br.BaseStream.Position += WriterSlotSize;
-                                break;
-                            }
-                            else
-                                goto default;
-
-                        case GlobalId.Materials:
-                            br.BaseStream.Position += WriterSlotSize;
+                    case 0:
+                        var key = br.ReadUInt32();
+                        br.BaseStream.Position -= 4;
+                        if (key == GlobalId.GlobalLib)
+                        {
+                            br.BaseStream.Position += writerSlotSize;
                             break;
+                        }
 
-                        case GlobalId.TPKBlocks:
-                            while (db.TPKBlocks[tpkindex].InGlobalA)
-                                ++tpkindex;
-                            I_TPKBlock(db, bw, ref tpkindex);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                        goto default;
 
-                        case GlobalId.ELabGlobal:
-                            I_GlobalLibBlock(bw);
-                            goto default;
+                    case GlobalId.Materials:
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.CarTypeInfo:
-                            I_CarTypeInfo(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.TPKBlocks:
+                        while (db.TPKBlocks[tpkIndex].InGlobalA)
+                            ++tpkIndex;
+                        I_TPKBlock(db, bw, ref tpkIndex);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.CarSkins:
-                            I_CarSkins(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.ELabGlobal:
+                        I_GlobalLibBlock(bw);
+                        goto default;
 
-                        case GlobalId.SlotTypes:
-                            I_SlotType(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.CarTypeInfo:
+                        I_CarTypeInfo(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.CarParts:
-                            I_CarParts(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.CarSkins:
+                        I_CarSkins(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.Tracks:
-                            I_Tracks(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.SlotTypes:
+                        I_SlotType(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.SunInfos:
-                            I_SunInfos(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.CarParts:
+                        I_CarParts(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.XenonTrig:
-                            I_GlobalLibBlock(bw);
-                            goto default;
+                    case GlobalId.Tracks:
+                        I_Tracks(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.AcidEffects:
-                            I_AcidEffects(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.SunInfos:
+                        I_SunInfos(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.CareerInfo:
-                            if (careerdone) goto default;
-                            I_GlobalLibBlock(bw);
-                            CareerManager.Assemble(bw, db);
-                            br.BaseStream.Position += WriterSlotSize;
-                            careerdone = true;
-                            break;
+                    case GlobalId.XenonTrig:
+                        I_GlobalLibBlock(bw);
+                        goto default;
 
-                        case GlobalId.PresetRides:
-                            I_PresetRides(db, bw);
-                            br.BaseStream.Position += WriterSlotSize;
-                            break;
+                    case GlobalId.AcidEffects:
+                        I_AcidEffects(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
 
-                        case GlobalId.FloatChunk:
-                            I_GlobalLibBlock(bw);
-                            goto default;
+                    case GlobalId.CareerInfo:
+                        if (careerDone) goto default;
+                        I_GlobalLibBlock(bw);
+                        CareerManager.Assemble(bw, db);
+                        br.BaseStream.Position += writerSlotSize;
+                        careerDone = true;
+                        break;
 
-                        default:
-                            bw.Write(WriterSlotID);
-                            bw.Write(WriterSlotSize);
-                            bw.Write(br.ReadBytes(WriterSlotSize));
-                            break;
-                    }
+                    case GlobalId.PresetRides:
+                        I_PresetRides(db, bw);
+                        br.BaseStream.Position += writerSlotSize;
+                        break;
+
+                    case GlobalId.FloatChunk:
+                        I_GlobalLibBlock(bw);
+                        goto default;
+
+                    default:
+                        bw.Write(writerSlotId);
+                        bw.Write(writerSlotSize);
+                        bw.Write(br.ReadBytes(writerSlotSize));
+                        break;
                 }
             }
+
             return true;
         }
     }

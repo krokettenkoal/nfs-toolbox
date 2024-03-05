@@ -11,25 +11,17 @@ namespace NfsCore.Support.Carbon.Class
         /// <returns>Autosculpt part class of the preset ride.</returns>
         public Autosculpt AutoByParameter(int length)
         {
-            switch (length)
+            return length switch
             {
-                case 4:
-                    return this.HOOD;
-                case 5:
-                    return this.SKIRT;
-                case 6:
-                    return this.WHEELS;
-                case 7:
-                    return this.SPOILER;
-                case 9:
-                    return this.ROOFSCOOP;
-                case 10:
-                    return this.REARBUMPER;
-                case 11:
-                    return this.FRONTBUMPER;
-                default:
-                    return null;
-            }
+                4 => HOOD,
+                5 => SKIRT,
+                6 => WHEELS,
+                7 => SPOILER,
+                9 => ROOFSCOOP,
+                10 => REARBUMPER,
+                11 => FRONTBUMPER,
+                _ => null
+            };
         }
 
         /// <summary>
@@ -39,25 +31,17 @@ namespace NfsCore.Support.Carbon.Class
         /// <returns>Autosculpt part class of the preset ride.</returns>
         public Autosculpt AutoByParameter(string name)
         {
-            switch (name)
+            return name switch
             {
-                case "HOOD":
-                    return this.HOOD;
-                case "SKIRT":
-                    return this.SKIRT;
-                case "WHEELS":
-                    return this.WHEELS;
-                case "SPOILER":
-                    return this.SPOILER;
-                case "ROOFSCOOP":
-                    return this.ROOFSCOOP;
-                case "REARBUMPER":
-                    return this.REARBUMPER;
-                case "FRONTBUMPER":
-                    return this.FRONTBUMPER;
-                default:
-                    return null;
-            }
+                "HOOD" => HOOD,
+                "SKIRT" => SKIRT,
+                "WHEELS" => WHEELS,
+                "SPOILER" => SPOILER,
+                "ROOFSCOOP" => ROOFSCOOP,
+                "REARBUMPER" => REARBUMPER,
+                "FRONTBUMPER" => FRONTBUMPER,
+                _ => null
+            };
         }
     }
 }

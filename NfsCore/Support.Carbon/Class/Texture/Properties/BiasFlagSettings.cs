@@ -2,11 +2,11 @@
 {
     public partial class Texture
     {
-        private uint _cube_environment = 0;
-        private byte _bias_level = 0;
-        private byte _rendering_order = 5;
-        private byte _used_flag = 0;
-        private byte _flags = 0;
-        private byte _padding = 0;
+        private uint _cubeEnvironment;
+        private byte _biasLevel;
+        private byte _renderingOrder = 5;
+        private byte _usedFlag;
+        private byte _flags;
+        private byte _padding;
     }
 }

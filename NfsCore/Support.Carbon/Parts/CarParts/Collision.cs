@@ -5,43 +5,44 @@ namespace NfsCore.Support.Carbon.Parts.CarParts
 {
     public class Collision
     {
-        private byte[] data;
+        private readonly byte[] _data;
 
-        public bool Unknown { get; } = false;
+        public bool Unknown { get; }
 
         public string BelongsTo { get; private set; }
 
-        public uint BinKey { get => Bin.Hash(this.BelongsTo); }
+        public uint BinKey => Bin.Hash(BelongsTo);
 
-        public uint VltKey { get => Vlt.Hash(this.BelongsTo); }
+        public uint VltKey => Vlt.Hash(BelongsTo);
 
         /// <summary>
         /// Gets collision array with the specified external key.
         /// </summary>
-        /// <param name="externalkey">External key to be set in the collision.</param>
+        /// <param name="externalKey">External key to be set in the collision.</param>
         /// <returns>Collision data as a byte array.</returns>
-        public unsafe byte[] GetData(uint externalkey)
+        public unsafe byte[] GetData(uint externalKey)
         {
-            var result = new byte[this.data.Length];
-            Buffer.BlockCopy(this.data, 0, result, 0, this.data.Length);
-            fixed (byte* dataptr_t = &result[0])
+            var result = new byte[_data.Length];
+            Buffer.BlockCopy(_data, 0, result, 0, _data.Length);
+            fixed (byte* dataPtrT = &result[0])
             {
-                if (this.Unknown)
-                    *(uint*)(dataptr_t + 16) = *(uint*)(dataptr_t + 8);
+                if (Unknown)
+                    *(uint*) (dataPtrT + 16) = *(uint*) (dataPtrT + 8);
                 else
-                    *(uint*)(dataptr_t + 16) = externalkey;
+                    *(uint*) (dataPtrT + 16) = externalKey;
             }
+
             return result;
         }
 
         // Default constructor: initialize collision with data and collection name.
-        public Collision(byte[] data, string CName)
+        public Collision(byte[] data, string collectionName)
         {
-            this.data = data;
-            if (CName == null)
-                this.Unknown = true;
+            _data = data;
+            if (collectionName == null)
+                Unknown = true;
             else
-                this.BelongsTo = CName;
+                BelongsTo = collectionName;
         }
     }
 }

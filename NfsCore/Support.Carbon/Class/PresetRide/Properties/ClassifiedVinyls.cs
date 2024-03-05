@@ -6,40 +6,40 @@ namespace NfsCore.Support.Carbon.Class
 {
     public partial class PresetRide
     {
-        private string _specific_vinyl = BaseArguments.NULL;
-        private string _generic_vinyl = BaseArguments.NULL;
+        private string _specificVinyl = BaseArguments.NULL;
+        private string _genericVinyl = BaseArguments.NULL;
 
         /// <summary>
         /// Specific vinyl value of the preset ride.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string SpecificVinyl
         {
-            get => this._specific_vinyl;
+            get => _specificVinyl;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._specific_vinyl = value;
-                this.Modified = true;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _specificVinyl = value;
+                Modified = true;
             }
         }
 
         /// <summary>
         /// Generic vinyl value of the preset car.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public string GenericVinyl
         {
-            get => this._generic_vinyl;
+            get => _genericVinyl;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentNullException("This value cannot be left empty.");
-                this._generic_vinyl = value;
-                this.Modified = true;
+                    throw new ArgumentNullException(nameof(value), "This value cannot be left empty.");
+                _genericVinyl = value;
+                Modified = true;
             }
         }
     }

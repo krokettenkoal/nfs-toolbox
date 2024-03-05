@@ -5,76 +5,72 @@ namespace NfsCore.Support.Underground2.Class
 {
     public partial class Material
     {
-        private float _strongcolor3_level = 0;
-        private float _strongcolor3_red = 0;
-        private float _strongcolor3_green = 0;
-        private float _strongcolor3_blue = 0;
+        private float _strongColor3Level;
+        private float _strongColor3Red;
+        private float _strongColor3Green;
+        private float _strongColor3Blue;
 
         /// <summary>
         /// Level value of the third strong color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float StrongColor3Level
         {
-            get => this._strongcolor3_level;
+            get => _strongColor3Level;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._strongcolor3_level = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _strongColor3Level = value;
             }
         }
 
         /// <summary>
         /// Red value of the third strong color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float StrongColor3Red
         {
-            get => this._strongcolor3_red;
+            get => _strongColor3Red;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._strongcolor3_red = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _strongColor3Red = value;
             }
         }
 
         /// <summary>
         /// Green value of the third strong color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float StrongColor3Green
         {
-            get => this._strongcolor3_green;
+            get => _strongColor3Green;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._strongcolor3_green = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _strongColor3Green = value;
             }
         }
 
         /// <summary>
         /// Blue value of the third strong color of the material.
         /// </summary>
-        [AccessModifiable()]
-        [StaticModifiable()]
+        [AccessModifiable]
+        [StaticModifiable]
         public float StrongColor3Blue
         {
-            get => this._strongcolor3_blue;
+            get => _strongColor3Blue;
             set
             {
                 if (value < 0)
-                    throw new ArgumentOutOfRangeException("This value should be positive.");
-                else
-                    this._strongcolor3_blue = value;
+                    throw new ArgumentOutOfRangeException(nameof(value), "This value should be positive.");
+                _strongColor3Blue = value;
             }
         }
     }
